@@ -1,0 +1,23 @@
+{
+  "contexts": {
+    "1756492934978": {
+      "id": "1756492934978",
+      "name": "Vibe Coding Setup",
+      "lastAccessed": "2025-09-02T12:28:30.173Z",
+      "layout": {
+        "editorGroups": [],
+        "activeGroup": 0,
+        "terminals": [
+          {
+            "name": "powershell",
+            "isVisible": false
+          },
+          {
+            "name": "node",
+            "isVisible": true
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,141 @@
+import mongoose, { Schema, Document } from 'mongoose';
+
+export interface IOrderItem {
+  product: string; // Reference to Product ID
+  quantity: number;
+  price: number;
+}
+
+export interface IShippingAddress {
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
+
+export interface IOrder extends Document {
+  user: string; // Reference to User ID
+  orderItems: IOrderItem[];
+  shippingAddress: IShippingAddress;
+  paymentMethod: string;
+  paymentResult?: {
+    id?: string;
+    status?: string;
+    update_time?: string;
+    email_address?: string;
+  };
+  itemsPrice: number;
+  taxPrice: number;
+  shippingPrice: number;
+  totalPrice: number;
+  isPaid: boolean;
+  paidAt?: Date;
+  shippingStatus: 'pending' | 'shipped' | 'delivered';
+  shippedAt?: Date;
+  isDelivered: boolean;
+  deliveredAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const OrderItemSchema: Schema = new Schema({
+  product: {
+    type: Schema.Types.ObjectId,
+    ref: 'Product',
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+});
+
+const ShippingAddressSchema: Schema = new Schema({
+  address: { type: String, required: true },
+  city: { type: String, required: true },
+  postalCode: { type: String, required: true },
+  country: { type: String, required: true },
+});
+
+const OrderSchema: Schema = new Schema(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    orderItems: [OrderItemSchema],
+    shippingAddress: ShippingAddressSchema,
+    paymentMethod: {
+      type: String,
+      required: true,
+    },
+    paymentResult: {
+      id: String,
+      status: String,
+      update_time: String,
+      email_address: String,
+    },
+    itemsPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    taxPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    shippingPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    totalPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    isPaid: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    paidAt: {
+      type: Date,
+    },
+    shippingStatus: {
+      type: String,
+      enum: ['pending', 'shipped', 'delivered'],
+      default: 'pending',
+      required: true,
+    },
+    shippedAt: {
+      type: Date,
+    },
+    isDelivered: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    deliveredAt: {
+      type: Date,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+// Force model recompilation by deleting existing model
+if (mongoose.models.Order) {
+  delete mongoose.models.Order;
+}
+
+// Clear mongoose cache (removed to avoid TypeScript readonly error)
+
+export default mongoose.model<IOrder>('Order', OrderSchema);

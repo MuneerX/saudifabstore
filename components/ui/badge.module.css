@@ -1,0 +1,62 @@
+.badge {
+  /* Base styles */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px; /* rounded-md */
+  border: 1px solid transparent;
+  padding: 2px 8px; /* px-2 py-0.5 */
+  font-size: 12px; /* text-xs */
+  font-weight: 500; /* font-medium */
+  width: fit-content;
+  white-space: nowrap;
+  flex-shrink: 0; /* shrink-0 */
+  gap: 4px; /* gap-1 */
+  overflow: hidden;
+  transition: all 0.2s; /* transition-[color,box-shadow] */
+}
+
+.badge svg {
+  width: 12px; /* size-3 */
+  height: 12px; /* size-3 */
+  pointer-events: none; /* pointer-events-none */
+}
+
+/* Variants */
+.badgeVariant-default {
+  background-color: var(--primary); /* bg-primary */
+  color: var(--primary-foreground); /* text-primary-foreground */
+}
+
+.badgeVariant-default a:hover {
+  background-color: var(--primary-hover); /* [a&]:hover:bg-primary/90 */
+}
+
+.badgeVariant-secondary {
+  background-color: var(--secondary); /* bg-secondary */
+  color: var(--secondary-foreground); /* text-secondary-foreground */
+}
+
+.badgeVariant-secondary a:hover {
+  background-color: var(--secondary-hover); /* [a&]:hover:bg-secondary/90 */
+}
+
+.badgeVariant-destructive {
+  background-color: var(--destructive); /* bg-destructive */
+  color: white; /* text-white */
+}
+
+.badgeVariant-destructive a:hover {
+  background-color: var(--destructive-hover); /* [a&]:hover:bg-destructive/90 */
+}
+
+.badgeVariant-outline {
+  color: var(--foreground); /* text-foreground */
+  border-color: var(--border);
+  background-color: transparent;
+}
+
+.badgeVariant-outline a:hover {
+  background-color: var(--accent); /* [a&]:hover:bg-accent */
+  color: var(--accent-foreground); /* [a&]:hover:text-accent-foreground */
+}

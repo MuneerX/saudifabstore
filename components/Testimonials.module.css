@@ -1,0 +1,430 @@
+.testimonialsSection {
+  position: relative;
+  width: 100%;
+  padding: 90px 0px 80px 0px; /* Increased top spacing */
+  background-color: #FBF9F4;
+  color: #1a1c1a;
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .testimonialsSection {
+    padding: 60px 0px 60px 0px;
+  }
+}
+
+.container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-left: 36px;
+  padding-right: 0px; /* Absolutely zero right margin for all desktop screens */
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding-left: 20px;
+    padding-right: 0px;
+  }
+}
+
+/* Overall Grid Layout: Left Cards Column & Right Content + Cards Column */
+.mainLayout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 36px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .mainLayout {
+    grid-template-columns: minmax(0, auto) 1fr;
+    gap: 40px; /* Smaller gap for smaller desktop screens */
+  }
+}
+
+@media (min-width: 1280px) {
+  .mainLayout {
+    gap: 70px; /* Medium gap for standard desktops */
+  }
+}
+
+@media (min-width: 1440px) {
+  .mainLayout {
+    gap: 100px; /* Comfortable gap for 1440px */
+  }
+}
+
+@media (min-width: 1600px) {
+  .mainLayout {
+    gap: 160px; /* Larger gap for very large desktop screens */
+  }
+}
+
+/* Left Section: Staggered Cards (Card 1 & Card 2) */
+.leftCardsRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+@media (max-width: 640px) {
+  .leftCardsRow {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Scaled Up Card 1: Leftmost lower portrait */
+.card1Wrapper {
+  position: relative;
+  width: 300px;
+  height: 450px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+  margin-bottom: 24px;
+  background-color: #EB5521; /* Brand Orange Background */
+}
+
+/* Scaled Up Card 2: Main center-left video card */
+.card2Wrapper {
+  position: relative;
+  width: 460px;
+  height: 680px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
+@media (max-width: 1600px) {
+  .card1Wrapper {
+    width: 240px;
+    height: 360px;
+  }
+  .card2Wrapper {
+    width: 360px;
+    height: 520px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .card1Wrapper {
+    width: 180px;
+    height: 270px;
+  }
+  .card2Wrapper {
+    width: 280px;
+    height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card1Wrapper, .card2Wrapper {
+    width: 100%;
+    max-width: 340px;
+    height: 460px;
+  }
+}
+
+/* Right Section: Header Block + Cards (Card 3 & Card 4) */
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 76px;
+  padding-right: 0px;
+  width: 100%;
+}
+
+/* Headline & Trustpilot Header Block */
+.headerBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.headline {
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 56px;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  font-weight: 400;
+  color: #1a1c1a;
+  margin: 0;
+  max-width: 640px;
+}
+
+@media (max-width: 1280px) {
+  .headline {
+    font-size: 40px;
+    letter-spacing: -1.2px;
+  }
+}
+
+/* Inline Avatar Stack inside headline (Scaled up photo cards inside title) */
+.avatarStack {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 6px;
+  vertical-align: middle;
+}
+
+.avatarImg {
+  width: 38px; /* Increased photo cards size inside title */
+  height: 48px; /* Increased photo cards height inside title */
+  border-radius: 6px;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  margin-left: -10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease;
+}
+
+.avatarImg:nth-child(1) {
+  margin-left: 0;
+  transform: rotate(-6deg);
+}
+
+.avatarImg:nth-child(2) {
+  transform: rotate(3deg);
+  z-index: 2;
+  position: relative;
+}
+
+.avatarImg:nth-child(3) {
+  transform: rotate(8deg);
+}
+
+/* Trustpilot Rating Widget (Increased size & font weight of Excellent) */
+.trustpilotWidget {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px; /* Increased Trustpilot widget font size */
+  color: #222222;
+  font-weight: 500;
+  margin-left: 36px;
+}
+
+.starsBox {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.starSquare {
+  background-color: #EB5521;
+  color: #ffffff;
+  width: 22px; /* Increased Trustpilot star box size */
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.reviewsLink {
+  color: #222222;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.reviewsLink:hover {
+  opacity: 0.7;
+}
+
+.trustpilotLogo {
+  font-weight: 600; /* Reduced font weight */
+  font-size: 16px; /* Increased Trustpilot logo size */
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.trustpilotStar {
+  color: #EB5521;
+}
+
+.trustpilotStar {
+  color: #00b67a;
+}
+
+/* Right Cards Row (Card 3 & Card 4) */
+.rightCardsRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .rightCardsRow {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Scaled Up Card 3: Senior woman video card with play button */
+.card3Wrapper {
+  position: relative;
+  width: 440px;
+  height: 640px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
+/* Scaled Up Card 4: Far-right portrait card */
+.card4Wrapper {
+  position: relative;
+  width: 300px;
+  height: 450px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+  margin-top: 24px;
+  background-color: #EB5521; /* Brand Orange Background */
+}
+
+@media (max-width: 1600px) {
+  .card3Wrapper {
+    width: 360px;
+    height: 520px;
+  }
+  .card4Wrapper {
+    width: 240px;
+    height: 360px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .card3Wrapper {
+    width: 280px;
+    height: 400px;
+  }
+  .card4Wrapper {
+    width: 180px;
+    height: 270px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card3Wrapper, .card4Wrapper {
+    width: 100%;
+    max-width: 340px;
+    height: 460px;
+  }
+}
+
+.cardImg {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* Card Overlays */
+.spinnerOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 3.5px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 10;
+}
+
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.playButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #1a1c1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.playButton:hover {
+  transform: translate(-50%, -50%) scale(1.08);
+  background-color: #f5f5f5;
+}
+
+.playIcon {
+  margin-left: 3px;
+  fill: #1a1c1a;
+}
+
+.testimonialOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0) 80%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 36px 32px;
+  color: #ffffff;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.companyLogo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  opacity: 0.9;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.testimonialText {
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  margin-bottom: 32px; /* Increased spacing */
+  text-wrap: balance;
+}
+
+.testimonialAuthor {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  opacity: 0.85;
+  color: #ffffff;
+}

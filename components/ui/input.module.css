@@ -1,0 +1,50 @@
+.input {
+  /* Base styles */
+  display: flex;
+  height: 36px; /* h-9 */
+  width: 100%;
+  border-radius: 6px; /* rounded-md */
+  border: 1px solid var(--input-border); /* border-input */
+  background-color: var(--input-background); /* bg-transparent */
+  padding: 8px 12px; /* px-3 py-1 */
+  font-size: 16px; /* text-base */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-xs */
+  transition: all 0.2s; /* transition-[color,box-shadow] */
+  outline: none;
+}
+
+.input:focus-visible {
+  border-color: var(--ring); /* focus-visible:border-ring */
+  box-shadow: 0 0 0 3px rgba(var(--ring-rgb), 0.5); /* focus-visible:ring-ring/50 */
+}
+
+.input[aria-invalid="true"] {
+  border-color: var(--destructive); /* aria-invalid:border-destructive */
+  box-shadow: 0 0 0 3px rgba(var(--destructive-rgb), 0.2); /* aria-invalid:ring-destructive/20 */
+}
+
+.input::placeholder {
+  color: var(--muted-foreground); /* placeholder:text-muted-foreground */
+}
+
+.input:disabled {
+  cursor: not-allowed; /* disabled:cursor-not-allowed */
+  opacity: 0.5; /* disabled:opacity-50 */
+}
+
+.input::-webkit-file-upload-button {
+  display: inline-flex;
+  height: 28px; /* h-7 */
+  border: 0;
+  background-color: transparent;
+  font-size: 14px; /* text-sm */
+  font-weight: 500; /* font-medium */
+  color: var(--foreground); /* file:text-foreground */
+}
+
+/* Dark mode variants */
+@media (prefers-color-scheme: dark) {
+  .input[aria-invalid="true"] {
+    box-shadow: 0 0 0 3px rgba(var(--destructive-rgb), 0.4); /* dark:aria-invalid:ring-destructive/40 */
+  }
+}

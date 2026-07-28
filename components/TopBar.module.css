@@ -1,0 +1,66 @@
+.topBar {
+  background-color: #171a18;
+  color: #d1d5db;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  width: 100%;
+  position: relative;
+  z-index: 50;
+  overflow: hidden;
+}
+
+.topBarContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.segmentedGrid {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.segmentedGrid::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.item {
+  flex: 1;
+  min-width: max-content;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #cfd4d0;
+  white-space: nowrap;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.item:last-child {
+  border-right: none;
+}
+
+.item:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+@media (max-width: 900px) {
+  .item {
+    font-size: 10px;
+    padding: 7px 12px;
+  }
+}

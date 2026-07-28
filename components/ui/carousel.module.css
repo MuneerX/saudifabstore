@@ -1,0 +1,51 @@
+.carousel {
+  /* Base styles for the carousel container */
+  position: relative;
+  width: 100%;
+}
+
+.carouselContent {
+  /* Styles for the carousel content wrapper */
+  display: flex;
+  overflow: hidden;
+}
+
+.carouselItem {
+  /* Styles for individual carousel items */
+  min-width: 0;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-basis: 100%; /* basis-full */
+}
+
+.carouselPrevious,
+.carouselNext {
+  /* Styles for carousel navigation buttons */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 9999px; /* rounded-full */
+  width: 32px; /* size-8 */
+  height: 32px; /* size-8 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.carouselPrevious {
+  left: -48px; /* -left-12 */
+}
+
+.carouselNext {
+  right: -48px; /* -right-12 */
+}
+
+.carouselPrevious:disabled,
+.carouselNext:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

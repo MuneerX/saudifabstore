@@ -1,0 +1,133 @@
+.section {
+  position: relative;
+  width: 100%;
+  padding: 60px 12.8px 90px 12.8px;
+  background-color: #FBF9F4;
+  color: #222222;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 40px 12.8px 60px 12.8px;
+  }
+}
+
+.topTransitionGlow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 160px;
+  background: linear-gradient(180deg, #FCF2EB 0%, rgba(251, 249, 244, 0) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  padding: 0 24px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 8px;
+    gap: 40px;
+  }
+}
+
+.headline {
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 42px;
+  line-height: 1.05;
+  letter-spacing: -1.6px;
+  font-weight: 400;
+  color: #222222;
+  max-width: 900px;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .headline {
+    font-size: 32px;
+    letter-spacing: -1.0px;
+  }
+}
+
+/* 4 Feature Columns Grid */
+.featuresGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .featuresGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .featuresGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+}
+
+.featureCard {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Dashed span line with icon */
+.dashedDivider {
+  width: 100%;
+  height: 1px;
+  border-top: 1px dashed #EB5521;
+  position: relative;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  color: #EB5521;
+  padding-top: 12px;
+  margin-bottom: 56px;
+}
+
+/* Content Box inside feature card */
+.contentBox {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.featureTitle {
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 23px;
+  line-height: 1.2;
+  font-weight: 400;
+  color: #222222;
+  margin: 0;
+  letter-spacing: -0.6px;
+}
+
+.featureDesc {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #54514a;
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: -0.3px;
+  max-width: 290px;
+}

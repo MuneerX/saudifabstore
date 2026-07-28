@@ -1,0 +1,733 @@
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Herr+Von+Muellerhoff&family=Pinyon+Script&family=Sacramento&display=swap');
+
+.section {
+  width: 100%;
+  padding: 6.4px 12.8px 12.8px 12.8px;
+  background-color: #ffffff;
+  margin: 0;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  padding: 60px 48px 110px 48px;
+  background-color: #FBF9F4;
+  color: #1a1c1a;
+  overflow: clip;
+  min-height: 74vh;
+  display: flex;
+  align-items: center;
+  border-radius: 9.6px;
+}
+
+@media (max-width: 1024px) {
+  .card {
+    padding: 40px 24px 80px 24px;
+    min-height: auto;
+  }
+}
+
+/* Full-bleed background video covering the entire section card */
+.fullScreenVideoWrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 9.6px;
+  pointer-events: none;
+}
+
+.fullScreenVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.endFrameImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 5;
+  pointer-events: none;
+  animation: endFrameFadeIn 0.4s ease forwards;
+}
+
+@keyframes endFrameFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.videoOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(251, 249, 244, 0.45) 0%,
+    rgba(251, 249, 244, 0.25) 50%,
+    rgba(251, 249, 244, 0.65) 100%
+  );
+  pointer-events: none;
+}
+
+/* Centered Hero Image Layer */
+.centerBgWrapper {
+  position: absolute;
+  top: 20px;
+  bottom: 40px;
+  left: 41%;
+  transform: translateX(-25%);
+  width: 940px;
+  z-index: 2;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* Ground Contact Floor Shadow Radial Oval */
+.forkliftFloorShadow {
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 780px;
+  height: 90px;
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    rgba(15, 18, 25, 0.70) 0%,
+    rgba(25, 30, 42, 0.40) 45%,
+    rgba(40, 48, 65, 0.15) 75%,
+    transparent 100%
+  );
+  filter: blur(14px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Realistic 3D Floor Shadow Projection for Forklift */
+.forkliftShadowWrapper {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  transform-origin: bottom center;
+  transform: translateY(28%) scaleY(-0.35) skewX(-28deg);
+  filter: brightness(0) blur(14px) opacity(0.70);
+}
+
+.forkliftShadowImage {
+  object-fit: contain;
+  object-position: bottom center;
+  width: 100%;
+  height: 100%;
+}
+
+.centerBgImage {
+  position: relative;
+  z-index: 2;
+}
+
+/* Ambient Fog Glow Spreading Across Full Screen/Section Bottom Edge */
+.brandFogGlow {
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 520px;
+  background: radial-gradient(
+    ellipse 130% 100% at 75% 100%,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.4) 40%,
+    rgba(51, 65, 85, 0.10) 68%,
+    rgba(251, 249, 244, 0) 92%
+  );
+  filter: blur(80px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.centerBgImage {
+  position: relative;
+  z-index: 2;
+  object-fit: contain;
+  object-position: bottom center;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0.96;
+  transform: translateY(90px);
+}
+
+.centerBgVideo {
+  position: relative;
+  z-index: 2;
+  object-fit: cover;
+  object-position: center;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0.96;
+  border-radius: 20px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 1200px) {
+  .centerBgWrapper {
+    width: 760px;
+    transform: translateX(-15%);
+  }
+}
+
+@media (max-width: 1024px) {
+  .centerBgWrapper {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    height: 460px;
+    margin: 20px 0;
+  }
+}
+
+.container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1520px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Headline */
+.headline {
+  position: relative;
+  z-index: 10;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 72px;
+  line-height: 0.95;
+  letter-spacing: -2.4px;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0;
+  max-width: 720px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25), 0 8px 32px rgba(0, 0, 0, 0.35), 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 1024px) {
+  .headline {
+    font-size: 44px;
+    letter-spacing: -1.5px;
+  }
+}
+
+/* Content Grid: Left Text Column + Floating Widgets Container */
+.gridContent {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: flex-start;
+  position: relative;
+  min-height: 520px;
+}
+
+@media (min-width: 1024px) {
+  .gridContent {
+    grid-template-columns: 340px 1fr;
+    gap: 40px;
+  }
+}
+
+/* Left Column Text Block */
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  position: relative;
+  z-index: 10;
+}
+
+.dottedDivider {
+  width: 100%;
+  height: 1px;
+  border-top: 1px dotted rgba(255, 255, 255, 0.35);
+}
+
+.metaLabel {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  line-height: 1.25;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.50);
+}
+
+.bodyCopy {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.88);
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  max-width: 320px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.50);
+}
+
+.primaryButton {
+  background: #EB5521;
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: 6px;
+  text-decoration: none;
+  width: fit-content;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 16px rgba(235, 85, 33, 0.40);
+}
+
+.primaryButton:hover {
+  background: #f06433;
+  transform: translateY(-1px);
+}
+
+/* Floating Widgets Container Spread Across Section */
+.widgetsContainer {
+  position: relative;
+  width: 100%;
+  min-height: 540px;
+}
+
+/* Card 1: Top Right Floating Progress Card */
+.widgetProgress {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  width: 360px;
+  background: linear-gradient(135deg, rgba(25, 28, 35, 0.32) 0%, rgba(12, 14, 18, 0.20) 100%);
+  backdrop-filter: blur(32px) saturate(140%);
+  -webkit-backdrop-filter: blur(32px) saturate(140%);
+  border-radius: 20px;
+  padding: 36px 40px;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.widgetProgress:hover {
+  transform: translateX(-50%) scale(0.97);
+}
+
+@media (max-width: 1024px) {
+  .widgetProgress {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: auto;
+    transform: none;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+.badgeTag {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  padding: 5px 12px;
+  border-radius: 14px;
+  width: fit-content;
+  text-transform: capitalize;
+  letter-spacing: -0.2px;
+  word-spacing: 0.6px;
+}
+
+.progressStatRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.weightVal {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 0.95;
+  color: #ffffff;
+  letter-spacing: -1.5px;
+  word-spacing: 0.6px;
+}
+
+.trendVal {
+  color: #4ade80;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: -0.2px;
+  word-spacing: 0.6px;
+}
+
+.sparklineSvg {
+  width: 100%;
+  height: 42px;
+  stroke: #4ade80;
+  stroke-width: 2;
+  fill: none;
+  opacity: 0.85;
+}
+
+/* Card 2: Bottom Left Engineering Team Inbox Card */
+.widgetInbox {
+  position: absolute;
+  bottom: 30px;
+  left: 0px;
+  z-index: 5;
+  width: 460px;
+  background: linear-gradient(135deg, rgba(25, 28, 35, 0.32) 0%, rgba(12, 14, 18, 0.20) 100%);
+  backdrop-filter: blur(32px) saturate(140%);
+  -webkit-backdrop-filter: blur(32px) saturate(140%);
+  border-radius: 20px;
+  padding: 36px 40px;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12);
+  display: flex;
+  gap: 26px;
+  align-items: flex-start;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.widgetInbox:hover {
+  transform: scale(0.97);
+}
+
+@media (max-width: 1024px) {
+  .widgetInbox {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+.avatarWrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.teamBadgeIcon {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background-color: #EB5521;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.notificationBadge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #22c55e;
+  color: #ffffff;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inboxContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inboxHeader {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  color: #ffffff;
+  letter-spacing: -0.2px;
+  word-spacing: 0.6px;
+  line-height: 1.35;
+}
+
+.inboxText {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.52;
+  letter-spacing: -0.2px;
+  word-spacing: 0.6px;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+}
+
+/* Card 3: Bottom Right Corporate History & Emblem Card */
+.widgetPrescription {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  z-index: 5;
+  width: 540px;
+  background: linear-gradient(135deg, rgba(25, 28, 35, 0.32) 0%, rgba(12, 14, 18, 0.20) 100%);
+  backdrop-filter: blur(32px) saturate(140%);
+  -webkit-backdrop-filter: blur(32px) saturate(140%);
+  border-radius: 20px;
+  padding: 40px 44px;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12);
+  display: flex;
+  gap: 36px;
+  align-items: center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.widgetPrescription:hover {
+  transform: scale(0.97);
+}
+
+@media (max-width: 1024px) {
+  .widgetPrescription {
+    position: relative;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+  }
+}
+
+.emblemColumn {
+  flex-shrink: 0;
+}
+
+.emblemYearBadge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #EB5521 0%, #c44012 100%);
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(235, 85, 33, 0.35);
+}
+
+.emblemNumber {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.emblemUnit {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.rxDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-grow: 1;
+}
+
+.rxTitle {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 32px;
+  line-height: 1.05;
+  font-weight: 300;
+  color: #ffffff;
+  margin: 0 0 4px 0;
+  letter-spacing: -1px;
+  word-spacing: 0.6px;
+}
+
+.rxSub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.75);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  word-spacing: 0.6px;
+}
+
+.prescribedFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 11px;
+  font-weight: 300;
+  word-spacing: 0.6px;
+  color: rgba(255, 255, 255, 0.8);
+  position: relative;
+  min-height: 38px;
+}
+
+.signatureScript {
+  font-family: var(--font-herr-von-muellerhoff), 'Herr Von Muellerhoff', cursive !important;
+  font-size: 28px !important;
+  font-weight: 400 !important;
+  color: #ffffff !important;
+  font-style: normal !important;
+  position: absolute !important;
+  right: -4px !important;
+  bottom: -16px !important;
+  transform: none !important;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4)) !important;
+  white-space: nowrap !important;
+  letter-spacing: 0.5px !important;
+  pointer-events: none;
+  opacity: 0.98 !important;
+}
+
+@media (max-width: 1024px) {
+  .widgetPrescription {
+    position: relative;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+  }
+}
+
+.emblemColumn {
+  flex-shrink: 0;
+}
+
+.emblemYearBadge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #EB5521 0%, #c44012 100%);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(235, 85, 33, 0.35);
+}
+
+.emblemNumber {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.emblemUnit {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.rxDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-grow: 1;
+}
+
+.rxTitle {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 24px;
+  line-height: 1.1;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0;
+}
+
+.rxSub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.statusRow {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.progressBar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressFill {
+  width: 100%;
+  height: 100%;
+  background: #EB5521;
+}
+
+.statusText {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.prescribedFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.signatureScript {
+  font-family: 'Brush Script MT', 'Caveat', cursive;
+  font-size: 16px;
+  color: #ffffff;
+  font-style: italic;
+}

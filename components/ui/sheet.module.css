@@ -1,0 +1,124 @@
+.sheet {
+  /* Base styles for the sheet container */
+}
+
+.sheetTrigger {
+  /* Styles for the trigger button */
+}
+
+.sheetClose {
+  /* Styles for the close button */
+}
+
+.sheetPortal {
+  /* Styles for the portal */
+}
+
+.sheetOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background-color: rgba(0, 0, 0, 0.5); /* bg-black/50 */
+}
+
+.sheetContent {
+  position: fixed;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* gap-4 */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05); /* shadow-lg */
+  transition: transform 0.3s ease-in-out; /* transition ease-in-out */
+  background-color: white; /* bg-background */
+}
+
+.sheetContent-right {
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 75%; /* w-3/4 */
+  border-left: 1px solid #e0e0e0; /* border-l */
+}
+
+@media (min-width: 640px) { /* sm breakpoint */
+  .sheetContent-right {
+    max-width: 384px; /* sm:max-w-sm */
+  }
+}
+
+.sheetContent-left {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 75%; /* w-3/4 */
+  border-right: 1px solid #e0e0e0; /* border-r */
+}
+
+@media (min-width: 640px) { /* sm breakpoint */
+  .sheetContent-left {
+    max-width: 384px; /* sm:max-w-sm */
+  }
+}
+
+.sheetContent-top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+  border-bottom: 1px solid #e0e0e0; /* border-b */
+}
+
+.sheetContent-bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+  border-top: 1px solid #e0e0e0; /* border-t */
+}
+
+.sheetCloseButton {
+  position: absolute;
+  top: 16px; /* top-4 */
+  right: 16px; /* right-4 */
+  border-radius: 4px; /* rounded-xs */
+  opacity: 0.7; /* opacity-70 */
+  transition: opacity 0.2s; /* transition-opacity */
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.sheetCloseButton:hover {
+  opacity: 1; /* hover:opacity-100 */
+}
+
+.closeIcon {
+  width: 16px; /* size-4 */
+  height: 16px;
+}
+
+.sheetHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 6px; /* gap-1.5 */
+  padding: 16px; /* p-4 */
+}
+
+.sheetFooter {
+  margin-top: auto; /* mt-auto */
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* gap-2 */
+  padding: 16px; /* p-4 */
+}
+
+.sheetTitle {
+  color: black; /* text-foreground */
+  font-weight: 600; /* font-semibold */
+  font-size: 1.25rem; /* Equivalent to text-lg or text-xl depending on context */
+}
+
+.sheetDescription {
+  color: #6b7280; /* text-muted-foreground */
+  font-size: 14px; /* text-sm */
+}

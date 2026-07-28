@@ -1,0 +1,117 @@
+.section {
+  position: relative;
+  width: 100%;
+  padding: 80px 48px;
+  background-color: #FBF9F4;
+  color: #111827;
+  overflow: hidden;
+}
+
+/* Seamless Ambient Fog Glow Connecting with Portfolio Section */
+.brandFogGlow {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 520px;
+  background: radial-gradient(
+    ellipse 130% 100% at 75% 0%,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.4) 40%,
+    rgba(51, 65, 85, 0.10) 68%,
+    rgba(251, 249, 244, 0) 92%
+  );
+  filter: blur(80px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+  .section {
+    padding: 60px 24px;
+  }
+}
+
+
+
+/* Main Container */
+.container {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0;
+}
+
+/* Title & Subtitle block */
+.topBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.subText {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 21px;
+  line-height: 1.25;
+  color: #4b5563;
+  margin: 0;
+  max-width: 520px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+}
+
+.headline {
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 110px;
+  line-height: 0.88;
+  letter-spacing: -3.5px;
+  font-weight: 400;
+  color: #111827;
+  margin: 0;
+}
+
+@media (max-width: 1024px) {
+  .headline {
+    font-size: 64px;
+    letter-spacing: -2px;
+  }
+}
+
+@media (max-width: 640px) {
+  .headline {
+    font-size: 48px;
+    letter-spacing: -1.5px;
+  }
+}
+
+/* Marquee Container Wrapper (Edge-to-edge full width with 0 left and right margins) */
+.marqueeContainer {
+  position: relative;
+  width: calc(100% + 96px);
+  margin-left: -48px;
+  margin-right: -48px;
+  height: 240px;
+  overflow: hidden;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0px;
+}
+
+@media (max-width: 1024px) {
+  .marqueeContainer {
+    width: calc(100% + 48px);
+    margin-left: -24px;
+    margin-right: -24px;
+  }
+}

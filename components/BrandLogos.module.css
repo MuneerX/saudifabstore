@@ -1,0 +1,93 @@
+.brandLogosSection {
+  width: 100%;
+  padding-top: 32px; /* Reduced from py-12 */
+  padding-bottom: 32px; /* Reduced from py-12 */
+  background-color: #000000; /* bg-black */
+}
+
+@media (min-width: 768px) { /* md breakpoint */
+  .brandLogosSection {
+    padding-top: 48px; /* Reduced from md:py-24 */
+    padding-bottom: 48px; /* Reduced from md:py-24 */
+  }
+}
+
+@media (min-width: 1024px) { /* lg breakpoint */
+  .brandLogosSection {
+    padding-top: 64px; /* Reduced from lg:py-32 */
+    padding-bottom: 64px; /* Reduced from lg:py-32 */
+  }
+}
+
+.container {
+  max-width: 1280px; /* equivalent to container */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+}
+
+@media (min-width: 768px) { /* md breakpoint */
+  .container {
+    padding-left: 24px; /* md:px-6 */
+    padding-right: 24px; /* md:px-6 */
+  }
+}
+
+.logosGrid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0; /* Remove gap to let space-between handle spacing */
+}
+
+.logoItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoImage {
+  width: auto;
+  height: 32px; /* Fixed smaller height for consistency */
+  max-width: 120px; /* Limit max width to prevent oversized logos */
+  object-fit: contain;
+}
+
+@media (min-width: 768px) { /* md breakpoint */
+  .logoImage {
+    height: 40px; /* Slightly larger on medium screens */
+    max-width: 140px;
+  }
+}
+
+@media (min-width: 1024px) { /* lg breakpoint */
+  .logoImage {
+    height: 48px; /* Larger on large screens */
+    max-width: 160px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brandLogosSection {
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  
+  .logosGrid {
+    gap: 16px; /* Add gap for better spacing on small screens */
+    justify-content: space-around; /* Distribute items evenly */
+  }
+
+  .logoItem {
+    flex-basis: calc(33.33% - 10.66px); /* Three items per row with gap */
+    max-width: calc(33.33% - 10.66px);
+  }
+  
+  .logoImage {
+    height: 24px; /* Smaller logos on small screens */
+    max-width: 80px;
+  }
+}

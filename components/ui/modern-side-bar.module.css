@@ -1,0 +1,813 @@
+.container {
+  position: relative;
+  width: 19.5rem; /* Default to expanded width */
+  min-height: 100vh;
+  transition: width 0.3s ease-in-out;
+}
+
+.container.collapsed {
+  width: 7rem;
+}
+
+.container.expanded {
+  width: 19.5rem;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  z-index: 40;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(0); /* Default to visible */
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar.closed {
+  transform: translateX(-100%);
+}
+
+.sidebar.collapsed {
+  width: 7rem;
+}
+
+.sidebar.expanded {
+  width: 19.5rem;
+}
+
+.mobileToggle {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 50;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  border: 1px solid #f3f4f6;
+  transition: all 0.2s;
+}
+
+.mobileToggle:hover {
+  background-color: #f9fafb;
+}
+
+.mobileToggleIcon {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: #4b5563;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: rgba(249, 250, 251, 0.6);
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.logo {
+  width: 2.25rem;
+  height: 2.25rem;
+  background-color: #2563eb;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.logoText {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+}
+
+.brandName {
+  font-weight: 600;
+  color: #374151;
+  font-size: 1rem;
+}
+
+.brandSubtitle {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.collapseButton {
+  display: none;
+  padding: 0.375rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+}
+
+.collapseButton:hover {
+  background-color: #f3f4f6;
+}
+
+.collapseIcon {
+  height: 1rem;
+  width: 1rem;
+  color: #6b7280;
+}
+
+.searchContainer {
+  padding: 0.75rem 1rem;
+}
+
+.searchInputWrapper {
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 0.875rem;
+  width: 0.875rem;
+  color: #9ca3af;
+}
+
+.searchInput {
+  width: 100%;
+  padding-left: 2.25rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.searchInput:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px #2563eb;
+  border-color: transparent;
+}
+
+.nav {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  overflow-y: auto;
+}
+
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.navItem {
+  position: relative;
+}
+
+.navButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.375rem;
+  text-align: left;
+  transition: all 0.2s;
+  color: #4b5563;
+}
+
+.navButton.active {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+
+.navButton:not(.active):hover {
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+.navButtonIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+}
+
+.navButtonIcon {
+  height: 1.125rem;
+  width: 1.125rem;
+  flex-shrink: 0;
+}
+
+.navButton.active .navButtonIcon {
+  color: #2563eb;
+}
+
+.navButton:not(.active) .navButtonIcon {
+  color: #6b7280;
+}
+
+.navButton:not(.active):hover .navButtonIcon {
+  color: #374151;
+}
+
+.navButtonContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.navButtonText {
+  font-size: 0.875rem;
+}
+
+.navButton.active .navButtonText {
+  font-weight: 500;
+}
+
+.badge {
+  padding: 0.125rem 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 9999px;
+}
+
+.navButton.active .badge {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.navButton:not(.active) .badge {
+  background-color: #f3f4f6;
+  color: #4b5563;
+}
+
+.collapsedBadge {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  width: 1rem;
+  height: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: #dbeafe;
+  border: 1px solid #ffffff;
+}
+
+.collapsedBadgeText {
+  font-size: 0.625rem;
+  font-weight: 500;
+  color: #1d4ed8;
+}
+
+.tooltip {
+  position: absolute;
+  left: 100%;
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background-color: #1f2937;
+  color: #ffffff;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s;
+  white-space: nowrap;
+  z-index: 50;
+}
+
+.navItem:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltipArrow {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) translateX(-0.25rem);
+  width: 0.375rem;
+  height: 0.375rem;
+  background-color: #1f2937;
+  transform: rotate(45deg);
+}
+
+.footer {
+  margin-top: auto;
+  border-top: 1px solid #e5e7eb;
+}
+
+.profileSection {
+  border-bottom: 1px solid #e5e7eb;
+  background-color: rgba(249, 250, 251, 0.3);
+  padding: 0.75rem;
+}
+
+.profileWrapper {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  background-color: #ffffff;
+  transition: background-color 0.2s;
+}
+
+.profileWrapper:hover {
+  background-color: #f9fafb;
+}
+
+.avatar {
+  width: 2rem;
+  height: 2rem;
+  background-color: #e0e0e0;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarText {
+  color: #6b7280;
+  font-weight: bold;
+  font-size: 0.875rem;
+  font-family: 'Satoshi', sans-serif;
+}
+
+.profileInfo {
+  flex: 1;
+  min-width: 0;
+  margin-left: 0.625rem;
+}
+
+.profileName {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profileRole {
+  font-size: 0.75rem;
+  color: #6b7280;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.statusIndicator {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #22c55e;
+  border-radius: 9999px;
+  margin-left: 0.5rem;
+}
+
+.collapsedProfile {
+  display: flex;
+  justify-content: center;
+}
+
+.collapsedAvatarWrapper {
+  position: relative;
+}
+
+.collapsedAvatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  background-color: #e0e0e0;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.collapsedAvatarText {
+  color: #6b7280;
+  font-weight: bold;
+  font-size: 0.875rem;
+  font-family: 'Satoshi', sans-serif;
+}
+
+.collapsedStatusIndicator {
+  position: absolute;
+  bottom: -0.25rem;
+  right: -0.25rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: #22c55e;
+  border-radius: 9999px;
+  border: 2px solid #ffffff;
+}
+
+.logoutSection {
+  padding: 0.75rem;
+}
+
+.logoutButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-radius: 0.375rem;
+  text-align: left;
+  transition: all 0.2s;
+  color: #dc2626;
+}
+
+.logoutButton:hover {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.logoutButton.collapsed {
+  justify-content: center;
+  padding: 0.625rem;
+}
+
+.logoutButton.expanded {
+  gap: 0.625rem;
+  padding: 0.625rem 0.75rem;
+}
+
+.logoutIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+}
+
+.logoutIcon {
+  height: 1.125rem;
+  width: 1.125rem;
+  flex-shrink: 0;
+  color: #ef4444;
+}
+
+.logoutButton:hover .logoutIcon {
+  color: #dc2626;
+}
+
+.logoutText {
+  font-size: 0.875rem;
+}
+
+.mainContent {
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+}
+
+.mainContent.collapsed {
+  margin-left: 5rem;
+}
+
+.mainContent.expanded {
+  margin-left: 18rem;
+}
+
+@media (min-width: 768px) {
+  .mobileToggle {
+    display: none;
+  }
+
+  .sidebar {
+    transform: translateX(0) !important; /* Force visible on desktop */
+    /* Keep position: fixed for proper layout with main content margins */
+    position: fixed;
+    z-index: 40;
+  }
+
+  .collapseButton {
+    display: flex;
+  }
+}
+
+/* Mobile Navigation Overlay */
+.mobileNavOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 2147483646;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.mobileNavContent {
+  width: 280px;
+  height: 100%;
+  background-color: #ffffff;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.mobileNavHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: rgba(249, 250, 251, 0.6);
+}
+
+.mobileLogoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.mobileLogo {
+  width: 2.25rem;
+  height: 2.25rem;
+  background-color: #2563eb;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.mobileLogoText {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.mobileBrand {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileBrandName {
+  font-weight: 600;
+  color: #374151;
+  font-size: 1rem;
+}
+
+.mobileBrandSubtitle {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.mobileNavClose {
+  padding: 0.375rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+  background-color: transparent;
+  border: none;
+  color: #6b7280;
+}
+
+.mobileNavClose:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.mobileNavCloseIcon {
+  height: 1rem;
+  width: 1rem;
+}
+
+.mobileNav {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  overflow-y: auto;
+}
+
+.mobileNavList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.mobileNavItem {
+  position: relative;
+}
+
+.mobileNavButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  text-align: left;
+  transition: all 0.2s;
+  color: #4b5563;
+  background-color: transparent;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.mobileNavButton:hover {
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+.mobileActive {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+
+.mobileNavIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+}
+
+.mobileNavIcon {
+  height: 1.125rem;
+  width: 1.125rem;
+  flex-shrink: 0;
+}
+
+.mobileActive .mobileNavIcon {
+  color: #2563eb;
+}
+
+.mobileNavButton:not(.mobileActive) .mobileNavIcon {
+  color: #6b7280;
+}
+
+.mobileNavButton:not(.mobileActive):hover .mobileNavIcon {
+  color: #374151;
+}
+
+.mobileNavText {
+  flex: 1;
+  font-size: 0.875rem;
+}
+
+.mobileActive .mobileNavText {
+  font-weight: 500;
+}
+
+.mobileBadge {
+  padding: 0.125rem 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.mobileNavFooter {
+  margin-top: auto;
+  border-top: 1px solid #e5e7eb;
+}
+
+.mobileProfileWrapper {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: rgba(249, 250, 251, 0.3);
+}
+
+.mobileAvatar {
+  width: 2rem;
+  height: 2rem;
+  background-color: #e0e0e0;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileAvatarText {
+  color: #6b7280;
+  font-weight: bold;
+  font-size: 0.875rem;
+  font-family: 'Satoshi', sans-serif;
+}
+
+.mobileProfileInfo {
+  flex: 1;
+  min-width: 0;
+  margin-left: 0.625rem;
+}
+
+.mobileProfileName {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.mobileProfileRole {
+  font-size: 0.75rem;
+  color: #6b7280;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.mobileLogoutButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  text-align: left;
+  transition: all 0.2s;
+  color: #dc2626;
+  background-color: transparent;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.mobileLogoutButton:hover {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.mobileLogoutIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+}
+
+.mobileLogoutIcon {
+  height: 1.125rem;
+  width: 1.125rem;
+  flex-shrink: 0;
+  color: #ef4444;
+}
+
+.mobileLogoutButton:hover .mobileLogoutIcon {
+  color: #dc2626;
+}
+
+.mobileLogoutText {
+  font-size: 0.875rem;
+}
+
+/* Hide sidebar and container completely on tablet and mobile */
+@media (max-width: 767px) {
+  .sidebar {
+    display: none !important;
+  }
+
+  .container {
+    display: none !important;
+  }
+
+  .mainContent {
+    margin-left: 0 !important;
+  }
+}

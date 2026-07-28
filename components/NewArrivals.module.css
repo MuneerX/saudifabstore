@@ -1,0 +1,289 @@
+.newArrivalsSection {
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  padding-top: 96px;
+  padding-bottom: 0px;
+}
+
+@media (min-width: 768px) { /* md breakpoint */
+  .newArrivalsSection {
+    padding-top: 96px;
+  }
+}
+
+@media (min-width: 1024px) { /* lg breakpoint */
+  .newArrivalsSection {
+    padding-top: 60px;
+  }
+}
+
+.container {
+  max-width: 1280px; /* equivalent to container */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px; /* px-4 */
+  padding-right: 16px; /* px-4 */
+}
+
+@media (min-width: 768px) { /* md breakpoint */
+  .container {
+    padding-left: 24px; /* md:px-6 */
+    padding-right: 24px; /* md:px-6 */
+  }
+}
+
+.sectionTitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 48px; /* text-5xl - Updated to 48px */
+  font-weight: 900; /* Black weight */
+  line-height: 1.2; /* Adjusted line-height for two lines */
+  text-align: center; /* text-center */
+  margin-bottom: 48px; /* mb-12 */
+  color: #000000; /* Ensure title is black */
+}
+
+.productsGrid {
+  display: grid;
+  grid-template-columns: 1fr; /* grid-cols-1 */
+  gap: 32px; /* gap-8 */
+}
+
+@media (min-width: 640px) { /* sm breakpoint */
+  .productsGrid {
+    grid-template-columns: repeat(2, 1fr); /* sm:grid-cols-2 */
+  }
+}
+
+@media (min-width: 1024px) { /* lg breakpoint */
+  .productsGrid {
+    grid-template-columns: repeat(4, 1fr); /* lg:grid-cols-4 */
+  }
+}
+
+.productCard {
+  border: none; /* border-none */
+  border-radius: 12px; /* rounded-xl */
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.productCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.productCardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  cursor: pointer;
+}
+
+.productImageContainer {
+  position: relative;
+  width: 100%;
+  height: 300px; /* Fixed height for consistency */
+  overflow: hidden;
+  border-radius: 12px; /* All corners rounded with same radius */
+}
+
+.productImage {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px; /* All corners rounded with same radius */
+}
+
+.productInfo {
+  padding: 16px; /* p-4 */
+}
+
+.productName {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 18px; /* text-lg */
+  font-weight: 600; /* font-semibold */
+}
+
+.productRating {
+  display: flex;
+  align-items: center;
+  margin-top: 8px; /* mt-2 */
+}
+
+.stars {
+  color: #f59e0b; /* text-yellow-500 */
+}
+
+.ratingText {
+  margin-left: 8px; /* ml-2 */
+  font-size: 14px; /* text-sm */
+  color: #6b7280; /* text-gray-500 */
+  font-family: 'Satoshi', sans-serif;
+}
+
+.productPrice {
+  display: flex;
+  align-items: center;
+  margin-top: 16px; /* mt-4 */
+}
+
+.currentPrice {
+  font-size: 20px; /* text-xl */
+  font-weight: bold;
+  font-family: 'Satoshi', sans-serif;
+}
+
+.originalPrice {
+  font-size: 14px; /* text-sm */
+  color: #9ca3af;
+  text-decoration: line-through;
+  font-family: 'Satoshi', sans-serif;
+  margin-left: 8px;
+}
+
+.discountBadge {
+  font-size: 10px; /* text-xs */
+  font-weight: 600;
+  color: #ef4444;
+  background-color: #fee2e2;
+  padding: 2px 6px;
+  border-radius: 9999px;
+  font-family: 'Satoshi', sans-serif;
+  margin-left: 6px;
+}
+
+.originalPrice {
+  margin-left: 8px; /* ml-2 */
+  font-size: 14px; /* text-sm */
+  color: #6b7280; /* text-gray-500 */
+  text-decoration: line-through;
+  font-family: 'Satoshi', sans-serif;
+}
+
+.discountBadge {
+  margin-left: 8px; /* ml-2 */
+  font-size: 12px; /* text-xs */
+  font-weight: 600; /* font-semibold */
+  color: #ef4444; /* text-red-500 */
+  background-color: #fee2e2; /* bg-red-100 */
+  padding: 4px 8px; /* px-2 py-1 */
+  border-radius: 9999px; /* rounded-full */
+  font-family: 'Satoshi', sans-serif;
+}
+
+.viewAllContainer {
+  text-align: center; /* text-center */
+  margin-top: 48px; /* mt-12 */
+}
+
+.viewAllButton {
+  border-radius: 9999px; /* rounded-full */
+  padding: 12px 32px; /* px-8 py-3 */
+  border: 1px solid #ccc; /* variant="outline" */
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  font-family: 'Satoshi', sans-serif;
+}
+
+@media (max-width: 1024px) { /* Tablet breakpoint */
+  .newArrivalsSection {
+    padding-bottom: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .newArrivalsSection {
+    padding-bottom: 60px;
+  }
+
+  .sectionTitle {
+    font-size: 32px; /* Smaller title on small screens */
+    line-height: 1.2;
+    margin-bottom: 24px; /* Reduced margin on small screens */
+  }
+
+  .productsGrid {
+    gap: 24px; /* Reduced gap on small screens */
+  }
+
+  .productImageContainer {
+    height: 240px; /* Smaller image height on small screens */
+  }
+
+  .productName {
+    font-size: 16px; /* Smaller product name on small screens */
+  }
+
+  .viewAllButton {
+    padding: 10px 24px; /* Smaller button on small screens */
+    font-size: 14px; /* Smaller font on small screens */
+  }
+}
+
+/* Skeleton Loading Styles */
+.skeletonImage {
+  width: 100%;
+  height: 300px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 12px;
+}
+
+.skeletonTitle {
+  height: 18px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  width: 80%;
+}
+
+.skeletonRating {
+  height: 14px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+  width: 60%;
+  margin-top: 8px;
+}
+
+.skeletonPrice {
+  height: 20px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+  width: 40%;
+  margin-top: 16px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .skeletonImage {
+    height: 240px;
+  }
+
+  .skeletonTitle {
+    height: 16px;
+  }
+
+  .skeletonRating {
+    height: 12px;
+  }
+
+  .skeletonPrice {
+    height: 18px;
+  }
+}

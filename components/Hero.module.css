@@ -1,0 +1,152 @@
+.heroSection {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden;
+  background-color: #0a0e12;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* 1. Cinematic Background */
+.heroBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.heroImage {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6; /* Darkened for cinematic feel */
+}
+
+/* 2. Floating Channel Widget */
+.channelWidget {
+  position: absolute;
+  top: 90px; /* Below navbar */
+  right: 48px;
+  z-index: 15;
+  width: 320px;
+  background: rgba(20, 24, 28, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.widgetHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.channelInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.channelLabel {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.channelNumber {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.playbackControls {
+  display: flex;
+  gap: 2px;
+}
+
+.controlBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: #ffffff;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.controlBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.thumbnailRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding: 12px;
+}
+
+.thumbnail {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: #1a1a1a;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.thumbImg {
+  object-fit: cover;
+}
+
+/* 3. Massive Marquee Text */
+.marqueeContainer {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  padding-bottom: 1vh; /* Slight spacing from bottom */
+}
+
+.marqueeText {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 15vw; /* Extremely large, responsive to viewport width */
+  line-height: 0.85;
+  font-weight: 300;
+  color: #ffffff;
+  letter-spacing: -0.04em;
+  display: inline-block;
+  /* Optional: Simple CSS animation for marquee effect */
+  animation: marqueeScroll 40s linear infinite;
+  transform: translateX(5%);
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(10%); }
+  100% { transform: translateX(-100%); }
+}
+
+@media (max-width: 1024px) {
+  .channelWidget {
+    display: none; /* Hide widget on mobile to save space */
+  }
+  
+  .marqueeText {
+    font-size: 25vw;
+  }
+}

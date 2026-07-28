@@ -1,0 +1,169 @@
+.successContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  padding: 20px;
+}
+
+.successCard {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+.successIcon {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.successTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #10b981;
+  margin-bottom: 20px;
+}
+
+.successMessage {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.orderDetails {
+  background: #f8f9fa;
+  padding: 25px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.orderDetails h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.detailRow span:first-child {
+  font-weight: 500;
+  color: #555;
+}
+
+.detailRow span:last-child {
+  color: #333;
+}
+
+.actions {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.primaryButton,
+.secondaryButton {
+  flex: 1;
+  min-width: 140px;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.primaryButton {
+  background: #007bff;
+  color: white;
+  border: 2px solid #007bff;
+}
+
+.primaryButton:hover {
+  background: #0056b3;
+  border-color: #0056b3;
+}
+
+.secondaryButton {
+  background: white;
+  color: #007bff;
+  border: 2px solid #007bff;
+}
+
+.secondaryButton:hover {
+  background: #f8f9fa;
+}
+
+.supportInfo {
+  border-top: 1px solid #e5e5e5;
+  padding-top: 20px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.supportInfo a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.supportInfo a:hover {
+  text-decoration: underline;
+}
+
+/* Loading and Error States */
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.errorIcon {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 480px) {
+  .successCard {
+    padding: 30px 20px;
+  }
+
+  .successTitle {
+    font-size: 1.8rem;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+  }
+}

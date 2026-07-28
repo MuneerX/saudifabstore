@@ -1,0 +1,73 @@
+.section {
+  width: 100%;
+  padding: 6.4px 12.8px 12.8px 12.8px;
+  background-color: #ffffff;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 12.8px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 9.6px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .image {
+  transform: scale(1.03);
+}
+
+.gradientOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0.15) 35%,
+    rgba(0, 0, 0, 0) 70%
+  );
+  pointer-events: none;
+}
+
+.label {
+  position: absolute;
+  bottom: 1.75rem;
+  left: 1.75rem;
+  color: #ffffff;
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  font-family: "Host Grotesk", "Plus Jakarta Sans", Arial, sans-serif;
+  margin: 0;
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .label {
+    font-size: 1.75rem;
+    bottom: 1.25rem;
+    left: 1.25rem;
+  }
+}

@@ -1,0 +1,65 @@
+.card {
+  background-color: white; /* bg-card */
+  color: black; /* text-card-foreground */
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* gap-6 */
+  border-radius: 12px; /* rounded-xl */
+  border: 1px solid #e0e0e0; /* border */
+  padding-top: 24px; /* py-6 */
+  padding-bottom: 24px; /* py-6 */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+}
+
+.cardHeader {
+  display: grid;
+  grid-template-rows: auto auto; /* auto-rows-min grid-rows-[auto_auto] */
+  align-items: flex-start; /* items-start */
+  gap: 6px; /* gap-1.5 */
+  padding-left: 24px; /* px-6 */
+  padding-right: 24px; /* px-6 */
+}
+
+.cardHeader .cardAction {
+  grid-column-start: 2; /* col-start-2 */
+  grid-row-start: 1; /* row-start-1 */
+  grid-row-end: span 2; /* row-span-2 */
+  align-self: flex-start; /* self-start */
+  justify-self: flex-end; /* justify-self-end */
+}
+
+.cardHeader.borderBottom {
+  padding-bottom: 24px; /* pb-6 */
+  border-bottom: 1px solid #e0e0e0; /* .border-b */
+}
+
+.cardTitle {
+  font-size: 1.25rem; /* leading-none */
+  font-weight: 600; /* font-semibold */
+}
+
+.cardDescription {
+  color: #6b7280; /* text-muted-foreground */
+  font-size: 14px; /* text-sm */
+}
+
+.cardAction {
+  /* This is for the action element inside the header */
+}
+
+.cardContent {
+  padding-left: 24px; /* px-6 */
+  padding-right: 24px; /* px-6 */
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  padding-left: 24px; /* px-6 */
+  padding-right: 24px; /* px-6 */
+}
+
+.cardFooter.borderTop {
+  padding-top: 24px; /* pt-6 */
+  border-top: 1px solid #e0e0e0; /* .border-t */
+}
