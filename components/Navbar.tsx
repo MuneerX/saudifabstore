@@ -6,26 +6,27 @@ import { Search, Menu } from "lucide-react";
 import styles from "./Navbar.module.css";
 
 const CENTER_LINKS = [
-  { label: "Home", href: "#" },
-  { label: "Shop", href: "#" },
-  { label: "Services", href: "#" },
-  { label: "Divisions", href: "#" },
-  { label: "About", href: "#" },
-  { label: "Contact", href: "#" }
+  { label: "Home", href: "/" },
+  { label: "Shop", href: "/products" },
+  { label: "Services", href: "/services" },
+  { label: "Divisions", href: "/divisions" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" }
 ];
 
 interface NavbarProps {
   hasBorder?: boolean;
+  isLight?: boolean;
   children?: React.ReactNode;
 }
 
-export function Navbar({ hasBorder = false, children }: NavbarProps) {
+export function Navbar({ hasBorder = false, isLight = false, children }: NavbarProps) {
   return (
-    <nav className={`${styles.navbar} ${hasBorder ? 'border-b border-white/10' : ''}`}>
+    <nav className={`${styles.navbar} ${isLight ? styles.lightNavbar : ''} ${hasBorder ? styles.navBorder : ''}`}>
       {children}
       {/* Left Logo */}
       <div className={styles.logoArea}>
-        <Link href="/" className={styles.logoText}>
+        <Link href="/" className={`${styles.logoText} ${isLight ? styles.lightText : ''}`}>
           Brooq Al Khalij
         </Link>
       </div>
@@ -33,7 +34,11 @@ export function Navbar({ hasBorder = false, children }: NavbarProps) {
       {/* Center Links (Desktop) */}
       <div className={styles.centerNav}>
         {CENTER_LINKS.map((link) => (
-          <Link key={link.label} href={link.href} className={styles.navLink}>
+          <Link
+            key={link.label}
+            href={link.href}
+            className={`${styles.navLink} ${isLight ? styles.lightLink : ''}`}
+          >
             {link.label}
           </Link>
         ))}
@@ -41,19 +46,19 @@ export function Navbar({ hasBorder = false, children }: NavbarProps) {
 
       {/* Right Links & Actions */}
       <div className={styles.rightNav}>
-        <button className={styles.iconBtn} aria-label="Search">
+        <button className={`${styles.iconBtn} ${isLight ? styles.lightIconBtn : ''}`} aria-label="Search">
           <Search size={16} />
         </button>
         
-        <Link href="#" className={`${styles.navLink} hidden lg:block`}>
+        <Link href="/products" className={`${styles.navLink} ${isLight ? styles.lightLink : ''} hidden lg:block`}>
           Universe
         </Link>
-        <Link href="#" className={`${styles.navLink} hidden lg:block`}>
-          Cart<sup style={{ fontSize: '8px', marginLeft: '2px' }}>00</sup>
+        <Link href="/cart" className={`${styles.navLink} ${isLight ? styles.lightLink : ''} hidden lg:block`}>
+          Cart<sup style={{ fontSize: '9px', marginLeft: '1px' }}>01</sup>
         </Link>
 
         {/* Mobile Menu Toggle */}
-        <button className={`${styles.iconBtn} ${styles.mobileMenuBtn}`} aria-label="Menu">
+        <button className={`${styles.iconBtn} ${isLight ? styles.lightIconBtn : ''} ${styles.mobileMenuBtn}`} aria-label="Menu">
           <Menu size={20} />
         </button>
       </div>

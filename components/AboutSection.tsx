@@ -14,7 +14,7 @@ export function AboutSection() {
         {/* Full Section Background Image Layer */}
         <div className={styles.bgWrapper}>
           <Image
-            src="/images/home/company/img_bg_2.png"
+            src="/images/about/about_2.png"
             alt="Brooq Al Khalij Company background"
             fill
             className={styles.bgImage}
@@ -29,8 +29,8 @@ export function AboutSection() {
           <div className={styles.headlineWrap}>
             <h2>
               Delivering proven <br />
-              quality structures <br />
-              <span className={styles.lineThree}>for your business.</span>
+              industrial solutions <br />
+              <span className={styles.lineThree}>engineered to last.</span>
             </h2>
           </div>
 
@@ -40,10 +40,9 @@ export function AboutSection() {
           {/* Sub-heading and Button Container (Columns 7 to 10) */}
           <div className={styles.contentWrap}>
             <p>
-              As a customer-driven organization, BROOQ AL KHALIJ GEN. <br />
-              CONT. CO. is able to respond to the changing needs and <br />
-              producing quality product to satisfy the needs <br />
-              of our esteemed customers.
+              Established in 2000 in Dammam, BROOQ AL KHALIJ is a premier industrial <br />
+              and contracting conglomerate. We deliver custom steel fabrication, protective <br />
+              coatings, and turnkey engineering solutions tailored to empower your operations.
             </p>
 
             <button

@@ -15,19 +15,19 @@ const CATEGORIES: CategoryCard[] = [
   {
     id: "storage-containers",
     title: "Storage & Containers",
-    imageSrc: "/images/home/category_grid/container_2k.jpeg",
+    imageSrc: "/images/home/category_grid/container_3.jpeg",
     alt: "Storage & Containers"
   },
   {
     id: "lifting-handling",
     title: "Lifting & Material Handling",
-    imageSrc: "/images/home/category_grid/lifting_2k.jpeg",
+    imageSrc: "/images/home/category_grid/lifting_3.jpeg",
     alt: "Lifting & Material Handling"
   },
   {
     id: "safety-protection",
     title: "Safety & Protection",
-    imageSrc: "/images/home/category_grid/safety_2k.jpeg",
+    imageSrc: "/images/home/category_grid/safety_3.jpeg",
     alt: "Safety & Protection"
   }
 ];
@@ -43,7 +43,8 @@ export function CategoryGrid() {
               alt={item.alt}
               fill
               className={styles.image}
-              sizes="(max-width: 768px) 100vw, 33vw"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              quality={95}
               priority
             />
             <div className={styles.gradientOverlay} />

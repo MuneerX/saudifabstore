@@ -1,0 +1,483 @@
+.heroSection {
+  position: relative;
+  width: 100%;
+  background-color: #F8F9FA; /* Very slightly grey background */
+  padding: 24px 0 24px 0; /* Reduced top and bottom margins */
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 80px); /* Screen height minus navbar height */
+  min-height: 580px;
+}
+
+.heroMarqueeContainer {
+  position: relative;
+  width: 100%;
+  flex-grow: 1; /* Automatically scale to fill screen height */
+  overflow: hidden;
+  display: flex;
+  background-color: #F8F9FA;
+  padding: 0 4px; /* Reduced outer margin */
+}
+
+.heroMarqueeTrack {
+  display: flex;
+  gap: 6px; /* Reduced gap between cards */
+  width: max-content;
+  animation: marquee 35s linear infinite;
+  height: 100%;
+}
+
+.heroMarqueeCard {
+  position: relative;
+  width: 520px; /* Increased card width back to dynamic scale proportions */
+  height: 100%;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f4f4f4; /* Slight grey backing */
+}
+
+.heroColumnImage {
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: grayscale(20%) brightness(0.93); /* Slight grey effect */
+  opacity: 0.95;
+}
+
+.heroMarqueeCard:hover .heroColumnImage {
+  transform: scale(1.04);
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Since we duplicate 5 cards to a total of 10,
+       translating by -50% shifts exactly one full set of cards.
+       We subtract 3px to perfectly adjust for gap alignment */
+    transform: translateX(calc(-50% - 3px));
+  }
+}
+
+.heroBottomBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 24px 48px 0 48px; /* Increased margin left and right more and more */
+  width: 100%;
+  gap: 32px;
+}
+
+.heroBottomLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 36px; /* Increased vertical space between title and specs */
+}
+
+.heroTitle {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(24px, 3.5vw, 36px); /* Reduced title font size */
+  font-weight: 400;
+  color: #111111;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.swatchesRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.swatchLabel {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111111;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.swatchPills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.swatchPill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700; /* Increased weight for legibility */
+  padding: 6px 14px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  display: inline-block;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+}
+
+.pillAws {
+  background: linear-gradient(135deg, #2b3a4a 0%, #1a222d 100%); /* Deep Steel Slate */
+  color: #ffffff;
+  border: none;
+}
+
+.pillIso {
+  background: linear-gradient(135deg, #4E6E56 0%, #2f4435 100%); /* Compliance Wegovy Green */
+  color: #ffffff;
+  border: none;
+}
+
+.pillAsme {
+  background: linear-gradient(135deg, #c5a880 0%, #9e815a 100%); /* Professional Bronze Metal */
+  color: #ffffff;
+  border: none;
+}
+
+.pillBlasting {
+  background: linear-gradient(135deg, #EB5521 0%, #b83b11 100%); /* Brand Rust Orange */
+  color: #ffffff;
+  border: none;
+}
+
+.heroBottomRightContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.heroBottomRight {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.heroCtaCard {
+  background-color: #0453F8; /* Vibrant blue matching Add to cart */
+  color: #ffffff;
+  height: 72px; /* Explicit height */
+  width: 320px; /* Explicit width */
+  border-radius: 6px;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align contents to top */
+  padding: 0; /* Zero spacing/margin/padding inside the button */
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.heroCtaCard:hover {
+  background-color: #0346d0;
+  transform: translateY(-1px);
+}
+
+.heroCtaText {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px; /* Text size set to 16px */
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  padding-top: 16px; /* Positioned at top-left */
+  padding-left: 20px; /* Positioned at top-left */
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-grow: 1;
+}
+
+.heroCtaArrow {
+  background-color: #023CB3; /* Off dark of the blue button color */
+  width: 40px; /* Scaled up icon and its bg a little bit */
+  height: 40px; /* Scaled up icon and its bg a little bit */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-bottom-left-radius: 4px; /* Slight round inside card boundary */
+}
+
+.heroCtaArrow svg {
+  transform: scale(1.15); /* Scales the SVG icon inside */
+}
+
+.ctaSubtext {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 11px;
+  color: #54514a;
+  opacity: 0.65;
+  text-align: right;
+  max-width: 300px;
+}
+
+
+/* Overview Section */
+.overviewSection {
+  background-color: #ffffff;
+  padding: 120px 36.8px 80px 36.8px;
+  position: relative;
+}
+
+.overviewContainer {
+  max-width: 1468px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 18px 12px;
+}
+
+.overviewLeft {
+  grid-column: 1 / 5;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: sticky;
+  top: 140px;
+  height: fit-content;
+  align-self: start;
+}
+
+.overviewLabel {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', Arial, sans-serif;
+  font-size: clamp(48px, 6vw, 72px);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  color: #111111;
+  margin: 0 0 24px 0;
+  word-spacing: -1.5px;
+}
+
+.overviewDesc {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.4;
+  color: #54514a;
+  margin: 0 0 28px 0;
+  letter-spacing: -0.16px;
+  word-spacing: -1px;
+}
+
+.overviewDivider {
+  width: 100%;
+  border-top: 1px dashed rgba(17, 17, 17, 0.15);
+  margin-bottom: 28px;
+}
+
+.overviewRight {
+  grid-column: 6 / 13;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.capabilityCard {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  padding-bottom: 48px;
+  border-bottom: 1px dashed rgba(17, 17, 17, 0.15);
+}
+
+.capabilityCard:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.cardImgWrapper {
+  position: relative;
+  width: 280px;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.cardImg {
+  object-fit: cover;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cardTitle {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: #111111;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.cardDesc {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+  color: #54514a;
+  margin: 0;
+  letter-spacing: -0.16px;
+  word-spacing: -1px;
+}
+
+/* Quality Assurance Checklist Section */
+.qaSection {
+  padding: 16px 12px;
+  background-color: #ffffff;
+}
+
+.qaCardContainer {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 180px 36.8px; /* Increased vertical padding to increase section height more and more */
+  background-color: #000000;
+}
+
+.qaBgWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.qaBgImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.qaOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 2;
+}
+
+.qaContainer {
+  position: relative;
+  z-index: 3;
+  max-width: 1468px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+
+.qaLeft {
+  grid-column: 1 / 5;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.qaTitle {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: clamp(32px, 3.5vw, 48px);
+  color: #ffffff;
+  margin: 0 0 16px 0;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.qaText {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  letter-spacing: -0.16px;
+}
+
+.qaRight {
+  grid-column: 6 / 13;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.qaItem {
+  background: rgba(255, 255, 255, 0.05); /* Glass card background */
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  padding: 32px;
+  border-radius: 8px;
+  border: none; /* Removed border */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.qaItem:hover {
+  background: rgba(255, 255, 255, 0.09);
+  transform: translateY(-2px);
+}
+
+.qaItemIcon {
+  color: #4E6E56; /* Wegovy green */
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.qaItemTitle {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 450;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.qaItemDesc {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 14.5px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  letter-spacing: -0.16px;
+}
+
+@media (max-width: 1024px) {
+  .overviewSection, .qaSection, .ctaCardContainer {
+    padding: 60px 24px;
+  }
+  .overviewLeft, .overviewRight, .qaLeft, .qaRight {
+    grid-column: span 12;
+  }
+  .overviewLeft {
+    position: static;
+    margin-bottom: 32px;
+  }
+  .capabilityCard {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .cardImgWrapper {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+  }
+  .qaRight {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .overviewSection, .qaSection {
+    padding-left: 20.8px;
+    padding-right: 20.8px;
+  }
+}

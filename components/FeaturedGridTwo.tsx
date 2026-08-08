@@ -15,13 +15,13 @@ const ITEMS: GridItem[] = [
   {
     id: "workshop-equipment",
     title: "Workshop Equipment",
-    imageSrc: "/images/home/category_grid/workshop_2k.jpeg",
+    imageSrc: "/images/home/category_grid/workshop2.jpeg",
     alt: "Workshop Equipment"
   },
   {
     id: "trolleys-transportation",
     title: "Trolleys & Transportation",
-    imageSrc: "/images/home/category_grid/forklift_2k.jpeg",
+    imageSrc: "/images/home/category_grid/transport2.jpeg",
     alt: "Trolleys & Transportation"
   }
 ];
@@ -38,6 +38,7 @@ export function FeaturedGridTwo() {
               fill
               className={styles.image}
               sizes="(max-width: 768px) 100vw, 50vw"
+              quality={95}
               priority
             />
             <div className={styles.gradientOverlay} />

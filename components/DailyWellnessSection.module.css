@@ -4,7 +4,7 @@
   padding: 12.8px 12.8px 48px 12.8px;
   border-top: 1px dotted #d6d6d6;
   color: #222222;
-  font-family: "Host Grotesk", "Plus Jakarta Sans", Arial, sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 14px;
   line-height: 20px;
 }
@@ -18,7 +18,7 @@
   border-radius: 9.6px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
-  background-color: #FBF9F4;
+  background-color: #ffffff;
 }
 
 /* Background Image inside product-image-wrap */
@@ -499,7 +499,8 @@
   color: #54514a;
   font-size: 16px;
   line-height: 22.4px;
-  font-family: "Plus Jakarta Sans", Arial, sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.015em;
 }
 
 .ctaFlex {

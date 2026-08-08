@@ -1,0 +1,572 @@
+.pageWrapper {
+  min-height: 100vh;
+  background-color: #000000;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.heroBackground {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.bgImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.bgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0.5) 50%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
+  z-index: 2;
+}
+
+.contactSection {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 140px 0 80px 0;
+}
+
+.contactSectionContainer {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1468px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .contactGrid {
+    grid-template-columns: 5.5fr 5fr;
+    gap: 40px;
+    align-items: start;
+  }
+}
+
+/* Left Form Glass Card */
+.formGlassCard {
+  background: rgba(255, 255, 255, 0.12); /* Card background like input glass */
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  border: none; /* Removed border around card */
+  border-radius: 16px;
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  max-width: 620px; /* Reduced card width more */
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.title {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.description {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  letter-spacing: -0.16px;
+}
+
+.formGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 640px) {
+  .formRow {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+.labelText {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+}
+
+.dashedConnector {
+  flex-grow: 1;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
+  height: 1px;
+}
+
+.inputField, .textareaField {
+  background: rgba(0, 0, 0, 0.22); /* Dark borderless input background */
+  border: none; /* Removed border for input */
+  border-radius: 6px;
+  padding: 13px 16px;
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 14px;
+  color: #ffffff;
+  outline: none;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.inputField::placeholder, .textareaField::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.inputField:focus, .textareaField:focus {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* Custom Glass Dropdown */
+.customDropdownWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.customDropdownTrigger {
+  background: rgba(0, 0, 0, 0.22);
+  border: none;
+  border-radius: 6px;
+  padding: 13px 16px;
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 14px;
+  color: #ffffff;
+  outline: none;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 46.5px; /* Fixed height matching inputs */
+}
+
+.customDropdownTrigger:focus {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.customDropdownTriggerArrow {
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid rgba(255, 255, 255, 0.7);
+  transition: transform 0.2s ease;
+  width: 0;
+  height: 0;
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.customDropdownTriggerArrowOpen {
+  transform: rotate(180deg);
+}
+
+.customDropdownMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  background: rgba(25, 20, 18, 0.95); /* Dark frosted glass */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 6px;
+  margin: 0;
+  list-style: none;
+  z-index: 50;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  max-height: none; /* Disabled scroll in dropdown menu */
+  overflow: visible; /* Disabled scroll in dropdown menu */
+}
+
+.customDropdownItem {
+  padding: 10px 14px;
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.customDropdownItem:hover {
+  background: rgba(234, 83, 43, 0.2); /* Saturated brand orange hover background */
+  color: #ffffff;
+}
+
+.customDropdownItemActive {
+  background: #EA532B; /* Solid brand orange matching brand color */
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.textareaField {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.submitBtn {
+  background-color: #EA532B; /* Brand orange background */
+  color: #ffffff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 15px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: 8px;
+}
+
+.submitBtn:hover {
+  background-color: #d04722;
+  transform: translateY(-1px);
+}
+
+.disclaimerText {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+/* Right Info Column */
+.infoColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-top: 10px;
+}
+
+.liveMetricCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.metricLabel {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.metricNumber {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(56px, 6vw, 92px);
+  font-weight: 300;
+  line-height: 0.95;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.04em;
+}
+
+.metricSubtext {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+.branchCardsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.branchCardsLabel {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.branchGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .branchGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.branchGlassCard {
+  position: relative;
+  background: rgba(255, 255, 255, 0.12); /* Matching left card frosted glass */
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  border: none; /* Removed border around card */
+  border-radius: 14px;
+  padding: 28px 24px 44px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.branchBigText {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 42px;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.branchSubText {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  font-weight: 500;
+}
+
+.branchAddress {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 13px;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+}
+
+.branchWaveSvg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 36px;
+  pointer-events: none;
+}
+
+/* Quick Direct Channels Card */
+.quickContactCard {
+  background: rgba(255, 255, 255, 0.12); /* Matching left card frosted glass */
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  border: none;
+  border-radius: 14px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.quickContactHeader {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.contactChannelsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contactChannelItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: 8px;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.contactChannelItem:hover {
+  background: rgba(0, 0, 0, 0.35);
+  transform: translateY(-1px);
+}
+
+.whatsappChannelItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(37, 211, 102, 0.25);
+  border: 1px solid rgba(37, 211, 102, 0.4);
+  border-radius: 8px;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.whatsappChannelItem:hover {
+  background: rgba(37, 211, 102, 0.4);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .contactSection {
+    padding: 100px 16px 60px 16px;
+  }
+  .formGlassCard {
+    padding: 28px 20px;
+  }
+}
+
+/* Info Banner Section (Editorial Guide Style) */
+.infoSection {
+  background-color: #ffffff;
+  padding: 120px 36.8px;
+  border-top: 1px solid #EBE7DF;
+}
+
+.infoSectionContainer {
+  max-width: 980px; /* Clean centered text column */
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.infoSectionTitle {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: clamp(38px, 4vw, 56px);
+  font-weight: 400;
+  color: #111111;
+  margin: 0;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.dashedDivider {
+  width: 100%;
+  border-bottom: 1px dashed #d1cac0;
+  margin: 8px 0;
+}
+
+.infoSectionIntro {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 16px;
+  line-height: 1.35; /* Less line height */
+  color: #54514a;
+  margin: 0;
+  letter-spacing: -0.02em; /* Less letter spacing */
+  word-spacing: -1px; /* Less word spacing */
+}
+
+.infoSubSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.infoSubSectionTitle {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 32px; /* Increased to 32px */
+  font-weight: 400; /* Font weight 400 */
+  color: #111111;
+  margin: 0;
+  letter-spacing: -0.02em;
+  word-spacing: -1.5px; /* Reduced word spacing */
+}
+
+.infoSubSectionText {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 16px; /* Description content to 16px */
+  line-height: 1.35; /* Less line height */
+  color: #54514a;
+  margin: 0;
+  letter-spacing: -0.02em; /* Less letter spacing */
+  word-spacing: -1px; /* Less word spacing */
+}
+
+.infoList {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style-type: disc; /* Ensure consistent native bullets */
+}
+
+.infoListItem {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 16px; /* Description content to 16px */
+  line-height: 1.35; /* Less line height */
+  color: #54514a;
+  letter-spacing: -0.02em; /* Less letter spacing */
+  word-spacing: -1px; /* Less word spacing */
+}
+
+@media (max-width: 768px) {
+  .infoSection {
+    padding: 80px 20.8px;
+  }
+}

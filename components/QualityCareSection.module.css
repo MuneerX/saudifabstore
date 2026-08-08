@@ -1,8 +1,8 @@
 .section {
   position: relative;
   width: 100%;
-  padding: 60px 12.8px 90px 12.8px;
-  background-color: #FBF9F4;
+  padding: 80px 48px;
+  background-color: #ffffff;
   color: #222222;
   overflow: hidden;
 }
@@ -44,7 +44,7 @@
 }
 
 .headline {
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 42px;
   line-height: 1.05;
   letter-spacing: -1.6px;
@@ -112,7 +112,7 @@
 }
 
 .featureTitle {
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 23px;
   line-height: 1.2;
   font-weight: 400;
@@ -122,12 +122,12 @@
 }
 
 .featureDesc {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 15px;
-  line-height: 1.45;
+  line-height: 1.5;
   color: #54514a;
   margin: 0;
   font-weight: 400;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.015em;
   max-width: 290px;
 }

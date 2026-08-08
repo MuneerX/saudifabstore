@@ -11,7 +11,7 @@
   position: relative;
   width: 100%;
   padding: 60px 48px 110px 48px;
-  background-color: #FBF9F4;
+  background-color: #ffffff;
   color: #1a1c1a;
   overflow: clip;
   min-height: 74vh;
@@ -265,25 +265,25 @@
 }
 
 .metaLabel {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 13px;
   line-height: 1.25;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.92);
   margin: 0;
-  letter-spacing: -0.5px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.50);
 }
 
 .bodyCopy {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 15px;
-  line-height: 1.35;
+  line-height: 1.5;
   color: rgba(255, 255, 255, 0.88);
   margin: 0;
   font-weight: 400;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.015em;
   max-width: 320px;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.50);
 }
@@ -295,10 +295,11 @@
   border-radius: 6px;
   text-decoration: none;
   width: fit-content;
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 15px;
   line-height: 20px;
   font-weight: 600;
+  letter-spacing: -0.015em;
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
@@ -358,14 +359,14 @@
 .badgeTag {
   background: rgba(255, 255, 255, 0.25);
   color: #ffffff;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 11px;
   font-weight: 300;
   padding: 5px 12px;
   border-radius: 14px;
   width: fit-content;
   text-transform: capitalize;
-  letter-spacing: -0.2px;
+  letter-spacing: -0.015em;
   word-spacing: 0.6px;
 }
 
@@ -376,7 +377,7 @@
 }
 
 .weightVal {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 48px;
   font-weight: 300;
   line-height: 0.95;
@@ -387,10 +388,10 @@
 
 .trendVal {
   color: #4ade80;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 14px;
   font-weight: 300;
-  letter-spacing: -0.2px;
+  letter-spacing: -0.015em;
   word-spacing: 0.6px;
 }
 
@@ -478,21 +479,21 @@
 }
 
 .inboxHeader {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 15px;
   font-weight: 300;
   color: #ffffff;
-  letter-spacing: -0.2px;
+  letter-spacing: -0.015em;
   word-spacing: 0.6px;
   line-height: 1.35;
 }
 
 .inboxText {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 14px;
   font-weight: 300;
-  line-height: 1.52;
-  letter-spacing: -0.2px;
+  line-height: 1.5;
+  letter-spacing: -0.015em;
   word-spacing: 0.6px;
   color: rgba(255, 255, 255, 0.85);
   margin: 0;
@@ -571,7 +572,7 @@
 }
 
 .rxTitle {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 32px;
   line-height: 1.05;
   font-weight: 300;
@@ -671,7 +672,7 @@
 }
 
 .rxTitle {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 24px;
   line-height: 1.1;
   font-weight: 500;
@@ -709,8 +710,9 @@
 }
 
 .statusText {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 11px;
+  letter-spacing: -0.015em;
   color: rgba(255, 255, 255, 0.9);
 }
 

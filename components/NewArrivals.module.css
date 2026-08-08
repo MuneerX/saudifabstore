@@ -99,7 +99,7 @@
 }
 
 .productName {
-  font-family: 'Satoshi', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 18px; /* text-lg */
   font-weight: 600; /* font-semibold */
 }
@@ -118,7 +118,7 @@
   margin-left: 8px; /* ml-2 */
   font-size: 14px; /* text-sm */
   color: #6b7280; /* text-gray-500 */
-  font-family: 'Satoshi', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .productPrice {
@@ -130,14 +130,14 @@
 .currentPrice {
   font-size: 20px; /* text-xl */
   font-weight: bold;
-  font-family: 'Satoshi', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .originalPrice {
   font-size: 14px; /* text-sm */
   color: #9ca3af;
   text-decoration: line-through;
-  font-family: 'Satoshi', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   margin-left: 8px;
 }
 
@@ -148,7 +148,7 @@
   background-color: #fee2e2;
   padding: 2px 6px;
   border-radius: 9999px;
-  font-family: 'Satoshi', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   margin-left: 6px;
 }
 
@@ -157,7 +157,7 @@
   font-size: 14px; /* text-sm */
   color: #6b7280; /* text-gray-500 */
   text-decoration: line-through;
-  font-family: 'Satoshi', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .discountBadge {
@@ -168,7 +168,7 @@
   background-color: #fee2e2; /* bg-red-100 */
   padding: 4px 8px; /* px-2 py-1 */
   border-radius: 9999px; /* rounded-full */
-  font-family: 'Satoshi', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .viewAllContainer {
@@ -183,7 +183,7 @@
   background-color: white;
   color: black;
   cursor: pointer;
-  font-family: 'Satoshi', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 @media (max-width: 1024px) { /* Tablet breakpoint */

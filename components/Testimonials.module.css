@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   padding: 90px 0px 80px 0px; /* Increased top spacing */
-  background-color: #FBF9F4;
+  background-color: #ffffff;
   color: #1a1c1a;
   overflow: hidden;
 }
@@ -208,11 +208,12 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 15px; /* Increased Trustpilot widget font size */
   color: #222222;
   font-weight: 500;
   margin-left: 36px;
+  letter-spacing: -0.015em;
 }
 
 .starsBox {
@@ -401,30 +402,31 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 14px;
   font-weight: 700;
   color: #ffffff;
   opacity: 0.9;
   margin-bottom: 24px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.12em;
 }
 
 .testimonialText {
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 26px;
   font-weight: 400;
   line-height: 1.25;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.02em;
   margin-bottom: 32px; /* Increased spacing */
   text-wrap: balance;
 }
 
 .testimonialAuthor {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 15px;
   font-weight: 500;
   opacity: 0.85;
   color: #ffffff;
+  letter-spacing: -0.015em;
 }
