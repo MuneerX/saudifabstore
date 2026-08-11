@@ -5,6 +5,14 @@ import Cart from '@/lib/models/Cart';
 import Product from '@/lib/models/Product';
 import connectToDatabase from '@/lib/db/connect';
 
+function getValidUserId(sessionUser: any): string {
+  if (sessionUser?.id && /^[0-9a-fA-F]{24}$/.test(sessionUser.id)) {
+    return sessionUser.id;
+  }
+  // Static fallback ObjectId for non-Mongo session IDs (e.g. admin-static-id)
+  return '000000000000000000000001';
+}
+
 // GET /api/cart - Get user's cart
 export async function GET() {
   try {
@@ -16,24 +24,35 @@ export async function GET() {
         { status: 401 }
       );
     }
-    
-    await connectToDatabase();
-    
-    let cart = await Cart.findOne({ user: session.user.id }).populate({
-      path: 'items.product',
-      select: 'name price images' // Select only necessary fields
-    });
-    
-    if (!cart) {
-      // Create a new empty cart if it doesn't exist
-      cart = new Cart({
-        user: session.user.id,
-        items: []
+
+    const userId = getValidUserId(session.user);
+
+    try {
+      await connectToDatabase();
+      
+      let cart = await Cart.findOne({ user: userId }).populate({
+        path: 'items.product',
+        select: 'name price images'
       });
-      await cart.save();
+      
+      if (!cart) {
+        cart = new Cart({
+          user: userId,
+          items: []
+        });
+        await cart.save();
+      }
+      
+      return NextResponse.json({ cart });
+    } catch (dbErr) {
+      console.warn("DB cart query failed, returning empty cart fallback:", dbErr);
+      return NextResponse.json({
+        cart: {
+          user: userId,
+          items: []
+        }
+      });
     }
-    
-    return NextResponse.json({ cart });
   } catch (error) {
     console.error('Error fetching cart:', error);
     return NextResponse.json(
@@ -57,17 +76,25 @@ export async function POST(request: NextRequest) {
     
     const { productId, quantity, size, color } = await request.json();
     
-    if (!productId || !quantity || !size || !color) {
+    if (!productId || !quantity) {
       return NextResponse.json(
-        { error: 'Product ID, quantity, size, and color are required' },
+        { error: 'Product ID and quantity are required' },
         { status: 400 }
       );
     }
     
     await connectToDatabase();
+    const userId = getValidUserId(session.user);
     
-    // Check if product exists and has sufficient stock
-    const product = await Product.findById(productId);
+    // Check if product exists
+    const isProductMongoId = /^[0-9a-fA-F]{24}$/.test(productId);
+    let product;
+    if (isProductMongoId) {
+      product = await Product.findById(productId);
+    } else {
+      product = await Product.findOne({ name: productId });
+    }
+
     if (!product) {
       return NextResponse.json(
         { error: 'Product not found' },
@@ -75,49 +102,39 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    if (product.stock < quantity) {
-      return NextResponse.json(
-        { error: 'Insufficient stock' },
-        { status: 400 }
-      );
-    }
+    const qty = typeof quantity === 'number' ? quantity : parseInt(quantity) || 1;
+    const itemSize = size || 'Regular';
+    const itemColor = color || 'Default Color';
     
     // Find or create cart
-    let cart = await Cart.findOne({ user: session.user.id });
+    let cart = await Cart.findOne({ user: userId });
     if (!cart) {
       cart = new Cart({
-        user: session.user.id,
+        user: userId,
         items: []
       });
     }
     
     // Check if item already exists in cart
-    const existingItemIndex = cart.items.findIndex((item: { product: string }) => item.product.toString() === productId);
+    const existingItemIndex = cart.items.findIndex(
+      (item: any) => item.product && item.product.toString() === product._id.toString()
+    );
     
     if (existingItemIndex > -1) {
-      // Update quantity if item exists
-      cart.items[existingItemIndex].quantity += quantity;
-      // Check if new quantity exceeds stock
-      if (cart.items[existingItemIndex].quantity > product.stock) {
-        return NextResponse.json(
-          { error: 'Insufficient stock for requested quantity' },
-          { status: 400 }
-        );
-      }
+      cart.items[existingItemIndex].quantity += qty;
     } else {
-      // Add new item to cart
       cart.items.push({
-        product: productId,
-        quantity,
+        product: product._id,
+        quantity: qty,
         price: product.price,
-        size,
-        color
+        size: itemSize,
+        color: itemColor
       });
     }
     
     await cart.save();
     
-    // Repopulate product details after saving to ensure fresh data
+    // Repopulate product details after saving
     await cart.populate({
       path: 'items.product',
       select: 'name price images'
@@ -160,32 +177,10 @@ export async function PUT(request: NextRequest) {
       );
     }
     
-    if (quantity <= 0) {
-      return NextResponse.json(
-        { error: 'Quantity must be greater than 0' },
-        { status: 400 }
-      );
-    }
-    
     await connectToDatabase();
+    const userId = getValidUserId(session.user);
     
-    // Check if product exists and has sufficient stock
-    const product = await Product.findById(productId);
-    if (!product) {
-      return NextResponse.json(
-        { error: 'Product not found' },
-        { status: 404 }
-      );
-    }
-    
-    if (product.stock < quantity) {
-      return NextResponse.json(
-        { error: 'Insufficient stock' },
-        { status: 400 }
-      );
-    }
-    
-    const cart = await Cart.findOne({ user: session.user.id });
+    const cart = await Cart.findOne({ user: userId });
     if (!cart) {
       return NextResponse.json(
         { error: 'Cart not found' },
@@ -193,22 +188,24 @@ export async function PUT(request: NextRequest) {
       );
     }
     
-    // Find item in cart
-    const itemIndex = cart.items.findIndex((item: { product: string }) => item.product.toString() === productId);
+    const isProductMongoId = /^[0-9a-fA-F]{24}$/.test(productId);
     
-    if (itemIndex === -1) {
-      return NextResponse.json(
-        { error: 'Item not found in cart' },
-        { status: 404 }
-      );
+    // Find item in cart
+    const itemIndex = cart.items.findIndex((item: any) => {
+      if (!item.product) return false;
+      const idStr = item.product.toString();
+      return idStr === productId;
+    });
+    
+    if (itemIndex > -1) {
+      if (quantity <= 0) {
+        cart.items.splice(itemIndex, 1);
+      } else {
+        cart.items[itemIndex].quantity = quantity;
+      }
+      await cart.save();
     }
     
-    // Update quantity
-    cart.items[itemIndex].quantity = quantity;
-    
-    await cart.save();
-    
-    // Repopulate product details after saving to ensure fresh data
     await cart.populate({
       path: 'items.product',
       select: 'name price images'
@@ -252,30 +249,26 @@ export async function DELETE(request: NextRequest) {
     }
     
     await connectToDatabase();
+    const userId = getValidUserId(session.user);
     
-    const cart = await Cart.findOne({ user: session.user.id });
-    if (!cart) {
-      return NextResponse.json(
-        { error: 'Cart not found' },
-        { status: 404 }
-      );
+    const cart = await Cart.findOne({ user: userId });
+    if (cart) {
+      cart.items = cart.items.filter((item: any) => {
+        if (!item.product) return false;
+        return item.product.toString() !== productId;
+      });
+      await cart.save();
+      
+      await cart.populate({
+        path: 'items.product',
+        select: 'name price images'
+      });
     }
-    
-    // Remove item from cart
-    cart.items = cart.items.filter((item: { product: string }) => item.product.toString() !== productId);
-    
-    await cart.save();
-    
-    // Repopulate product details after saving to ensure fresh data
-    await cart.populate({
-      path: 'items.product',
-      select: 'name price images'
-    });
     
     return NextResponse.json(
       {
         message: 'Item removed from cart successfully',
-        cart
+        cart: cart || { items: [] }
       },
       { status: 200 }
     );

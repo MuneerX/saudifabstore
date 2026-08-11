@@ -13,7 +13,7 @@
   margin-right: auto;
   padding-left: 36.8px; /* Aligns with homepage why choose section margin (12.8px + 24px) */
   padding-right: 36.8px;
-  padding-top: 32px;
+  padding-top: 77px; /* Offset for fixed top navbar */
   padding-bottom: 120px;
   width: 100%;
 }
@@ -29,7 +29,7 @@
   .container {
     padding-left: 20.8px; /* Aligns with homepage why choose section mobile margin (12.8px + 8px) */
     padding-right: 20.8px;
-    padding-top: 20px;
+    padding-top: 80px;
     padding-bottom: 80px;
   }
 }
@@ -248,13 +248,13 @@
   position: relative;
   width: 100%;
   height: 540px; /* Scaled up to taller image box on desktop */
-  background-color: #ffffff; /* Brand white */
+  background-color: #F5F5F3; /* Global neutral grey background */
   border-radius: 9.6px; /* Aligned with homepage brand corner radius */
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2px; /* Minimal padding for max product image scale */
+  padding: 0; /* Full edge-to-edge coverage */
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
@@ -277,18 +277,42 @@
 }
 
 .productCard:hover .productImageContainer {
-  background-color: #F4F1EA; /* Brand sand hover color */
+  background-color: #EBEAE6; /* Warm neutral grey hover backdrop */
 }
 
 .productImage {
-  object-fit: cover !important;
+  object-fit: cover !important; /* Image covers card fully */
   width: 100%;
   height: 100%;
   border-radius: 9.6px; /* Aligned with homepage brand corner radius */
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  z-index: 1;
 }
 
-.productCard:hover .productImage {
+.primaryImageWithHover {
+  z-index: 2;
+}
+
+.productHoverImage {
+  object-fit: cover !important; /* Image covers card fully */
+  width: 100%;
+  height: 100%;
+  border-radius: 9.6px;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+  z-index: 3;
+}
+
+.productCard:hover .primaryImageWithHover {
+  opacity: 0;
+}
+
+.productCard:hover .productHoverImage {
+  opacity: 1;
+  transform: scale(1.03);
+}
+
+.productCard:hover .productImage:not(.primaryImageWithHover) {
   transform: scale(1.03);
 }
 

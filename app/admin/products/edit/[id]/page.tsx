@@ -1,110 +1,71 @@
 "use client";
 
 import React, { useState, useEffect, use } from "react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  ArrowLeft,
-  Plus,
-  X,
-  Save,
-  ChevronDown,
-  RefreshCw,
-  Loader2,
-  Upload
+import { 
+  ArrowLeft, 
+  Upload, 
+  X, 
+  CheckCircle, 
+  AlertCircle, 
+  Loader2, 
+  Save, 
+  Plus, 
+  Factory, 
+  ShieldCheck, 
+  BadgeCheck, 
+  Star,
+  Image as ImageIcon
 } from "lucide-react";
 import styles from "./page.module.css";
 import apiClient from "@/lib/apiClient";
 
-// Custom Dropdown Component
-interface CustomSelectProps {
-  value: string;
-  onChange: (value: string) => void;
-  options: { value: string; label: string }[];
-  placeholder?: string;
-  className?: string;
-}
-
-const CustomSelect: React.FC<CustomSelectProps> = ({
-  value,
-  onChange,
-  options,
-  placeholder = "Select an option",
-  className = ""
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleSelect = (optionValue: string) => {
-    onChange(optionValue);
-    setIsOpen(false);
-  };
-
-  const selectedOption = options.find(option => option.value === value);
-
-  return (
-    <div className={`${styles.customSelect} ${className}`}>
-      <div
-        className={`${styles.selectTrigger} ${isOpen ? styles.open : ''}`}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <span className={value ? styles.selectedText : styles.placeholderText}>
-          {selectedOption ? selectedOption.label : placeholder}
-        </span>
-        <ChevronDown className={`${styles.selectArrow} ${isOpen ? styles.rotated : ''}`} />
-      </div>
-
-      {isOpen && (
-        <>
-          <div className={styles.selectOverlay} onClick={() => setIsOpen(false)} />
-          <div className={styles.selectOptions}>
-            {options.map((option) => (
-              <div
-                key={option.value}
-                className={`${styles.selectOption} ${value === option.value ? styles.selected : ''}`}
-                onClick={() => handleSelect(option.value)}
-              >
-                {option.label}
-              </div>
-            ))}
-          </div>
-        </>
-      )}
-    </div>
-  );
-};
+const CATEGORY_OPTIONS = [
+  { value: "Steel Fabrication", label: "Steel Fabrication" },
+  { value: "Industrial Coatings", label: "Industrial Coatings" },
+  { value: "Smart Woodworks", label: "Smart Woodworks" },
+  { value: "Safety & Trading", label: "Safety & Trading" },
+  { value: "Forklift Attachments", label: "Forklift Attachments" },
+  { value: "Warehouse & Logistics", label: "Warehouse & Logistics" },
+  { value: "Safety Equipment", label: "Safety Equipment" },
+  { value: "Lifting Equipment", label: "Lifting Equipment" },
+  { value: "Hardware & Piping", label: "Hardware & Piping" },
+];
 
 export default function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const router = useRouter();
+  
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [productData, setProductData] = useState({
-    name: "",
-    description: "",
-    category: "",
-    price: "",
-    discountPrice: "",
-    stock: "",
-    sku: "",
-    tags: [] as string[],
-    sizes: [] as string[],
-    colors: [] as string[]
-  });
+  const [success, setSuccess] = useState(false);
+  const [activeTab, setActiveTab] = useState<'general' | 'specs' | 'details'>('general');
 
+  // Form State
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("Steel Fabrication");
+  const [price, setPrice] = useState("");
+  const [discountPrice, setDiscountPrice] = useState("");
+  const [stock, setStock] = useState("20");
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [specImage, setSpecImage] = useState("");
+  const [newImageUrl, setNewImageUrl] = useState("");
   const [uploadingImages, setUploadingImages] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
-  const [newTag, setNewTag] = useState("");
-  const [newSize, setNewSize] = useState("");
-  const [newColor, setNewColor] = useState("");
-  const [descriptionCharCount, setDescriptionCharCount] = useState(0);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
-  // Load product data when component mounts
+  // Specifications Editable State
+  const [division, setDivision] = useState("Industrial Engineering & Manufacturing");
+  const [primaryApplication, setPrimaryApplication] = useState("Commercial, Contracting, and Industrial Operations");
+  const [dispatchLogistics, setDispatchLogistics] = useState("Direct workshop dispatch & turnkey GCC delivery");
+  const [qualityAssurance, setQualityAssurance] = useState("100% Mill test certified & traceable carbon grade");
+  const [engineeringSupport, setEngineeringSupport] = useState("Full in-house structural drafting & consultation");
+
+  // Fetch product details
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -115,25 +76,26 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
         const product = response.product;
 
         if (product) {
-          setProductData({
-            name: product.name || "",
-            description: product.description || "",
-            category: product.category || "",
-            price: product.price?.toString() || "",
-            discountPrice: product.discountPrice?.toString() || "",
-            stock: product.stock?.toString() || "",
-            sku: product.sku || "",
-            tags: product.tags || [],
-            sizes: product.sizes || [],
-            colors: product.colors || []
-          });
-          setUploadedImages(product.images || []);
-          setDescriptionCharCount(product.description?.length || 0);
+          setName(product.name || "");
+          setDescription(product.description || "");
+          setCategory(product.category || "Steel Fabrication");
+          setPrice(product.price !== undefined ? product.price.toString() : "0");
+          setDiscountPrice(product.discountPrice !== undefined ? product.discountPrice.toString() : "");
+          setStock(product.stock !== undefined ? product.stock.toString() : "20");
+          setSpecImage(product.specImage || "");
+          
+          if (Array.isArray(product.images) && product.images.length > 0) {
+            setUploadedImages(product.images);
+          } else if (product.image) {
+            setUploadedImages([product.image]);
+          } else {
+            setUploadedImages(["/images/home/category_grid/container_3.jpeg"]);
+          }
         } else {
           setError("Product not found");
         }
       } catch (err) {
-        console.error('Failed to fetch product:', err);
+        console.error("Failed to fetch product:", err);
         setError("Failed to load product data");
       } finally {
         setLoading(false);
@@ -145,89 +107,19 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     }
   }, [resolvedParams.id]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setProductData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { value } = e.target;
-    if (value.length <= 230) {
-      setProductData(prev => ({
-        ...prev,
-        description: value
-      }));
-      setDescriptionCharCount(value.length);
-    }
-  };
-
-  const handleAddTag = () => {
-    if (newTag.trim() && !productData.tags.includes(newTag.trim())) {
-      setProductData(prev => ({
-        ...prev,
-        tags: [...prev.tags, newTag.trim()]
-      }));
-      setNewTag("");
-    }
-  };
-
-  const handleRemoveTag = (tagToRemove: string) => {
-    setProductData(prev => ({
-      ...prev,
-      tags: prev.tags.filter(tag => tag !== tagToRemove)
-    }));
-  };
-
-  const handleAddSize = () => {
-    if (newSize.trim() && !productData.sizes.includes(newSize.trim())) {
-      setProductData(prev => ({
-        ...prev,
-        sizes: [...prev.sizes, newSize.trim()]
-      }));
-      setNewSize("");
-    }
-  };
-
-  const handleRemoveSize = (sizeToRemove: string) => {
-    setProductData(prev => ({
-      ...prev,
-      sizes: prev.sizes.filter(size => size !== sizeToRemove)
-    }));
-  };
-
-  const handleAddColor = () => {
-    if (newColor.trim() && !productData.colors.includes(newColor.trim())) {
-      setProductData(prev => ({
-        ...prev,
-        colors: [...prev.colors, newColor.trim()]
-      }));
-      setNewColor("");
-    }
-  };
-
-  const handleRemoveColor = (colorToRemove: string) => {
-    setProductData(prev => ({
-      ...prev,
-      colors: prev.colors.filter(color => color !== colorToRemove)
-    }));
-  };
-
+  // Image Upload Handlers
   const handleImageUpload = async (files: FileList | File[]) => {
     if (!files || files.length === 0) return;
-
     setUploadingImages(true);
     setError(null);
 
     try {
       const uploadPromises = Array.from(files).map(async (file) => {
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append("file", file);
 
-        const response = await fetch('/api/upload', {
-          method: 'POST',
+        const response = await fetch("/api/upload", {
+          method: "POST",
           body: formData,
         });
 
@@ -240,35 +132,51 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
       });
 
       const uploadedUrls = await Promise.all(uploadPromises);
-      setUploadedImages(prev => [...prev, ...uploadedUrls]);
+      setUploadedImages((prev) => [...prev, ...uploadedUrls]);
     } catch (err) {
-      console.error('Error uploading images:', err);
-      setError('Failed to upload images. Please try again.');
+      console.error("Error uploading images:", err);
+      setError("Failed to upload images. Please try again.");
     } finally {
       setUploadingImages(false);
     }
   };
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files) {
-      handleImageUpload(files);
-      e.target.value = '';
+  const handleAddImageUrl = () => {
+    if (newImageUrl.trim()) {
+      setUploadedImages((prev) => [...prev, newImageUrl.trim()]);
+      setNewImageUrl("");
     }
   };
 
-  const handleUploadAreaClick = () => {
-    if (!uploadingImages) {
-      document.getElementById('image-upload')?.click();
-    }
+  const removeImage = (index: number) => {
+    setUploadedImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const setAsCoverImage = (index: number) => {
+    if (index === 0) return;
+    setUploadedImages((prev) => {
+      const updated = [...prev];
+      const [selected] = updated.splice(index, 1);
+      return [selected, ...updated];
+    });
+  };
+
+  const setAsHoverImage = (index: number) => {
+    if (index === 1) return;
+    setUploadedImages((prev) => {
+      if (prev.length < 2) return prev;
+      const updated = [...prev];
+      const [selected] = updated.splice(index, 1);
+      const primary = updated[0];
+      const rest = updated.slice(1);
+      return [primary, selected, ...rest];
+    });
   };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!uploadingImages) {
-      setIsDragOver(true);
-    }
+    if (!uploadingImages) setIsDragOver(true);
   };
 
   const handleDragLeave = (e: React.DragEvent) => {
@@ -281,58 +189,78 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     e.preventDefault();
     e.stopPropagation();
     setIsDragOver(false);
-
     if (uploadingImages) return;
 
-    const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+    const files = Array.from(e.dataTransfer.files).filter((file) => file.type.startsWith("image/"));
     if (files.length > 0) {
       handleImageUpload(files);
     }
   };
 
-  const removeImage = (index: number) => {
-    setUploadedImages(prev => prev.filter((_, i) => i !== index));
+  const handleSpecImageUpload = async (file: File) => {
+    if (!file) return;
+    setUploadingImages(true);
+    setError(null);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      if (!response.ok) throw new Error("Upload failed");
+      const data = await response.json();
+      setSpecImage(data.fileUrl);
+    } catch (err) {
+      console.error("Error uploading specification image:", err);
+      setError("Failed to upload specification diagram.");
+    } finally {
+      setUploadingImages(false);
+    }
   };
 
+  // Submit Handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!name.trim()) {
+      setError("Product Name is required");
+      return;
+    }
+    if (!price || parseFloat(price) <= 0) {
+      setError("Valid Price is required");
+      return;
+    }
 
     try {
       setSaving(true);
       setError(null);
 
       const updateData = {
-        name: productData.name,
-        description: productData.description,
-        category: productData.category,
-        price: parseFloat(productData.price),
-        discountPrice: productData.discountPrice ? parseFloat(productData.discountPrice) : undefined,
-        stock: parseInt(productData.stock),
-        sku: productData.sku,
-        tags: productData.tags,
-        sizes: productData.sizes,
-        colors: productData.colors,
-        images: uploadedImages
+        name: name.trim(),
+        description: description.trim(),
+        category,
+        price: parseFloat(price) || 0,
+        discountPrice: discountPrice ? parseFloat(discountPrice) : undefined,
+        stock: parseInt(stock) || 0,
+        images: uploadedImages.length > 0 ? uploadedImages : ["/images/home/category_grid/container_3.jpeg"],
+        specImage: specImage.trim(),
       };
 
-      (Object.keys(updateData) as Array<keyof typeof updateData>).forEach(key => {
-        if (updateData[key] === undefined) {
-          delete updateData[key];
-        }
-      });
-
       await apiClient.request(`/admin/products`, {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify({
           productId: resolvedParams.id,
-          ...updateData
-        })
+          ...updateData,
+        }),
       });
 
-      router.push('/admin/products');
+      setSuccess(true);
+      setTimeout(() => {
+        router.push("/admin/products");
+      }, 1200);
     } catch (err) {
-      console.error('Failed to update product:', err);
-      setError("Failed to update product. Please try again.");
+      console.error("Failed to update product:", err);
+      setError(err instanceof Error ? err.message : "Failed to update product. Please try again.");
     } finally {
       setSaving(false);
     }
@@ -340,547 +268,531 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
 
   if (loading) {
     return (
-      <div className={styles.editProductPage}>
-        <div className={styles.header}>
-          <div className={styles.skeletonText} style={{ width: '150px' }}></div>
-          <div className={styles.skeletonTitle}></div>
-        </div>
-
-        <div className={styles.formGrid}>
-          {/* Product Information Skeleton */}
-          <Card className={styles.formCard}>
-            <CardHeader>
-              <div className={styles.skeletonTitle} style={{ width: '180px' }}></div>
-            </CardHeader>
-            <CardContent className={styles.cardContent}>
-              <div className={styles.formGroup}>
-                <div className={styles.skeletonText} style={{ width: '120px', height: '14px' }}></div>
-                <div className={styles.skeletonInput}></div>
-              </div>
-              <div className={styles.formGroup}>
-                <div className={styles.skeletonText} style={{ width: '80px', height: '14px' }}></div>
-                <div className={styles.skeletonTextarea}></div>
-              </div>
-              <div className={styles.formRow}>
-                <div className={styles.formGroup}>
-                  <div className={styles.skeletonText} style={{ width: '70px', height: '14px' }}></div>
-                  <div className={styles.skeletonSelect}></div>
-                </div>
-                <div className={styles.formGroup}>
-                  <div className={styles.skeletonText} style={{ width: '50px', height: '14px' }}></div>
-                  <div className={styles.skeletonInput}></div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Pricing and Inventory Skeleton */}
-          <Card className={styles.formCard}>
-            <CardHeader>
-              <div className={styles.skeletonTitle} style={{ width: '160px' }}></div>
-            </CardHeader>
-            <CardContent className={styles.cardContent}>
-              <div className={styles.formRow}>
-                <div className={styles.formGroup}>
-                  <div className={styles.skeletonText} style={{ width: '60px', height: '14px' }}></div>
-                  <div className={styles.skeletonInput}></div>
-                </div>
-                <div className={styles.formGroup}>
-                  <div className={styles.skeletonText} style={{ width: '120px', height: '14px' }}></div>
-                  <div className={styles.skeletonInput}></div>
-                </div>
-              </div>
-              <div className={styles.formGroup}>
-                <div className={styles.skeletonText} style={{ width: '130px', height: '14px' }}></div>
-                <div className={styles.skeletonInput}></div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Media Skeleton */}
-          <Card className={styles.formCard}>
-            <CardHeader>
-              <div className={styles.skeletonTitle} style={{ width: '120px' }}></div>
-            </CardHeader>
-            <CardContent className={styles.cardContent}>
-              <div className={styles.uploadArea}>
-                <div className={styles.skeletonIcon}></div>
-                <div className={styles.skeletonText} style={{ width: '150px', height: '16px' }}></div>
-                <div className={styles.skeletonText} style={{ width: '120px', height: '14px' }}></div>
-                <div className={styles.skeletonButton}></div>
-              </div>
-              <div className={styles.imagePreview}>
-                <div className={styles.previewItem}>
-                  <div className={styles.skeletonImage}></div>
-                  <div className={styles.skeletonButton} style={{ width: '30px', height: '30px' }}></div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Tags Skeleton */}
-          <Card className={styles.formCard}>
-            <CardHeader>
-              <div className={styles.skeletonTitle} style={{ width: '50px' }}></div>
-            </CardHeader>
-            <CardContent className={styles.cardContent}>
-              <div className={styles.formGroup}>
-                <div className={styles.skeletonText} style={{ width: '80px', height: '14px' }}></div>
-                <div className={styles.tagInputContainer}>
-                  <div className={styles.skeletonInput}></div>
-                  <div className={styles.skeletonButton} style={{ width: '40px', height: '40px' }}></div>
-                </div>
-                <div className={styles.tagsContainer}>
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className={styles.skeletonTag}></div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Sizes Skeleton */}
-          <Card className={styles.formCard}>
-            <CardHeader>
-              <div className={styles.skeletonTitle} style={{ width: '60px' }}></div>
-            </CardHeader>
-            <CardContent className={styles.cardContent}>
-              <div className={styles.formGroup}>
-                <div className={styles.skeletonText} style={{ width: '80px', height: '14px' }}></div>
-                <div className={styles.tagInputContainer}>
-                  <div className={styles.skeletonInput}></div>
-                  <div className={styles.skeletonButton} style={{ width: '40px', height: '40px' }}></div>
-                </div>
-                <div className={styles.tagsContainer}>
-                  {[1, 2].map((i) => (
-                    <div key={i} className={styles.skeletonTag}></div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Colors Skeleton */}
-          <Card className={styles.formCard}>
-            <CardHeader>
-              <div className={styles.skeletonTitle} style={{ width: '70px' }}></div>
-            </CardHeader>
-            <CardContent className={styles.cardContent}>
-              <div className={styles.formGroup}>
-                <div className={styles.skeletonText} style={{ width: '80px', height: '14px' }}></div>
-                <div className={styles.tagInputContainer}>
-                  <div className={styles.skeletonInput}></div>
-                  <div className={styles.skeletonButton} style={{ width: '40px', height: '40px' }}></div>
-                </div>
-                <div className={styles.tagsContainer}>
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className={styles.skeletonTag}></div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Card className={styles.actionCard}>
-          <CardFooter className={styles.cardFooter}>
-            <div className={styles.skeletonButton}></div>
-            <div className={styles.skeletonButton}></div>
-          </CardFooter>
-        </Card>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className={styles.editProductPage}>
-        <div className={styles.errorContainer}>
-          <p>{error}</p>
-          <Button onClick={() => window.location.reload()} variant="outline">
-            Retry
-          </Button>
+      <div className={styles.pageContainer}>
+        <div className={styles.loadingWrapper}>
+          <Loader2 className={styles.loadingSpinner} />
+          <span>Loading product details...</span>
         </div>
       </div>
     );
   }
+
+  const mainImage = uploadedImages[0] || "/images/home/category_grid/container_3.jpeg";
 
   return (
-    <div className={styles.editProductPage}>
-      <div className={styles.header}>
-        <Link href="/admin/products" className={styles.backLink}>
-          <ArrowLeft className={styles.backIcon} aria-hidden="true" />
-          Back to Products
-        </Link>
-        <h1 className={styles.title}>Edit Product</h1>
-      </div>
-
-      <form onSubmit={handleSubmit}>
-        <div className={styles.formGrid}>
-          {/* Product Information */}
-          <Card className={styles.formCard}>
-            <CardHeader>
-              <CardTitle>Product Information</CardTitle>
-            </CardHeader>
-            <CardContent className={styles.cardContent}>
-              <div className={styles.formGroup}>
-                <label htmlFor="name" className={styles.label}>Product Name *</label>
-                <Input
-                  id="name"
-                  name="name"
-                  value={productData.name}
-                  onChange={handleInputChange}
-                  placeholder="Enter product name"
-                  required
-                  aria-describedby="name-error"
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="description" className={styles.label}>Description</label>
-                <textarea
-                  id="description"
-                  name="description"
-                  value={productData.description}
-                  onChange={handleDescriptionChange}
-                  placeholder="Enter product description"
-                  rows={4}
-                  className={styles.textarea}
-                  aria-describedby="description-error"
-                  maxLength={230}
-                />
-                <div className={styles.charCounter}>
-                  {descriptionCharCount}/230 characters
-                </div>
-              </div>
-
-              <div className={styles.formRow}>
-                <div className={styles.formGroup}>
-                  <label className={styles.label}>Category *</label>
-                  <CustomSelect
-                    value={productData.category}
-                    onChange={(value) => setProductData(prev => ({ ...prev, category: value }))}
-                    options={[
-                      { value: "t-shirts", label: "T-Shirts" },
-                      { value: "hoodies", label: "Hoodies" },
-                      { value: "shorts", label: "Shorts" },
-                      { value: "jeans", label: "Jeans" },
-                      { value: "accessories", label: "Accessories" }
-                    ]}
-                    placeholder="Select category"
-                    className={styles.categorySelect}
-                  />
-                </div>
-
-                <div className={styles.formGroup}>
-                  <label htmlFor="sku" className={styles.label}>SKU</label>
-                  <Input
-                    id="sku"
-                    name="sku"
-                    value={productData.sku}
-                    onChange={handleInputChange}
-                    placeholder="Enter SKU"
-                    aria-describedby="sku-error"
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Pricing and Inventory */}
-          <Card className={styles.formCard}>
-            <CardHeader>
-              <CardTitle>Pricing & Inventory</CardTitle>
-            </CardHeader>
-            <CardContent className={styles.cardContent}>
-              <div className={styles.formRow}>
-                <div className={styles.formGroup}>
-                  <label htmlFor="price" className={styles.label}>Price *</label>
-                  <Input
-                    id="price"
-                    name="price"
-                    type="number"
-                    value={productData.price}
-                    onChange={handleInputChange}
-                    placeholder="0.00"
-                    min="0"
-                    step="0.01"
-                    required
-                    aria-describedby="price-error"
-                  />
-                </div>
-
-                <div className={styles.formGroup}>
-                  <label htmlFor="discountPrice" className={styles.label}>Discount Price</label>
-                  <Input
-                    id="discountPrice"
-                    name="discountPrice"
-                    type="number"
-                    value={productData.discountPrice}
-                    onChange={handleInputChange}
-                    placeholder="0.00"
-                    min="0"
-                    step="0.01"
-                    aria-describedby="discountPrice-error"
-                  />
-                </div>
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="stock" className={styles.label}>Stock Quantity *</label>
-                <Input
-                  id="stock"
-                  name="stock"
-                  type="number"
-                  value={productData.stock}
-                  onChange={handleInputChange}
-                  placeholder="0"
-                  min="0"
-                  required
-                  aria-describedby="stock-error"
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Media */}
-          <Card className={styles.formCard}>
-            <CardHeader>
-              <CardTitle>Product Media</CardTitle>
-            </CardHeader>
-            <CardContent className={styles.cardContent}>
-              <div
-                className={`${styles.uploadArea} ${isDragOver ? styles.dragOver : ''}`}
-                onClick={handleUploadAreaClick}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                style={{ cursor: uploadingImages ? 'not-allowed' : 'pointer' }}
-              >
-                <Upload className={styles.uploadIcon} aria-hidden="true" />
-                <p>{isDragOver ? 'Drop images here' : 'Upload product images'}</p>
-                <p className={styles.uploadHint}>
-                  {isDragOver ? 'Release to upload' : 'PNG, JPG up to 5MB • Drag & drop or click to browse'}
-                </p>
-                <input
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={handleFileSelect}
-                  className={styles.fileInput}
-                  id="image-upload"
-                  disabled={uploadingImages}
-                />
-                <label htmlFor="image-upload">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className={styles.uploadButton}
-                    disabled={uploadingImages}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {uploadingImages ? (
-                      <>
-                        <Loader2 className={styles.spinnerIcon} />
-                        Uploading...
-                      </>
-                    ) : (
-                      'Select Files'
-                    )}
-                  </Button>
-                </label>
-              </div>
-
-              {uploadedImages.length > 0 && (
-                <div className={styles.uploadedImages}>
-                  <h4>Uploaded Images ({uploadedImages.length})</h4>
-                  <div className={styles.imageGrid}>
-                    {uploadedImages.map((imageUrl, index) => (
-                      <div key={index} className={styles.imagePreview}>
-                        <Image
-                          src={imageUrl}
-                          alt={`Uploaded ${index + 1}`}
-                          className={styles.previewImage}
-                          width={100}
-                          height={100}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeImage(index)}
-                          className={styles.removeImageButton}
-                          aria-label={`Remove image ${index + 1}`}
-                        >
-                          <X className={styles.removeIcon} />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Tags */}
-          <Card className={styles.formCard}>
-            <CardHeader>
-              <CardTitle>Tags</CardTitle>
-            </CardHeader>
-            <CardContent className={styles.cardContent}>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Add Tags</label>
-                <div className={styles.tagInputContainer}>
-                  <Input
-                    value={newTag}
-                    onChange={(e) => setNewTag(e.target.value)}
-                    placeholder="Enter a tag"
-                    aria-label="Enter a tag"
-                  />
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={handleAddTag}
-                    className={styles.addButton}
-                    aria-label="Add tag"
-                  >
-                    <Plus className={styles.addIcon} aria-hidden="true" />
-                  </Button>
-                </div>
-                <div className={styles.tagsContainer} aria-label="Added tags">
-                  {productData.tags.map((tag, index) => (
-                    <div key={index} className={styles.tag}>
-                      <span>{tag}</span>
-                      <button 
-                        type="button" 
-                        onClick={() => handleRemoveTag(tag)}
-                        className={styles.removeTag}
-                        aria-label={`Remove tag ${tag}`}
-                      >
-                        <X className={styles.removeIcon} aria-hidden="true" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Sizes */}
-          <Card className={styles.formCard}>
-            <CardHeader>
-              <CardTitle>Sizes</CardTitle>
-            </CardHeader>
-            <CardContent className={styles.cardContent}>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Add Sizes</label>
-                <div className={styles.tagInputContainer}>
-                  <Input
-                    value={newSize}
-                    onChange={(e) => setNewSize(e.target.value)}
-                    placeholder="Enter a size"
-                    aria-label="Enter a size"
-                  />
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={handleAddSize}
-                    className={styles.addButton}
-                    aria-label="Add size"
-                  >
-                    <Plus className={styles.addIcon} aria-hidden="true" />
-                  </Button>
-                </div>
-                <div className={styles.tagsContainer} aria-label="Added sizes">
-                  {productData.sizes.map((size, index) => (
-                    <div key={index} className={styles.tag}>
-                      <span>{size}</span>
-                      <button 
-                        type="button" 
-                        onClick={() => handleRemoveSize(size)}
-                        className={styles.removeTag}
-                        aria-label={`Remove size ${size}`}
-                      >
-                        <X className={styles.removeIcon} aria-hidden="true" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Colors */}
-          <Card className={styles.formCard}>
-            <CardHeader>
-              <CardTitle>Colors</CardTitle>
-            </CardHeader>
-            <CardContent className={styles.cardContent}>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Add Colors</label>
-                <div className={styles.tagInputContainer}>
-                  <Input
-                    value={newColor}
-                    onChange={(e) => setNewColor(e.target.value)}
-                    placeholder="Enter a color"
-                    aria-label="Enter a color"
-                  />
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={handleAddColor}
-                    className={styles.addButton}
-                    aria-label="Add color"
-                  >
-                    <Plus className={styles.addIcon} aria-hidden="true" />
-                  </Button>
-                </div>
-                <div className={styles.tagsContainer} aria-label="Added colors">
-                  {productData.colors.map((color, index) => (
-                    <div key={index} className={styles.tag}>
-                      <span>{color}</span>
-                      <button 
-                        type="button" 
-                        onClick={() => handleRemoveColor(color)}
-                        className={styles.removeTag}
-                        aria-label={`Remove color ${color}`}
-                      >
-                        <X className={styles.removeIcon} aria-hidden="true" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Card className={styles.actionCard}>
-          <CardFooter className={styles.cardFooter}>
-            <Link href="/admin/products">
-              <Button type="button" variant="outline" className={styles.cancelButton}>
-                Cancel
-              </Button>
+    <form onSubmit={handleSubmit} className={styles.pageContainer}>
+      {/* Top Sticky Universal Action Bar for Admin Controls */}
+      <div className={styles.adminControlHeader}>
+        <div className={styles.adminHeaderInner}>
+          <div className={styles.adminHeaderLeft}>
+            <Link href="/admin/products" className={styles.backLink}>
+              <ArrowLeft size={16} />
+              <span>Back to Products</span>
             </Link>
-            <Button
+            <div className={styles.adminModeBadge}>
+              <span className={styles.adminDot} />
+              <span>LIVE PRODUCT EDITOR</span>
+            </div>
+          </div>
+
+          <div className={styles.adminHeaderActions}>
+            <Link href="/admin/products" className={styles.headerCancelLink}>
+              <button type="button" className={styles.headerCancelBtn}>
+                Cancel
+              </button>
+            </Link>
+
+            <button
               type="submit"
-              variant="default"
-              className={styles.saveProductButton}
-              disabled={saving}
+              className={styles.headerSaveBtn}
+              disabled={saving || success}
             >
               {saving ? (
                 <>
-                  <RefreshCw className={`${styles.saveIcon} ${styles.spinning}`} aria-hidden="true" />
-                  Saving...
+                  <Loader2 size={15} className={styles.spinner} />
+                  <span>Saving...</span>
                 </>
               ) : (
                 <>
-                  <Save className={styles.saveIcon} aria-hidden="true" />
-                  Save Changes
+                  <Save size={15} />
+                  <span>Save Changes</span>
                 </>
               )}
-            </Button>
-          </CardFooter>
-        </Card>
-      </form>
-    </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {error && (
+        <div className={styles.errorAlertBar}>
+          <AlertCircle size={16} />
+          <span>{error}</span>
+        </div>
+      )}
+
+      {success && (
+        <div className={styles.successAlertBar}>
+          <CheckCircle size={16} />
+          <span>Product updated successfully! Redirecting to dashboard...</span>
+        </div>
+      )}
+
+      {/* Split Screen Layout (Matches Storefront Product Detail Page) */}
+      <div className={styles.detailSplitLayout}>
+          
+          {/* LEFT COLUMN: Main Image Showcase & Horizontal Media Strip */}
+          <div className={styles.imageColumn}>
+            {/* Active Preview Frame Header */}
+            <div className={styles.previewFrameHeader}>
+              <span className={styles.previewFrameTitle}>
+                PREVIEW: {selectedImageIndex === 0 ? "COVER IMAGE (CARD VIEW)" : selectedImageIndex === 1 ? "HOVER IMAGE (CARD HOVER)" : `GALLERY IMAGE ${selectedImageIndex + 1}`}
+              </span>
+              <span className={`${styles.frameStatusDot} ${selectedImageIndex === 0 ? styles.dotCover : selectedImageIndex === 1 ? styles.dotHover : styles.dotGallery}`} />
+            </div>
+
+            <div className={styles.imageCard}>
+              <Image
+                src={uploadedImages[selectedImageIndex] || uploadedImages[0] || "/images/home/category_grid/container_3.jpeg"}
+                alt={name || "Product Image"}
+                fill
+                priority
+                className={styles.mainProductImage}
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+
+              {/* Upload Overlay */}
+              <div 
+                className={`${styles.imageUploadOverlay} ${isDragOver ? styles.dragActive : ""}`}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                onClick={() => document.getElementById("image-upload-file")?.click()}
+              >
+                <Upload size={24} className={styles.overlayIcon} />
+                <span className={styles.overlayTitle}>Click or Drop to Add Images</span>
+                <span className={styles.overlaySub}>PNG, JPG, WebP up to 5MB</span>
+                <input
+                  type="file"
+                  id="image-upload-file"
+                  accept="image/*"
+                  multiple
+                  className={styles.hiddenFileInput}
+                  onChange={(e) => e.target.files && handleImageUpload(e.target.files)}
+                />
+              </div>
+            </div>
+
+            {/* Horizontal Thumbnail Gallery with Cover & Hover Badges */}
+            <div className={styles.galleryControls}>
+              <div className={styles.galleryHeaderRow}>
+                <span className={styles.gallerySectionTitle}>PRODUCT MEDIA ({uploadedImages.length})</span>
+                <span className={styles.galleryHelpText}>Horizontal order determines Cover &amp; Hover state</span>
+              </div>
+
+              <div className={styles.horizontalThumbnailRow}>
+                {uploadedImages.map((img, idx) => {
+                  const isCover = idx === 0;
+                  const isHover = idx === 1;
+                  const isSelected = idx === selectedImageIndex;
+
+                  return (
+                    <div 
+                      key={idx} 
+                      className={`${styles.thumbCardHorizontal} ${isSelected ? styles.selectedThumbCard : ""}`}
+                      onClick={() => setSelectedImageIndex(idx)}
+                    >
+                      <div className={styles.thumbImageContainer}>
+                        <Image src={img} alt={`Media ${idx + 1}`} width={88} height={88} className={styles.thumbImg} />
+                        
+                        <div className={`${styles.roleBadgeTag} ${isCover ? styles.coverBadge : isHover ? styles.hoverBadge : styles.galleryBadge}`}>
+                          <span className={styles.badgeDot} />
+                          <span>{isCover ? "COVER" : isHover ? "HOVER" : `IMG ${idx + 1}`}</span>
+                        </div>
+
+                        {uploadedImages.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeImage(idx);
+                              if (selectedImageIndex >= uploadedImages.length - 1) {
+                                setSelectedImageIndex(Math.max(0, uploadedImages.length - 2));
+                              }
+                            }}
+                            className={styles.removeImageBtn}
+                            title="Remove image"
+                          >
+                            <X size={11} />
+                          </button>
+                        )}
+                      </div>
+
+                      <div className={styles.thumbQuickActions}>
+                        {!isCover && (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setAsCoverImage(idx);
+                              setSelectedImageIndex(0);
+                            }}
+                            className={styles.actionPillBtn}
+                          >
+                            Set Cover
+                          </button>
+                        )}
+                        {!isHover && uploadedImages.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setAsHoverImage(idx);
+                              setSelectedImageIndex(1);
+                            }}
+                            className={styles.actionPillBtn}
+                          >
+                            Set Hover
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className={styles.urlInputRow}>
+                <ImageIcon size={14} className={styles.urlIcon} />
+                <input
+                  type="text"
+                  placeholder="Paste external Image URL..."
+                  value={newImageUrl}
+                  onChange={(e) => setNewImageUrl(e.target.value)}
+                  className={styles.urlInputField}
+                />
+                <button
+                  type="button"
+                  onClick={handleAddImageUrl}
+                  className={styles.addUrlBtn}
+                  disabled={!newImageUrl.trim()}
+                >
+                  <Plus size={14} />
+                  <span>Add URL</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN: Interactive Product Details & Buy Box Editor */}
+          <div className={styles.infoColumn}>
+            
+            {/* Category Dropdown Pill */}
+            <div className={styles.categorySelectWrapper}>
+              <span className={styles.categoryLabelTag}>CATEGORY:</span>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className={styles.categoryDropdown}
+              >
+                {CATEGORY_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Editable Title */}
+            <div className={styles.titleInputGroup}>
+              <label htmlFor="product-title" className={styles.inputMicroLabel}>PRODUCT TITLE</label>
+              <input
+                id="product-title"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter product title..."
+                className={styles.productTitleInput}
+                required
+              />
+            </div>
+
+            {/* Redesigned Integrated Buy Box Editor (Matches Storefront Buy Box) */}
+            <div className={styles.promoBuyBox}>
+              <div className={styles.promoTopRow}>
+                <div className={styles.promoLeft}>
+                  <span className={styles.promoGreenText}>FACTORY DIRECT</span>
+                  <h4 className={styles.promoHeading}>Direct Manufacturer Rate</h4>
+                </div>
+                <div className={styles.promoRight}>
+                  <Image
+                    src="/images/iso.svg"
+                    alt="ISO Certified Quality"
+                    width={52}
+                    height={52}
+                    className={styles.isoBadgeImage}
+                  />
+                </div>
+              </div>
+
+              {/* Price & Stock Input Matrix */}
+              <div className={styles.buyBoxPriceMatrix}>
+                <div className={styles.fieldBlock}>
+                  <label htmlFor="product-price" className={styles.fieldLabel}>PRICE (€)</label>
+                  <div className={styles.priceInputWrapper}>
+                    <span className={styles.currencyPrefix}>€</span>
+                    <input
+                      id="product-price"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                      placeholder="0.00"
+                      className={styles.priceInput}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.fieldBlock}>
+                  <label htmlFor="product-discount-price" className={styles.fieldLabel}>DISCOUNT PRICE (€)</label>
+                  <div className={styles.priceInputWrapper}>
+                    <span className={styles.currencyPrefix}>€</span>
+                    <input
+                      id="product-discount-price"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={discountPrice}
+                      onChange={(e) => setDiscountPrice(e.target.value)}
+                      placeholder="Optional"
+                      className={styles.priceInput}
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.fieldBlock}>
+                  <label htmlFor="product-stock" className={styles.fieldLabel}>UNITS IN STOCK</label>
+                  <input
+                    id="product-stock"
+                    type="number"
+                    min="0"
+                    value={stock}
+                    onChange={(e) => setStock(e.target.value)}
+                    placeholder="0"
+                    className={styles.stockInput}
+                    required
+                  />
+                </div>
+              </div>
+
+              <span className={styles.promoBottomText}>
+                Direct factory dispatch &amp; certified mill testing included
+              </span>
+            </div>
+
+            {/* Editable Description Block */}
+            <div className={styles.descriptionInputGroup}>
+              <label htmlFor="product-description" className={styles.inputMicroLabel}>PRODUCT DESCRIPTION</label>
+              <textarea
+                id="product-description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Enter detailed industrial asset description..."
+                rows={4}
+                className={styles.descriptionTextarea}
+              />
+            </div>
+
+            {/* Precision Industrial Specification Rail */}
+            <div className={styles.industrialFactStrip}>
+              <div className={styles.factItem}>
+                <Factory size={15} strokeWidth={1.8} className={styles.factIcon} />
+                <span className={styles.factText}>Dammam Fabrication</span>
+              </div>
+              <div className={styles.factDivider} />
+              <div className={styles.factItem}>
+                <ShieldCheck size={15} strokeWidth={1.8} className={styles.factIcon} />
+                <span className={styles.factText}>1-Year Warranty</span>
+              </div>
+              <div className={styles.factDivider} />
+              <div className={styles.factItem}>
+                <BadgeCheck size={15} strokeWidth={1.8} className={styles.factIcon} />
+                <span className={styles.factText}>ISO 9001:2015</span>
+              </div>
+              <div className={styles.factDivider} />
+              <div className={styles.factItem}>
+                <Star size={15} strokeWidth={1.8} className={styles.factIcon} />
+                <span className={styles.factText}>4.9/5.0 Client Rating</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Product Tabs Section (General / Specifications / Details) */}
+        <div className={styles.productTabsSection}>
+          <div className={styles.tabsHeaderContainer}>
+            <div className={styles.tabsList}>
+              <button
+                type="button"
+                className={`${styles.tabHeaderButton} ${activeTab === 'general' ? styles.activeTab : ''}`}
+                onClick={() => setActiveTab('general')}
+              >
+                General
+              </button>
+              <button
+                type="button"
+                className={`${styles.tabHeaderButton} ${activeTab === 'specs' ? styles.activeTab : ''}`}
+                onClick={() => setActiveTab('specs')}
+              >
+                Specifications
+              </button>
+              <button
+                type="button"
+                className={`${styles.tabHeaderButton} ${activeTab === 'details' ? styles.activeTab : ''}`}
+                onClick={() => setActiveTab('details')}
+              >
+                Details
+              </button>
+            </div>
+          </div>
+
+          <div className={styles.tabContentContainer}>
+            {activeTab === 'general' && (
+              <div className={styles.tabContentBlock}>
+                <div className={styles.specsTabSectionLayout}>
+                  <div className={styles.specsLeftCol}>
+                    <h3 className={styles.specsSectionTitle}>General Parameters</h3>
+                  </div>
+
+                  <div className={styles.specsRightCol}>
+                    <div className={styles.specsTable}>
+                      <div className={styles.specsTableRow}>
+                        <div className={styles.specsTableLabel}>DIVISION</div>
+                        <input
+                          type="text"
+                          value={division}
+                          onChange={(e) => setDivision(e.target.value)}
+                          className={styles.tableInput}
+                        />
+                      </div>
+                      <div className={styles.specsTableRow}>
+                        <div className={styles.specsTableLabel}>PRIMARY APPLICATION</div>
+                        <input
+                          type="text"
+                          value={primaryApplication}
+                          onChange={(e) => setPrimaryApplication(e.target.value)}
+                          className={styles.tableInput}
+                        />
+                      </div>
+                      <div className={styles.specsTableRow}>
+                        <div className={styles.specsTableLabel}>DISPATCH &amp; LOGISTICS</div>
+                        <input
+                          type="text"
+                          value={dispatchLogistics}
+                          onChange={(e) => setDispatchLogistics(e.target.value)}
+                          className={styles.tableInput}
+                        />
+                      </div>
+                      <div className={styles.specsTableRow}>
+                        <div className={styles.specsTableLabel}>QUALITY ASSURANCE</div>
+                        <input
+                          type="text"
+                          value={qualityAssurance}
+                          onChange={(e) => setQualityAssurance(e.target.value)}
+                          className={styles.tableInput}
+                        />
+                      </div>
+                      <div className={styles.specsTableRow}>
+                        <div className={styles.specsTableLabel}>ENGINEERING SUPPORT</div>
+                        <input
+                          type="text"
+                          value={engineeringSupport}
+                          onChange={(e) => setEngineeringSupport(e.target.value)}
+                          className={styles.tableInput}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'specs' && (
+              <div className={styles.tabContentBlock}>
+                <div className={styles.specsTabSectionLayout}>
+                  <div className={styles.specsLeftCol}>
+                    <h3 className={styles.specsSectionTitle}>Technical Diagram</h3>
+                    <p className={styles.specSubtext}>Upload a technical drawing, CAD diagram, or specification schematic for this product.</p>
+                  </div>
+                  <div className={styles.specsRightCol}>
+                    <div className={styles.specImageEditorBox}>
+                      <div className={styles.specSchematicWrapper}>
+                        <Image
+                          src={specImage || uploadedImages[0] || "/images/home/about/steel-raw.jpg"}
+                          alt="Product Technical Schematic"
+                          width={500}
+                          height={280}
+                          unoptimized
+                          className={styles.schematicImage}
+                        />
+                        <div 
+                          className={styles.specUploadOverlay}
+                          onClick={() => document.getElementById("spec-image-file-edit")?.click()}
+                        >
+                          <Upload size={22} />
+                          <span>Upload Technical Diagram</span>
+                          <input
+                            type="file"
+                            id="spec-image-file-edit"
+                            accept="image/*"
+                            className={styles.hiddenFileInput}
+                            onChange={(e) => e.target.files?.[0] && handleSpecImageUpload(e.target.files[0])}
+                          />
+                        </div>
+                      </div>
+
+                      <div className={styles.specUrlInputRow}>
+                        <ImageIcon size={14} className={styles.urlIcon} />
+                        <input
+                          type="text"
+                          placeholder="Or paste Specification Diagram Image URL..."
+                          value={specImage}
+                          onChange={(e) => setSpecImage(e.target.value)}
+                          className={styles.urlInputField}
+                        />
+                        {specImage && (
+                          <button
+                            type="button"
+                            onClick={() => setSpecImage("")}
+                            className={styles.clearSpecBtn}
+                          >
+                            Clear Image
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'details' && (
+              <div className={styles.tabContentBlock}>
+                <div className={styles.specsTabSectionLayout}>
+                  <div className={styles.specsLeftCol}>
+                    <h3 className={styles.specsSectionTitle}>Manufacturer Details</h3>
+                  </div>
+                  <div className={styles.specsRightCol}>
+                    <p className={styles.detailsParagraph}>
+                      Brooq Al Khalij Group certifies that all fabricated steel components and contracting equipment meet rigorous ISO 9001:2015 quality standards. Mill test reports and load compliance documentation are issued with factory dispatch.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+    </form>
   );
 }

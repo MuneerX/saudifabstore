@@ -9,6 +9,7 @@ import Footer from "../../components/Footer";
 
 import styles from "./page.module.css";
 import { useProducts } from "@/lib/hooks/useProducts";
+import { INITIAL_PRODUCTS } from "@/lib/data/initialProducts";
 import { X } from "lucide-react";
 
 // Define the type for product items
@@ -28,35 +29,29 @@ interface ProductItem {
 
 const FALLBACK_BADGES = ["BESTSELLER", "BESTSELLER", "BESTSELLER", "LIMITED", "NEW"];
 const SAMPLE_SWATCH_SETS = [
-  { label: "STEEL FABRICATION", colors: ["#78909c", "#b0bec5", "#37474f", "#eb5521"] },
-  { label: "INDUSTRIAL COATINGS", colors: ["#eb5521", "#ffb300", "#1e3a8a", "#212121"] },
-  { label: "SMART WOODWORKS", colors: ["#8d6e63", "#5d4037", "#a1887f"] },
-  { label: "SAFETY & TRADING", colors: ["#eb5521", "#ffd54f", "#263238"] },
+  { label: "FORKLIFT ATTACHMENTS", colors: ["#78909c", "#b0bec5", "#37474f", "#eb5521"] },
+  { label: "WAREHOUSE & LOGISTICS", colors: ["#eb5521", "#ffb300", "#1e3a8a", "#212121"] },
+  { label: "SAFETY EQUIPMENT", colors: ["#8d6e63", "#5d4037", "#a1887f"] },
+  { label: "HARDWARE & PIPING", colors: ["#eb5521", "#ffd54f", "#263238"] },
 ];
 
 const COLOR_OPTIONS = [
   { name: "Charcoal", hex: "#2B2C2C" },
-  { name: "Pearl", hex: "#F5EBE1" },
-  { name: "Ultra Marine", hex: "#0038A8" },
-  { name: "Mossy Green", hex: "#8A9A86" },
-  { name: "Bubble Gum", hex: "#FFB7C5" },
-  { name: "Chrome", hex: "#A1A8AD" },
-  { name: "Apricot", hex: "#FB9F53" },
-  { name: "Oat", hex: "#C8BCA6" },
-  { name: "Powder Blue", hex: "#A9C2D3" },
-  { name: "Burnin Red", hex: "#A62B2B" },
+  { name: "Yellow Safety", hex: "#FFD54F" },
+  { name: "Steel Blue", hex: "#0038A8" },
+  { name: "Industrial Red", hex: "#DE3121" },
+  { name: "Chrome Finish", hex: "#A1A8AD" },
   { name: "Ash Gray", hex: "#B2BEB5" },
-  { name: "Sandstorm", hex: "#C2B280" },
-  { name: "Raw", hex: "#8C92AC" },
-  { name: "Mushroom", hex: "#C1BDB6" },
-  { name: "Dusty Rose", hex: "#CBA19B" },
-  { name: "Black Oak", hex: "#2E2A27" },
-  { name: "Blood Orange", hex: "#DE3121" },
-  { name: "Light Oak", hex: "#E8DCC4" },
-  { name: "Ocean Blue", hex: "#006080" },
 ];
 
-const HEIGHT_OPTIONS = ["Light", "Regular", "Tall", "Low"];
+const CATEGORY_OPTIONS = [
+  "Forklift Attachments",
+  "Warehouse & Logistics",
+  "Safety Equipment",
+  "Hardware & Piping",
+  "Lifting Equipment",
+  "Safety & Chemical"
+];
 
 function ProductsPage() {
   const { products, loading, fetchProducts } = useProducts() as {
@@ -68,11 +63,9 @@ function ProductsPage() {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState({ min: 50, max: 500 });
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 2000 });
   const [isDragging, setIsDragging] = useState<'min' | 'max' | null>(null);
   const [sliderRef, setSliderRef] = useState<HTMLDivElement | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState("Featured");
@@ -85,7 +78,7 @@ function ProductsPage() {
   }, []);
 
   interface ProductFetchParams {
-    page: number;
+    limit?: number;
     category?: string;
     color?: string;
     size?: string;
@@ -95,21 +88,21 @@ function ProductsPage() {
 
   interface ProductFetchResponse {
     products: ProductItem[];
-    totalPages: number;
+    totalPages?: number;
   }
 
   useEffect(() => {
     const categoryParam = searchParams.get('category');
     if (categoryParam) {
       const categoryMapping: { [key: string]: string } = {
-        't-shirts': 't-shirts',
-        'hoodies': 'hoodie',
-        'shorts': 'shorts',
-        'jeans': 'jeans',
-        'shoes': 'shirts',
-        'accessories': 'shirts'
+        'forklift': 'Forklift Attachments',
+        'warehouse': 'Warehouse & Logistics',
+        'safety': 'Safety Equipment',
+        'hardware': 'Hardware & Piping',
+        'lifting': 'Lifting Equipment',
+        'chemical': 'Safety & Chemical'
       };
-      const mappedCategory = categoryMapping[categoryParam.toLowerCase()];
+      const mappedCategory = categoryMapping[categoryParam.toLowerCase()] || categoryParam;
       if (mappedCategory) {
         setSelectedTypes([mappedCategory]);
       }
@@ -119,20 +112,16 @@ function ProductsPage() {
 
   useEffect(() => {
     if (initialLoadComplete) {
-      const params: ProductFetchParams = { page: currentPage };
+      const params: ProductFetchParams = { limit: 1000 };
       if (selectedTypes.length > 0) params.category = selectedTypes.join(',');
       if (selectedColors.length > 0) params.color = selectedColors.join(',');
       if (selectedSizes.length > 0) params.size = selectedSizes.join(',');
-      if (priceRange.min > 50) params.minPrice = priceRange.min;
-      if (priceRange.max < 500) params.maxPrice = priceRange.max;
+      if (priceRange.min > 0) params.minPrice = priceRange.min;
+      if (priceRange.max < 2000) params.maxPrice = priceRange.max;
 
-      fetchProducts(params).then(res => {
-        if (res) {
-          setTotalPages(res.totalPages);
-        }
-      });
+      fetchProducts(params);
     }
-  }, [currentPage, selectedTypes, selectedColors, selectedSizes, priceRange, fetchProducts, initialLoadComplete]);
+  }, [selectedTypes, selectedColors, selectedSizes, priceRange, fetchProducts, initialLoadComplete]);
 
   const toggleFilter = () => {
     setIsFilterOpen(prev => !prev);
@@ -147,11 +136,25 @@ function ProductsPage() {
     setIsSortOpen(false);
   };
 
-  // Sort logic for display
-  const sortedProducts = [...products].sort((a, b) => {
+  // Determine actual display products list (using fetched products or BR Products catalog)
+  const baseProductsList = (products && products.length > 0) ? products : (INITIAL_PRODUCTS as any);
+
+  // Filter & Sort logic for display
+  const filteredProducts = baseProductsList.filter((product: any) => {
+    if (selectedTypes.length > 0) {
+      const matchCat = selectedTypes.some(t => product.category.toLowerCase().includes(t.toLowerCase()));
+      if (!matchCat) return false;
+    }
+    if (product.price < priceRange.min || product.price > priceRange.max) {
+      return false;
+    }
+    return true;
+  });
+
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (selectedSort === "Price: Low to High") return a.price - b.price;
     if (selectedSort === "Price: High to Low") return b.price - a.price;
-    if (selectedSort === "Rating") return b.rating - a.rating;
+    if (selectedSort === "Rating") return (b.rating || 5) - (a.rating || 5);
     return 0;
   });
 
@@ -179,69 +182,6 @@ function ProductsPage() {
     );
   };
 
-  const handleSizeChange = (size: string) => {
-    setSelectedSizes(prev =>
-      prev.includes(size) ? prev.filter(s => s !== size) : [...prev, size]
-    );
-  };
-
-
-  const handleMouseDown = (handle: 'min' | 'max') => (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsDragging(handle);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !sliderRef) return;
-    const rect = sliderRef.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const percentage = Math.max(0, Math.min(1, x / rect.width));
-    const value = Math.round(percentage * 450 + 50);
-
-    if (isDragging === 'min') {
-      setPriceRange(prev => ({ min: Math.min(value, prev.max - 10), max: prev.max }));
-    } else if (isDragging === 'max') {
-      setPriceRange(prev => ({ min: prev.min, max: Math.max(value, prev.min + 10) }));
-    }
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(null);
-  };
-
-  const getPercentage = (value: number) => {
-    return ((value - 50) / 450) * 100;
-  };
-
-  useEffect(() => {
-    const handleGlobalMouseMove = (e: MouseEvent) => {
-      if (!isDragging || !sliderRef) return;
-      const rect = sliderRef.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const percentage = Math.max(0, Math.min(1, x / rect.width));
-      const value = Math.round(percentage * 450 + 50);
-
-      if (isDragging === 'min') {
-        setPriceRange(prev => ({ min: Math.min(value, prev.max - 10), max: prev.max }));
-      } else if (isDragging === 'max') {
-        setPriceRange(prev => ({ min: prev.min, max: Math.max(value, prev.min + 10) }));
-      }
-    };
-
-    const handleGlobalMouseUp = () => {
-      setIsDragging(null);
-    };
-
-    if (isDragging) {
-      document.addEventListener('mousemove', handleGlobalMouseMove);
-      document.addEventListener('mouseup', handleGlobalMouseUp);
-    }
-    return () => {
-      document.removeEventListener('mousemove', handleGlobalMouseMove);
-      document.removeEventListener('mouseup', handleGlobalMouseUp);
-    };
-  }, [isDragging, sliderRef]);
-
   return (
     <div className={styles.pageContainer}>
       <Navbar isLight={true} hasBorder={true} />
@@ -253,7 +193,7 @@ function ProductsPage() {
         <div className={styles.headerSection}>
           <div className={styles.titleWrapper}>
             <h1 className={styles.pageTitle}>
-              Industrial Products & Supplies<sup className={styles.titleBadge}>{isMounted ? products.length : 16}</sup>
+              Industrial Products & Equipment<sup className={styles.titleBadge}>{isMounted ? sortedProducts.length : INITIAL_PRODUCTS.length}</sup>
             </h1>
           </div>
 
@@ -305,9 +245,27 @@ function ProductsPage() {
 
             <div className={styles.separatorLine} />
 
+            {/* Categories Filter */}
+            <div className={styles.filterSection}>
+              <h3 className={styles.filterSectionTitle}>Categories</h3>
+              <div className={styles.colorsList}>
+                {CATEGORY_OPTIONS.map(cat => (
+                  <div
+                    key={cat}
+                    className={`${styles.colorRow} ${selectedTypes.includes(cat) ? styles.colorRowSelected : ''}`}
+                    onClick={() => handleTypeChange(cat)}
+                  >
+                    <span className={styles.colorName}>{cat}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className={styles.separatorLine} />
+
             {/* Colors Section */}
             <div className={styles.filterSection}>
-              <h3 className={styles.filterSectionTitle}>Colors</h3>
+              <h3 className={styles.filterSectionTitle}>Colors & Finish</h3>
               <div className={styles.colorsList}>
                 {COLOR_OPTIONS.map(color => (
                   <div
@@ -327,22 +285,6 @@ function ProductsPage() {
 
             <div className={styles.separatorLine} />
 
-            {/* Heights Section */}
-            <div className={styles.filterSection}>
-              <h3 className={styles.filterSectionTitle}>Heights</h3>
-              <div className={styles.heightsRow}>
-                {HEIGHT_OPTIONS.map(size => (
-                  <button
-                    key={size}
-                    className={`${styles.heightChip} ${selectedSizes.includes(size.toLowerCase()) ? styles.heightChipSelected : ''}`}
-                    onClick={() => handleSizeChange(size.toLowerCase())}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             <button className={styles.applyFilterButton} onClick={toggleFilter}>
               Apply Filters
             </button>
@@ -358,7 +300,7 @@ function ProductsPage() {
               ))
             ) : (
               sortedProducts.map((product, idx) => {
-                const badge = FALLBACK_BADGES[idx % FALLBACK_BADGES.length];
+                const badge = product.badge || FALLBACK_BADGES[idx % FALLBACK_BADGES.length];
                 const swatchSet = SAMPLE_SWATCH_SETS[idx % SAMPLE_SWATCH_SETS.length];
 
                 return (
@@ -373,12 +315,21 @@ function ProductsPage() {
                           </div>
                         )}
                         <Image
-                          src={product.images[0] || '/images/home/category_grid/container_3.jpeg'}
+                          src={product.images?.[0] || '/images/home/category_grid/container_3.jpeg'}
                           alt={product.name}
                           fill
-                          className={styles.productImage}
+                          className={`${styles.productImage} ${product.images?.[1] ? styles.primaryImageWithHover : ''}`}
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                         />
+                        {product.images?.[1] && (
+                          <Image
+                            src={product.images[1]}
+                            alt={`${product.name} Hover View`}
+                            fill
+                            className={styles.productHoverImage}
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                          />
+                        )}
                       </div>
 
                       {/* Product Details below Image Box */}
@@ -386,28 +337,19 @@ function ProductsPage() {
                         {/* Title with micro arrow */}
                         <div className={styles.productTitleRow}>
                           <svg className={styles.arrowPrefix} width="10" height="19" viewBox="0 0 10 19" fill="none">
-                            <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
+                            <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14384 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
                           </svg>
                           <h3 className={styles.productName}>{product.name}</h3>
                         </div>
 
                         {/* Price */}
                         <div className={styles.productPriceRow}>
-                          <span className={styles.currentPrice}>€{product.price || 340}</span>
+                          <span className={styles.currentPrice}>€{product.price}</span>
                         </div>
 
-                        {/* Color Swatches & Tag Label */}
+                        {/* Category Label */}
                         <div className={styles.swatchSection}>
-                          <div className={styles.swatchLabel}>{swatchSet.label}</div>
-                          <div className={styles.swatchesRow}>
-                            {swatchSet.colors.map((c, i) => (
-                              <span
-                                key={i}
-                                className={styles.swatchDot}
-                                style={{ backgroundColor: c }}
-                              />
-                            ))}
-                          </div>
+                          <div className={styles.swatchLabel}>{product.category || swatchSet.label}</div>
                         </div>
 
                       </div>
@@ -423,37 +365,6 @@ function ProductsPage() {
               <p className={styles.noResultsText}>No products match your current filters.</p>
             </div>
           )}
-
-          {/* Pagination */}
-          <div className={styles.paginationContainer}>
-            <button
-              className={styles.paginationButton}
-              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </button>
-
-            <div className={styles.pageNumbers}>
-              {Array.from({ length: totalPages || 1 }).map((_, index) => (
-                <button
-                  key={index + 1}
-                  className={`${styles.pageNumber} ${currentPage === index + 1 ? styles.activePage : ''}`}
-                  onClick={() => setCurrentPage(index + 1)}
-                >
-                  {index + 1}
-                </button>
-              ))}
-            </div>
-
-            <button
-              className={styles.paginationButton}
-              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-              disabled={currentPage === totalPages || totalPages === 1}
-            >
-              Next
-            </button>
-          </div>
         </div>
 
       </div>

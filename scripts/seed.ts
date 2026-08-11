@@ -1,16 +1,15 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { dirname } from 'path';
+import { INITIAL_PRODUCTS } from '../lib/data/initialProducts';
 
 // Get the directory name in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Import models using dynamic imports
 async function seedDatabase() {
   try {
-    // Dynamically import models
     const { default: User } = await import('../lib/models/User.js');
     const { default: Product } = await import('../lib/models/Product.js');
     const { default: connectToDatabase } = await import('../lib/db/connect.js');
@@ -26,8 +25,8 @@ async function seedDatabase() {
     const adminPassword = await bcrypt.hash('admin123', saltRounds);
     
     const adminUser = new User({
-      name: 'Admin User',
-      email: 'admin@example.com',
+      name: 'Brooq Admin',
+      email: 'admin@brooqalkhalij.com',
       password: adminPassword,
       role: 'admin'
     });
@@ -35,59 +34,16 @@ async function seedDatabase() {
     await adminUser.save();
     console.log('Admin user created');
     
-    // Create sample products
-    const sampleProducts = [
-      {
-        name: 'Classic White T-Shirt',
-        description: 'A comfortable and stylish white t-shirt made from 100% cotton.',
-        price: 19.99,
-        category: 'Clothing',
-        brand: 'Generic',
-        images: ['/home/shirt1.png'],
-        stock: 50,
-        isFeatured: true
-      },
-      {
-        name: 'Blue Jeans',
-        description: 'Classic blue jeans with a perfect fit.',
-        price: 49.99,
-        category: 'Clothing',
-        brand: 'Generic',
-        images: ['/home/shirt2.png'],
-        stock: 30,
-        isFeatured: true
-      },
-      {
-        name: 'Running Shoes',
-        description: 'Lightweight running shoes for everyday use.',
-        price: 89.99,
-        category: 'Footwear',
-        brand: 'Generic',
-        images: ['/home/shirt3.png'],
-        stock: 25,
-        isFeatured: true
-      },
-      {
-        name: 'Leather Wallet',
-        description: 'Genuine leather wallet with multiple card slots.',
-        price: 39.99,
-        category: 'Accessories',
-        brand: 'Generic',
-        images: ['/home/shirt4.png'],
-        stock: 40,
-        isFeatured: false
-      }
-    ];
-    
-    for (const productData of sampleProducts) {
-      const product = new Product(productData);
+    // Seed BR Products
+    for (const productData of INITIAL_PRODUCTS) {
+      const { _id, ...rest } = productData;
+      const product = new Product(rest);
       await product.save();
     }
     
-    console.log('Sample products created');
+    console.log(`Successfully seeded ${INITIAL_PRODUCTS.length} Brooq Al Khalij products from BR products.md`);
     console.log('Database seeding completed successfully');
     
-    // Close the database connection
     await mongoose.connection.close();
   } catch (error) {
     console.error('Error seeding database:', error);

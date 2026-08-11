@@ -323,7 +323,7 @@ export default function ProductsPage() {
                       </div>
                     </td>
                     <td>{product.category.charAt(0).toUpperCase() + product.category.slice(1)}</td>
-                    <td>₹{product.price.toFixed(2)}</td>
+                    <td>€{product.price.toFixed(2)}</td>
                     <td>{product.stock}</td>
                     <td>
                       <span className={`${styles.status} ${styles[product.status.toLowerCase().replace(' ', '')]}`}>

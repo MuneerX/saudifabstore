@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, Suspense } from "react";
-import { TopBar } from "@/components/TopBar";
 import { Navbar } from "@/components/Navbar";
-import { StayUpToDate } from "@/components/StayUpToDate";
 import Footer from "@/components/Footer";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
@@ -86,7 +84,6 @@ function PurchaseCompleteContent() {
   if (loading) {
     return (
       <div className="flex flex-col min-h-screen">
-        <TopBar />
         <Navbar hasBorder={true} />
         <main className="flex-1" style={{ paddingBottom: '256px' }}>
           <div className={styles.successContainer}>
@@ -97,7 +94,6 @@ function PurchaseCompleteContent() {
           </div>
         </main>
         <div style={{ position: 'relative' }}>
-          <StayUpToDate />
           <Footer />
         </div>
       </div>
@@ -107,7 +103,6 @@ function PurchaseCompleteContent() {
   if (error || !order) {
     return (
       <div className="flex flex-col min-h-screen">
-        <TopBar />
         <Navbar hasBorder={true} />
         <main className="flex-1" style={{ paddingBottom: '256px' }}>
           <div className={styles.successContainer}>
@@ -131,7 +126,6 @@ function PurchaseCompleteContent() {
           </div>
         </main>
         <div style={{ position: 'relative' }}>
-          <StayUpToDate />
           <Footer />
         </div>
       </div>
@@ -140,7 +134,6 @@ function PurchaseCompleteContent() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <TopBar />
       <Navbar hasBorder={true} />
       <main className="flex-1" style={{ paddingBottom: '256px' }}>
         <div className={styles.successContainer}>
@@ -219,7 +212,6 @@ function PurchaseCompleteContent() {
         </div>
       </main>
       <div style={{ position: 'relative' }}>
-        <StayUpToDate />
         <Footer />
       </div>
     </div>
@@ -230,7 +222,6 @@ export default function PurchaseCompletePage() {
   return (
     <Suspense fallback={
       <div className="flex flex-col min-h-screen">
-        <TopBar />
         <Navbar hasBorder={true} />
         <main className="flex-1" style={{ paddingBottom: '256px' }}>
           <div className={styles.successContainer}>
@@ -241,7 +232,6 @@ export default function PurchaseCompletePage() {
           </div>
         </main>
         <div style={{ position: 'relative' }}>
-          <StayUpToDate />
           <Footer />
         </div>
       </div>

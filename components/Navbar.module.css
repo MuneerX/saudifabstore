@@ -1,14 +1,25 @@
 .navbar {
-  position: relative;
-  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px 48px;
+  padding: 10px 16px; /* Spans full screen with minimal margins */
   background-color: transparent;
   color: #ffffff;
   z-index: 50;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.stickyVisible {
+  transform: translateY(0);
+}
+
+.stickyHidden {
+  transform: translateY(-100%);
 }
 
 .logoArea {
@@ -18,7 +29,7 @@
 
 .logoText {
   font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 28px;
+  font-size: 23px;
   font-weight: 300;
   letter-spacing: -0.05em;
   color: #ffffff;
@@ -33,28 +44,60 @@
   .centerNav {
     display: flex;
     align-items: center;
-    gap: 24px; /* Reduced spacing between links */
+    gap: 6px;
+    margin-left: 72px;
+    margin-right: auto;
+  }
+
+  .mobileMenuBtn {
+    display: none !important;
   }
 }
 
-.navLink {
+.navLinkPill {
   font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px; /* Increased 2px */
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 400;
   color: #ffffff;
   text-decoration: none;
-  transition: color 0.2s ease;
-  letter-spacing: -0.01em; /* Reduced letter spacing */
+  padding: 6px 14px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  letter-spacing: -0.02em;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
 }
 
-.navLink:hover {
-  color: rgba(255, 255, 255, 0.6);
+.navLinkPill:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.lightLinkPill {
+  color: #111111 !important;
+}
+
+.lightLinkPill:hover {
+  color: #555555 !important;
+}
+
+/* Active Nav Pill highlight (Exact match for Pedestal reference image) */
+.activePillDark {
+  background-color: #ffffff !important;
+  color: #111111 !important;
+  font-weight: 500;
+}
+
+.activePillLight {
+  background-color: #111111 !important;
+  color: #ffffff !important;
+  font-weight: 500;
 }
 
 .rightNav {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
 }
 
 .iconBtn {
@@ -85,7 +128,7 @@
 .lightNavbar {
   background-color: #ffffff;
   color: #111111;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .lightText {
@@ -94,33 +137,380 @@
   letter-spacing: -0.04em;
 }
 
-.lightLink {
-  color: #111111 !important;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.lightLink:hover {
-  color: #666666 !important;
-}
-
 .lightIconBtn {
   color: #111111 !important;
 }
 
-.pillLinkLight {
+/* ==========================================================================
+   MEGA MENU DROPDOWN STYLES
+   ========================================================================== */
+
+.megaMenuWrapper {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.06);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.22s ease;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.megaMenuWrapper.menuOpen {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.megaMenuContainer {
+  width: 100%;
+}
+
+.megaMenuInner {
+  max-width: 100%;
+  padding: 32px 16px 12px 16px; /* Compact top, side, and bottom grid padding */
+  display: grid;
+  grid-template-columns: 200px 220px 220px 1fr;
+  column-gap: 96px; /* Horizontal space between categories */
+  row-gap: 12px; /* Small vertical gap above bottom button row */
+  align-items: stretch; /* Stretch columns to align top & bottom bounds */
+  text-align: left;
+}
+
+.menuCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+.colHeader {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #888888;
+  margin-bottom: 18px;
+}
+
+.menuLinkList {
+  display: flex;
+  flex-direction: column;
+  gap: 3px; /* Reduced vertical space between links */
+}
+
+.menuLink {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: #111111;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  letter-spacing: -0.03em; /* Reduced letter spacing more */
+  line-height: 1.45; /* Compact line height */
+}
+
+.menuLink:hover {
+  color: #000000;
+  font-weight: 500;
+}
+
+.shopAllLink {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  margin-top: 18px;
+  margin-bottom: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111111;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: color 0.15s ease;
+}
+
+.shopAllLink:hover {
+  color: #666666;
+}
+
+.shopAllLink sup {
+  font-size: 10px;
+  font-weight: 600;
+  margin-left: 1px;
+}
+
+/* Popular Right Now Sub-section inside Col 1 - Aligned to bottom left */
+.popularSection {
+  margin-top: auto; /* Pushes cleanly to bottom left */
+  padding-top: 12px;
+}
+
+.popularHeader {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #888888;
+  margin-bottom: 14px;
+}
+
+.popularThumbGrid {
+  display: flex;
+  gap: 6px;
+}
+
+.popularThumb {
+  position: relative;
+  width: 140px; /* Increased card width more */
+  height: 92px; /* Scaled card height up */
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #eaeaea;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
+}
+
+.popularThumb:hover {
+  transform: scale(1.1); /* Scaled up more */
+}
+
+.thumbImg {
+  object-fit: cover;
+}
+
+/* Right Feature Card - Tall feature image occupying full space down to bottom button */
+.featureCard {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  height: 380px;
+  min-height: 380px;
+  border-radius: 3px;
+  overflow: hidden;
+  background-color: #111111;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  justify-self: end;
+  margin-left: auto;
+}
+
+.featureCardImage {
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.featureCard:hover .featureCardImage {
+  transform: scale(1.04);
+}
+
+.featureCardOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 28px;
+  color: #ffffff;
+}
+
+.featureCardTitle {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+}
+
+.featureCardSub {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 400;
+}
+
+/* Mega Menu Bottom Bar - Spans full grid width inside megaMenuInner matching left & right margins */
+.megaMenuBottomBar {
+  grid-column: 1 / -1;
+  width: 100%;
   background-color: #ededed;
-  color: #111111 !important;
+  padding: 9px 18px;
+  border-radius: 4px;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0;
+}
+
+.bottomBarLink {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111111;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  transition: color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.bottomBarLink:hover {
+  color: #555555;
+}
+
+.bottomBarLink sup {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   PRODUCT SHOWCASE MEGA MENU STYLES (Pedestal Shop Dropdown Reference Layout)
+   ========================================================================== */
+
+.shopMegaMenuInner {
+  max-width: 100%;
+  padding: 36px 32px 16px 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.shopTopRow {
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.shopHeader {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #888888;
+  margin-bottom: 10px;
+}
+
+.shopSubLinkGrid {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.shopSubLink {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: #111111;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  letter-spacing: -0.03em;
+}
+
+.shopSubLink:hover {
+  color: #666666;
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px; /* Reduced space between products */
+  align-items: end;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.productCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease;
+}
+
+.productCard:hover {
+  transform: translateY(-3px);
+}
+
+.productImgWrapper {
+  position: relative;
+  width: 100%;
+  height: 230px; /* Increased image height */
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.productImg {
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.productCard:hover .productImg {
+  transform: scale(1.04);
+}
+
+.productTitle {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111111;
+  margin-bottom: 8px;
+  letter-spacing: -0.03em;
+}
+
+.configureBtn {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  background-color: #ffffff;
+  border: 1px solid #dcdcdc;
   padding: 4px 14px;
   border-radius: 4px;
   font-size: 13px;
   font-weight: 500;
+  color: #111111;
+  letter-spacing: -0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
-.pillLink {
-  background-color: rgba(255, 255, 255, 0.15);
-  color: #ffffff !important;
-  padding: 4px 14px;
-  border-radius: 4px;
+.productCard:hover .configureBtn {
+  border-color: #111111;
+  background-color: #fafafa;
+}
+
+.shopUnderlineLink {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
   font-size: 13px;
+  font-weight: 500;
+  color: #111111;
+  letter-spacing: -0.02em;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+
+.productCard:hover .shopUnderlineLink {
+  color: #666666;
+}
+
+.productSubtext {
+  font-size: 12px;
+  color: #888888;
+  margin-top: 6px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
 }

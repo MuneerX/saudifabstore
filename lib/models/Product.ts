@@ -13,6 +13,7 @@ export interface IProduct extends Document {
   isFeatured: boolean;
   sku?: string;
   discountPrice?: number;
+  specImage?: string;
   tags?: string[];
   sizes?: string[];
   colors?: string[];
@@ -29,6 +30,7 @@ const ProductSchema: Schema = new Schema(
     description: {
       type: String,
       required: false,
+      default: '',
     },
     price: {
       type: Number,
@@ -41,7 +43,7 @@ const ProductSchema: Schema = new Schema(
     },
     brand: {
       type: String,
-      default: 'ShopCo',
+      default: 'Brooq Al Khalij',
     },
     images: [
       {
@@ -74,6 +76,10 @@ const ProductSchema: Schema = new Schema(
       type: Number,
       min: 0,
     },
+    specImage: {
+      type: String,
+      default: '',
+    },
     tags: [
       {
         type: String,
@@ -95,4 +101,8 @@ const ProductSchema: Schema = new Schema(
   }
 );
 
-export default mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);
+if (mongoose.models && mongoose.models.Product) {
+  delete mongoose.models.Product;
+}
+
+export default mongoose.model<IProduct>('Product', ProductSchema);

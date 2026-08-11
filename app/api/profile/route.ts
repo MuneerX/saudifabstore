@@ -15,16 +15,38 @@ export async function GET() {
       );
     }
     
-    await connectToDatabase();
-    
-    const user = await User.findById(session.user.id).select('-password');
-    
-    if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      );
+    if (session.user.id === 'admin-static-id' || session.user.email === 'admin@brooqalkhalij.com' || session.user.email === 'admin@example.com') {
+      return NextResponse.json({
+        message: 'Profile retrieved successfully',
+        user: {
+          _id: 'admin-static-id',
+          name: session.user.name || 'Brooq Admin',
+          email: session.user.email,
+          role: 'admin'
+        }
+      }, { status: 200 });
     }
+
+    try {
+      await connectToDatabase();
+      const user = await User.findById(session.user.id).select('-password');
+      if (user) {
+        return NextResponse.json(
+          { 
+            message: 'Profile retrieved successfully',
+            user
+          },
+          { status: 200 }
+        );
+      }
+    } catch (dbErr) {
+      console.warn("DB profile retrieval failed, returning session user info:", dbErr);
+    }
+
+    return NextResponse.json(
+      { error: 'User not found' },
+      { status: 404 }
+    );
     
     return NextResponse.json(
       { 

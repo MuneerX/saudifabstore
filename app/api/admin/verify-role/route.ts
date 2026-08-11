@@ -15,28 +15,41 @@ export async function GET() {
       );
     }
 
-    await connectToDatabase();
-
-    const user = await User.findOne({ email: session.user.email });
-
-    if (!user) {
-      return NextResponse.json(
-        { error: 'User not found', isAdmin: false },
-        { status: 404 }
-      );
+    // Hardcoded bypass for demo admin roles
+    if (session.user.email === 'admin@brooqalkhalij.com' || session.user.email === 'admin@example.com') {
+      return NextResponse.json({
+        isAdmin: true,
+        user: {
+          id: 'admin-static-id',
+          name: 'Brooq Admin',
+          email: session.user.email,
+          role: 'admin'
+        }
+      });
     }
 
-    const isAdmin = user.role === 'admin';
-
-    return NextResponse.json({
-      isAdmin,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role
+    try {
+      await connectToDatabase();
+      const user = await User.findOne({ email: session.user.email });
+      if (user) {
+        return NextResponse.json({
+          isAdmin: user.role === 'admin',
+          user: {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role
+          }
+        });
       }
-    });
+    } catch (dbErr) {
+      console.warn("Verify role database check failed, checking static credentials only:", dbErr);
+    }
+
+    return NextResponse.json(
+      { error: 'User not found', isAdmin: false },
+      { status: 404 }
+    );
   } catch (error) {
     console.error('Error verifying admin role:', error);
     return NextResponse.json(

@@ -85,6 +85,7 @@
   height: 300px; /* Fixed height for consistency */
   overflow: hidden;
   border-radius: 12px; /* All corners rounded with same radius */
+  background-color: #F5F5F3; /* Global light grey background for transparent images */
 }
 
 .productImage {

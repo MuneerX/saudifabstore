@@ -7,8 +7,9 @@
 
 .detailSplitLayout {
   display: flex;
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 57px);
   background-color: #ffffff;
+  padding-top: 57px; /* Exact height of fixed top navbar */
 }
 
 .imageColumn {
@@ -19,8 +20,8 @@
   align-items: stretch; /* Stretch the card to fill height */
   padding: 16px 12px 16px 16px; /* Significantly reduced margins around the card */
   position: sticky; /* Set to sticky to adjust with page scroll */
-  top: 0; /* Sticks to the very top of the viewport once navigation scrolls out */
-  height: 100vh; /* Fills the viewport height to align with borders when sticky */
+  top: 0; /* Pins seamlessly to the very top of the browser viewport when scrolling */
+  height: 100vh; /* Fills full viewport height when stuck */
   z-index: 1; /* Lower z-index so content sections scroll over it */
 }
 
@@ -46,7 +47,7 @@
 
 .infoColumn {
   width: 50%;
-  padding: 120px 160px; /* Increased padding around content container even more */
+  padding: 40px 160px 120px; /* Seamless top padding aligned with image card */
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -92,76 +93,216 @@
 }
 
 /* Action Buttons Group Row */
-.actionButtonsGroup {
+/* ==========================================================================
+   Redesigned Integrated Buy Box & Everyday Low Pricing Container
+   ========================================================================== */
+
+.promoBuyBox {
+  background-color: #F6F5F0;
+  border: 1px solid #EBE7DF;
+  border-radius: 8px;
+  padding: 22px 24px;
   display: flex;
-  gap: 6px; /* Reduced space in between buttons */
-  width: 100%;
-  margin-top: 8px;
+  flex-direction: column;
+  gap: 16px;
+  margin: 12px 0 24px 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Buy Now Button */
+.promoBuyBox:hover {
+  border-color: #ded9cd;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.promoTopRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.promoLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.promoGreenText {
+  color: #3d5e46;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.promoHeading {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 21px;
+  font-weight: 600;
+  color: #111111;
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+
+.promoRight {
+  display: flex;
+  align-items: center;
+}
+
+.isoBadgeImage {
+  object-fit: contain;
+  width: 52px;
+  height: 52px;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.06));
+  transition: transform 0.2s ease;
+}
+
+.isoBadgeImage:hover {
+  transform: scale(1.05);
+}
+
+.promoBadgeText {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  color: #736f66;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  background-color: #ffffff;
+  border: 1px solid #E5E0D6;
+  padding: 4px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.promoPriceRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.priceValue {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 38px;
+  font-weight: 600;
+  color: #111111;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.promoBottomText {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  color: #54514a;
+  margin: 0;
+  letter-spacing: -0.015em;
+}
+
+.promoDottedLine {
+  border-top: 1px dashed rgba(136, 130, 119, 0.35);
+  margin: 2px 0;
+}
+
+.actionButtonsGroup {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
 .buyNowBtn {
-  background-color: #222222;
+  background-color: #111111;
   color: #ffffff;
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 14px;
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 14.5px;
   font-weight: 600;
   letter-spacing: -0.015em;
   padding: 14px 20px;
-  border: none;
-  border-radius: 4px;
+  border: 1px solid #111111;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  text-align: left;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  flex: 1; /* Equal width columns */
+  justify-content: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.buyNowArrow {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
 }
 
 .buyNowBtn:hover {
-  background-color: #111111;
+  background-color: #000000;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
-/* Add to Cart Button (Solid fill blue matching Buy Now) */
+.buyNowBtn:hover .buyNowArrow {
+  transform: translateX(2px);
+}
+
 .addToCartBtn {
-  background-color: #0453F8; /* Vibrant brand-aligned blue */
+  background-color: #0453F8;
   color: #ffffff;
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 14px;
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 14.5px;
   font-weight: 600;
   letter-spacing: -0.015em;
   padding: 14px 20px;
-  border: none;
-  border-radius: 4px;
+  border: 1px solid #0453F8;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  text-align: left;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  flex: 1; /* Equal width columns */
+  justify-content: center;
+  flex: 1;
 }
 
 .addToCartBtn:hover {
-  background-color: #0346d0; /* Darker blue on hover */
+  background-color: #0342c7;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(4, 83, 248, 0.25);
+}
+
+.promoTrustRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.promoTrustItem {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #6b675e;
+  letter-spacing: -0.01em;
 }
 
 .descriptionText {
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Title font stack */
-  font-size: 16px; /* Increased font size to 16px */
-  line-height: 1.32; /* Slightly reduced line spacing */
-  letter-spacing: -0.02em; /* Reduced letter spacing */
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
   color: #54514a;
-  margin: 12px 0 4px 0;
+  margin: 16px 0 6px 0;
 }
 
 /* Bullet list */
 .bulletList {
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Title font stack */
-  font-size: 16px; /* Match description size */
-  line-height: 1; /* Changed line-height to 1 */
-  letter-spacing: -0.02em; /* Reduced letter spacing */
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   color: #54514a;
-  margin: 0 0 12px 0;
+  margin: 0 0 16px 0;
   padding-left: 20px;
   list-style-type: disc;
 }
@@ -174,9 +315,9 @@
 .checklistSection {
   display: flex;
   flex-direction: column;
-  gap: 4px; /* Reduced gap to 4px */
+  gap: 6px;
   border-top: 1px solid #EBE7DF;
-  padding-top: 24px;
+  padding-top: 20px;
   margin-top: 8px;
 }
 
@@ -184,12 +325,12 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Title font stack */
-  font-size: 16px; /* Match description size */
-  line-height: 1.32; /* Match description line spacing */
-  letter-spacing: -0.02em; /* Reduced letter spacing */
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 15.5px;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
   color: #222222;
-  font-weight: 500; /* Set font weight of checklist section to 500 */
+  font-weight: 500;
 }
 
 .checkIcon {
@@ -201,70 +342,6 @@
 
 .checkText {
   line-height: 1.3;
-}
-
-/* Promotion block */
-.promoBox {
-  background-color: #F3F2EC;
-  border-radius: 4px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.promoTopRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.promoLeft {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.promoGreenText {
-  color: #3d5e46;
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.promoHeading {
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: #222222;
-  margin: 0;
-}
-
-.promoRight {
-  display: flex;
-  align-items: center;
-}
-
-.promoBadgeText {
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 9px;
-  color: #888277;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-}
-
-.promoDottedLine {
-  border-top: 1px dotted rgba(136, 130, 119, 0.4);
-}
-
-.promoBottomText {
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Title font stack */
-  font-size: 12px;
-  color: #54514a;
-  margin: 0;
-  letter-spacing: -0.02em; /* Reduced letter spacing */
 }
 
 /* Accordions Section */
@@ -429,7 +506,7 @@
 }
 
 .productTabsSection {
-  padding: 120px 36.8px 80px 36.8px; /* Aligned with standard layout margins (36.8px) */
+  padding: 48px 36.8px 32px 36.8px; /* Compact brand tabbed section padding */
   background-color: #ffffff; /* White background section */
   border-top: 1px solid #EBE7DF;
   position: relative;
@@ -438,18 +515,18 @@
 
 .tabsHeaderContainer {
   position: absolute;
-  top: -49px; /* Sit perfectly overlapping the border-top divider line */
+  top: -46px; /* Sits cleanly overlapping border divider */
   left: 36.8px; /* Aligned with content padding */
   display: flex;
-  gap: 8px; /* Increased space in between tabs */
+  gap: 8px; /* Space in between tabs */
   z-index: 10;
 }
 
 .tabHeaderButton {
-  padding: 14px 28px;
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 15px;
-  font-weight: 600;
+  padding: 10px 18px;
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 19px;
+  font-weight: 400;
   cursor: pointer;
   transition: all 0.2s ease;
   border-radius: 4px 4px 0 0; /* Rounded top corners like in image */
@@ -490,9 +567,9 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   border-bottom: 1px solid #F0ECE4;
-  padding-bottom: 24px;
+  padding-bottom: 16px;
 }
 
 .tabMainHeadline {
@@ -595,7 +672,7 @@
   display: flex;
   width: 100%;
   gap: 38.4px;
-  margin-bottom: 57.6px;
+  margin-bottom: 28px;
 }
 
 .specsLeftCol {
@@ -616,31 +693,36 @@
 }
 
 .schematicContainer {
-  display: flex;
-  justify-content: flex-start; /* Aligned to leftmost */
-  align-items: center;
-  padding: 0; /* Removed padding and divider border line */
-  margin-bottom: 32px;
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0;
+  margin-bottom: 24px;
+  overflow: hidden;
+  border-radius: 8px;
 }
 
 .schematicImage {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 500px;
   object-fit: contain;
-  max-height: 250px;
-  opacity: 0.85;
-  filter: grayscale(1);
+  opacity: 1;
+  filter: none;
 }
 
 .specsTable {
   display: flex;
   flex-direction: column;
-  margin-bottom: 44.8px;
+  margin-bottom: 24px;
 }
 
 .specsTableRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 19.2px 0;
+  padding: 12px 0;
   border-bottom: 1px solid #EBE7DF;
 }
 
@@ -669,7 +751,7 @@
 .infoThreeColGrid {
   display: flex;
   gap: 38.4px;
-  margin-bottom: 57.6px;
+  margin-bottom: 16px;
 }
 
 .infoColItem {
@@ -696,9 +778,10 @@
 
 .documentsSection {
   display: flex;
-  margin-top: 38.4px;
+  margin-top: 16px;
   border-top: 1px solid #EBE7DF;
-  padding-top: 44.8px;
+  padding-top: 24px;
+  margin-bottom: 60px;
 }
 
 .documentsLeft {
@@ -811,33 +894,64 @@
   }
 }
 
-/* Trust Badges Styles */
-.trustBadgesRow {
+/* ==========================================================================
+   Clean Industrial Specification Rail (General Tab)
+   ========================================================================== */
+
+.industrialFactStrip {
   display: flex;
-  gap: 19.2px;
-  margin-bottom: 38.4px;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 24px;
+  border-top: 1px solid #EBE7DF;
   border-bottom: 1px solid #EBE7DF;
-  padding-bottom: 19.2px;
+  padding: 14px 0;
+  width: 100%;
   flex-wrap: wrap;
 }
 
-.trustBadgeItem {
-  display: flex;
+.factItem {
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 13.5px;
-  font-weight: 500;
-  color: #54514a;
+  transition: transform 0.2s ease;
 }
 
-.trustBadgeIcon {
-  color: #EB5521; /* Brand orange accent color */
+.factItem:hover {
+  transform: translateY(-1px);
+}
+
+.factIcon {
+  color: #EB5521; /* Brand signature orange accent icon */
+  flex-shrink: 0;
+}
+
+.factText {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #222222;
+  letter-spacing: -0.015em;
+}
+
+.factDivider {
+  width: 1px;
+  height: 14px;
+  background-color: #E0DDD5;
+}
+
+@media (max-width: 768px) {
+  .industrialFactStrip {
+    gap: 12px 18px;
+  }
+  .factDivider {
+    display: none;
+  }
 }
 
 /* Large Intro Paragraph Block */
 .introDescriptionBlock {
-  margin-bottom: 38.4px;
+  margin-bottom: 24px;
 }
 
 .introLargeText {
@@ -858,36 +972,171 @@
   letter-spacing: -0.02em;
 }
 
-/* Showcase Image Grid Two (Homepage FeatureGridTwo style) */
-.showcaseGridTwo {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12.8px; /* Brand spacing gap */
-  margin-top: 19.2px; /* Brand spacing top */
+/* ==========================================================================
+   Editorial Alternating Product Showcase (General Tab)
+   ========================================================================== */
+
+.editorialShowcaseSection {
+  display: flex;
+  flex-direction: column;
+  gap: 110px; /* Generous breathing whitespace */
+  margin-top: 72px;
+  margin-bottom: 72px;
   width: 100%;
 }
 
-.showcaseCard {
+.editorialRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px; /* Generous column gap between text & media */
+  align-items: center;
+}
+
+.editorialRowReverse {
+  /* Naturally handles grid arrangement or reverse ordering */
+}
+
+.editorialTextCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px 0;
+}
+
+.editorialEyebrow {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #EB5521; /* Brand orange accent */
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.editorialHeading {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: #111111;
+  letter-spacing: -0.03em;
+  margin: 0 0 20px 0;
+}
+
+.editorialSerif {
+  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #111111;
+}
+
+.editorialParagraph {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #54514a;
+  letter-spacing: -0.015em;
+  margin: 0 0 28px 0;
+  max-width: 520px;
+}
+
+.editorialPillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.editorialPill {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #333333;
+  background-color: #F6F5F0;
+  border: 1px solid #EBE7DF;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  letter-spacing: -0.01em;
+  transition: all 0.2s ease;
+}
+
+.editorialPill:hover {
+  background-color: #ffffff;
+  border-color: #111111;
+  transform: translateY(-1px);
+}
+
+.editorialImageCol {
+  width: 100%;
+}
+
+.editorialImageCard {
   position: relative;
   width: 100%;
-  height: 85vh; /* Almost screen height */
-  border-radius: 4px; /* Reduced corner radius */
+  height: 520px; /* Tall, premium photographic canvas */
+  border-radius: 8px;
   overflow: hidden;
-  cursor: pointer;
+  background-color: #F8F9FA;
+  border: 1px solid #EBE7DF;
+  box-shadow: 0 20px 48px -16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
-.showcaseImage {
+.editorialImageCard:hover {
+  box-shadow: 0 28px 56px -16px rgba(0, 0, 0, 0.12);
+}
+
+.editorialImage {
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.showcaseCard:hover .showcaseImage {
-  transform: scale(1.03);
+.editorialImageCard:hover .editorialImage {
+  transform: scale(1.04);
+}
+
+.imageOverlayTag {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  background: rgba(255, 255, 255, 0.90);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #111111;
+  letter-spacing: -0.01em;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+@media (max-width: 900px) {
+  .editorialShowcaseSection {
+    gap: 64px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+  .editorialRow {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .editorialRowReverse .editorialImageCol {
+    order: -1;
+  }
+  .editorialImageCard {
+    height: 360px;
+  }
+  .editorialHeading {
+    font-size: 30px;
+  }
 }
 
 /* Other Products Section Styles */
 .otherProductsSection {
-  padding: 80px 36.8px; /* Aligned with standard layout margins (36.8px) */
+  padding: 48px 36.8px; /* Compact layout margins */
   background-color: #ffffff;
   border-top: 1px solid #EBE7DF;
   position: relative;
@@ -895,7 +1144,7 @@
 }
 
 .otherProductsHeader {
-  margin-bottom: 38.4px;
+  margin-bottom: 24px;
 }
 
 .otherProductsTitle {
@@ -939,20 +1188,20 @@
 .otherProductImageWrapper {
   position: relative;
   width: 100%;
-  height: 380px; /* Adjusted height for detail page footer section */
-  background-color: #ffffff; /* Brand white */
+  height: 500px; /* Increased height matching main product cards */
+  background-color: #F5F5F3; /* Global neutral grey background for transparent images */
   border-radius: 9.6px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2px;
+  padding: 0;
   margin-bottom: 12.8px;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .otherProductCard:hover .otherProductImageWrapper {
-  background-color: #F4F1EA; /* Brand sand hover color */
+  background-color: #EBEAE6; /* Warm neutral grey hover backdrop */
 }
 
 .otherProductImage {
@@ -1068,7 +1317,7 @@
     font-size: 24px;
   }
   .otherProductImageWrapper {
-    height: 280px;
+    height: 380px;
   }
 }
 
@@ -1077,7 +1326,7 @@
     grid-template-columns: 1fr;
   }
   .otherProductImageWrapper {
-    height: 380px;
+    height: 460px;
   }
 }
 

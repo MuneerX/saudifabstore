@@ -1,14 +1,14 @@
 .cartPage {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 32px 16px;
+  padding: 100px 16px 32px 16px;
 }
 
 /* Cart page styling */
 .page-module__ngZQ_a__cartPage {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0px 16px;
+  padding: 100px 16px 0px 16px;
 }
 
 /* Specific breadcrumb section styling */

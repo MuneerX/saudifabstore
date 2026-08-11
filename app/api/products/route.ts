@@ -1,52 +1,79 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Product from '@/lib/models/Product';
 import connectToDatabase from '@/lib/db/connect';
+import { INITIAL_PRODUCTS } from '@/lib/data/initialProducts';
 
 // GET /api/products - Get all products
 export async function GET(request: NextRequest) {
   try {
-    await connectToDatabase();
-    
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '10');
+    const limit = parseInt(searchParams.get('limit') || '1000');
     const category = searchParams.get('category') || '';
     const brand = searchParams.get('brand') || '';
     const minPrice = searchParams.get('minPrice') || '';
     const maxPrice = searchParams.get('maxPrice') || '';
     
-    // Build filter object
-    const filter: {
-      category?: string;
-      brand?: string;
-      price?: { $gte?: number; $lte?: number };
-    } = {};
-    if (category) filter.category = category;
-    if (brand) filter.brand = brand;
-    if (minPrice || maxPrice) {
-      filter.price = {};
-      if (minPrice) filter.price.$gte = parseFloat(minPrice);
-      if (maxPrice) filter.price.$lte = parseFloat(maxPrice);
-    }
-    
-    const products = await Product.find(filter)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort({ createdAt: -1 });
+    let dbConnected = false;
+    let products: any[] = [];
+    let total = 0;
+
+    try {
+      await connectToDatabase();
+      dbConnected = true;
+
+      // Build filter object
+      const filter: {
+        category?: string;
+        brand?: string;
+        price?: { $gte?: number; $lte?: number };
+      } = {};
+      if (category) filter.category = { $regex: category, $options: 'i' } as any;
+      if (brand) filter.brand = brand;
+      if (minPrice || maxPrice) {
+        filter.price = {};
+        if (minPrice) filter.price.$gte = parseFloat(minPrice);
+        if (maxPrice) filter.price.$lte = parseFloat(maxPrice);
+      }
       
-    const total = await Product.countDocuments(filter);
+      products = await Product.find(filter)
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort({ createdAt: -1 });
+        
+      total = await Product.countDocuments(filter);
+    } catch (dbErr) {
+      console.warn("MongoDB connection unavailable, serving BR Products dataset fallback:", dbErr);
+    }
+
+    // Fallback to INITIAL_PRODUCTS from BR products.md if DB is empty or offline
+    if (!products || products.length === 0) {
+      let filtered = [...INITIAL_PRODUCTS];
+      if (category) {
+        filtered = filtered.filter(p => p.category.toLowerCase().includes(category.toLowerCase()));
+      }
+      if (minPrice) {
+        filtered = filtered.filter(p => p.price >= parseFloat(minPrice));
+      }
+      if (maxPrice) {
+        filtered = filtered.filter(p => p.price <= parseFloat(maxPrice));
+      }
+      
+      total = filtered.length;
+      products = filtered.slice((page - 1) * limit, page * limit);
+    }
     
     return NextResponse.json({
       products,
-      totalPages: Math.ceil(total / limit),
+      totalPages: Math.ceil(total / limit) || 1,
       currentPage: page,
       total
     });
   } catch (error) {
     console.error('Error fetching products:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { products: INITIAL_PRODUCTS, totalPages: 1, currentPage: 1, total: INITIAL_PRODUCTS.length },
+      { status: 200 }
     );
   }
 }
@@ -54,11 +81,7 @@ export async function GET(request: NextRequest) {
 // POST /api/products - Create a new product (admin only)
 export async function POST(request: NextRequest) {
   try {
-    // In a real app, you would check if the user is an admin here
-    // For now, we'll just create the product
-    
     const body = await request.json();
-    
     await connectToDatabase();
     
     const product = new Product(body);

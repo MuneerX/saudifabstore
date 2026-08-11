@@ -184,8 +184,8 @@ export default function AdminLoginPage() {
             <div className={styles.demoCredentials}>
               <p className={styles.demoTitle}>Demo Credentials:</p>
               <div className={styles.demoInfo}>
-                <span className={styles.demoLabel}>Email:</span>
-                <span className={styles.demoValue}>admin@example.com</span>
+                <span className={styles.demoLabel}>Emails:</span>
+                <span className={styles.demoValue}>admin@brooqalkhalij.com<br/>admin@example.com</span>
               </div>
               <div className={styles.demoInfo}>
                 <span className={styles.demoLabel}>Password:</span>

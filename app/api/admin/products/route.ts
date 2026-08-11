@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import Product from '@/lib/models/Product';
 import connectToDatabase from '@/lib/db/connect';
+import { INITIAL_PRODUCTS } from '@/lib/data/initialProducts';
 
 // GET /api/admin/products - Get all products with filters (admin only)
 export async function GET(request: NextRequest) {
@@ -20,7 +21,7 @@ export async function GET(request: NextRequest) {
     
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '10');
+    const limit = parseInt(searchParams.get('limit') || '100');
     const category = searchParams.get('category') || '';
     const brand = searchParams.get('brand') || '';
     const minPrice = searchParams.get('minPrice') || '';
@@ -39,17 +40,64 @@ export async function GET(request: NextRequest) {
       if (minPrice) filter.price.$gte = parseFloat(minPrice);
       if (maxPrice) filter.price.$lte = parseFloat(maxPrice);
     }
+
+    let totalCount = await Product.countDocuments();
+    if (totalCount === 0) {
+      try {
+        console.log('MongoDB product collection empty. Auto-seeding INITIAL_PRODUCTS...');
+        const seedPayload = INITIAL_PRODUCTS.map(p => ({
+          name: p.name,
+          description: p.description,
+          price: p.price,
+          category: p.category,
+          brand: p.brand || 'Brooq Al Khalij',
+          images: p.images || [],
+          stock: p.stock || 20,
+          isFeatured: p.isFeatured !== undefined ? p.isFeatured : true,
+          rating: p.rating || 4.9,
+          badge: p.badge || 'BESTSELLER'
+        }));
+        await Product.insertMany(seedPayload);
+        console.log(`Successfully auto-seeded ${seedPayload.length} products to database.`);
+      } catch (seedErr) {
+        console.warn('Auto-seeding failed, serving in-memory fallback:', seedErr);
+      }
+    }
     
-    const products = await Product.find(filter)
+    let products = await Product.find(filter)
       .limit(limit * 1)
       .skip((page - 1) * limit)
       .sort({ createdAt: -1 });
       
-    const total = await Product.countDocuments(filter);
+    let total = await Product.countDocuments(filter);
+
+    if (!products || products.length === 0) {
+      // Fallback response with mapped ID field
+      const fallbackList = INITIAL_PRODUCTS.map(p => ({
+        _id: p._id,
+        name: p.name,
+        description: p.description,
+        price: p.price,
+        category: p.category,
+        brand: p.brand,
+        images: p.images,
+        stock: p.stock,
+        isFeatured: p.isFeatured,
+        rating: p.rating,
+        badge: p.badge
+      }));
+
+      return NextResponse.json({
+        products: fallbackList,
+        totalPages: 1,
+        currentPage: 1,
+        total: fallbackList.length
+      });
+    }
     
     return NextResponse.json({
       products,
-      totalPages: Math.ceil(total / limit),
+      totalPages: Math.ceil(total / limit) || 1,
       currentPage: page,
       total
     });
@@ -84,21 +132,27 @@ export async function POST(request: NextRequest) {
     await connectToDatabase();
     console.log('Database connected');
 
-    // Create a minimal product for testing
-    const testProduct = {
-      name: body.name || 'Test Product',
-      description: body.description || 'Test description',
-      price: body.price || 10,
-      category: body.category || 'test',
-      stock: body.stock || 1,
-      images: body.images || [],
+    // Create product instance with incoming payload
+    const newProductData = {
+      name: body.name,
+      description: body.description || '',
+      price: typeof body.price === 'number' ? body.price : parseFloat(body.price) || 0,
+      discountPrice: body.discountPrice ? parseFloat(body.discountPrice) : undefined,
+      category: body.category || 'Steel Fabrication',
+      brand: body.brand || 'Brooq Al Khalij',
+      stock: typeof body.stock === 'number' ? body.stock : parseInt(body.stock) || 0,
+      images: Array.isArray(body.images) && body.images.length > 0
+        ? body.images
+        : (body.image ? [body.image] : ['/images/home/category_grid/container_3.jpeg']),
+      specImage: body.specImage || '',
+      tags: body.tags || [],
+      sizes: body.sizes || [],
+      colors: body.colors || [],
     };
 
-    console.log('Creating product with data:', testProduct);
+    console.log('Creating product with data:', newProductData);
 
-    const product = new Product(testProduct);
-    console.log('Product instance created');
-
+    const product = new Product(newProductData);
     const savedProduct = await product.save();
     console.log('Product saved successfully:', savedProduct);
 
@@ -143,6 +197,8 @@ export async function PUT(request: NextRequest) {
     
     const { productId, ...updateData } = await request.json();
     
+    console.log("PUT /api/admin/products - Received update data:", updateData);
+
     if (!productId) {
       return NextResponse.json(
         { error: 'Product ID is required' },
@@ -152,11 +208,22 @@ export async function PUT(request: NextRequest) {
     
     await connectToDatabase();
     
-    const product = await Product.findByIdAndUpdate(
-      productId,
-      updateData,
-      { new: true, runValidators: true }
-    );
+    let product;
+    const isMongoId = /^[0-9a-fA-F]{24}$/.test(productId);
+    
+    if (isMongoId) {
+      product = await Product.findByIdAndUpdate(
+        productId,
+        updateData,
+        { new: true, runValidators: true }
+      );
+    } else {
+      product = await Product.findOneAndUpdate(
+        { $or: [{ _id: productId }, { name: updateData.name }] },
+        updateData,
+        { new: true, runValidators: true, upsert: true }
+      );
+    }
     
     if (!product) {
       return NextResponse.json(

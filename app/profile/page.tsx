@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { TopBar } from "@/components/TopBar";
 import { Navbar } from "@/components/Navbar";
-import { StayUpToDate } from "@/components/StayUpToDate";
 import Footer from "@/components/Footer";
 import { Profile } from "@/components/ui/profile";
 import { useSession } from "next-auth/react";
@@ -24,13 +22,11 @@ export default function ProfilePage() {
   }
   return (
     <div className="flex flex-col min-h-screen">
-      <TopBar />
       <Navbar hasBorder={true} />
       <main className="flex-1">
         <Profile />
       </main>
       <div style={{ position: 'relative' }}>
-        <StayUpToDate />
         <Footer />
       </div>
     </div>

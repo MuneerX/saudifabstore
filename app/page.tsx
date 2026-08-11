@@ -21,9 +21,7 @@ import IntroVideo from "@/components/IntroVideo";
 function PreloadHomepage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="animate-slide-up" style={{ position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 20 }}>
-        <Navbar />
-      </div>
+      <Navbar />
       <main className="flex-1">
         <div className="animate-slide-up animate-delay-200">
           <Hero />
@@ -94,9 +92,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="animate-slide-up" style={{ position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 20 }}>
-        <Navbar />
-      </div>
+      <Navbar />
       <main className="flex-1">
         <div className="animate-slide-up animate-delay-200">
           <Hero />

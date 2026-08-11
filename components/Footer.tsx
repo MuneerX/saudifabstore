@@ -74,14 +74,14 @@ const Footer: React.FC = () => {
 
             {/* 3-column link grid */}
             <div className={styles.colsRow}>
-              {/* Categories */}
+              {/* Company */}
               <div className={styles.col}>
-                <h4 className={styles.colHeading}>DIVISIONS</h4>
+                <h4 className={styles.colHeading}>COMPANY</h4>
                 <ul className={styles.colList}>
-                  <li><a href="#">Gen Con Est</a></li>
-                  <li><a href="#">Trading</a></li>
-                  <li><a href="#">Protorc</a></li>
-                  <li><a href="#">Forklift</a></li>
+                  <li><a href="/about">About Us</a></li>
+                  <li><a href="/services">Our Services</a></li>
+                  <li><a href="/products">Shop Products</a></li>
+                  <li><a href="/contact">Contact Support</a></li>
                 </ul>
               </div>
 

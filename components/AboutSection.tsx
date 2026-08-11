@@ -14,7 +14,7 @@ export function AboutSection() {
         {/* Full Section Background Image Layer */}
         <div className={styles.bgWrapper}>
           <Image
-            src="/images/about/about_2.png"
+            src="/images/home/company/img_bg_2.png"
             alt="Brooq Al Khalij Company background"
             fill
             className={styles.bgImage}

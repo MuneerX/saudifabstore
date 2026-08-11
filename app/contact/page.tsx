@@ -52,16 +52,14 @@ export default function ContactPage() {
   return (
     <div className={styles.pageWrapper}>
       {/* Overlay Navbar */}
-      <div style={{ position: "absolute", top: 0, left: 0, width: "100%", zIndex: 20 }}>
-        <Navbar isLight={false} hasBorder={false} />
-      </div>
+      <Navbar isLight={false} hasBorder={false} />
 
       {/* Main Glass Contact Section */}
       <section className={styles.contactSection}>
         {/* Background Stock Image with Gradient Overlay inside the section */}
         <div className={styles.heroBackground}>
           <Image
-            src="/images/home/services/service_bg.png"
+            src="/images/contact/bg_7.jpeg"
             alt="Brooq Al Khalij Contact Background"
             fill
             className={styles.bgImage}
@@ -73,12 +71,12 @@ export default function ContactPage() {
 
         <div className={styles.contactSectionContainer}>
           <div className={styles.contactGrid}>
-            {/* Left Column: Glassmorphic Calculator Form */}
+            {/* Left Column: Glassmorphic Contact Form */}
             <div className={styles.formGlassCard}>
               <div className={styles.cardHeader}>
-                <h1 className={styles.title}>Project &amp; Service Calculator</h1>
+                <h1 className={styles.title}>Project Inquiry &amp; Quotation</h1>
                 <p className={styles.description}>
-                  This calculator is designed to help you estimate industrial scope and connect directly with our specialized division engineers.*
+                  Submit your project requirements below to receive a custom commercial quotation and technical consultation from our division engineers.*
                 </p>
               </div>
 
@@ -239,12 +237,12 @@ export default function ContactPage() {
 
                 {/* Submit Action Button */}
                 <button type="submit" className={styles.submitBtn}>
-                  Calculate &amp; Request Estimate
+                  Submit Inquiry &amp; Request Quote
                 </button>
 
                 {/* Bottom Disclaimer Note */}
                 <p className={styles.disclaimerText}>
-                  *Calculations are estimated based on standard engineering formulas and may not reflect individual site variations or custom alloy market prices. A qualified Brooq project engineer must evaluate your blueprint specs.
+                  *All submitted requirements are directly evaluated by qualified Brooq Al Khalij project engineers. We will review your blueprint specs and respond with a formal proposal.
                 </p>
               </form>
             </div>
@@ -327,37 +325,37 @@ export default function ContactPage() {
       {/* Editorial Estimation Guide Section */}
       <section className={styles.infoSection}>
         <div className={styles.infoSectionContainer}>
-          <h2 className={styles.infoSectionTitle}>How Industrial Estimations Work</h2>
+          <h2 className={styles.infoSectionTitle}>Our Project Estimation &amp; Consultation Process</h2>
           <div className={styles.dashedDivider} />
           
           <p className={styles.infoSectionIntro}>
-            A project estimation represents the calculated budget and timeline required to complete your industrial build, structural fabrication, or service project. Every estimate balances material specifications, assembly complexity, safety certifications, and logistics variables to deliver a realistic cost projection.
+            A formal project estimation represents the calculated budget, material allocation, and timeline required to complete your industrial build, structural fabrication, or contracting project. Every proposal balances material specifications, assembly complexity, quality certifications, and logistics variables to deliver a competitive cost projection.
           </p>
 
           <div className={styles.infoSubSection}>
-            <h3 className={styles.infoSubSectionTitle}>How to Calculate It</h3>
+            <h3 className={styles.infoSubSectionTitle}>How Proposals Are Formulated</h3>
             <p className={styles.infoSubSectionText}>
-              First, determine your Total Project Raw Tonnage (TPRT) or total surface area. Subtract the standard steel grade baseline to calculate custom alloy additions. For example, if your project needs 100 tons of structural steel and you cut tolerance bounds, you'd save around 8% in base material costs.
+              Our engineering team evaluates your blueprint drawings, material grades (such as raw carbon steel tonnage or surface square meters), and fabrication specifications to generate a comprehensive bill of materials and transparent line-item proposal.
             </p>
           </div>
 
           <div className={styles.infoSubSection}>
             <h3 className={styles.infoSubSectionTitle}>Key Project Variables</h3>
             <p className={styles.infoSubSectionText}>
-              A typical industrial steel or contracting estimate assumes standard AWS certified welds and a base SA 2.5 blast profile. Avoid reducing raw specifications below the minimum KSA building code limits unless formally authorized by design engineers.
+              A typical industrial steel or contracting estimate assumes standard AWS certified welds and a base SA 2.5 blast profile. Our engineers ensure all raw specifications strictly adhere to KSA building code limits and client safety standards.
             </p>
           </div>
 
           <div className={styles.infoSubSection}>
-            <h3 className={styles.infoSubSectionTitle}>Indicators of Estimate Volatility</h3>
+            <h3 className={styles.infoSubSectionTitle}>Key Proposal Evaluation Factors</h3>
             <p className={styles.infoSubSectionText}>
-              If your blueprint or request sheet contains any of the following factors, the initial automated calculations may vary significantly:
+              If your project blueprints contain any of the following parameters, our engineers will incorporate specialized adjustments into your quotation:
             </p>
             <ul className={styles.infoList}>
-              <li className={styles.infoListItem}>High fluctuations in raw carbon steel index prices</li>
-              <li className={styles.infoListItem}>Complex multi-plane connection nodes requiring manual fit-ups</li>
-              <li className={styles.infoListItem}>Specific site-specific environment ratings (high humidity or maritime corrosion classes)</li>
-              <li className={styles.infoListItem}>Accelerated delivery constraints requiring dual-shift fabrication labor</li>
+              <li className={styles.infoListItem}>Raw steel index price fluctuations and specialized alloy sourcing</li>
+              <li className={styles.infoListItem}>Complex multi-plane connection nodes requiring specialized manual fit-ups</li>
+              <li className={styles.infoListItem}>Specific environmental ratings (high humidity or maritime anti-corrosion profiles)</li>
+              <li className={styles.infoListItem}>Accelerated delivery schedules requiring dual-shift fabrication labor</li>
             </ul>
           </div>
 

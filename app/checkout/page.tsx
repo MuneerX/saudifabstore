@@ -1,10 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { TopBar } from "@/components/TopBar";
 import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
-import { StayUpToDate } from "@/components/StayUpToDate";
 import Footer from "@/components/Footer";
 import { useCart } from "@/lib/hooks/useCart";
 import { useSession } from "next-auth/react";
@@ -126,7 +124,6 @@ export default function CheckoutPage() {
   if (status === "loading" || loading) {
     return (
       <div className="flex flex-col min-h-screen">
-        <TopBar />
         <Navbar hasBorder={true} />
         <main className="flex-1" style={{ paddingBottom: '256px' }}>
           <div className={styles.checkoutContainer}>
@@ -211,7 +208,6 @@ export default function CheckoutPage() {
           </div>
         </main>
         <div style={{ position: 'relative' }}>
-          <StayUpToDate />
           <Footer />
         </div>
       </div>
@@ -232,7 +228,6 @@ export default function CheckoutPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <TopBar />
       <Navbar hasBorder={true} />
       <main className="flex-1" style={{ paddingBottom: '256px' }}>
         <div className={styles.checkoutContainer}>
@@ -416,7 +411,6 @@ export default function CheckoutPage() {
         </div>
       </main>
       <div style={{ position: 'relative' }}>
-        <StayUpToDate />
         <Footer />
       </div>
     </div>

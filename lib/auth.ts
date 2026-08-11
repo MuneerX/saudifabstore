@@ -17,24 +17,38 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Missing credentials');
         }
 
-        await connectToDatabase();
-
-        const user = await User.findOne({ email: credentials.email });
-        if (!user) {
-          throw new Error('No user found with this email');
+        // Hardcoded admin fallback for demo/testing convenience
+        if (
+          (credentials.email === 'admin@brooqalkhalij.com' || credentials.email === 'admin@example.com') && 
+          credentials.password === 'admin123'
+        ) {
+          return {
+            id: 'admin-static-id',
+            name: 'Brooq Admin',
+            email: credentials.email,
+            role: 'admin',
+          };
         }
 
-        const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
-        if (!isPasswordValid) {
-          throw new Error('Invalid password');
+        try {
+          await connectToDatabase();
+          const user = await User.findOne({ email: credentials.email });
+          if (user) {
+            const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
+            if (isPasswordValid) {
+              return {
+                id: user._id.toString(),
+                name: user.name,
+                email: user.email,
+                role: user.role,
+              };
+            }
+          }
+        } catch (dbErr) {
+          console.warn("Auth database connection failed, checking static credentials only:", dbErr);
         }
 
-        return {
-          id: user._id.toString(),
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        };
+        throw new Error('Invalid email or password');
       },
     }),
   ],

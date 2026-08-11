@@ -41,9 +41,7 @@ export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       {/* Navbar overlay */}
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 20 }}>
-        <Navbar isLight={false} hasBorder={false} />
-      </div>
+      <Navbar isLight={false} hasBorder={false} />
 
       {/* Hero Section */}
       <section className={styles.heroSection}>
@@ -169,118 +167,213 @@ export default function ServicesPage() {
             </button>
           </div>
 
-          {/* Right Column */}
+          {/* Right Column: All 11 Services & Divisions */}
           <div className={styles.benefitsRight}>
             {/* Service 1: Steel Fabrication */}
             <div className={styles.benefitRow}>
               <div className={styles.benefitImgWrapper}>
                 <Image
                   src="/images/home/services/steel2.jpeg"
-                  alt="Steel Fabrication"
+                  alt="Heavy Structural Steel Fabrication"
                   fill
                   className={styles.benefitImg}
                   sizes="280px"
                 />
               </div>
               <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>Steel Fabrication</h3>
+                <h3 className={styles.benefitRowTitle}>Heavy Structural Steel Fabrication</h3>
                 <p className={styles.benefitRowDesc}>
-                  Custom heavy structural steel columns, crane girders, and customized iron baskets built to exact design specifications.
+                  Custom structural steel columns, roof trusses, crane girders, and heavy-duty transportable iron baskets engineered to exact AWS blueprints.
                 </p>
               </div>
             </div>
 
-            {/* Service 2: Sand Blasting & Painting */}
+            {/* Service 2: Sandblasting & Media Blasting */}
             <div className={styles.benefitRow}>
               <div className={styles.benefitImgWrapper}>
                 <Image
-                  src="/images/home/services/painting2.jpeg"
-                  alt="Sand Blasting & Painting"
+                  src="/images/home/services/blasting.jpeg"
+                  alt="Sandblasting & Media Blasting Services"
                   fill
                   className={styles.benefitImg}
                   sizes="280px"
                 />
               </div>
               <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>Sand Blasting &amp; Painting</h3>
+                <h3 className={styles.benefitRowTitle}>Sandblasting &amp; Media Blasting</h3>
                 <p className={styles.benefitRowDesc}>
-                  Certified grit blasting (SA 2.5) and professional coating application profiles for anti-corrosion and fire-proofing.
+                  Certified abrasive grit blasting (SA 2.5), aluminum oxide blasting, glass bead satin finishing, and substrate-safe plastic media blasting.
                 </p>
               </div>
             </div>
 
-            {/* Service 3: Solid Surface & Stone */}
+            {/* Service 3: Painting & Protective Coatings */}
             <div className={styles.benefitRow}>
               <div className={styles.benefitImgWrapper}>
                 <Image
-                  src="/images/home/services/stone.jpeg"
-                  alt="Solid Surface & Stone"
+                  src="/images/home/services/blast2.jpeg"
+                  alt="Painting & Protective Coatings"
                   fill
                   className={styles.benefitImg}
                   sizes="280px"
                 />
               </div>
               <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>Solid Surface &amp; Stone</h3>
+                <h3 className={styles.benefitRowTitle}>Painting &amp; Protective Coatings</h3>
                 <p className={styles.benefitRowDesc}>
-                  Premium stone countertops, solid acrylic vanity tops, and custom kitchen surface installations with a 10-year warranty.
+                  Anti-corrosive epoxy primers, polyurethane finishes, siloxanes, zinc coats, dry film thickness (DFT) logging, and intumescent fireproofing.
                 </p>
               </div>
             </div>
 
-            {/* Service 4: Civil Contracting */}
-            <div className={styles.benefitRow}>
-              <div className={styles.benefitImgWrapper}>
-                <Image
-                  src="/images/home/services/general2.jpeg"
-                  alt="Civil Contracting"
-                  fill
-                  className={styles.benefitImg}
-                  sizes="280px"
-                />
-              </div>
-              <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>Civil Contracting</h3>
-                <p className={styles.benefitRowDesc}>
-                  Turnkey commercial warehouses, structural foundation work, office containers, and industrial worksite setup in KSA.
-                </p>
-              </div>
-            </div>
-
-            {/* Service 5: Forklift & Equipment Repair */}
+            {/* Service 4: Forklift Repair & Fleet Maintenance */}
             <div className={styles.benefitRow}>
               <div className={styles.benefitImgWrapper}>
                 <Image
                   src="/images/home/services/forkliftrepair.jpeg"
-                  alt="Forklift & Equipment Repair"
+                  alt="Forklift Repair & Fleet Maintenance"
                   fill
                   className={styles.benefitImg}
                   sizes="280px"
                 />
               </div>
               <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>Forklift &amp; Equipment Repair</h3>
+                <h3 className={styles.benefitRowTitle}>Forklift Repair &amp; Fleet Maintenance</h3>
                 <p className={styles.benefitRowDesc}>
-                  Expert mechanical and engine repair services for heavy machinery, forklifts, lifting gears, and transport fleets.
+                  Comprehensive workshop engine rebuilds, mast &amp; hydraulic system overhauls, mobile emergency repair units, and Annual Maintenance Contracts (AMC).
                 </p>
               </div>
             </div>
 
-            {/* Service 6: Trading & Material Supply */}
+            {/* Service 5: ProTorc Industrial Torquing & Machining */}
             <div className={styles.benefitRow}>
               <div className={styles.benefitImgWrapper}>
                 <Image
-                  src="/images/home/services/trading.jpeg"
-                  alt="Trading & Material Supply"
+                  src="/images/home/category_grid/lifting_3.jpeg"
+                  alt="ProTorc Industrial Torquing & Machining"
                   fill
                   className={styles.benefitImg}
                   sizes="280px"
                 />
               </div>
               <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>Trading &amp; Material Supply</h3>
+                <h3 className={styles.benefitRowTitle}>ProTorc Torquing &amp; On-Site Machining</h3>
                 <p className={styles.benefitRowDesc}>
-                  Sourcing and supplying certified carbon steel, industrial hardware, fasteners, and safety equipment at competitive rates.
+                  Hydraulic controlled bolt torquing, cold pipe cutting &amp; beveling (up to 60"), and leak-free flange facing machining for plant shutdowns.
+                </p>
+              </div>
+            </div>
+
+            {/* Service 6: Diesel Fire Pump Maintenance */}
+            <div className={styles.benefitRow}>
+              <div className={styles.benefitImgWrapper}>
+                <Image
+                  src="/images/home/category_grid/safety_3.jpeg"
+                  alt="Diesel Pump Controller Maintenance"
+                  fill
+                  className={styles.benefitImg}
+                  sizes="280px"
+                />
+              </div>
+              <div className={styles.benefitText}>
+                <h3 className={styles.benefitRowTitle}>Diesel Pump Controller Unit</h3>
+                <p className={styles.benefitRowDesc}>
+                  Testing &amp; maintenance of diesel fire pump controllers, automatic deluge triggers, manual emergency overrides, and dual battery charger setups.
+                </p>
+              </div>
+            </div>
+
+            {/* Service 7: Alfa Al-Arab Chemical Imports & Supply */}
+            <div className={styles.benefitRow}>
+              <div className={styles.benefitImgWrapper}>
+                <Image
+                  src="/images/home/services/trading.jpeg"
+                  alt="Alfa Al-Arab Chemical Factory"
+                  fill
+                  className={styles.benefitImg}
+                  sizes="280px"
+                />
+              </div>
+              <div className={styles.benefitText}>
+                <h3 className={styles.benefitRowTitle}>Alfa Al-Arab Chemical Factory</h3>
+                <p className={styles.benefitRowDesc}>
+                  Distributor of water treatment chemicals, organic raw materials, swimming pool treatments, commercial soaps, and industrial cleansers.
+                </p>
+              </div>
+            </div>
+
+            {/* Service 8: Paper & Plastic Factory Division */}
+            <div className={styles.benefitRow}>
+              <div className={styles.benefitImgWrapper}>
+                <Image
+                  src="/images/home/services/trading.jpeg"
+                  alt="Paper & Plastic Factory Division"
+                  fill
+                  className={styles.benefitImg}
+                  sizes="280px"
+                />
+              </div>
+              <div className={styles.benefitText}>
+                <h3 className={styles.benefitRowTitle}>Paper &amp; Plastic Factory Division</h3>
+                <p className={styles.benefitRowDesc}>
+                  High-speed automated converting of industrial paper packaging, custom shopping bags, retail boxes, wrapping sheets, and custom labels.
+                </p>
+              </div>
+            </div>
+
+            {/* Service 9: Brooq Stone Solid Surface & Quartz Factory */}
+            <div className={styles.benefitRow}>
+              <div className={styles.benefitImgWrapper}>
+                <Image
+                  src="/images/home/services/stone2.jpeg"
+                  alt="Brooq Stone Solid Surface & Quartz"
+                  fill
+                  className={styles.benefitImg}
+                  sizes="280px"
+                />
+              </div>
+              <div className={styles.benefitText}>
+                <h3 className={styles.benefitRowTitle}>Brooq Stone Solid Surface &amp; Quartz</h3>
+                <p className={styles.benefitRowDesc}>
+                  Seamless acrylic kitchen countertops, reception desks, quartz vanity tops, Corian Quality Network authorized thermoforming &amp; deep forming.
+                </p>
+              </div>
+            </div>
+
+            {/* Service 10: Smart Woodworks Division */}
+            <div className={styles.benefitRow}>
+              <div className={styles.benefitImgWrapper}>
+                <Image
+                  src="/images/home/services/stone.jpeg"
+                  alt="Smart Woodworks Division"
+                  fill
+                  className={styles.benefitImg}
+                  sizes="280px"
+                />
+              </div>
+              <div className={styles.benefitText}>
+                <h3 className={styles.benefitRowTitle}>Smart Woodworks &amp; Millwork</h3>
+                <p className={styles.benefitRowDesc}>
+                  Custom architectural corporate boardroom millwork, hotel wood reception desks, wardrobe fitouts, timber paneling, and CNC wood carving.
+                </p>
+              </div>
+            </div>
+
+            {/* Service 11: Brooq General Trading & PPE */}
+            <div className={styles.benefitRow}>
+              <div className={styles.benefitImgWrapper}>
+                <Image
+                  src="/images/home/services/trading.jpeg"
+                  alt="Brooq General Trading & PPE"
+                  fill
+                  className={styles.benefitImg}
+                  sizes="280px"
+                />
+              </div>
+              <div className={styles.benefitText}>
+                <h3 className={styles.benefitRowTitle}>General Trading &amp; PPE Supply</h3>
+                <p className={styles.benefitRowDesc}>
+                  Sourcing and supplying certified PPE safety gear, professional hand/power tools, electrical fittings, plumbing, and sanitaryware fittings.
                 </p>
               </div>
             </div>

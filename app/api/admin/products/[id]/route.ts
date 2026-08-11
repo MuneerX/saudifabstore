@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import Product from '@/lib/models/Product';
 import connectToDatabase from '@/lib/db/connect';
+import { INITIAL_PRODUCTS } from '@/lib/data/initialProducts';
 
 // GET /api/admin/products/[id] - Get a single product (admin only)
 export async function GET(
@@ -22,7 +23,24 @@ export async function GET(
     await connectToDatabase();
 
     const resolvedParams = await params;
-    const product = await Product.findById(resolvedParams.id);
+    const targetId = resolvedParams.id;
+    let product = null;
+
+    const isMongoId = /^[0-9a-fA-F]{24}$/.test(targetId);
+    if (isMongoId) {
+      product = await Product.findById(targetId);
+    } else {
+      product = await Product.findOne({
+        $or: [{ _id: targetId }, { name: targetId.replace(/-/g, ' ') }]
+      });
+    }
+
+    if (!product) {
+      const initial = INITIAL_PRODUCTS.find(p => p._id === targetId || p.name.toLowerCase().replace(/[^a-z0-9]/g, '-') === targetId);
+      if (initial) {
+        product = initial;
+      }
+    }
 
     if (!product) {
       return NextResponse.json(

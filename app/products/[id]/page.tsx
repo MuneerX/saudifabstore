@@ -3,13 +3,12 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Wrench, ShieldCheck, Award, Star } from "lucide-react";
-import { Navbar } from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
-import { StayUpToDate } from "../../../components/StayUpToDate";
+import { Factory, ShieldCheck, BadgeCheck, Star } from "lucide-react";
+import { Navbar } from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import styles from "./page.module.css"; // Import CSS module
 import { useProducts } from "@/lib/hooks/useProducts";
-import { useCart } from "@/lib/hooks/useCart";
+import { useCartContext } from "@/components/CartContext";
 import { useParams } from "next/navigation";
 
 const FALLBACK_BADGES = ["BESTSELLER", "BESTSELLER", "BESTSELLER", "LIMITED", "NEW"];
@@ -23,7 +22,7 @@ const SAMPLE_SWATCH_SETS = [
 export default function ProductDetailsPage() {
   const { id } = useParams(); // Get ID from URL using useParams
   const { getProductById, products, fetchProducts } = useProducts() as any;
-  const { addToCart } = useCart();
+  const { addToCart } = useCartContext();
   
   const [product, setProduct] = useState<{
     _id: string;
@@ -35,6 +34,8 @@ export default function ProductDetailsPage() {
     numReviews: number;
     stock: number;
     images: string[];
+    specImage?: string;
+    category?: string;
   } | null>(null);
   
   const [pageLoading, setPageLoading] = useState(true);
@@ -100,7 +101,6 @@ export default function ProductDetailsPage() {
           <div className={styles.skeletonBullets}></div>
         </div>
       </div>
-      <StayUpToDate />
       <Footer />
     </div>
   );
@@ -116,7 +116,6 @@ export default function ProductDetailsPage() {
         <div className={styles.loadingContainer}>
           <div>{error || "Product not found."}</div>
         </div>
-        <StayUpToDate />
         <Footer />
       </div>
     );
@@ -186,19 +185,45 @@ export default function ProductDetailsPage() {
           {/* Product Name */}
           <h1 className={styles.productTitle}>{product.name}</h1>
 
-          {/* Price */}
-          <div className={styles.priceValue}>
-            €{product.price?.toFixed(2)}
-          </div>
+          {/* Redesigned Integrated Buy Box & Industrial Supply Container */}
+          <div className={styles.promoBuyBox}>
+            <div className={styles.promoTopRow}>
+              <div className={styles.promoLeft}>
+                <span className={styles.promoGreenText}>FACTORY DIRECT</span>
+                <h4 className={styles.promoHeading}>Direct Manufacturer Rate</h4>
+              </div>
+              <div className={styles.promoRight}>
+                <Image
+                  src="/images/iso.svg"
+                  alt="ISO Certified Quality"
+                  width={52}
+                  height={52}
+                  className={styles.isoBadgeImage}
+                />
+              </div>
+            </div>
 
-          {/* Action Buttons Row */}
-          <div className={styles.actionButtonsGroup}>
-            <button className={styles.buyNowBtn} onClick={handleAddToCart}>
-              <span>→ Buy now</span>
-            </button>
-            <button className={styles.addToCartBtn} onClick={handleAddToCart}>
-              <span>Add to cart</span>
-            </button>
+            <div className={styles.promoPriceRow}>
+              <div className={styles.priceValue}>
+                €{product.price?.toFixed(2)}
+              </div>
+              <span className={styles.promoBottomText}>Direct factory dispatch & certified mill testing included</span>
+            </div>
+
+            <div className={styles.promoDottedLine} />
+
+            {/* Action Buttons inside the Box */}
+            <div className={styles.actionButtonsGroup}>
+              <button className={styles.buyNowBtn} onClick={handleAddToCart}>
+                <svg className={styles.buyNowArrow} width="10" height="19" viewBox="0 0 10 19" fill="none">
+                  <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14384 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
+                </svg>
+                <span>Buy now</span>
+              </button>
+              <button className={styles.addToCartBtn} onClick={handleAddToCart}>
+                <span>Add to cart</span>
+              </button>
+            </div>
           </div>
 
           {/* Product Description */}
@@ -217,31 +242,16 @@ export default function ProductDetailsPage() {
           <div className={styles.checklistSection}>
             <div className={styles.checkItem}>
               <span className={styles.checkIcon}>✔</span>
-              <span className={styles.checkText}>Free expedited shipping</span>
+              <span className={styles.checkText}>Direct workshop dispatch & free expedited shipping across KSA</span>
             </div>
             <div className={styles.checkItem}>
               <span className={styles.checkIcon}>✔</span>
-              <span className={styles.checkText}>Certified and tested for maximum safety</span>
+              <span className={styles.checkText}>100% Mill test certified & safety load validated</span>
             </div>
             <div className={styles.checkItem}>
               <span className={styles.checkIcon}>✔</span>
-              <span className={styles.checkText}>Guarantee and manufacturer warranty included</span>
+              <span className={styles.checkText}>Full in-house engineering support & warranty included</span>
             </div>
-          </div>
-
-          {/* Promo Box */}
-          <div className={styles.promoBox}>
-            <div className={styles.promoTopRow}>
-              <div className={styles.promoLeft}>
-                <span className={styles.promoGreenText}>New Everyday</span>
-                <h4 className={styles.promoHeading}>Low Pricing</h4>
-              </div>
-              <div className={styles.promoRight}>
-                <span className={styles.promoBadgeText}>LIMITED TIME PROMOTION</span>
-              </div>
-            </div>
-            <div className={styles.promoDottedLine} />
-            <p className={styles.promoBottomText}>Take advantage of our lowest price at checkout</p>
           </div>
 
           {/* Accordion FAQ Area */}
@@ -303,23 +313,26 @@ export default function ProductDetailsPage() {
                 </div>
                 
                 <div className={styles.specsRightCol}>
-                  {/* Trust Badges Row */}
-                  <div className={styles.trustBadgesRow}>
-                    <div className={styles.trustBadgeItem}>
-                      <Wrench size={16} className={styles.trustBadgeIcon} />
-                      <span>Dammam Fabrication</span>
+                  {/* Clean Industrial Specification Rail with Premium Icons */}
+                  <div className={styles.industrialFactStrip}>
+                    <div className={styles.factItem}>
+                      <Factory size={15} strokeWidth={1.8} className={styles.factIcon} />
+                      <span className={styles.factText}>Dammam Fabrication</span>
                     </div>
-                    <div className={styles.trustBadgeItem}>
-                      <ShieldCheck size={16} className={styles.trustBadgeIcon} />
-                      <span>1-Year Warranty</span>
+                    <div className={styles.factDivider} />
+                    <div className={styles.factItem}>
+                      <ShieldCheck size={15} strokeWidth={1.8} className={styles.factIcon} />
+                      <span className={styles.factText}>1-Year Warranty</span>
                     </div>
-                    <div className={styles.trustBadgeItem}>
-                      <Award size={16} className={styles.trustBadgeIcon} />
-                      <span>ISO 9001 Certified</span>
+                    <div className={styles.factDivider} />
+                    <div className={styles.factItem}>
+                      <BadgeCheck size={15} strokeWidth={1.8} className={styles.factIcon} />
+                      <span className={styles.factText}>ISO 9001:2015</span>
                     </div>
-                    <div className={styles.trustBadgeItem}>
-                      <Star size={16} className={styles.trustBadgeIcon} />
-                      <span>4.9 Project Rating</span>
+                    <div className={styles.factDivider} />
+                    <div className={styles.factItem}>
+                      <Star size={15} strokeWidth={1.8} className={styles.factIcon} />
+                      <span className={styles.factText}>4.9/5.0 Client Rating</span>
                     </div>
                   </div>
 
@@ -341,37 +354,21 @@ export default function ProductDetailsPage() {
                     </div>
                     <div className={styles.specsTableRow}>
                       <div className={styles.specsTableLabel}>PRIMARY APPLICATION</div>
-                      <div className={styles.specsTableValue}>Residential, Commercial, and Contracting Operations</div>
+                      <div className={styles.specsTableValue}>Commercial, Contracting, and Industrial Operations</div>
                     </div>
                     <div className={styles.specsTableRow}>
-                      <div className={styles.specsTableLabel}>SERVICE SCOPE</div>
-                      <div className={styles.specsTableValue}>In-house fabrication, painting, coating, and delivery</div>
+                      <div className={styles.specsTableLabel}>DISPATCH &amp; LOGISTICS</div>
+                      <div className={styles.specsTableValue}>Direct workshop dispatch &amp; turnkey GCC delivery</div>
+                    </div>
+                    <div className={styles.specsTableRow}>
+                      <div className={styles.specsTableLabel}>QUALITY ASSURANCE</div>
+                      <div className={styles.specsTableValue}>100% Mill test certified &amp; traceable carbon grade</div>
+                    </div>
+                    <div className={styles.specsTableRow}>
+                      <div className={styles.specsTableLabel}>ENGINEERING SUPPORT</div>
+                      <div className={styles.specsTableValue}>Full in-house structural drafting &amp; consultation</div>
                     </div>
                   </div>
-                </div>
-              </div>
-
-              {/* Two-Grid Showcase Images */}
-              <div className={styles.showcaseGridTwo}>
-                <div className={styles.showcaseCard}>
-                  <Image
-                    src={product.images[0] || "/images/home/category_grid/container_3.jpeg"}
-                    alt="Fabrication Detail View"
-                    fill
-                    className={styles.showcaseImage}
-                    sizes="(max-width: 900px) 100vw, 50vw"
-                  />
-                  <h4 className={styles.showcaseLabel}>Structural Weld Detail</h4>
-                </div>
-                <div className={styles.showcaseCard}>
-                  <Image
-                    src={product.images[1] || product.images[0] || "/images/home/category_grid/lifting_3.jpeg"}
-                    alt="Finished Application View"
-                    fill
-                    className={styles.showcaseImage}
-                    sizes="(max-width: 900px) 100vw, 50vw"
-                  />
-                  <h4 className={styles.showcaseLabel}>Finished Application</h4>
                 </div>
               </div>
             </div>
@@ -384,13 +381,14 @@ export default function ProductDetailsPage() {
                 </div>
                 
                 <div className={styles.specsRightCol}>
-                  {/* Stock Schematic Image */}
+                  {/* Stock Schematic / Technical Specification Diagram */}
                   <div className={styles.schematicContainer}>
                     <Image
-                      src={product.images[0] || "/images/home/about/steel-raw.jpg"}
-                      alt="Product Schematic Diagram"
-                      width={400}
-                      height={250}
+                      src={product.specImage || product.images[0] || "/images/home/about/steel-raw.jpg"}
+                      alt={`${product.name} Technical Specification Diagram`}
+                      width={600}
+                      height={350}
+                      unoptimized
                       className={styles.schematicImage}
                     />
                   </div>
@@ -577,7 +575,6 @@ export default function ProductDetailsPage() {
         </div>
       </div>
 
-      <StayUpToDate />
       <Footer />
     </div>
   );

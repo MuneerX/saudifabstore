@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Navbar } from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { AboutSection } from "../../components/AboutSection";
+import { AboutPageSection } from "../../components/AboutPageSection";
 import { FaqSection } from "../../components/FaqSection";
 import styles from "./page.module.css";
 import { TreatmentQuizModal } from "../../components/TreatmentQuizModal";
@@ -93,9 +93,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       {/* Navbar overlay */}
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 20 }}>
-        <Navbar isLight={false} hasBorder={false} />
-      </div>
+      <Navbar isLight={false} hasBorder={false} />
 
       {/* Hero Section */}
       <section className={styles.heroSection}>
@@ -198,11 +196,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Body Details - Render the standard AboutSection component ("Delivering proven quality structures...") immediately after Guide section */}
-      <AboutSection />
+      {/* Body Details - Render the standard AboutPageSection component immediately after Guide section */}
+      <AboutPageSection />
 
       {/* Difference Section (Reusing Why Choose features from homepage styled after reference image) */}
       <section className={styles.differenceSection}>
+        <div className={styles.topTransitionGlow} />
         <div className={styles.differenceContainer}>
           <h2 className={styles.differenceHeadline}>
             The Brooq Al Khalij Difference
@@ -290,7 +289,7 @@ export default function AboutPage() {
             <div className={`${styles.calcCard} ${styles.topCalcCard2}`}>
               <div className={styles.cardBgImageWrapper}>
                 <Image
-                  src="/images/about/protocol.png"
+                  src="/images/about/safety3.png"
                   alt="Safety Protocols"
                   fill
                   className={styles.cardBgImage}
@@ -313,7 +312,7 @@ export default function AboutPage() {
             <div className={`${styles.calcCard} ${styles.bottomCalcCard1}`}>
               <div className={styles.cardBgImageWrapper}>
                 <Image
-                  src="/images/about/professional.png"
+                  src="/images/about/professional3.png"
                   alt="Professional Execution"
                   fill
                   className={styles.cardBgImage}
