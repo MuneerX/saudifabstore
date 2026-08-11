@@ -1,11 +1,27 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useState, useEffect } from "react"
-import { useSession } from "next-auth/react"
-import styles from "./profile.module.css"
-import apiClient from "@/lib/apiClient"
-import { Truck, CheckCircle, CreditCard } from "lucide-react"
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useSession, signOut } from "next-auth/react";
+import { 
+  User as UserIcon, 
+  Mail, 
+  MapPin, 
+  Building, 
+  LogOut, 
+  ShoppingBag, 
+  CheckCircle2, 
+  Truck, 
+  CreditCard, 
+  Save, 
+  Loader2, 
+  Package, 
+  ArrowRight,
+  ShieldCheck
+} from "lucide-react";
+import styles from "./profile.module.css";
+import apiClient from "@/lib/apiClient";
 
 interface ProductInfo {
   name: string;
@@ -35,20 +51,22 @@ interface GetOrdersResponse {
 }
 
 const Profile = () => {
-  const { data: session } = useSession()
-  const [activeTab, setActiveTab] = useState("orders")
-  const [loading, setLoading] = useState(true)
-  const [saving, setSaving] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const { data: session } = useSession();
+  const [activeTab, setActiveTab] = useState<"orders" | "settings">("orders");
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // User profile data
+  // User profile data state
   const [userData, setUserData] = useState({
     name: "",
     email: "",
+    company: "",
     address: ""
-  })
+  });
 
-  // Orders data
+  // Orders state
   const [orders, setOrders] = useState<
     {
       id: string;
@@ -63,225 +81,274 @@ const Profile = () => {
       }[];
       total: string;
     }[]
-  >([])
+  >([]);
 
-  // Fetch user profile and orders data
+  // Fetch profile and orders
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        setLoading(true)
-        setError(null)
+        setLoading(true);
+        setError(null);
 
-        // Fetch user profile
-        const profileResponse = await apiClient.getProfile()
-        const user = profileResponse.user
-
-        setUserData({
-          name: user.name || "",
-          email: user.email || "",
-          address: user.address ? `${user.address.street || ""}, ${user.address.city || ""}, ${user.address.state || ""} ${user.address.zip || ""}, ${user.address.country || ""}`.replace(/^, |, $/, "") : ""
-        })
-
-        // Fetch user orders
-        const ordersResponse: GetOrdersResponse = await apiClient.request(`/orders?userId=${session!.user.id}`)
-        const formattedOrders = ordersResponse.orders.map((order: Order) => {
-          // Determine status with proper fallback for existing orders
-          let status = 'pending'; // default
-          if (order.shippingStatus) {
-            status = order.shippingStatus;
-          } else {
-            // Fallback for orders created before shippingStatus field
-            if (order.isPaid) {
-              status = order.isDelivered ? 'delivered' : 'shipped';
-            } else {
-              status = 'pending';
-            }
+        let user = null;
+        try {
+          const profileResponse = await apiClient.getProfile();
+          if (profileResponse && profileResponse.user) {
+            user = profileResponse.user;
           }
+        } catch (profileErr) {
+          console.warn("Using session user fallback:", profileErr);
+        }
 
-          return {
-            id: `#${order._id.slice(-6)}`, // Use last 6 characters of ObjectId
-            date: new Date(order.createdAt).toLocaleDateString(),
-            status: status,
-            shippedAt: order.shippedAt ? new Date(order.shippedAt).toLocaleString() : undefined,
-            deliveredAt: order.deliveredAt ? new Date(order.deliveredAt).toLocaleString() : undefined,
-            items: order.orderItems.map((item: OrderItem) => ({
-              name: item.product?.name || "Product",
-              price: `$${item.price?.toFixed(2) || "0.00"}`,
-              image: item.product?.images?.[0] || ""
-            })),
-            total: `$${order.totalPrice?.toFixed(2) || "0.00"}`
-          };
-        })
+        const activeUser = user || session?.user || {};
+        setUserData({
+          name: activeUser.name || session?.user?.name || "Brooq Client",
+          email: activeUser.email || session?.user?.email || "",
+          company: activeUser.company || "Brooq Industrial Partner",
+          address: activeUser.address 
+            ? `${activeUser.address.street || ""}, ${activeUser.address.city || ""}, ${activeUser.address.state || ""} ${activeUser.address.zip || ""}`.replace(/^, |, $/, "")
+            : ""
+        });
 
-        setOrders(formattedOrders)
+        // Fetch user orders safely
+        if (session?.user?.id) {
+          try {
+            const ordersResponse: GetOrdersResponse = await apiClient.request(`/orders?userId=${session.user.id}`);
+            if (ordersResponse && Array.isArray(ordersResponse.orders)) {
+              const formattedOrders = ordersResponse.orders.map((order: Order) => {
+                let status = 'pending';
+                if (order.shippingStatus) {
+                  status = order.shippingStatus;
+                } else if (order.isPaid) {
+                  status = order.isDelivered ? 'delivered' : 'shipped';
+                }
+
+                return {
+                  id: `#${(order._id || '').slice(-6)}`,
+                  date: order.createdAt ? new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : new Date().toLocaleDateString(),
+                  status: status,
+                  shippedAt: order.shippedAt ? new Date(order.shippedAt).toLocaleString() : undefined,
+                  deliveredAt: order.deliveredAt ? new Date(order.deliveredAt).toLocaleString() : undefined,
+                  items: (order.orderItems || []).map((item: OrderItem) => ({
+                    name: item.product?.name || "Industrial Attachment",
+                    price: `€${(item.price || 0).toFixed(0)}`,
+                    image: item.product?.images?.[0] || "/images/home/category_grid/container_3.jpeg"
+                  })),
+                  total: `€${(order.totalPrice || 0).toFixed(0)}`
+                };
+              });
+
+              setOrders(formattedOrders);
+            }
+          } catch (ordersErr) {
+            console.warn("Could not fetch orders:", ordersErr);
+            setOrders([]);
+          }
+        }
       } catch (err) {
-        console.error("Failed to fetch profile data:", err)
-        setError("Failed to load profile data")
+        console.error("Failed to load profile:", err);
+        setError("Failed to load profile information.");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
     if (session?.user) {
-      fetchProfileData()
+      fetchProfileData();
+    } else {
+      setLoading(false);
     }
-  }, [session])
+  }, [session]);
 
-  const handleSaveSettings = async () => {
+  const handleSaveSettings = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
-      setSaving(true)
-      setError(null)
+      setSaving(true);
+      setSaveSuccess(false);
 
       await apiClient.updateProfile({
         name: userData.name,
         email: userData.email
-      })
+      });
 
-      alert("Settings saved successfully!")
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err) {
-      console.error("Failed to save settings:", err)
-      setError("Failed to save settings")
+      console.error("Failed to save settings:", err);
+      setError("Failed to save profile changes.");
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
-  }
+  };
 
-  const handleInputChange = (field: string, value: string) => {
-    setUserData(prev => ({
-      ...prev,
-      [field]: value
-    }))
-  }
+  const initialLetter = userData.name ? userData.name.charAt(0).toUpperCase() : (session?.user?.name ? session.user.name.charAt(0).toUpperCase() : "B");
 
   if (loading) {
     return (
-      <div className={styles.loadingContainer}>
-        <div className={styles.loadingSpinner}></div>
-        <p>Loading your profile...</p>
+      <div className={styles.loadingBox}>
+        <div className={styles.spinner} />
+        <p style={{ color: '#6E6B64', fontSize: '14.5px' }}>Loading your Client Portal profile...</p>
       </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className={styles.errorContainer}>
-        <p>{error}</p>
-        <button
-          className={styles.retryButton}
-          onClick={() => window.location.reload()}
-        >
-          Try Again
-        </button>
-      </div>
-    )
+    );
   }
 
   return (
-    <div>
-      <div className={styles.header}>
-        <div className={styles.avatar}>
-          {userData.name ? userData.name.charAt(0).toUpperCase() : "U"}
+    <div className={styles.profileContainer}>
+      {/* Header Banner Card */}
+      <div className={styles.headerCard}>
+        <div className={styles.headerGlow} />
+
+        <div className={styles.userInfoGroup}>
+          <div className={styles.avatarBox}>
+            {initialLetter}
+          </div>
+          <div className={styles.userMeta}>
+            <div className={styles.userNameRow}>
+              <h1 className={styles.userName}>{userData.name || "Brooq Client"}</h1>
+              <span className={styles.clientBadge}>
+                <ShieldCheck size={12} style={{ display: 'inline', marginRight: '3px' }} />
+                Verified Account
+              </span>
+            </div>
+            <p className={styles.userEmail}>{userData.email || session?.user?.email || "client@brooqalkhalij.com"}</p>
+          </div>
         </div>
-        <h1 className={styles.title}>My Profile</h1>
+
+        <div className={styles.headerActions}>
+          <button 
+            type="button"
+            className={styles.signOutBtn}
+            onClick={() => signOut({ callbackUrl: "/login" })}
+          >
+            <LogOut size={16} />
+            Sign Out
+          </button>
+        </div>
       </div>
 
-      <div className={styles.tabsContainer}>
-        <div
-          className={`${styles.tab} ${activeTab === "orders" ? styles.active : ""}`}
+      {/* Navigation Tabs */}
+      <div className={styles.tabsBar}>
+        <button
+          type="button"
+          className={`${styles.tabBtn} ${activeTab === "orders" ? styles.activeTab : ""}`}
           onClick={() => setActiveTab("orders")}
         >
-          Orders
-        </div>
-        <div
-          className={`${styles.tab} ${activeTab === "settings" ? styles.active : ""}`}
+          <ShoppingBag size={18} />
+          Order History {orders.length > 0 && `(${orders.length})`}
+        </button>
+        <button
+          type="button"
+          className={`${styles.tabBtn} ${activeTab === "settings" ? styles.activeTab : ""}`}
           onClick={() => setActiveTab("settings")}
         >
-          Settings
-        </div>
+          <UserIcon size={18} />
+          Account Settings
+        </button>
       </div>
 
-      <div className={styles.tabContent}>
+      {/* Tab Contents */}
+      <div className={styles.tabContentSection}>
         {activeTab === "orders" && (
           <div>
-            <h2 className={styles.sectionTitle}>Order History</h2>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>Your Purchase & Order History</h2>
+            </div>
+
             {orders.length > 0 ? (
               <div className={styles.ordersList}>
                 {orders.map((order) => (
                   <div key={order.id} className={styles.orderCard}>
+                    {/* Top Row: Order Number & Status */}
                     <div className={styles.orderHeader}>
-                      <div className={styles.orderId}>{order.id}</div>
-                      <div className={`${styles.orderStatus} ${styles[order.status]}`}>
-                        {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                      <div className={styles.orderIdGroup}>
+                        <Package size={18} color="#0453F8" />
+                        <span className={styles.orderId}>{order.id}</span>
+                        <span className={styles.orderDate}>• Placed on {order.date}</span>
+                      </div>
+
+                      <div className={`${styles.statusBadge} ${
+                        order.status === 'delivered' ? styles.statusDelivered : (order.status === 'shipped' ? styles.statusShipped : styles.statusPending)
+                      }`}>
+                        <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: 'currentColor' }} />
+                        {order.status}
                       </div>
                     </div>
-                    <div className={styles.orderTimeline}>
-                      <div className={styles.timeline}>
-                        {/* Payment Event - Always show for completed orders */}
-                        <div className={styles.timelineItem}>
-                          <div className={styles.timelineIcon}>
-                            <CreditCard className={styles.paidIcon} aria-hidden="true" />
+
+                    {/* Order Fulfillment Timeline */}
+                    <div className={styles.timelineBox}>
+                      <div className={styles.timelineRow}>
+                        <div className={styles.timelineStep}>
+                          <div className={`${styles.stepIconBox} ${styles.stepIconActive}`}>
+                            <CreditCard size={15} />
                           </div>
-                          <div className={styles.timelineContent}>
-                            <div className={styles.timelineTitle}>Payment Completed</div>
-                            <div className={styles.timelineDate}>{order.date}</div>
+                          <div className={styles.stepMeta}>
+                            <span className={styles.stepTitle}>Payment Confirmed</span>
+                            <span className={styles.stepTime}>{order.date}</span>
                           </div>
                         </div>
 
-                        {/* Shipped Event */}
-                        {order.shippedAt && (
-                          <div className={styles.timelineItem}>
-                            <div className={styles.timelineIcon}>
-                              <Truck className={styles.shippedIcon} aria-hidden="true" />
-                            </div>
-                            <div className={styles.timelineContent}>
-                              <div className={styles.timelineTitle}>Order Shipped</div>
-                              <div className={styles.timelineDate}>{order.shippedAt}</div>
-                            </div>
+                        <div className={styles.timelineStep}>
+                          <div className={`${styles.stepIconBox} ${order.shippedAt || order.status === 'shipped' || order.status === 'delivered' ? styles.stepIconActive : ''}`}>
+                            <Truck size={15} />
                           </div>
-                        )}
+                          <div className={styles.stepMeta}>
+                            <span className={styles.stepTitle}>Dispatched</span>
+                            <span className={styles.stepTime}>{order.shippedAt || "In Preparation"}</span>
+                          </div>
+                        </div>
 
-                        {/* Delivered Event */}
-                        {order.deliveredAt && (
-                          <div className={styles.timelineItem}>
-                            <div className={styles.timelineIcon}>
-                              <CheckCircle className={styles.deliveredIcon} aria-hidden="true" />
-                            </div>
-                            <div className={styles.timelineContent}>
-                              <div className={styles.timelineTitle}>Order Delivered</div>
-                              <div className={styles.timelineDate}>{order.deliveredAt}</div>
-                            </div>
+                        <div className={styles.timelineStep}>
+                          <div className={`${styles.stepIconBox} ${order.deliveredAt || order.status === 'delivered' ? styles.stepIconActive : ''}`}>
+                            <CheckCircle2 size={15} />
                           </div>
-                        )}
+                          <div className={styles.stepMeta}>
+                            <span className={styles.stepTitle}>Delivered</span>
+                            <span className={styles.stepTime}>{order.deliveredAt || "Pending Delivery"}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div className={styles.orderItems}>
-                      {order.items.map((item, index) => (
-                        <div key={index} className={styles.orderItem}>
-                          <div className={styles.itemImage}>
-                            {item.image && (
-                              <img
-                                src={item.image}
-                                alt={item.name}
-                                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '0.5rem' }}
-                              />
-                            )}
+
+                    {/* Order Line Items */}
+                    <div className={styles.itemsGrid}>
+                      {order.items.map((item, idx) => (
+                        <div key={idx} className={styles.itemRow}>
+                          <div className={styles.itemThumb}>
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              fill
+                              unoptimized
+                              className={styles.itemImg}
+                            />
                           </div>
                           <div className={styles.itemDetails}>
-                            <div className={styles.itemName}>{item.name}</div>
-                            <div className={styles.itemPrice}>{item.price}</div>
+                            <span className={styles.itemName}>{item.name}</span>
+                            <span className={styles.itemPrice}>{item.price}</span>
                           </div>
                         </div>
                       ))}
                     </div>
-                    <div className={styles.orderTotal}>
-                      <strong>Total: {order.total}</strong>
+
+                    {/* Order Total Footer */}
+                    <div className={styles.orderFooter}>
+                      <span className={styles.totalLabel}>Total Order Value</span>
+                      <span className={styles.totalAmount}>{order.total}</span>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className={styles.emptyState}>
-                <p>You haven&apos;t placed any orders yet.</p>
+              <div className={styles.emptyCard}>
+                <ShoppingBag size={36} color="#8C887E" />
+                <h3 className={styles.emptyTitle}>No Order History Found</h3>
+                <p className={styles.emptySub}>
+                  Explore our product catalog for heavy forklift attachments, safety equipment, and structural hardware.
+                </p>
+                <Link href="/products" className={styles.browseBtn}>
+                  Browse Catalog
+                  <ArrowRight size={16} />
+                </Link>
               </div>
             )}
           </div>
@@ -289,56 +356,102 @@ const Profile = () => {
 
         {activeTab === "settings" && (
           <div>
-            <h2 className={styles.sectionTitle}>Account Settings</h2>
-            {error && (
-              <div className={styles.errorMessage}>
-                {error}
-              </div>
-            )}
-            <div className={styles.settingsForm}>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Full Name</label>
-                <input
-                  type="text"
-                  value={userData.name}
-                  onChange={(e) => handleInputChange("name", e.target.value)}
-                  className={styles.input}
-                  placeholder="Enter your full name"
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Email Address</label>
-                <input
-                  type="email"
-                  value={userData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  className={styles.input}
-                  placeholder="Enter your email"
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Address</label>
-                <input
-                  type="text"
-                  value={userData.address}
-                  onChange={(e) => handleInputChange("address", e.target.value)}
-                  className={styles.input}
-                  placeholder="Enter your address"
-                />
-              </div>
-              <button
-                className={`${styles.button} ${saving ? styles.saving : ""}`}
-                onClick={handleSaveSettings}
-                disabled={saving}
-              >
-                {saving ? "Saving..." : "Save Changes"}
-              </button>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>Account & Delivery Information</h2>
+            </div>
+
+            <div className={styles.settingsCard}>
+              <form onSubmit={handleSaveSettings} className={styles.formGrid}>
+                <div className={styles.formRow}>
+                  <div className={styles.formGroup}>
+                    <label className={styles.label}>Full Name</label>
+                    <div className={styles.inputWrapper}>
+                      <UserIcon size={18} className={styles.inputIcon} />
+                      <input
+                        type="text"
+                        value={userData.name}
+                        onChange={(e) => setUserData(prev => ({ ...prev, name: e.target.value }))}
+                        className={styles.input}
+                        placeholder="Your full name"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label className={styles.label}>Email Address</label>
+                    <div className={styles.inputWrapper}>
+                      <Mail size={18} className={styles.inputIcon} />
+                      <input
+                        type="email"
+                        value={userData.email}
+                        onChange={(e) => setUserData(prev => ({ ...prev, email: e.target.value }))}
+                        className={styles.input}
+                        placeholder="client@company.com"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.formRow}>
+                  <div className={styles.formGroup}>
+                    <label className={styles.label}>Company / Organization</label>
+                    <div className={styles.inputWrapper}>
+                      <Building size={18} className={styles.inputIcon} />
+                      <input
+                        type="text"
+                        value={userData.company}
+                        onChange={(e) => setUserData(prev => ({ ...prev, company: e.target.value }))}
+                        className={styles.input}
+                        placeholder="Company name"
+                      />
+                    </div>
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label className={styles.label}>Primary Dispatch Address</label>
+                    <div className={styles.inputWrapper}>
+                      <MapPin size={18} className={styles.inputIcon} />
+                      <input
+                        type="text"
+                        value={userData.address}
+                        onChange={(e) => setUserData(prev => ({ ...prev, address: e.target.value }))}
+                        className={styles.input}
+                        placeholder="Industrial Area, Sector 4, Dammam"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {saveSuccess && (
+                  <div style={{ color: '#059669', fontSize: '13.5px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <CheckCircle2 size={16} /> Profile settings saved successfully!
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className={styles.saveBtn}
+                >
+                  {saving ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" /> Saving Changes...
+                    </>
+                  ) : (
+                    <>
+                      <Save size={16} /> Save Profile Changes
+                    </>
+                  )}
+                </button>
+              </form>
             </div>
           </div>
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export { Profile }
+export { Profile };

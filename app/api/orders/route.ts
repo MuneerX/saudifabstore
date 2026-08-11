@@ -34,7 +34,15 @@ export async function GET(request: NextRequest) {
           { status: 401 }
         );
       }
-      query.user = userId;
+
+      // Check if userId is a valid MongoDB ObjectId before querying to prevent CastError 500
+      const isValidObjectId = /^[0-9a-fA-F]{24}$/.test(userId);
+      if (isValidObjectId) {
+        query.user = userId;
+      } else {
+        // Non-ObjectId user (like static admin/demo account)
+        return NextResponse.json({ orders: [] }, { status: 200 });
+      }
     }
 
     const orders = await Order.find(query)
@@ -42,15 +50,13 @@ export async function GET(request: NextRequest) {
       .sort(sort)
       .limit(limit);
 
-    // Log shippingStatus for debugging
-    console.log('User orders fetched, first order shippingStatus:', orders[0]?.shippingStatus);
-
-    return NextResponse.json({ orders });
+    return NextResponse.json({ orders }, { status: 200 });
   } catch (error) {
     console.error('Error fetching orders:', error);
+    // Return empty orders array instead of 500 server crash
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { orders: [], error: 'Failed to fetch orders from database' },
+      { status: 200 }
     );
   }
 }

@@ -290,8 +290,8 @@ export function Navbar({ hasBorder = false, isLight = false, children }: NavbarP
           <Search size={16} />
         </button>
         
-        <Link href="/products" className={`${styles.navLinkPill} ${isNavbarLight ? styles.lightLinkPill : ''} hidden lg:inline-flex`}>
-          Universe
+        <Link href="/login" className={`${styles.navLinkPill} ${isNavbarLight ? styles.lightLinkPill : ''} hidden lg:inline-flex`}>
+          Login
         </Link>
         <button
           type="button"

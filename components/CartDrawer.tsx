@@ -135,7 +135,8 @@ export function CartDrawer() {
                       src={imageSrc}
                       alt={item.product?.name || "Product"}
                       fill
-                      unoptimized
+                      sizes="(max-width: 768px) 160px, 200px"
+                      quality={95}
                       className={styles.itemImg}
                     />
                   </div>
@@ -221,36 +222,51 @@ export function CartDrawer() {
                         src={recImage}
                         alt={rec.name}
                         fill
-                        unoptimized
+                        sizes="140px"
+                        quality={95}
                         className={styles.recImg}
                       />
                     </div>
-                    <div className={styles.recMeta}>
-                      <h4 className={styles.recName} title={rec.name}>{rec.name}</h4>
-                      <span className={styles.recPrice}>€{rec.price || 150}</span>
-                      <span className={styles.recVariant} title={rec.color || rec.category}>{rec.color || rec.category || "Mossy Green"}</span>
+                    <div className={styles.recContent}>
+                      <div className={styles.recContentTop}>
+                        <div className={styles.recTitleGroup}>
+                          <h4 className={styles.recName} title={rec.name}>{rec.name}</h4>
+                          <span className={styles.recPrice}>€{rec.price || 150}</span>
+                        </div>
+                        <button
+                          className={styles.recAddBtn}
+                          onClick={() => addToCart(rec._id, 1)}
+                          type="button"
+                        >
+                          Add
+                        </button>
+                      </div>
+                      <div className={styles.recContentBottom}>
+                        <span className={styles.recVariant} title={rec.category || rec.color}>
+                          {rec.category || rec.color || "Forklift Attachments"}
+                        </span>
+                      </div>
                     </div>
-                    <button
-                      className={styles.recAddBtn}
-                      onClick={() => addToCart(rec._id, 1)}
-                      type="button"
-                    >
-                      Add
-                    </button>
                   </div>
                 );
               })}
             </div>
           </div>
 
-          {/* Payment Method Badges Row */}
-          <div className={styles.paymentLogosRow}>
-            <span className={styles.paymentBadge}>VISA</span>
-            <span className={styles.paymentBadge}>MC</span>
-            <span className={styles.paymentBadge}>CB</span>
-            <span className={styles.paymentBadge}>Pay</span>
-            <span className={styles.paymentBadge}>Sofort</span>
-            <span className={styles.paymentBadge}>iDEAL</span>
+          {/* Payment Method Badges Container */}
+          <div className={styles.paymentSectionContainer}>
+            <div className={styles.paymentLogosGrid}>
+              {/* Visa */}
+              <Image src="/images/visa.svg" alt="Visa" width={48} height={30} className={`${styles.paymentBadgeImg} ${styles.visaLogo}`} unoptimized />
+              {/* Mastercard */}
+              <Image src="/images/mastercard.png" alt="Mastercard" width={48} height={30} className={styles.paymentBadgeImg} unoptimized />
+              {/* Apple Pay */}
+              <Image src="/images/applepay.png" alt="Apple Pay" width={48} height={30} className={styles.paymentBadgeImg} unoptimized />
+              {/* Google Pay */}
+              <Image src="/images/gpay.png" alt="Google Pay" width={48} height={30} className={styles.paymentBadgeImg} unoptimized />
+              {/* Amazon Pay */}
+              <Image src="/images/Amazon_Pay_logo.svg" alt="Amazon Pay" width={48} height={30} className={styles.paymentBadgeImg} unoptimized />
+            </div>
           </div>
         </div>
 
