@@ -96,58 +96,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Featured Section */}
-      <section className={styles.featuredSection}>
-        <div className={styles.featuredCardContainer}>
-          <div className={styles.featuredBgWrapper}>
-            <Image
-              src="/images/services/services_featured.jpeg"
-              alt="Precision Industrial Coatings"
-              fill
-              className={styles.featuredBgImage}
-              sizes="100vw"
-              priority
-            />
-          </div>
 
-          <div className={styles.featuredCard}>
-            <h2 className={styles.featuredCardTitle}>
-              Precision Industrial Coatings
-            </h2>
-
-            <p className={styles.featuredCardDesc}>
-              Protecting structural integrity with certified grit blasting (SA 2.5) and professional paint application layers optimized for durability and longevity.
-            </p>
-
-            <div className={styles.featuredChecklist}>
-              <div className={styles.checkItem}>
-                <span className={styles.checkIcon}>✓</span>
-                <span>Advanced sandblasting &amp; surface profiling</span>
-              </div>
-              <div className={styles.checkItem}>
-                <span className={styles.checkIcon}>✓</span>
-                <span>Anti-corrosive epoxy &amp; fireproof intumescent layers</span>
-              </div>
-              <div className={styles.checkItem}>
-                <span className={styles.checkIcon}>✓</span>
-                <span>ISO &amp; environmental safety standard compliance</span>
-              </div>
-            </div>
-
-            <div className={styles.featuredCardBtnGroup}>
-              <button
-                className={styles.featuredPrimaryBtn}
-                onClick={() => setIsContactOpen(true)}
-              >
-                Book coating service
-              </button>
-              <Link href="/products" className={styles.featuredSecondaryBtn}>
-                <span>→ Learn more</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Benefits Section */}
       <section className={styles.benefitsSection}>
@@ -167,214 +116,221 @@ export default function ServicesPage() {
             </button>
           </div>
 
-          {/* Right Column: All 11 Services & Divisions */}
+          {/* Right Column: All 8 Core Services matching Home Page */}
           <div className={styles.benefitsRight}>
             {/* Service 1: Steel Fabrication */}
             <div className={styles.benefitRow}>
               <div className={styles.benefitImgWrapper}>
                 <Image
                   src="/images/home/services/steel2.jpeg"
-                  alt="Heavy Structural Steel Fabrication"
+                  alt="Steel Fabrication"
                   fill
                   className={styles.benefitImg}
                   sizes="280px"
                 />
               </div>
               <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>Heavy Structural Steel Fabrication</h3>
+                <h3 className={styles.benefitRowTitle}>Steel Fabrication</h3>
                 <p className={styles.benefitRowDesc}>
-                  Custom structural steel columns, roof trusses, crane girders, and heavy-duty transportable iron baskets engineered to exact AWS blueprints.
+                  Custom steel structures, workbenches, cranes, trailers &amp; office containers.
                 </p>
+                <Link href="/services/steel-fabrication" className={styles.serviceDetailBtn}>
+                  <span>Explore Service</span>
+                  <span className={styles.serviceBtnArrow}>
+                    <svg width="10" height="19" viewBox="0 0 10 19" fill="none">
+                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
+                    </svg>
+                  </span>
+                </Link>
               </div>
             </div>
 
-            {/* Service 2: Sandblasting & Media Blasting */}
+            {/* Service 2: Blasting & Sandblasting */}
             <div className={styles.benefitRow}>
               <div className={styles.benefitImgWrapper}>
                 <Image
-                  src="/images/home/services/blasting.jpeg"
-                  alt="Sandblasting & Media Blasting Services"
+                  src="/images/home/services/blasting3.jpeg"
+                  alt="Blasting & Sandblasting"
                   fill
                   className={styles.benefitImg}
                   sizes="280px"
                 />
               </div>
               <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>Sandblasting &amp; Media Blasting</h3>
+                <h3 className={styles.benefitRowTitle}>Blasting &amp; Sandblasting</h3>
                 <p className={styles.benefitRowDesc}>
-                  Certified abrasive grit blasting (SA 2.5), aluminum oxide blasting, glass bead satin finishing, and substrate-safe plastic media blasting.
+                  Abrasive sandblasting, paint &amp; rust removal, mill scale surface prep.
                 </p>
+                <Link href="/services/blasting-sandblasting" className={styles.serviceDetailBtn}>
+                  <span>Explore Service</span>
+                  <span className={styles.serviceBtnArrow}>
+                    <svg width="10" height="19" viewBox="0 0 10 19" fill="none">
+                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
+                    </svg>
+                  </span>
+                </Link>
               </div>
             </div>
 
-            {/* Service 3: Painting & Protective Coatings */}
+            {/* Service 3: Industrial Painting & Coatings */}
             <div className={styles.benefitRow}>
               <div className={styles.benefitImgWrapper}>
                 <Image
-                  src="/images/home/services/blast2.jpeg"
-                  alt="Painting & Protective Coatings"
+                  src="/images/home/services/painting3.jpeg"
+                  alt="Industrial Painting & Coatings"
                   fill
                   className={styles.benefitImg}
                   sizes="280px"
                 />
               </div>
               <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>Painting &amp; Protective Coatings</h3>
+                <h3 className={styles.benefitRowTitle}>Industrial Painting &amp; Coatings</h3>
                 <p className={styles.benefitRowDesc}>
-                  Anti-corrosive epoxy primers, polyurethane finishes, siloxanes, zinc coats, dry film thickness (DFT) logging, and intumescent fireproofing.
+                  High-durability protective surface coatings and fireproof coating applications.
                 </p>
+                <Link href="/services/industrial-painting-coatings" className={styles.serviceDetailBtn}>
+                  <span>Explore Service</span>
+                  <span className={styles.serviceBtnArrow}>
+                    <svg width="10" height="19" viewBox="0 0 10 19" fill="none">
+                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
+                    </svg>
+                  </span>
+                </Link>
               </div>
             </div>
 
-            {/* Service 4: Forklift Repair & Fleet Maintenance */}
+            {/* Service 4: Forklift Repair & Servicing */}
             <div className={styles.benefitRow}>
               <div className={styles.benefitImgWrapper}>
                 <Image
-                  src="/images/home/services/forkliftrepair.jpeg"
-                  alt="Forklift Repair & Fleet Maintenance"
+                  src="/images/home/services/forklift2.jpeg"
+                  alt="Forklift Repair & Servicing"
                   fill
                   className={styles.benefitImg}
                   sizes="280px"
                 />
               </div>
               <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>Forklift Repair &amp; Fleet Maintenance</h3>
+                <h3 className={styles.benefitRowTitle}>Forklift Repair &amp; Servicing</h3>
                 <p className={styles.benefitRowDesc}>
-                  Comprehensive workshop engine rebuilds, mast &amp; hydraulic system overhauls, mobile emergency repair units, and Annual Maintenance Contracts (AMC).
+                  Comprehensive maintenance, overhaul, and repair for heavy equipment.
                 </p>
+                <Link href="/services/forklift-repair" className={styles.serviceDetailBtn}>
+                  <span>Explore Service</span>
+                  <span className={styles.serviceBtnArrow}>
+                    <svg width="10" height="19" viewBox="0 0 10 19" fill="none">
+                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
+                    </svg>
+                  </span>
+                </Link>
               </div>
             </div>
 
-            {/* Service 5: ProTorc Industrial Torquing & Machining */}
+            {/* Service 5: ProTorc Torquing & Bolting */}
             <div className={styles.benefitRow}>
               <div className={styles.benefitImgWrapper}>
                 <Image
-                  src="/images/home/category_grid/lifting_3.jpeg"
-                  alt="ProTorc Industrial Torquing & Machining"
+                  src="/images/home/services/protoc3.jpeg"
+                  alt="ProTorc Torquing & Bolting"
                   fill
                   className={styles.benefitImg}
                   sizes="280px"
                 />
               </div>
               <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>ProTorc Torquing &amp; On-Site Machining</h3>
+                <h3 className={styles.benefitRowTitle}>ProTorc Torquing &amp; Bolting</h3>
                 <p className={styles.benefitRowDesc}>
-                  Hydraulic controlled bolt torquing, cold pipe cutting &amp; beveling (up to 60"), and leak-free flange facing machining for plant shutdowns.
+                  Precision bolting, hydraulic torquing, and torque control for industrial plants.
                 </p>
+                <Link href="/services/protorc-torquing-bolting" className={styles.serviceDetailBtn}>
+                  <span>Explore Service</span>
+                  <span className={styles.serviceBtnArrow}>
+                    <svg width="10" height="19" viewBox="0 0 10 19" fill="none">
+                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
+                    </svg>
+                  </span>
+                </Link>
               </div>
             </div>
 
-            {/* Service 6: Diesel Fire Pump Maintenance */}
+            {/* Service 6: General Safety Trading */}
             <div className={styles.benefitRow}>
               <div className={styles.benefitImgWrapper}>
                 <Image
-                  src="/images/home/category_grid/safety_3.jpeg"
-                  alt="Diesel Pump Controller Maintenance"
+                  src="/images/home/services/general2.jpeg"
+                  alt="General Safety Trading"
                   fill
                   className={styles.benefitImg}
                   sizes="280px"
                 />
               </div>
               <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>Diesel Pump Controller Unit</h3>
+                <h3 className={styles.benefitRowTitle}>General Safety Trading</h3>
                 <p className={styles.benefitRowDesc}>
-                  Testing &amp; maintenance of diesel fire pump controllers, automatic deluge triggers, manual emergency overrides, and dual battery charger setups.
+                  Supply of certified safety gloves, helmets, goggles, and industrial gear.
                 </p>
+                <Link href="/services/general-safety-trading" className={styles.serviceDetailBtn}>
+                  <span>Explore Service</span>
+                  <span className={styles.serviceBtnArrow}>
+                    <svg width="10" height="19" viewBox="0 0 10 19" fill="none">
+                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
+                    </svg>
+                  </span>
+                </Link>
               </div>
             </div>
 
-            {/* Service 7: Alfa Al-Arab Chemical Imports & Supply */}
+            {/* Service 7: Paper & Plastic Packaging */}
             <div className={styles.benefitRow}>
               <div className={styles.benefitImgWrapper}>
                 <Image
-                  src="/images/home/services/trading.jpeg"
-                  alt="Alfa Al-Arab Chemical Factory"
+                  src="/images/home/services/paper2.jpeg"
+                  alt="Paper & Plastic Packaging"
                   fill
                   className={styles.benefitImg}
                   sizes="280px"
                 />
               </div>
               <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>Alfa Al-Arab Chemical Factory</h3>
+                <h3 className={styles.benefitRowTitle}>Paper &amp; Plastic Packaging</h3>
                 <p className={styles.benefitRowDesc}>
-                  Distributor of water treatment chemicals, organic raw materials, swimming pool treatments, commercial soaps, and industrial cleansers.
+                  BCT-rated heavy compression corrugated boxes &amp; plastic packaging.
                 </p>
+                <Link href="/services/paper-plastic-packaging" className={styles.serviceDetailBtn}>
+                  <span>Explore Service</span>
+                  <span className={styles.serviceBtnArrow}>
+                    <svg width="10" height="19" viewBox="0 0 10 19" fill="none">
+                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
+                    </svg>
+                  </span>
+                </Link>
               </div>
             </div>
 
-            {/* Service 8: Paper & Plastic Factory Division */}
+            {/* Service 8: Smart Woodworks & Joinery */}
             <div className={styles.benefitRow}>
               <div className={styles.benefitImgWrapper}>
                 <Image
-                  src="/images/home/services/trading.jpeg"
-                  alt="Paper & Plastic Factory Division"
+                  src="/images/home/services/wood2.jpeg"
+                  alt="Smart Woodworks & Joinery"
                   fill
                   className={styles.benefitImg}
                   sizes="280px"
                 />
               </div>
               <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>Paper &amp; Plastic Factory Division</h3>
+                <h3 className={styles.benefitRowTitle}>Smart Woodworks &amp; Joinery</h3>
                 <p className={styles.benefitRowDesc}>
-                  High-speed automated converting of industrial paper packaging, custom shopping bags, retail boxes, wrapping sheets, and custom labels.
+                  Precision joinery, custom industrial timber fabrication, and woodwork.
                 </p>
-              </div>
-            </div>
-
-            {/* Service 9: Brooq Stone Solid Surface & Quartz Factory */}
-            <div className={styles.benefitRow}>
-              <div className={styles.benefitImgWrapper}>
-                <Image
-                  src="/images/home/services/stone2.jpeg"
-                  alt="Brooq Stone Solid Surface & Quartz"
-                  fill
-                  className={styles.benefitImg}
-                  sizes="280px"
-                />
-              </div>
-              <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>Brooq Stone Solid Surface &amp; Quartz</h3>
-                <p className={styles.benefitRowDesc}>
-                  Seamless acrylic kitchen countertops, reception desks, quartz vanity tops, Corian Quality Network authorized thermoforming &amp; deep forming.
-                </p>
-              </div>
-            </div>
-
-            {/* Service 10: Smart Woodworks Division */}
-            <div className={styles.benefitRow}>
-              <div className={styles.benefitImgWrapper}>
-                <Image
-                  src="/images/home/services/stone.jpeg"
-                  alt="Smart Woodworks Division"
-                  fill
-                  className={styles.benefitImg}
-                  sizes="280px"
-                />
-              </div>
-              <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>Smart Woodworks &amp; Millwork</h3>
-                <p className={styles.benefitRowDesc}>
-                  Custom architectural corporate boardroom millwork, hotel wood reception desks, wardrobe fitouts, timber paneling, and CNC wood carving.
-                </p>
-              </div>
-            </div>
-
-            {/* Service 11: Brooq General Trading & PPE */}
-            <div className={styles.benefitRow}>
-              <div className={styles.benefitImgWrapper}>
-                <Image
-                  src="/images/home/services/trading.jpeg"
-                  alt="Brooq General Trading & PPE"
-                  fill
-                  className={styles.benefitImg}
-                  sizes="280px"
-                />
-              </div>
-              <div className={styles.benefitText}>
-                <h3 className={styles.benefitRowTitle}>General Trading &amp; PPE Supply</h3>
-                <p className={styles.benefitRowDesc}>
-                  Sourcing and supplying certified PPE safety gear, professional hand/power tools, electrical fittings, plumbing, and sanitaryware fittings.
-                </p>
+                <Link href="/services/smart-woodworks" className={styles.serviceDetailBtn}>
+                  <span>Explore Service</span>
+                  <span className={styles.serviceBtnArrow}>
+                    <svg width="10" height="19" viewBox="0 0 10 19" fill="none">
+                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
+                    </svg>
+                  </span>
+                </Link>
               </div>
             </div>
           </div>

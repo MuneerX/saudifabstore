@@ -50,6 +50,57 @@ interface GetOrdersResponse {
   orders: Order[];
 }
 
+export function ProfileSkeleton() {
+  return (
+    <div className={styles.profileContainer} style={{ minHeight: "80vh" }}>
+      {/* Header Card Skeleton */}
+      <div className={`${styles.headerCard} ${styles.shimmer}`}>
+        <div className={styles.userInfoGroup}>
+          <div className={`${styles.avatarBox} ${styles.shimmerAvatar}`} style={{ background: '#EBE7DF' }} />
+          <div className={styles.userMeta}>
+            <div className={styles.shimmerLine} style={{ width: "180px", height: "24px", marginBottom: "8px" }} />
+            <div className={styles.shimmerLine} style={{ width: "120px", height: "16px" }} />
+          </div>
+        </div>
+        <div className={`${styles.signOutBtn} ${styles.shimmerButton}`} style={{ width: "100px", height: "40px", border: "1px solid #EBE7DF" }} />
+      </div>
+
+      {/* Tabs Skeleton */}
+      <div className={styles.tabsBar}>
+        <div className={styles.shimmerLine} style={{ width: "150px", height: "30px", marginRight: "16px" }} />
+        <div className={styles.shimmerLine} style={{ width: "150px", height: "30px" }} />
+      </div>
+
+      {/* Content Skeleton */}
+      <div className={styles.tabContentSection}>
+        <div className={styles.shimmerLine} style={{ width: "240px", height: "24px", marginBottom: "24px" }} />
+        <div className={styles.ordersList}>
+          {[1, 2].map((i) => (
+            <div key={i} className={styles.orderCard} style={{ opacity: 0.6 }}>
+              <div className={styles.orderHeader} style={{ borderBottom: "1px solid #eee", paddingBottom: "16px", marginBottom: "20px" }}>
+                <div className={styles.shimmerLine} style={{ width: "200px", height: "20px" }} />
+                <div className={styles.shimmerLine} style={{ width: "80px", height: "24px", borderRadius: "12px" }} />
+              </div>
+              <div className={styles.timelineBox} style={{ marginBottom: "20px" }}>
+                <div className={styles.shimmerLine} style={{ width: "100%", height: "40px" }} />
+              </div>
+              <div className={styles.itemsGrid}>
+                <div className={styles.itemRow} style={{ background: "#f9f9f9" }}>
+                  <div className={`${styles.itemThumb} ${styles.shimmerAvatar}`} style={{ width: "56px", height: "56px", borderRadius: "6px" }} />
+                  <div style={{ flex: 1, marginLeft: "16px" }}>
+                    <div className={styles.shimmerLine} style={{ width: "150px", height: "18px", marginBottom: "8px" }} />
+                    <div className={styles.shimmerLine} style={{ width: "80px", height: "14px" }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const Profile = () => {
   const { data: session } = useSession();
   const [activeTab, setActiveTab] = useState<"orders" | "settings">("orders");
@@ -111,9 +162,10 @@ const Profile = () => {
         });
 
         // Fetch user orders safely
-        if (session?.user?.id) {
+        if (session?.user) {
           try {
-            const ordersResponse: GetOrdersResponse = await apiClient.request(`/orders?userId=${session.user.id}`);
+            const queryParam = session.user.id ? `?userId=${session.user.id}` : '';
+            const ordersResponse: GetOrdersResponse = await apiClient.request(`/orders${queryParam}`);
             if (ordersResponse && Array.isArray(ordersResponse.orders)) {
               const formattedOrders = ordersResponse.orders.map((order: Order) => {
                 let status = 'pending';
@@ -131,10 +183,10 @@ const Profile = () => {
                   deliveredAt: order.deliveredAt ? new Date(order.deliveredAt).toLocaleString() : undefined,
                   items: (order.orderItems || []).map((item: OrderItem) => ({
                     name: item.product?.name || "Industrial Attachment",
-                    price: `€${(item.price || 0).toFixed(0)}`,
+                    price: `$${(item.price || 0).toFixed(2)}`,
                     image: item.product?.images?.[0] || "/images/home/category_grid/container_3.jpeg"
                   })),
-                  total: `€${(order.totalPrice || 0).toFixed(0)}`
+                  total: `$${(order.totalPrice || 0).toFixed(2)}`
                 };
               });
 
@@ -184,12 +236,7 @@ const Profile = () => {
   const initialLetter = userData.name ? userData.name.charAt(0).toUpperCase() : (session?.user?.name ? session.user.name.charAt(0).toUpperCase() : "B");
 
   if (loading) {
-    return (
-      <div className={styles.loadingBox}>
-        <div className={styles.spinner} />
-        <p style={{ color: '#6E6B64', fontSize: '14.5px' }}>Loading your Client Portal profile...</p>
-      </div>
-    );
+    return <ProfileSkeleton />;
   }
 
   return (
@@ -269,7 +316,13 @@ const Profile = () => {
                       <div className={`${styles.statusBadge} ${
                         order.status === 'delivered' ? styles.statusDelivered : (order.status === 'shipped' ? styles.statusShipped : styles.statusPending)
                       }`}>
-                        <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: 'currentColor' }} />
+                        {order.status === 'delivered' ? (
+                          <CheckCircle2 size={13} />
+                        ) : order.status === 'shipped' ? (
+                          <Truck size={13} />
+                        ) : (
+                          <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: 'currentColor' }} />
+                        )}
                         {order.status}
                       </div>
                     </div>
@@ -277,8 +330,17 @@ const Profile = () => {
                     {/* Order Fulfillment Timeline */}
                     <div className={styles.timelineBox}>
                       <div className={styles.timelineRow}>
+                        <div className={styles.timelineTrack}>
+                          <div 
+                            className={styles.timelineProgress} 
+                            style={{
+                              width: order.status === 'delivered' ? '100%' : (order.status === 'shipped' ? '50%' : '15%')
+                            }} 
+                          />
+                        </div>
+
                         <div className={styles.timelineStep}>
-                          <div className={`${styles.stepIconBox} ${styles.stepIconActive}`}>
+                          <div className={`${styles.stepIconBox} ${styles.stepIconPaid}`}>
                             <CreditCard size={15} />
                           </div>
                           <div className={styles.stepMeta}>
@@ -288,22 +350,22 @@ const Profile = () => {
                         </div>
 
                         <div className={styles.timelineStep}>
-                          <div className={`${styles.stepIconBox} ${order.shippedAt || order.status === 'shipped' || order.status === 'delivered' ? styles.stepIconActive : ''}`}>
+                          <div className={`${styles.stepIconBox} ${order.shippedAt || order.status === 'shipped' || order.status === 'delivered' ? styles.stepIconShipped : ''}`}>
                             <Truck size={15} />
                           </div>
                           <div className={styles.stepMeta}>
                             <span className={styles.stepTitle}>Dispatched</span>
-                            <span className={styles.stepTime}>{order.shippedAt || "In Preparation"}</span>
+                            <span className={styles.stepTime}>{order.shippedAt || (order.status === 'shipped' || order.status === 'delivered' ? 'In Transit' : 'In Preparation')}</span>
                           </div>
                         </div>
 
                         <div className={styles.timelineStep}>
-                          <div className={`${styles.stepIconBox} ${order.deliveredAt || order.status === 'delivered' ? styles.stepIconActive : ''}`}>
+                          <div className={`${styles.stepIconBox} ${order.deliveredAt || order.status === 'delivered' ? styles.stepIconDelivered : ''}`}>
                             <CheckCircle2 size={15} />
                           </div>
                           <div className={styles.stepMeta}>
                             <span className={styles.stepTitle}>Delivered</span>
-                            <span className={styles.stepTime}>{order.deliveredAt || "Pending Delivery"}</span>
+                            <span className={styles.stepTime}>{order.deliveredAt || (order.status === 'delivered' ? 'Completed' : 'Pending Delivery')}</span>
                           </div>
                         </div>
                       </div>

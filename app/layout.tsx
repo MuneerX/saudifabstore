@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat, Geist_Mono, Sacramento, Great_Vibes, Herr_Von_Muellerhoff } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./Providers";
+import { SmoothScroll } from "@/components/SmoothScroll";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -55,7 +56,9 @@ export default function RootLayout({
           fontFamily: 'var(--font-montserrat), sans-serif',
         }}
       >
-        <Providers>{children}</Providers>
+        <SmoothScroll>
+          <Providers>{children}</Providers>
+        </SmoothScroll>
       </body>
     </html>
   );

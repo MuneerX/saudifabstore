@@ -134,119 +134,150 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
       `;
     }
     
+    const customerName = order.user?.name || order.shippingAddress?.name || 'Customer';
+    const customerEmail = order.user?.email || order.shippingAddress?.email || 'No email';
+    const customerPhone = order.shippingAddress?.phone || (order.user as any)?.phone || 'Not provided';
+    
     return `
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Invoice - Order ${order._id}</title>
+          <title>Invoice #${order._id} - Brooq Al Khalij</title>
           <style>
             @media print {
-              body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-              .no-print { display: none; }
+              body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 20px; color: #111; }
+              .no-print { display: none !important; }
+              .invoice-card { border: none !important; box-shadow: none !important; }
             }
-            body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-            .invoice-header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 30px; }
-            .invoice-title { font-size: 28px; font-weight: bold; color: #333; margin-bottom: 10px; }
-            .company-info { font-size: 14px; color: #666; }
-            .order-info { display: flex; justify-content: space-between; margin-bottom: 30px; }
-            .info-section { flex: 1; }
-            .info-section h3 { font-size: 16px; margin-bottom: 10px; color: #333; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
-            .info-item { margin-bottom: 5px; font-size: 14px; }
-            .items-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-            .items-table th, .items-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-            .items-table th { background-color: #f5f5f5; font-weight: bold; }
-            .items-table .total-row { font-weight: bold; background-color: #f9f9f9; }
-            .summary-section { margin-top: 30px; padding: 20px; background-color: #f9f9f9; border-radius: 5px; }
-            .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
-            .status-badge { display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; }
-            .status-completed { background-color: #d4edda; color: #155724; }
-            .status-paid { background-color: #cce5ff; color: #004085; }
-            .status-pending { background-color: #fff3cd; color: #856404; }
-            .print-date { text-align: center; margin-top: 30px; font-size: 12px; color: #666; }
-            .no-print { margin-top: 20px; text-align: center; }
-            .no-print button { margin: 0 10px; padding: 10px 20px; }
+            body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 30px; background-color: #f8fafc; color: #1e293b; }
+            .invoice-card { max-width: 800px; margin: 0 auto; background: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0; }
+            .invoice-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #EA532B; padding-bottom: 24px; margin-bottom: 30px; }
+            .brand-section { display: flex; flex-direction: column; gap: 4px; }
+            .company-name { font-size: 24px; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: -0.02em; }
+            .company-tagline { font-size: 12px; color: #EA532B; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+            .company-details { font-size: 13px; color: #64748b; margin-top: 8px; line-height: 1.5; }
+            .invoice-title-block { text-align: right; }
+            .invoice-title { font-size: 32px; font-weight: 800; color: #EA532B; letter-spacing: -0.03em; margin: 0; }
+            .invoice-number { font-size: 13px; color: #64748b; margin-top: 4px; font-family: monospace; }
+            
+            .order-info { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; padding: 20px; background: #f8fafc; border-radius: 8px; border: 1px solid #f1f5f9; }
+            .info-section h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: #EA532B; margin: 0 0 12px 0; }
+            .info-item { font-size: 13.5px; color: #334155; margin-bottom: 4px; line-height: 1.4; }
+            .info-item strong { color: #0f172a; }
+
+            .items-table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+            .items-table th { background-color: #f1f5f9; color: #475569; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 12px 16px; border-bottom: 2px solid #e2e8f0; text-align: left; }
+            .items-table td { padding: 14px 16px; border-bottom: 1px solid #f1f5f9; font-size: 14px; color: #334155; }
+            .items-table td.text-right, .items-table th.text-right { text-align: right; }
+            
+            .summary-container { display: flex; justify-content: flex-end; margin-top: 24px; }
+            .summary-section { width: 320px; background-color: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; }
+            .summary-row { display: flex; justify-content: space-between; font-size: 14px; color: #475569; margin-bottom: 8px; }
+            .total-row { display: flex; justify-content: space-between; border-top: 2px solid #EA532B; padding-top: 12px; margin-top: 8px; font-weight: 800; font-size: 18px; color: #0f172a; }
+            
+            .status-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: capitalize; }
+            .status-completed { background-color: #dcfce7; color: #15803d; }
+            .status-pending { background-color: #ffedd5; color: #c2410c; }
+            
+            .footer-info { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #94a3b8; }
+            .no-print { margin-top: 24px; text-align: center; }
+            .no-print button { margin: 0 8px; padding: 10px 24px; font-weight: 600; border-radius: 6px; cursor: pointer; border: none; font-size: 14px; }
+            .btn-print { background-color: #EA532B; color: white; }
+            .btn-close { background-color: #e2e8f0; color: #334155; }
           </style>
         </head>
         <body>
-          <div class="invoice-header">
-            <h1 class="invoice-title">INVOICE</h1>
-            <div class="company-info">
-              <div>Your Company Name</div>
-              <div>123 Business Street, City, State 12345</div>
-              <div>Phone: (555) 123-4567 | Email: info@yourcompany.com</div>
-            </div>
-          </div>
-
-          <div class="order-info">
-            <div class="info-section">
-              <h3>Bill To:</h3>
-              <div class="info-item"><strong>${order.user?.name || 'Customer'}</strong></div>
-              <div class="info-item">${order.user?.email || 'No email'}</div>
-              <div class="info-item">${order.shippingAddress?.address || 'No address'}</div>
-              <div class="info-item">${order.shippingAddress?.city || ''}, ${order.shippingAddress?.postalCode || ''}</div>
-              <div class="info-item">${order.shippingAddress?.country || ''}</div>
-            </div>
-
-            <div class="info-section">
-              <h3>Order Details:</h3>
-              <div class="info-item"><strong>Order ID:</strong> ${order._id}</div>
-              <div class="info-item"><strong>Order Date:</strong> ${new Date(order.createdAt).toLocaleDateString()}</div>
-              <div class="info-item"><strong>Payment Method:</strong> ${order.paymentMethod}</div>
-              <div class="info-item"><strong>Status:</strong>
-                <span class="status-badge ${order.isDelivered ? 'status-completed' : 'status-pending'}">
-                  ${order.isDelivered ? 'Completed' : 'Pending'}
-                </span>
+          <div class="invoice-card">
+            <div class="invoice-header">
+              <div class="brand-section">
+                <div class="company-name">Brooq Al Khalij</div>
+                <div class="company-tagline">Contracting & Trading Co.</div>
+                <div class="company-details">
+                  King Fahd Road, Dammam 31952, Kingdom of Saudi Arabia<br/>
+                  Phone: +966 13 800 0000 | Email: sales@brooqalkhalij.com<br/>
+                  CR: 2050123456 | VAT Reg No: 300123456700003
+                </div>
+              </div>
+              <div class="invoice-title-block">
+                <h1 class="invoice-title">INVOICE</h1>
+                <div class="invoice-number">ID: #${order._id}</div>
               </div>
             </div>
-          </div>
 
-          <table class="items-table">
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${order.orderItems?.map((item) => `
+            <div class="order-info">
+              <div class="info-section">
+                <h3>Billed To (Customer):</h3>
+                <div class="info-item"><strong>${customerName}</strong></div>
+                <div class="info-item">Email: ${customerEmail}</div>
+                <div class="info-item">Phone: ${customerPhone}</div>
+                <div class="info-item">Address: ${order.shippingAddress?.address || 'No address provided'}</div>
+                <div class="info-item">${order.shippingAddress?.city || ''} ${order.shippingAddress?.postalCode ? `- ${order.shippingAddress.postalCode}` : ''}, ${order.shippingAddress?.country || ''}</div>
+              </div>
+
+              <div class="info-section">
+                <h3>Order Details:</h3>
+                <div class="info-item"><strong>Order ID:</strong> ${order._id}</div>
+                <div class="info-item"><strong>Order Date:</strong> ${new Date(order.createdAt).toLocaleDateString()}</div>
+                <div class="info-item"><strong>Payment Method:</strong> ${order.paymentMethod}</div>
+                <div class="info-item"><strong>Fulfillment Status:</strong>
+                  <span class="status-badge ${order.isDelivered ? 'status-completed' : 'status-pending'}">
+                    ${order.isDelivered ? 'Delivered' : (order.shippingStatus || 'Pending')}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <table class="items-table">
+              <thead>
                 <tr>
-                  <td>${item.product?.name || 'Product'}</td>
-                  <td>${item.quantity}</td>
-                  <td>₹${(item.price || 0).toFixed(2)}</td>
-                  <td>₹${((item.price || 0) * item.quantity).toFixed(2)}</td>
+                  <th>Description / Product</th>
+                  <th class="text-right">Qty</th>
+                  <th class="text-right">Unit Price</th>
+                  <th class="text-right">Total Amount</th>
                 </tr>
-              `).join('')}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                ${order.orderItems?.map((item) => `
+                  <tr>
+                    <td><strong>${item.product?.name || 'Product'}</strong></td>
+                    <td class="text-right">${item.quantity}</td>
+                    <td class="text-right">$${(item.price || 0).toFixed(2)}</td>
+                    <td class="text-right">$${((item.price || 0) * item.quantity).toFixed(2)}</td>
+                  </tr>
+                `).join('') || ''}
+              </tbody>
+            </table>
 
-          <div class="summary-section">
-            <div class="summary-row">
-              <span>Items Price:</span>
-              <span>₹${(order.itemsPrice || 0).toFixed(2)}</span>
+            <div class="summary-container">
+              <div class="summary-section">
+                <div class="summary-row">
+                  <span>Subtotal:</span>
+                  <span>$${(order.itemsPrice || 0).toFixed(2)}</span>
+                </div>
+                <div class="summary-row">
+                  <span>Freight / Shipping:</span>
+                  <span>$${(order.shippingPrice || 0).toFixed(2)}</span>
+                </div>
+                <div class="summary-row">
+                  <span>VAT (10%):</span>
+                  <span>$${(order.taxPrice || 0).toFixed(2)}</span>
+                </div>
+                <div class="total-row">
+                  <span>Total Amount:</span>
+                  <span>$${(order.totalPrice || 0).toFixed(2)}</span>
+                </div>
+              </div>
             </div>
-            <div class="summary-row">
-              <span>Shipping:</span>
-              <span>₹${(order.shippingPrice || 0).toFixed(2)}</span>
-            </div>
-            <div class="summary-row">
-              <span>Tax:</span>
-              <span>₹${(order.taxPrice || 0).toFixed(2)}</span>
-            </div>
-            <div class="summary-row" style="border-top: 2px solid #333; padding-top: 10px; font-weight: bold; font-size: 16px;">
-              <span>Total:</span>
-              <span>₹${(order.totalPrice || 0).toFixed(2)}</span>
-            </div>
-          </div>
 
-          <div class="print-date">
-            Invoice generated on ${new Date().toLocaleString()}
-          </div>
+            <div class="footer-info">
+              Thank you for choosing Brooq Al Khalij Contracting & Trading Co.<br/>
+              Invoice generated electronically on ${new Date().toLocaleString()}
+            </div>
 
-          <div class="no-print">
-            <button onclick="window.print()">Print Invoice</button>
-            <button onclick="window.close()">Close</button>
+            <div class="no-print">
+              <button class="btn-print" onclick="window.print()">Print Invoice</button>
+              <button class="btn-close" onclick="window.close()">Close Window</button>
+            </div>
           </div>
         </body>
       </html>
@@ -598,10 +629,10 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
           </CardHeader>
           <CardContent className={styles.cardContent}>
             <div className={styles.customerInfo}>
-              <div className={styles.customerName}>{order.user?.name || 'Unknown Customer'}</div>
+              <div className={styles.customerName}>{order.user?.name || order.shippingAddress?.name || 'Customer'}</div>
               <div className={styles.customerContact}>
-                <div>{order.user?.email || 'No email'}</div>
-                <div>Phone: Not provided</div>
+                <div>{order.user?.email || order.shippingAddress?.email || 'No email'}</div>
+                <div>Phone: {order.shippingAddress?.phone || (order.user as any)?.phone || 'Not provided'}</div>
               </div>
               <div className={styles.customerAddress}>
                 <div>{order.shippingAddress?.address || 'No address provided'}</div>

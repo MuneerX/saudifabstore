@@ -68,9 +68,10 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async redirect({ url, baseUrl }) {
-      // Always redirect to /profile after login
-      if (url.startsWith(baseUrl)) {
-        return `${baseUrl}/profile`;
+      if (url.startsWith("/")) {
+        return `${baseUrl}${url}`;
+      } else if (new URL(url).origin === baseUrl) {
+        return url;
       }
       return baseUrl;
     },

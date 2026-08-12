@@ -84,18 +84,19 @@
 .logo {
   width: 2.25rem;
   height: 2.25rem;
-  background-color: #2563eb;
+  background-color: #EA532B;
   border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  box-shadow: 0 4px 12px rgba(234, 83, 43, 0.25);
 }
 
 .logoText {
   color: #ffffff;
   font-weight: 700;
-  font-size: 0.875rem;
+  font-size: 0.95rem;
+  font-family: 'Host Grotesk', sans-serif;
 }
 
 .brand {
@@ -104,14 +105,16 @@
 }
 
 .brandName {
-  font-weight: 600;
-  color: #374151;
-  font-size: 1rem;
+  font-weight: 700;
+  color: #111111;
+  font-size: 0.95rem;
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
 }
 
 .brandSubtitle {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: #8C887E;
+  font-family: 'Host Grotesk', sans-serif;
 }
 
 .collapseButton {
@@ -166,7 +169,7 @@
 .searchInput:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
-  box-shadow: 0 0 0 2px #2563eb;
+  box-shadow: 0 0 0 2px #EA532B;
   border-color: transparent;
 }
 
@@ -198,17 +201,19 @@
   border-radius: 0.375rem;
   text-align: left;
   transition: all 0.2s;
-  color: #4b5563;
+  color: #54514A;
+  font-family: 'Host Grotesk', sans-serif;
 }
 
 .navButton.active {
-  background-color: #eff6ff;
-  color: #1d4ed8;
+  background-color: #FAF9F5;
+  color: #EA532B;
+  font-weight: 600;
 }
 
 .navButton:not(.active):hover {
-  background-color: #f9fafb;
-  color: #1f2937;
+  background-color: #FAFAF8;
+  color: #111111;
 }
 
 .navButtonIconWrapper {
@@ -225,7 +230,7 @@
 }
 
 .navButton.active .navButtonIcon {
-  color: #2563eb;
+  color: #EA532B;
 }
 
 .navButton:not(.active) .navButtonIcon {

@@ -229,18 +229,18 @@ export function Sidebar({ className = "", children }: SidebarProps) {
           {!isCollapsed && (
             <div className={styles.logoWrapper}>
               <div className={styles.logo}>
-                <span className={styles.logoText}>S</span>
+                <span className={styles.logoText}>B</span>
               </div>
               <div className={styles.brand}>
-                <span className={styles.brandName}>ShopCo Ltd</span>
-                <span className={styles.brandSubtitle}>Enterprise Dashboard</span>
+                <span className={styles.brandName}>Brooq Al Khalij</span>
+                <span className={styles.brandSubtitle}>Executive Admin Portal</span>
               </div>
             </div>
           )}
 
           {isCollapsed && (
             <div className={styles.logo}>
-              <span className={styles.logoText}>S</span>
+              <span className={styles.logoText}>B</span>
             </div>
           )}
 
@@ -398,11 +398,11 @@ export function Sidebar({ className = "", children }: SidebarProps) {
             <div className={styles.mobileNavHeader}>
               <div className={styles.mobileLogoWrapper}>
                 <div className={styles.mobileLogo}>
-                  <span className={styles.mobileLogoText}>S</span>
+                  <span className={styles.mobileLogoText}>B</span>
                 </div>
                 <div className={styles.mobileBrand}>
-                  <span className={styles.mobileBrandName}>ShopCo Ltd</span>
-                  <span className={styles.mobileBrandSubtitle}>Enterprise Dashboard</span>
+                  <span className={styles.mobileBrandName}>Brooq Al Khalij</span>
+                  <span className={styles.mobileBrandSubtitle}>Executive Admin Portal</span>
                 </div>
               </div>
               <button

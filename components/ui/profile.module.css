@@ -247,89 +247,136 @@
 
 .statusBadge {
   font-family: 'Host Grotesk', sans-serif;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
   padding: 4px 12px;
   border-radius: 20px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
-  text-transform: capitalize;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .statusPending {
-  background-color: #FEF3C7;
-  color: #92400E;
+  background-color: #FFF7ED;
+  color: #C2410C;
+  border: 1px solid #FFEDD5;
 }
 
 .statusShipped {
-  background-color: #F0EDE6;
-  color: #111111;
+  background-color: #EFF6FF;
+  color: #1D4ED8;
+  border: 1px solid #DBEAFE;
 }
 
 .statusDelivered {
-  background-color: #D1FAE5;
-  color: #065F46;
+  background-color: #ECFDF5;
+  color: #047857;
+  border: 1px solid #A7F3D0;
 }
 
-/* Timeline */
+/* Enhanced Timeline */
 .timelineBox {
-  background-color: #FAFAF8;
-  border: 1px solid #EBE7DF;
+  background-color: transparent;
+  border: none;
   border-radius: 8px;
-  padding: 16px 20px;
-  margin-bottom: 20px;
+  padding: 12px 6px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
 }
 
 .timelineRow {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
+  width: 100%;
   position: relative;
+}
+
+.timelineTrack {
+  position: absolute;
+  top: 17px; /* Half of 34px icon height */
+  left: 16.66%;
+  right: 16.66%;
+  height: 2px;
+  background-color: #EBE7DF;
+  z-index: 1;
+}
+
+.timelineProgress {
+  height: 100%;
+  background-color: #111111;
+  transition: width 0.3s ease;
 }
 
 .timelineStep {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  text-align: center;
   position: relative;
   z-index: 2;
+  flex: 1;
 }
 
 .stepIconBox {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background-color: #ffffff;
   border: 1.5px solid #EBE7DF;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #6E6B64;
+  color: #A09C94;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  margin-bottom: 10px;
+  box-shadow: 0 0 0 6px #ffffff; /* Mask line behind icon with solid white shadow */
 }
 
 .stepIconActive {
   border-color: #111111;
   color: #111111;
-  background-color: rgba(17, 17, 17, 0.06);
+}
+
+.stepIconPaid {
+  border-color: #EA532B;
+  color: #EA532B;
+  background-color: #ffffff;
+}
+
+.stepIconShipped {
+  border-color: #1D4ED8;
+  color: #1D4ED8;
+  background-color: #ffffff;
+}
+
+.stepIconDelivered {
+  border-color: #047857;
+  color: #047857;
+  background-color: #ffffff;
 }
 
 .stepMeta {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 2px;
 }
 
 .stepTitle {
   font-family: 'Host Grotesk', sans-serif;
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 600;
   color: #111111;
 }
 
 .stepTime {
   font-family: 'Host Grotesk', sans-serif;
-  font-size: 12px;
+  font-size: 11.5px;
   color: #6E6B64;
 }
 
@@ -581,6 +628,93 @@
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+/* Premium Shimmer Layout Loaders */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 20%,
+    rgba(255, 255, 255, 0.7) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmerAnim 1.5s infinite;
+}
+
+@keyframes shimmerAnim {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmerLine {
+  background: #EBE7DF;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmerLine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmerAnim 1.5s infinite;
+}
+
+.shimmerAvatar {
+  background: #EBE7DF;
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmerAvatar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmerAnim 1.5s infinite;
+}
+
+.shimmerButton {
+  background: #FAFAF8;
+  border: 1px solid #EBE7DF;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
 }
 
 @media (max-width: 768px) {

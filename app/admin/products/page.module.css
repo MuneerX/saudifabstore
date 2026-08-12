@@ -28,7 +28,7 @@
 }
 
 .addProductButton {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  background: linear-gradient(135deg, #EA532B 0%, #d04722 100%);
   border: none;
   color: white;
   padding: 0.75rem 1.5rem;
@@ -39,20 +39,20 @@
   align-items: center;
   gap: 0.5rem;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 4px 12px rgba(234, 83, 43, 0.15);
   position: relative;
   overflow: hidden;
 }
 
 .addProductButton:hover {
-  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  background: linear-gradient(135deg, #d04722 0%, #b93815 100%);
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 6px 20px rgba(234, 83, 43, 0.25);
 }
 
 .addProductButton:active {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+  box-shadow: 0 2px 8px rgba(234, 83, 43, 0.2);
 }
 
 .addProductButton::before {

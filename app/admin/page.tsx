@@ -71,7 +71,7 @@ export default function AdminDashboard() {
   const statsData = [
     {
       title: "Total Revenue",
-      value: `₹${stats.totalRevenue.toFixed(2)}`,
+      value: `$${stats.totalRevenue.toFixed(2)}`,
       description: `+${stats.revenueChange}% from last month`,
       icon: DollarSign,
       trend: "up"
@@ -168,7 +168,7 @@ export default function AdminDashboard() {
               <div
                 className={styles.bar}
                 style={{ height: `${(item.revenue / maxValue) * 100}%` }}
-                aria-label={`${item.month}: ₹${item.revenue}`}
+                aria-label={`${item.month}: $${item.revenue}`}
               />
               <span className={styles.barLabel}>{item.month}</span>
             </div>
@@ -382,7 +382,7 @@ export default function AdminDashboard() {
                           <td>{order.id.slice(-8)}</td>
                           <td>{order.customer}</td>
                           <td>{order.date}</td>
-                          <td>₹{order.amount}</td>
+                          <td>${order.amount}</td>
                           <td>
                             <span className={`${styles.status} ${styles[order.status.toLowerCase()]}`}>
                               {order.status}
@@ -459,7 +459,7 @@ export default function AdminDashboard() {
                         <tr key={product.id}>
                           <td>{product.name}</td>
                           <td>{product.sales.toLocaleString()}</td>
-                          <td>₹{product.revenue}</td>
+                          <td>${product.revenue}</td>
                         </tr>
                       ))
                     ) : (

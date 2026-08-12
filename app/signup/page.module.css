@@ -1,79 +1,78 @@
-/* Premium Sign Up Page Styles - Brooq Al Khalij Design Token System */
+/* Premium Light Aligned Signup Page Styles (Matches B2B Light Layouts) */
 
-.signupWrapper {
+.pageWrapper {
   min-height: 100vh;
+  background-color: #FAF9F5;
+  position: relative;
   display: flex;
   flex-direction: column;
-  background-color: #FAF9F5;
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  color: #111111;
 }
 
-.mainArea {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 120px 20px 80px;
-  position: relative;
-  overflow: hidden;
-}
-
-.bgImageContainer {
+.heroBackground {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
   z-index: 1;
 }
 
-.bgImg {
-  object-fit: cover !important;
-  width: 100% !important;
-  height: 100% !important;
+.bgImage {
+  object-fit: cover;
+  object-position: center;
 }
 
-.bgFadeBottom {
+.bgOverlay {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 140px;
-  background: linear-gradient(to bottom, rgba(250, 249, 245, 0) 0%, rgba(250, 249, 245, 0.6) 50%, #FAF9F5 100%);
+  inset: 0;
+  background: none;
   z-index: 2;
-  pointer-events: none;
 }
 
-.signupCard {
+.contactSection {
+  position: relative;
   width: 100%;
-  max-width: 480px;
-  background-color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 140px 0 80px 0;
+}
+
+.contactSectionContainer {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1468px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.contactGrid {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+/* Left Form White Card */
+.formGlassCard {
+  background: #ffffff;
   border: 1px solid #EBE7DF;
-  border-radius: 14px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
   padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.06);
+  max-width: 580px;
+  width: 100%;
+  margin-left: 0;
   position: relative;
   z-index: 10;
-  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .cardHeader {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 28px;
+  gap: 10px;
 }
 
 .portalBadge {
@@ -81,123 +80,114 @@
   align-items: center;
   gap: 6px;
   font-family: 'Host Grotesk', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #111111;
-  background-color: rgba(17, 17, 17, 0.06);
-  padding: 4px 10px;
-  border-radius: 20px;
-  margin-bottom: 14px;
+  color: #EA532B;
+  background: none;
+  padding: 0;
 }
 
 .badgeDot {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background-color: #111111;
+  background-color: #EA532B;
 }
 
 .title {
   font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 26px;
-  font-weight: 700;
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 500;
   color: #111111;
-  margin: 0 0 8px 0;
-  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
 }
 
-.subtitle {
+.description {
   font-family: 'Host Grotesk', sans-serif;
   font-size: 14px;
+  line-height: 1.45;
   color: #6E6B64;
   margin: 0;
-  line-height: 1.45;
+  letter-spacing: -0.16px;
 }
 
-.errorBanner {
-  background-color: #FEF2F2;
-  border: 1px solid #FECACA;
-  color: #DC2626;
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 13.5px;
-  font-weight: 500;
-  padding: 10px 14px;
-  border-radius: 6px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.form {
+.formGrid {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
 }
 
 .formRow {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  grid-template-columns: 1fr;
+  gap: 20px;
 }
 
-.inputGroup {
+@media (min-width: 640px) {
+  .formRow {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.fieldGroup {
   display: flex;
   flex-direction: column;
-  gap: 6px;
 }
 
-.label {
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  color: #333333;
-}
-
-.inputFieldWrapper {
-  position: relative;
+.labelRow {
   display: flex;
   align-items: center;
-}
-
-.fieldIcon {
-  position: absolute;
-  left: 14px;
-  color: #8C887E;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-}
-
-.input {
+  gap: 8px;
+  margin-bottom: 8px;
   width: 100%;
-  height: 48px;
-  background-color: #FAFAF8;
-  border: 1px solid #EBE7DF;
-  border-radius: 8px;
-  padding: 0 42px 0 42px;
+}
+
+.labelText {
   font-family: 'Host Grotesk', sans-serif;
-  font-size: 14.5px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #222222;
+  white-space: nowrap;
+}
+
+.dashedConnector {
+  flex-grow: 1;
+  border-bottom: 1px dashed #EBE7DF;
+  height: 1px;
+}
+
+.inputField {
+  background: #FAFAF8;
+  border: 1px solid #EBE7DF;
+  border-radius: 6px;
+  padding: 13px 16px;
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 14px;
   color: #111111;
   outline: none;
   transition: all 0.2s ease;
+  width: 100%;
 }
 
-.input:focus {
-  border-color: #111111;
-  background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
-}
-
-.input::placeholder {
+.inputField::placeholder {
   color: #A09C94;
+}
+
+.inputField:focus {
+  background: #ffffff;
+  border-color: #111111;
+  box-shadow: 0 0 0 1px #111111;
 }
 
 .togglePasswordBtn {
   position: absolute;
   right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   background: none;
   border: none;
   color: #8C887E;
@@ -215,13 +205,13 @@
 .termsRow {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 8px;
   margin-top: 2px;
 }
 
 .checkbox {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
   accent-color: #111111;
   cursor: pointer;
   margin-top: 2px;
@@ -231,7 +221,7 @@
   font-family: 'Host Grotesk', sans-serif;
   font-size: 12.5px;
   color: #54514A;
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
 .termsLink {
@@ -242,32 +232,30 @@
 }
 
 .submitBtn {
-  height: 50px;
-  width: 100%;
-  background-color: #111111;
+  background-color: #EA532B;
   color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 15px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14.5px;
   font-weight: 600;
+  padding: 15px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  margin-top: 6px;
 }
 
 .submitBtn:hover:not(:disabled) {
-  background-color: #222222;
+  background-color: #d04722;
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .submitBtn:disabled {
-  opacity: 0.6;
+  opacity: 0.65;
   cursor: not-allowed;
 }
 
@@ -275,7 +263,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 28px 0 20px;
+  margin: 10px 0;
 }
 
 .dividerLine {
@@ -286,39 +274,86 @@
 
 .dividerText {
   font-family: 'Host Grotesk', sans-serif;
-  font-size: 11.5px;
+  font-size: 10.5px;
   font-weight: 600;
   color: #8C887E;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
 }
 
 .footerActions {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
 }
 
-.loginText {
+.signupText {
   font-family: 'Host Grotesk', sans-serif;
   font-size: 13.5px;
   color: #6E6B64;
 }
 
-.loginLink {
+.signupLink {
   color: #111111;
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
-  margin-left: 4px;
+  margin-left: 6px;
 }
 
-@media (max-width: 540px) {
-  .signupCard {
-    padding: 30px 22px;
-  }
+.errorBanner {
+  background-color: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #DC2626;
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 14px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-  .formRow {
-    grid-template-columns: 1fr;
+/* Hero-Style Brand Title on Bottom */
+.heroBrandBottom {
+  position: absolute;
+  bottom: 28px;
+  right: 36px;
+  z-index: 5;
+  pointer-events: none;
+  overflow: visible;
+  user-select: none;
+  line-height: 1.1;
+  padding-bottom: 12px;
+}
+
+.heroBrandText {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(36px, 6.5vw, 100px);
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  margin: 0;
+  white-space: nowrap;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  display: block;
+}
+
+@media (max-width: 1024px) {
+  .heroBrandBottom {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .contactSection {
+    padding: 100px 16px 60px 16px;
+  }
+  .formGlassCard {
+    padding: 28px 20px;
+    max-width: 100%;
+    margin-left: 0;
   }
 }

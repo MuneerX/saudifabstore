@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 import { Search, Menu } from "lucide-react";
 import styles from "./Navbar.module.css";
 import { useCartContext } from "./CartContext";
@@ -10,6 +11,7 @@ import { useCartContext } from "./CartContext";
 const CENTER_LINKS = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
+  { label: "Portfolio", href: "/portfolio" },
   { label: "Shop", href: "/products" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" }
@@ -173,6 +175,7 @@ interface NavbarProps {
 }
 
 export function Navbar({ hasBorder = false, isLight = false, children }: NavbarProps) {
+  const { data: session } = useSession();
   const { cart, openCart } = useCartContext();
   const [visible, setVisible] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -290,9 +293,15 @@ export function Navbar({ hasBorder = false, isLight = false, children }: NavbarP
           <Search size={16} />
         </button>
         
-        <Link href="/login" className={`${styles.navLinkPill} ${isNavbarLight ? styles.lightLinkPill : ''} hidden lg:inline-flex`}>
-          Login
-        </Link>
+        {session?.user ? (
+          <Link href="/profile" className={`${styles.navLinkPill} ${isNavbarLight ? styles.lightLinkPill : ''} hidden lg:inline-flex`}>
+            Account
+          </Link>
+        ) : (
+          <Link href="/login" className={`${styles.navLinkPill} ${isNavbarLight ? styles.lightLinkPill : ''} hidden lg:inline-flex`}>
+            Login
+          </Link>
+        )}
         <button
           type="button"
           onClick={openCart}

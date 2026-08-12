@@ -20,109 +20,88 @@ export default function SteelFabricationPage() {
 
       {/* Hero Section */}
       <section className={styles.heroSection}>
-        {/* Horizontal Infinite Marquee Showcase */}
         <div className={styles.heroMarqueeContainer}>
           <div className={styles.heroMarqueeTrack}>
             {/* Set 1 */}
             <div className={styles.heroMarqueeCard}>
               <Image
-                src="/images/home/services/steel.jpeg"
-                alt="Heavy Structural Steel"
+                src="/images/portfolio/portfolio1.png"
+                alt="Steel Fabrication Work"
                 fill
                 className={styles.heroColumnImage}
-                sizes="380px"
+                sizes="520px"
                 priority
               />
             </div>
             <div className={styles.heroMarqueeCard}>
               <Image
-                src="/images/home/services/steel2.jpeg"
-                alt="Custom Industrial Baskets"
+                src="/images/portfolio/portfolio2.png"
+                alt="Blasting Work"
                 fill
                 className={styles.heroColumnImage}
-                sizes="380px"
+                sizes="520px"
                 priority
               />
             </div>
             <div className={styles.heroMarqueeCard}>
               <Image
-                src="/images/home/category_grid/container_3.jpeg"
-                alt="Overhead Crane Girders"
+                src="/images/portfolio/portfolio3.png"
+                alt="Painting Work"
                 fill
                 className={styles.heroColumnImage}
-                sizes="380px"
+                sizes="520px"
                 priority
               />
             </div>
             <div className={styles.heroMarqueeCard}>
               <Image
-                src="/images/home/category_grid/lifting_3.jpeg"
-                alt="Material Handling"
+                src="/images/portfolio/portfolio5.png"
+                alt="ProTorc Work"
                 fill
                 className={styles.heroColumnImage}
-                sizes="380px"
-                priority
-              />
-            </div>
-            <div className={styles.heroMarqueeCard}>
-              <Image
-                src="/images/home/category_grid/safety_3.jpeg"
-                alt="Safety Products"
-                fill
-                className={styles.heroColumnImage}
-                sizes="380px"
+                sizes="520px"
                 priority
               />
             </div>
 
-            {/* Set 2 (Duplicates for seamless loop) */}
+            {/* Set 2 (Duplicates) */}
             <div className={styles.heroMarqueeCard}>
               <Image
-                src="/images/home/services/steel.jpeg"
-                alt="Heavy Structural Steel"
+                src="/images/portfolio/portfolio1.png"
+                alt="Steel Fabrication Work"
                 fill
                 className={styles.heroColumnImage}
-                sizes="380px"
+                sizes="520px"
                 priority
               />
             </div>
             <div className={styles.heroMarqueeCard}>
               <Image
-                src="/images/home/services/steel2.jpeg"
-                alt="Custom Industrial Baskets"
+                src="/images/portfolio/portfolio2.png"
+                alt="Blasting Work"
                 fill
                 className={styles.heroColumnImage}
-                sizes="380px"
+                sizes="520px"
                 priority
               />
             </div>
             <div className={styles.heroMarqueeCard}>
               <Image
-                src="/images/home/category_grid/container_3.jpeg"
-                alt="Overhead Crane Girders"
+                src="/images/portfolio/portfolio3.png"
+                alt="Painting Work"
                 fill
                 className={styles.heroColumnImage}
-                sizes="380px"
+                sizes="520px"
                 priority
               />
             </div>
             <div className={styles.heroMarqueeCard}>
               <Image
-                src="/images/home/category_grid/lifting_3.jpeg"
-                alt="Material Handling"
+                src="/images/portfolio/portfolio5.png"
+                alt="ProTorc Work"
                 fill
                 className={styles.heroColumnImage}
-                sizes="380px"
-                priority
-              />
-            </div>
-            <div className={styles.heroMarqueeCard}>
-              <Image
-                src="/images/home/category_grid/safety_3.jpeg"
-                alt="Safety Products"
-                fill
-                className={styles.heroColumnImage}
-                sizes="380px"
+                sizes="520px"
                 priority
               />
             </div>
@@ -187,7 +166,7 @@ export default function SteelFabricationPage() {
             <div className={styles.capabilityCard}>
               <div className={styles.cardImgWrapper}>
                 <Image
-                  src="/images/home/services/steel.jpeg"
+                  src="/images/services/steel/1.png"
                   alt="Heavy Structural Fabrication"
                   fill
                   className={styles.cardImg}
@@ -206,7 +185,7 @@ export default function SteelFabricationPage() {
             <div className={styles.capabilityCard}>
               <div className={styles.cardImgWrapper}>
                 <Image
-                  src="/images/home/services/steel2.jpeg"
+                  src="/images/services/steel/2.png"
                   alt="Custom Industrial Iron Baskets"
                   fill
                   className={styles.cardImg}
@@ -225,7 +204,7 @@ export default function SteelFabricationPage() {
             <div className={styles.capabilityCard}>
               <div className={styles.cardImgWrapper}>
                 <Image
-                  src="/images/home/category_grid/container_3.jpeg"
+                  src="/images/services/steel/3.png"
                   alt="Overhead Crane Girders"
                   fill
                   className={styles.cardImg}

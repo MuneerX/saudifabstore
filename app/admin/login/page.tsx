@@ -4,21 +4,27 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn, signOut } from "next-auth/react";
+import Image from "next/image";
 import {
   Eye,
   EyeOff,
   Lock,
   Mail,
   ArrowRight,
-  Shield,
-  AlertCircle
+  ShieldCheck,
+  AlertCircle,
+  Loader2,
+  KeyRound,
+  ArrowLeft
 } from "lucide-react";
+import { Navbar } from "@/components/Navbar";
 import styles from "./page.module.css";
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
@@ -28,6 +34,12 @@ export default function AdminLoginPage() {
     setIsLoading(true);
     setError("");
 
+    if (!email.trim() || !password.trim()) {
+      setError("Please enter both administrative email and password.");
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const result = await signIn("credentials", {
         email,
@@ -36,7 +48,7 @@ export default function AdminLoginPage() {
       });
 
       if (result?.error) {
-        setError("Invalid email or password");
+        setError("Invalid administrative credentials. Access denied.");
       } else if (result?.ok) {
         // Check if user is admin by making a request to verify role
         const response = await fetch("/api/admin/verify-role");
@@ -45,156 +57,180 @@ export default function AdminLoginPage() {
         if (data.isAdmin) {
           router.push("/admin");
         } else {
-          setError("Access denied. Admin privileges required.");
-          // Sign out the user since they don't have admin privileges
+          setError("Access denied. Executive admin privileges are required for this area.");
           await signOut({ redirect: false });
         }
       }
     } catch {
-      setError("Login failed. Please try again.");
+      setError("Authentication failed. Please check network connectivity and try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className={styles.loginPage}>
-      <div className={styles.loginContainer}>
-        {/* Logo and Branding */}
-        <div className={styles.logoSection}>
-          <div className={styles.logoWrapper}>
-            <div className={styles.logo}>
-              <span className={styles.logoText}>S</span>
-            </div>
-            <div className={styles.brand}>
-              <span className={styles.brandName}>ShopCo Ltd</span>
-              <span className={styles.brandSubtitle}>Admin Dashboard</span>
-            </div>
-          </div>
-          <div className={styles.welcomeText}>
-            <h1 className={styles.welcomeTitle}>Welcome Back</h1>
-            <p className={styles.welcomeSubtitle}>
-              Sign in to access your admin dashboard
-            </p>
-          </div>
+    <div className={styles.pageWrapper}>
+      {/* Reused Main Site Navigation Bar */}
+      <Navbar isLight={false} hasBorder={false} />
+
+      {/* Main Admin Login Section */}
+      <section className={styles.adminSection}>
+        {/* Background Image with Gradient Overlay */}
+        <div className={styles.heroBackground}>
+          <Image
+            src="/images/login_bg.jpeg"
+            alt="Brooq Al Khalij Executive Admin Background"
+            fill
+            className={styles.bgImage}
+            sizes="100vw"
+            priority
+            unoptimized
+          />
+          <div className={styles.bgOverlay} />
         </div>
 
-        {/* Login Form */}
-        <div className={styles.formSection}>
-          <div className={styles.formWrapper}>
-            <div className={styles.formHeader}>
-              <Shield className={styles.adminIcon} />
-              <h2 className={styles.formTitle}>Admin Login</h2>
-              <p className={styles.formSubtitle}>
-                Enter your credentials to access the dashboard
-              </p>
-            </div>
+        <div className={styles.sectionContainer}>
+          <div className={styles.gridWrapper}>
+            {/* Glassmorphic Executive Admin Form Card */}
+            <div className={styles.formGlassCard}>
+              <div className={styles.cardHeader}>
+                <h1 className={styles.title}>Admin Sign In</h1>
+                <p className={styles.description}>
+                  Authenticate with your administrator account to access order management, client databases, and executive control systems.
+                </p>
+              </div>
 
-            <form onSubmit={handleSubmit} className={styles.loginForm}>
+              {/* Error Alert Banner */}
               {error && (
-                <div className={styles.errorMessage}>
-                  <AlertCircle className={styles.errorIcon} />
+                <div className={styles.errorBanner} role="alert">
+                  <AlertCircle size={16} className={styles.errorIcon} />
                   <span>{error}</span>
                 </div>
               )}
 
-              <div className={styles.inputGroup}>
-                <label htmlFor="email" className={styles.inputLabel}>
-                  Email Address
-                </label>
-                <div className={styles.inputWrapper}>
-                  <Mail className={styles.inputIcon} />
-                  <input
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className={styles.inputField}
-                    placeholder="admin@example.com"
-                    required
-                    disabled={isLoading}
-                  />
+              <form onSubmit={handleSubmit} className={styles.formGrid}>
+                {/* Email Field Group */}
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelRow}>
+                    <span className={styles.labelText}>Admin Email Address</span>
+                    <span className={styles.dashedConnector} />
+                  </div>
+                  <div className={styles.inputWrapper}>
+                    <Mail className={styles.inputIcon} />
+                    <input
+                      type="email"
+                      required
+                      placeholder="admin@brooqalkhalij.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className={styles.inputField}
+                      disabled={isLoading}
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div className={styles.inputGroup}>
-                <label htmlFor="password" className={styles.inputLabel}>
-                  Password
-                </label>
-                <div className={styles.inputWrapper}>
-                  <Lock className={styles.inputIcon} />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className={styles.inputField}
-                    placeholder="Enter your password"
-                    required
-                    disabled={isLoading}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className={styles.passwordToggle}
-                    disabled={isLoading}
-                  >
-                    {showPassword ? (
-                      <EyeOff className={styles.toggleIcon} />
-                    ) : (
-                      <Eye className={styles.toggleIcon} />
-                    )}
-                  </button>
+                {/* Password Field Group */}
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelRow}>
+                    <span className={styles.labelText}>Security Password</span>
+                    <span className={styles.dashedConnector} />
+                  </div>
+                  <div className={styles.inputWrapper}>
+                    <Lock className={styles.inputIcon} />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      required
+                      placeholder="••••••••"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className={styles.inputField}
+                      disabled={isLoading}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className={styles.togglePasswordBtn}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      disabled={isLoading}
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              <div className={styles.formOptions}>
-                <label className={styles.checkboxLabel}>
-                  <input
-                    type="checkbox"
-                    className={styles.checkbox}
-                    disabled={isLoading}
-                  />
-                  <span className={styles.checkboxText}>Remember me</span>
-                </label>
-                <Link href="/admin/forgot-password" className={styles.forgotLink}>
-                  Forgot password?
-                </Link>
-              </div>
+                {/* Form Options */}
+                <div className={styles.formOptions}>
+                  <label className={styles.rememberMe}>
+                    <input
+                      type="checkbox"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                      className={styles.checkbox}
+                      disabled={isLoading}
+                    />
+                    <span className={styles.rememberText}>Keep session active</span>
+                  </label>
 
-              <button
-                type="submit"
-                className={styles.loginButton}
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <>
-                    <div className={styles.spinner} />
-                    <span>Signing in...</span>
-                  </>
-                ) : (
-                  <>
-                    <span>Sign In</span>
-                    <ArrowRight className={styles.buttonIcon} />
-                  </>
-                )}
-              </button>
-            </form>
+                  <Link href="/contact" className={styles.forgotLink}>
+                    Reset Admin Credentials?
+                  </Link>
+                </div>
 
-            <div className={styles.demoCredentials}>
-              <p className={styles.demoTitle}>Demo Credentials:</p>
-              <div className={styles.demoInfo}>
-                <span className={styles.demoLabel}>Emails:</span>
-                <span className={styles.demoValue}>admin@brooqalkhalij.com<br/>admin@example.com</span>
-              </div>
-              <div className={styles.demoInfo}>
-                <span className={styles.demoLabel}>Password:</span>
-                <span className={styles.demoValue}>admin123</span>
-              </div>
+                {/* Submit Action Button */}
+                <button type="submit" disabled={isLoading} className={styles.submitBtn}>
+                  {isLoading ? (
+                    <>
+                      <Loader2 size={18} className={styles.spinner} style={{ marginRight: "8px" }} />
+                      Authenticating Credentials...
+                    </>
+                  ) : (
+                    <>
+                      <span>Authorize &amp; Launch Dashboard</span>
+                      <ArrowRight size={18} style={{ marginLeft: "8px" }} />
+                    </>
+                  )}
+                </button>
+
+                {/* Divider */}
+                <div className={styles.divider}>
+                  <div className={styles.dividerLine} />
+                  <span className={styles.dividerText}>Administrative Access</span>
+                  <div className={styles.dividerLine} />
+                </div>
+
+                {/* Demo Credentials Callout */}
+                <div className={styles.demoCredentialsBox}>
+                  <div className={styles.demoHeader}>
+                    <KeyRound size={14} className={styles.keyIcon} />
+                    <span>Executive Demo Access</span>
+                  </div>
+                  <div className={styles.demoRow}>
+                    <span className={styles.demoLabel}>Admin Email:</span>
+                    <code className={styles.demoCode}>admin@brooqalkhalij.com</code>
+                  </div>
+                  <div className={styles.demoRow}>
+                    <span className={styles.demoLabel}>Password:</span>
+                    <code className={styles.demoCode}>admin123</code>
+                  </div>
+                </div>
+
+                {/* Footer Return Link */}
+                <div className={styles.footerActions}>
+                  <Link href="/" className={styles.storefrontLink}>
+                    <ArrowLeft size={14} />
+                    <span>Return to Storefront</span>
+                  </Link>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      </div>
+
+        {/* Hero-Style Brand Title on Bottom */}
+        <div className={styles.heroBrandBottom}>
+          <h2 className={styles.heroBrandText}>Operational Control</h2>
+        </div>
+      </section>
     </div>
   );
 }

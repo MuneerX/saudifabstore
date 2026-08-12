@@ -29,8 +29,8 @@
 
 .heroMarqueeCard {
   position: relative;
-  width: 520px; /* Increased card width back to dynamic scale proportions */
   height: 100%;
+  aspect-ratio: 16 / 9; /* Strict 16:9 aspect ratio matching portfolio image ratio */
   flex-shrink: 0;
   border-radius: 8px;
   overflow: hidden;
@@ -39,6 +39,8 @@
 
 .heroColumnImage {
   object-fit: cover;
+  width: 100%;
+  height: 100%;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   filter: grayscale(20%) brightness(0.93); /* Slight grey effect */
   opacity: 0.95;
@@ -53,9 +55,6 @@
     transform: translateX(0);
   }
   100% {
-    /* Since we duplicate 5 cards to a total of 10,
-       translating by -50% shifts exactly one full set of cards.
-       We subtract 3px to perfectly adjust for gap alignment */
     transform: translateX(calc(-50% - 3px));
   }
 }
@@ -117,28 +116,16 @@
   letter-spacing: 0.02em;
   display: inline-block;
   box-shadow: 0 2px 4px rgba(0,0,0,0.06);
-}
-
-.pillAws {
   background: linear-gradient(135deg, #2b3a4a 0%, #1a222d 100%); /* Deep Steel Slate */
   color: #ffffff;
   border: none;
 }
 
-.pillIso {
-  background: linear-gradient(135deg, #4E6E56 0%, #2f4435 100%); /* Compliance Wegovy Green */
-  color: #ffffff;
-  border: none;
-}
-
-.pillAsme {
-  background: linear-gradient(135deg, #c5a880 0%, #9e815a 100%); /* Professional Bronze Metal */
-  color: #ffffff;
-  border: none;
-}
-
+.pillAws,
+.pillIso,
+.pillAsme,
 .pillBlasting {
-  background: linear-gradient(135deg, #EB5521 0%, #b83b11 100%); /* Brand Rust Orange */
+  background: linear-gradient(135deg, #2b3a4a 0%, #1a222d 100%); /* Deep Steel Slate */
   color: #ffffff;
   border: none;
 }
@@ -331,7 +318,7 @@
 
 /* Quality Assurance Checklist Section */
 .qaSection {
-  padding: 16px 12px;
+  padding: 16px 12px 120px 12px;
   background-color: #ffffff;
 }
 

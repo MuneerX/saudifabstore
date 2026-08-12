@@ -7,6 +7,9 @@ export interface IOrderItem {
 }
 
 export interface IShippingAddress {
+  name?: string;
+  email?: string;
+  phone?: string;
   address: string;
   city: string;
   postalCode: string;
@@ -55,6 +58,9 @@ const OrderItemSchema: Schema = new Schema({
 });
 
 const ShippingAddressSchema: Schema = new Schema({
+  name: { type: String },
+  email: { type: String },
+  phone: { type: String },
   address: { type: String, required: true },
   city: { type: String, required: true },
   postalCode: { type: String, required: true },

@@ -1,169 +1,406 @@
-.successContainer {
+/* Premium Purchase Complete Page Styles - Brooq Al Khalij Design Tokens */
+
+.pageWrapper {
+  min-height: 100vh;
+  background-color: #FAF9F5;
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #111111;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 70vh;
-  padding: 20px;
+  flex-direction: column;
 }
 
-.successCard {
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  max-width: 500px;
+.successSection {
+  width: 100%;
+  padding: 120px 0 100px 0;
+  position: relative;
+  flex: 1;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px;
   width: 100%;
 }
 
-.successIcon {
-  margin-bottom: 30px;
+.breadcrumb {
   display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 13px;
+  color: #8C887E;
+  margin-bottom: 24px;
   justify-content: center;
 }
 
-.successTitle {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #10b981;
-  margin-bottom: 20px;
+.breadcrumbLink {
+  color: #111111;
+  text-decoration: none;
+  font-weight: 500;
 }
 
-.successMessage {
-  font-size: 1.1rem;
-  color: #666;
-  line-height: 1.6;
-  margin-bottom: 30px;
+.breadcrumbLink:hover {
+  text-decoration: underline;
 }
 
-.orderDetails {
-  background: #f8f9fa;
-  padding: 25px;
-  border-radius: 8px;
-  margin-bottom: 30px;
+.card {
+  background: #ffffff;
+  border: 1px solid #EBE7DF;
+  border-radius: 12px;
+  padding: 28px 24px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+.iconWrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #10B981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: -4px;
+}
+
+.headerBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  max-width: 620px;
+}
+
+.title {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 500;
+  color: #111111;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.subtitle {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #6E6B64;
+  margin: 0;
+  letter-spacing: -0.015em;
+}
+
+/* Order Details Grid */
+.detailsBox {
+  width: 100%;
+  background-color: #FAFAF8;
+  border: 1px solid #EBE7DF;
+  border-radius: 10px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
   text-align: left;
 }
 
-.orderDetails h2 {
-  font-size: 1.3rem;
+.detailsHeader {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 15px;
-  text-align: center;
+  color: #111111;
+  margin: 0;
+  letter-spacing: -0.02em;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #EBE7DF;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statusBadge {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #10B981;
+  background-color: rgba(16, 185, 129, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .detailsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .detailRow {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  font-size: 0.95rem;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.detailRow span:first-child {
-  font-weight: 500;
-  color: #555;
-}
-
-.detailRow span:last-child {
-  color: #333;
-}
-
-.actions {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-}
-
-.primaryButton,
-.secondaryButton {
-  flex: 1;
-  min-width: 140px;
-  padding: 12px 24px;
-  border-radius: 6px;
-  font-size: 1rem;
+.detailLabel {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 12px;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
+  color: #8C887E;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.primaryButton {
-  background: #007bff;
-  color: white;
-  border: 2px solid #007bff;
+.detailValue {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #111111;
+  word-break: break-all;
 }
 
-.primaryButton:hover {
-  background: #0056b3;
-  border-color: #0056b3;
-}
-
-.secondaryButton {
-  background: white;
-  color: #007bff;
-  border: 2px solid #007bff;
-}
-
-.secondaryButton:hover {
-  background: #f8f9fa;
-}
-
-.supportInfo {
-  border-top: 1px solid #e5e5e5;
-  padding-top: 20px;
-  font-size: 0.9rem;
-  color: #666;
-}
-
-.supportInfo a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.supportInfo a:hover {
-  text-decoration: underline;
-}
-
-/* Loading and Error States */
-.loadingSpinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #007bff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 20px;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.errorIcon {
-  margin-bottom: 30px;
+/* Purchased Items List */
+.itemsSection {
+  width: 100%;
   display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #EBE7DF;
+}
+
+.itemsSectionTitle {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #222222;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 12px;
+  background-color: #ffffff;
+  border: 1px solid #EBE7DF;
+  border-radius: 8px;
+}
+
+.itemLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.itemThumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+  background-color: #FAFAF8;
+  border: 1px solid #EBE7DF;
+}
+
+.itemName {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111111;
+  margin: 0;
+}
+
+.itemQty {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 12.5px;
+  color: #6E6B64;
+  margin: 2px 0 0 0;
+}
+
+.itemPrice {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111111;
+}
+
+/* Total Summary Bar */
+.totalSummaryBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 14px;
+  border-top: 1px solid #EBE7DF;
+}
+
+.totalSummaryLabel {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111111;
+}
+
+.totalSummaryValue {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #EA532B;
+}
+
+/* Action Buttons */
+.actionsGroup {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
-@media (max-width: 480px) {
-  .successCard {
-    padding: 30px 20px;
-  }
+.primaryBtn {
+  background-color: #EA532B;
+  color: #ffffff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 200px;
+}
 
-  .successTitle {
-    font-size: 1.8rem;
-  }
+.primaryBtn:hover {
+  background-color: #d04722;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(234, 83, 43, 0.25);
+}
 
-  .actions {
+.secondaryBtn {
+  background-color: #ffffff;
+  color: #111111;
+  border: 1px solid #EBE7DF;
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 14.5px;
+  font-weight: 500;
+  padding: 14px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 200px;
+}
+
+.secondaryBtn:hover {
+  background-color: #FAFAF8;
+  border-color: #111111;
+}
+
+/* Support Helpdesk Box */
+.supportBox {
+  width: 100%;
+  padding-top: 24px;
+  border-top: 1px solid #EBE7DF;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.supportTitle {
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 13.5px;
+  color: #6E6B64;
+  margin: 0;
+}
+
+.supportChannels {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.supportChannel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Host Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #111111;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.supportChannel:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+/* Loading & Error States */
+.loadingBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 60px 0;
+}
+
+.errorIconWrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #DC2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .successSection {
+    padding: 100px 0 60px 0;
+  }
+  .card {
+    padding: 32px 16px;
+  }
+  .actionsGroup {
     flex-direction: column;
   }
-
-  .primaryButton,
-  .secondaryButton {
+  .primaryBtn, .secondaryBtn {
     width: 100%;
   }
 }

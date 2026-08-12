@@ -46,29 +46,48 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
       setLoading(true);
       setError(null);
 
-      // Fetch customer data by ID
-      const response = await apiClient.request(`/admin/users/${id}`);
-      const userData = response.user || response;
+      let userData: any = null;
+      try {
+        const response = await apiClient.request(`/admin/users/${id}`);
+        userData = response.user || response;
+      } catch (e) {
+        console.warn('User lookup by ID failed, falling back to orders:', e);
+      }
 
-      // Fetch customer's orders
-      const ordersResponse = await apiClient.request(`/orders?userId=${id}`);
-      const customerOrdersData = ordersResponse.orders || [];
+      // Fetch customer's orders from admin orders endpoint
+      let customerOrdersData: any[] = [];
+      try {
+        const ordersResponse = await apiClient.request(`/admin/orders?limit=1000`);
+        const allAdminOrders = ordersResponse.orders || [];
+        customerOrdersData = allAdminOrders.filter((order: any) => {
+          const uId = typeof order.user === 'object' ? order.user?._id?.toString() : order.user?.toString();
+          const uEmail = order.user?.email || order.shippingAddress?.email;
+          return uId === id || (userData && userData.email && uEmail?.toLowerCase() === userData.email.toLowerCase());
+        });
+      } catch (e) {
+        console.warn('Admin orders fetch error:', e);
+      }
 
-      // Calculate real statistics
+      const sampleOrder = customerOrdersData[0];
+      const customerName = userData?.name || sampleOrder?.user?.name || sampleOrder?.shippingAddress?.name || 'Customer';
+      const customerEmail = userData?.email || sampleOrder?.user?.email || sampleOrder?.shippingAddress?.email || 'No email';
+      const customerPhone = userData?.phone || sampleOrder?.shippingAddress?.phone || sampleOrder?.user?.phone || 'No phone';
+      const customerAddress = userData?.address || (sampleOrder?.shippingAddress ? `${sampleOrder.shippingAddress.address}, ${sampleOrder.shippingAddress.city}` : 'No address');
+
       const orderCount = customerOrdersData.length;
       const totalSpent = customerOrdersData.reduce((sum: number, order: { totalPrice?: number }) => sum + (order.totalPrice || 0), 0);
 
       // Format customer data for display
       const formattedCustomer: Customer = {
-        id: userData._id || userData.id,
-        name: userData.name || 'Unknown',
-        email: userData.email || 'No email',
-        phone: userData.phone || 'No phone',
-        joinDate: userData.createdAt ? new Date(userData.createdAt).toLocaleDateString() : 'Unknown',
+        id: userData?._id || userData?.id || id,
+        name: customerName,
+        email: customerEmail,
+        phone: customerPhone,
+        joinDate: userData?.createdAt ? new Date(userData.createdAt).toLocaleDateString() : (sampleOrder?.createdAt ? new Date(sampleOrder.createdAt).toLocaleDateString() : 'Recent'),
         orders: orderCount,
         totalSpent: totalSpent,
-        status: userData.isActive !== false ? 'Active' : 'Inactive',
-        address: userData.address || 'No address'
+        status: userData?.isActive !== false ? 'Active' : 'Inactive',
+        address: customerAddress
       };
 
       // Format orders for display

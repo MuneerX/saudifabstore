@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { ParallaxElement } from "./ParallaxElement";
 import styles from "./AboutSection.module.css";
 import { TreatmentQuizModal } from "./TreatmentQuizModal";
 
@@ -11,8 +12,8 @@ export function AboutSection() {
   return (
     <>
       <section className={styles.aboutSection}>
-        {/* Full Section Background Image Layer */}
-        <div className={styles.bgWrapper}>
+        {/* Full Section Background Image Layer with Parallax */}
+        <ParallaxElement speed={-0.15} className={styles.bgWrapper}>
           <Image
             src="/images/home/company/img_bg_2.png"
             alt="Brooq Al Khalij Company background"
@@ -21,7 +22,7 @@ export function AboutSection() {
             sizes="100vw"
             priority
           />
-        </div>
+        </ParallaxElement>
 
         {/* Foreground Content Grid */}
         <div className={styles.introGrid}>

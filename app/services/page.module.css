@@ -398,7 +398,7 @@
 
 .benefitRow {
   display: flex;
-  align-items: flex-start; /* Align text and image of each card to the top instead of center */
+  align-items: stretch;
   gap: 24px;
   padding: 32px 0;
   border-bottom: 1px dashed rgba(17, 17, 17, 0.15);
@@ -430,7 +430,9 @@
 .benefitText {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  justify-content: space-between;
+  flex: 1;
+  min-height: 158px;
 }
 
 .benefitRowTitle {
@@ -450,6 +452,46 @@
   color: #54514a;
   margin: 0;
   max-width: 440px;
+}
+
+.serviceDetailBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  padding: 0;
+  color: #111111;
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-top: auto;
+  align-self: flex-start;
+  width: fit-content;
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+
+.serviceDetailBtn:hover {
+  color: #EB5521;
+}
+
+.serviceBtnArrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.serviceBtnArrow svg {
+  width: 10px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.serviceDetailBtn:hover .serviceBtnArrow {
+  transform: translateX(4px);
 }
 
 /* Calculators / Interactive Estimators Section */

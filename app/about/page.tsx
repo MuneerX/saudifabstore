@@ -7,6 +7,7 @@ import { Navbar } from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { AboutPageSection } from "../../components/AboutPageSection";
 import { FaqSection } from "../../components/FaqSection";
+import { ParallaxElement } from "../../components/ParallaxElement";
 import styles from "./page.module.css";
 import { TreatmentQuizModal } from "../../components/TreatmentQuizModal";
 
@@ -97,16 +98,16 @@ export default function AboutPage() {
 
       {/* Hero Section */}
       <section className={styles.heroSection}>
-        <div className={styles.bgWrapper}>
+        <ParallaxElement speed={-0.18} className={styles.bgWrapper}>
           <Image
-            src="/images/about/about_hero.jpeg"
+            src="/images/about/about_hero2.jpeg"
             alt="About Brooq Al Khalij"
             fill
             className={styles.bgImage}
             sizes="100vw"
             priority
           />
-        </div>
+        </ParallaxElement>
         <div className={styles.overlay} />
 
         {/* 12-column grid container matching AboutSection's introGrid */}
@@ -375,16 +376,16 @@ export default function AboutPage() {
       <section className={styles.featuredSection}>
         <div className={styles.featuredCardContainer}>
           {/* Background Image Layer */}
-          <div className={styles.featuredBgWrapper}>
+          <ParallaxElement speed={-0.12} className={styles.featuredBgWrapper}>
             <Image
-              src="/images/about/about_precision2.jpeg"
+              src="/images/about/about_precision.jpeg"
               alt="Featured Contracting Solution"
               fill
               className={styles.featuredBgImage}
               sizes="100vw"
               priority
             />
-          </div>
+          </ParallaxElement>
 
           {/* White Card Content (Aligned to right bottom, flush with the parent edges without spaces) */}
           <div className={styles.featuredCard}>

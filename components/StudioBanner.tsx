@@ -3,14 +3,15 @@
 import React from "react";
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
+import { ParallaxElement } from "./ParallaxElement";
 import styles from "./StudioBanner.module.css";
 
 export function StudioBanner() {
   return (
     <section className={styles.section}>
       <div className={styles.bannerCard}>
-        {/* Background product video on studio environment */}
-        <div className={styles.bgWrapper}>
+        {/* Background product video with Parallax */}
+        <ParallaxElement speed={-0.12} className={styles.bgWrapper}>
           <video
             src="/images/home/category_grid/custom.mp4"
             autoPlay
@@ -21,7 +22,7 @@ export function StudioBanner() {
             style={{ width: "100%", height: "100%", position: "absolute", top: 0, left: 0 }}
           />
           <div className={styles.overlay} />
-        </div>
+        </ParallaxElement>
 
         {/* Content Box at Bottom Right */}
         <div className={styles.contentBox}>

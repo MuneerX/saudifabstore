@@ -399,17 +399,48 @@
 }
 
 .companyLogo {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  color: #ffffff;
-  opacity: 0.9;
+  justify-content: flex-start;
+  width: 100%;
   margin-bottom: 24px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+}
+
+.logoImg {
+  width: 100px !important;
+  height: 40px !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+  filter: none !important;
+  opacity: 1;
+  display: inline-block;
+}
+
+.gulfLogo {
+  width: 170px !important;
+  height: 68px !important;
+  object-position: left center !important;
+  filter: none !important;
+  opacity: 1 !important;
+  margin: 8px 0;
+}
+
+.satorpLogo {
+  width: 140px !important;
+  height: 56px !important;
+  object-position: left center !important;
+  filter: none !important;
+  opacity: 1 !important;
+  margin: 8px 0;
+}
+
+.averdaLogo {
+  width: 140px !important;
+  height: 56px !important;
+  object-position: left center !important;
+  filter: none !important;
+  opacity: 1 !important;
+  margin: 8px 0;
 }
 
 .testimonialText {
@@ -429,4 +460,13 @@
   opacity: 0.85;
   color: #ffffff;
   letter-spacing: -0.015em;
+}
+
+.darkerOverlay {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.75) 50%,
+    rgba(0, 0, 0, 0.4) 100%
+  ) !important;
 }

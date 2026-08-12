@@ -59,7 +59,7 @@ export default function ContactPage() {
         {/* Background Stock Image with Gradient Overlay inside the section */}
         <div className={styles.heroBackground}>
           <Image
-            src="/images/contact/bg_7.jpeg"
+            src="/images/contact/bg_7_2.jpeg"
             alt="Brooq Al Khalij Contact Background"
             fill
             className={styles.bgImage}
