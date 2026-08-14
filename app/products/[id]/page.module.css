@@ -7,36 +7,39 @@
 
 .detailSplitLayout {
   display: flex;
-  min-height: calc(100vh - 57px);
+  align-items: flex-start;
+  min-height: calc(100vh - 68px);
   background-color: #ffffff;
-  padding-top: 57px; /* Exact height of fixed top navbar */
+  padding-top: 68px; /* Exact height of fixed top navbar (68px) */
+  position: relative;
 }
 
 .imageColumn {
   width: 50%;
-  background-color: #ffffff; /* White background instead of screen split cream */
+  background-color: #ffffff;
   display: flex;
   justify-content: center;
-  align-items: stretch; /* Stretch the card to fill height */
-  padding: 16px 12px 16px 16px; /* Significantly reduced margins around the card */
-  position: sticky; /* Set to sticky to adjust with page scroll */
-  top: 0; /* Pins seamlessly to the very top of the browser viewport when scrolling */
-  height: 100vh; /* Fills full viewport height when stuck */
-  z-index: 1; /* Lower z-index so content sections scroll over it */
+  align-items: stretch;
+  padding: 16px; /* Clean initial padding around image card */
+  position: relative; /* GSAP ScrollTrigger manages pinning */
+  height: calc(100vh - 68px); /* Initial height below navbar */
+  z-index: 2;
+  box-sizing: border-box;
 }
 
 .imageCard {
   width: 100%;
-  max-width: none; /* Utilize full width up to content section */
-  height: 100%; /* Utilize full column screen height */
-  background-color: #F8F9FA; /* Soft subtle grey, slightly darker than screen background */
-  border: none; /* Removed border */
-  border-radius: 4px; /* Reduced corner radius */
+  max-width: none;
+  height: 100%; /* Stretches 100% full screen height */
+  background-color: #F8F9FA;
+  border: none;
+  border-radius: 8px;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 30px;
+  box-sizing: border-box;
 }
 
 .mainProductImage {
@@ -391,11 +394,23 @@
 
 .accordionContent {
   padding: 0 0 18px 0;
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Title font stack */
-  font-size: 16px; /* Match description size */
-  line-height: 1.32; /* Match description line spacing */
-  letter-spacing: -0.02em; /* Reduced letter spacing */
+  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
   color: #54514a;
+  animation: accordionFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes accordionFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Skeletons */
@@ -482,7 +497,25 @@
   100% { background-position: -200% 0; }
 }
 
-/* Responsive view */
+/* Responsive view for Tablet and Mobile */
+@media (max-width: 1280px) {
+  .infoColumn {
+    padding: 40px 48px 80px; /* Reduced left/right padding so right column is spacious on tablet screens */
+  }
+  .productTitle {
+    font-size: 44px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .infoColumn {
+    padding: 36px 32px 60px;
+  }
+  .productTitle {
+    font-size: 38px;
+  }
+}
+
 @media (max-width: 900px) {
   .detailSplitLayout {
     flex-direction: column;

@@ -38,17 +38,22 @@
   position: relative;
 }
 
-.logoText {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 26px;
-  font-weight: 300;
-  letter-spacing: -0.05em;
-  color: #ffffff;
+.logoWrapper {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0;
-  white-space: nowrap;
+}
+
+.logoImg {
+  height: 72px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  filter: brightness(0) invert(1);
 }
 
 .socialIcons {
@@ -427,5 +432,173 @@
   .memberLoginBtn {
     padding: 12px 18px;
     font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 0 10px 10px 10px;
+  }
+  .topBarInner {
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: static;
+  }
+  .logoWrapper {
+    position: static;
+    transform: none;
+    left: auto;
+  }
+  .heroHeadline {
+    padding: 48px 24px 48px;
+  }
+  .heroText {
+    font-size: clamp(34px, 6vw, 48px);
+    letter-spacing: -1px;
+  }
+  .mainGrid {
+    padding: 0 24px 40px 24px;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .colsRow {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 24px 0 40px;
+  }
+  .supportRow {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 24px 0;
+  }
+  .subscribeRow {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 0 0;
+  }
+  .subscribeForm {
+    max-width: 400px;
+  }
+  .ctaCard {
+    min-height: 220px;
+    padding: 24px 28px;
+  }
+  .ctaScrollText span {
+    font-size: 36px;
+  }
+}
+
+/* Dedicated Mobile Viewport Override (<= 576px) */
+@media (max-width: 576px) {
+  .footer {
+    padding: 0 6px 6px 6px;
+  }
+  .footerCard {
+    border-radius: 8px;
+  }
+  .topBar {
+    padding: 20px 0 12px;
+  }
+  .topBarInner {
+    padding: 0 16px;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+  }
+  .logoImg {
+    height: 56px;
+  }
+  .socialIcons {
+    gap: 12px;
+  }
+  .heroHeadline {
+    padding: 32px 16px 36px;
+  }
+  .heroText {
+    font-size: clamp(26px, 7.5vw, 36px);
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+  }
+  .mainGrid {
+    padding: 0 16px 32px 16px;
+    gap: 28px;
+  }
+  .colsRow {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 16px;
+    padding: 20px 0 32px;
+  }
+  .colsRow .col:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+  .colHeading {
+    font-size: 10px;
+  }
+  .colList li a {
+    font-size: 14.5px;
+  }
+  .supportRow {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px 0;
+  }
+  .supportEmail {
+    font-size: 14.5px;
+    word-break: break-all;
+  }
+  .subscribeRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px 0 0;
+  }
+  .legitBadge {
+    align-self: center;
+  }
+  .subscribeForm {
+    margin-left: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  .emailInput {
+    font-size: 14px;
+    min-width: 0;
+  }
+  .emailInput::placeholder {
+    font-size: 14px;
+  }
+  .subscribeBtn {
+    font-size: 14px;
+  }
+  .rightCtaCol {
+    gap: 12px;
+  }
+  .ctaCard {
+    min-height: 170px;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  .ctaLabel {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+  .ctaScrollText {
+    padding: 12px 0 4px;
+  }
+  .ctaScrollText span {
+    font-size: 30px;
+    padding-right: 16px;
+    letter-spacing: -1px;
+  }
+  .memberLoginBtn {
+    padding: 14px 16px;
+    font-size: 14.5px;
+    justify-content: center;
+    border-radius: 6px;
   }
 }

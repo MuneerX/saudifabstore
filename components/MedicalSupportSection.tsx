@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { HardHat } from "lucide-react";
 import styles from "./MedicalSupportSection.module.css";
+import { TextReveal } from "./TextReveal";
 import { TreatmentQuizModal } from "./TreatmentQuizModal";
 
 export function MedicalSupportSection() {
@@ -72,10 +73,14 @@ export function MedicalSupportSection() {
             {/* Left Column Text Block */}
             <div className={styles.leftColumn}>
               <div className={styles.dottedDivider} />
-              <div className={styles.metaLabel}>INDUSTRIAL CONTRACTING & SOLUTIONS</div>
-              <p className={styles.bodyCopy}>
-                Brooq Al Khalij delivers creative strategies, tactics and approaches to help clients grow their business with over 2,000+ completed projects across 7 specialized divisions.
-              </p>
+              <TextReveal animation="slide-up">
+                <div className={styles.metaLabel}>INDUSTRIAL CONTRACTING & SOLUTIONS</div>
+              </TextReveal>
+              <TextReveal animation="blur" delay={0.15}>
+                <p className={styles.bodyCopy}>
+                  Brooq Al Khalij delivers creative strategies, tactics and approaches to help clients grow their business with over 2,000+ completed projects across 7 specialized divisions.
+                </p>
+              </TextReveal>
               <button
                 className={styles.primaryButton}
                 onClick={() => setIsQuizOpen(true)}

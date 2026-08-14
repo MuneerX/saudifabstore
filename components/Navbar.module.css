@@ -3,10 +3,11 @@
   top: 0;
   left: 0;
   right: 0;
+  height: 68px; /* Locks navigation bar height to 68px */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 16px; /* Spans full screen with minimal margins */
+  padding: 0 16px; /* Side padding only; vertical alignment handled by height */
   background-color: transparent;
   color: #ffffff;
   z-index: 50;
@@ -25,6 +26,19 @@
 .logoArea {
   display: flex;
   align-items: center;
+}
+
+.logoImg {
+  height: 58px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  filter: brightness(0) invert(1);
+  transition: filter 0.3s ease;
+}
+
+.lightNavbar .logoImg {
+  filter: brightness(0);
 }
 
 .logoText {
@@ -69,16 +83,8 @@
   cursor: pointer;
 }
 
-.navLinkPill:hover {
-  color: rgba(255, 255, 255, 0.75);
-}
-
 .lightLinkPill {
   color: #111111 !important;
-}
-
-.lightLinkPill:hover {
-  color: #555555 !important;
 }
 
 /* Active Nav Pill highlight (Exact match for Pedestal reference image) */
@@ -113,9 +119,6 @@
   transition: opacity 0.2s ease;
 }
 
-.iconBtn:hover {
-  opacity: 0.6;
-}
 
 .mobileMenuBtn {
   display: block;
@@ -513,4 +516,138 @@
   margin-top: 6px;
   font-weight: 400;
   letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   MOBILE VIEWPORT INDIVIDUAL OVERRIDES (max-width: 768px)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .rightNav {
+    gap: 8px; /* Decreased space between login/account, search, and menu icons for mobile view individually */
+  }
+  .rightNav .navLinkPill {
+    padding: 4px 10px;
+    font-size: 13px;
+  }
+}
+
+/* Mobile Navigation Drawer */
+.mobileDrawerOverlay {
+  position: fixed;
+  inset: 0;
+  top: 68px;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mobileDrawerOverlay.drawerOpen {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobileDrawerContent {
+  background-color: #ffffff;
+  color: #111111;
+  width: 100%;
+  max-height: calc(100vh - 68px);
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid #e5e5e5;
+  transform: translateY(-12px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobileDrawerOverlay.drawerOpen .mobileDrawerContent {
+  transform: translateY(0);
+}
+
+.mobileNavLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobileNavLink {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: #111111;
+  text-decoration: none;
+  padding: 12px 14px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobileNavLink:hover {
+  background-color: #f5f5f5;
+  color: #EB5521;
+}
+
+.mobileNavArrow {
+  font-size: 14px;
+  color: #888888;
+  transition: transform 0.2s ease;
+}
+
+.mobileNavLink:hover .mobileNavArrow {
+  transform: translateX(3px);
+  color: #EB5521;
+}
+
+.mobileDrawerActions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid #eeeeee;
+  margin-top: 8px;
+}
+
+.mobileActionBtn {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px;
+  border-radius: 6px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.mobileActionBtnPrimary {
+  background-color: #EB5521;
+  color: #ffffff;
+  border: none;
+}
+
+.mobileActionBtnPrimary:hover {
+  background-color: #d24414;
+}
+
+.mobileActionBtnSecondary {
+  background-color: #f5f5f5;
+  color: #111111;
+  border: 1px solid #e0e0e0;
+}
+
+.mobileActionBtnSecondary:hover {
+  background-color: #eaeaea;
 }

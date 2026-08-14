@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Navbar } from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { AboutSection } from "../../components/AboutSection";
 import { FaqSection } from "../../components/FaqSection";
+import { ParallaxElement } from "../../components/ParallaxElement";
+import { TextReveal } from "../../components/TextReveal";
 import styles from "./page.module.css";
 import { TreatmentQuizModal } from "../../components/TreatmentQuizModal";
 
@@ -37,6 +39,14 @@ const SERVICE_DIFFERENCE = [
 
 export default function ServicesPage() {
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const storiesGridRef = useRef<HTMLDivElement>(null);
+
+  const scrollStories = (direction: "left" | "right") => {
+    if (storiesGridRef.current) {
+      const scrollAmount = direction === "left" ? -400 : 400;
+      storiesGridRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
@@ -45,7 +55,7 @@ export default function ServicesPage() {
 
       {/* Hero Section */}
       <section className={styles.heroSection}>
-        <div className={styles.bgWrapper}>
+        <ParallaxElement speed={-0.10} className={styles.bgWrapper}>
           <Image
             src="/images/services/services_hero4.jpeg"
             alt="Brooq Al Khalij Services background"
@@ -54,16 +64,20 @@ export default function ServicesPage() {
             sizes="100vw"
             priority
           />
-        </div>
+        </ParallaxElement>
         <div className={styles.overlay} />
 
         <div className={styles.introGrid}>
           <div className={styles.rightColumnContent}>
             <div className={styles.contentArea}>
-              <span className={styles.badge}>Our Core Offerings</span>
-              <h1 className={styles.title}>
-                Precision fabrication. Expert contracting.
-              </h1>
+              <TextReveal animation="slide-up">
+                <span className={styles.badge}>Our Core Offerings</span>
+              </TextReveal>
+              <TextReveal animation="blur" delay={0.15}>
+                <h1 className={styles.title}>
+                  Precision fabrication. Expert contracting.
+                </h1>
+              </TextReveal>
               <button 
                 className={styles.ctaButton}
                 onClick={() => setIsContactOpen(true)}
@@ -443,7 +457,7 @@ export default function ServicesPage() {
       {/* How It Works Section */}
       <section className={styles.howSection}>
         <div className={styles.howCardContainer}>
-          <div className={styles.howBgWrapper}>
+          <ParallaxElement speed={-0.10} className={styles.howBgWrapper}>
             <Image
               src="/images/services/services_howitworks.jpeg"
               alt="How it works background"
@@ -453,7 +467,7 @@ export default function ServicesPage() {
               quality={100}
               priority
             />
-          </div>
+          </ParallaxElement>
           <div className={styles.howOverlay} />
 
           <div className={styles.howContainer}>
@@ -518,7 +532,7 @@ export default function ServicesPage() {
             </div>
           </div>
 
-          <div className={styles.storiesGrid}>
+          <div ref={storiesGridRef} className={styles.storiesGrid}>
             <div className={styles.storyCard}>
               <span className={styles.quoteMark}>“</span>
               <p className={styles.storyText}>
@@ -545,8 +559,8 @@ export default function ServicesPage() {
           </div>
 
           <div className={styles.storiesControls}>
-            <button className={styles.controlBtn}>←</button>
-            <button className={styles.controlBtn}>→</button>
+            <button onClick={() => scrollStories("left")} className={styles.controlBtn}>←</button>
+            <button onClick={() => scrollStories("right")} className={styles.controlBtn}>→</button>
           </div>
         </div>
       </section>

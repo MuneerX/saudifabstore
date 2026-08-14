@@ -32,15 +32,17 @@ export function FeaturedGridTwo() {
       <div className={styles.grid}>
         {ITEMS.map((item) => (
           <div key={item.id} className={styles.card}>
-            <Image
-              src={item.imageSrc}
-              alt={item.alt}
-              fill
-              className={styles.image}
-              sizes="(max-width: 768px) 100vw, 50vw"
-              quality={95}
-              priority
-            />
+            <div className={styles.imageWrapper} data-speed="auto">
+              <Image
+                src={item.imageSrc}
+                alt={item.alt}
+                fill
+                className={styles.image}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                quality={95}
+                priority
+              />
+            </div>
             <div className={styles.gradientOverlay} />
             <h3 className={styles.label}>{item.title}</h3>
           </div>

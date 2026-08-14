@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Navbar } from "../../components/Navbar";
@@ -8,6 +8,7 @@ import Footer from "../../components/Footer";
 import { AboutPageSection } from "../../components/AboutPageSection";
 import { FaqSection } from "../../components/FaqSection";
 import { ParallaxElement } from "../../components/ParallaxElement";
+import { TextReveal } from "../../components/TextReveal";
 import styles from "./page.module.css";
 import { TreatmentQuizModal } from "../../components/TreatmentQuizModal";
 
@@ -90,6 +91,14 @@ const DIFFERENCE_FEATURES = [
 export default function AboutPage() {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [activeGuideTab, setActiveGuideTab] = useState("general");
+  const storiesGridRef = useRef<HTMLDivElement>(null);
+
+  const scrollStories = (direction: "left" | "right") => {
+    if (storiesGridRef.current) {
+      const scrollAmount = direction === "left" ? -400 : 400;
+      storiesGridRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
@@ -98,7 +107,7 @@ export default function AboutPage() {
 
       {/* Hero Section */}
       <section className={styles.heroSection}>
-        <ParallaxElement speed={-0.18} className={styles.bgWrapper}>
+        <ParallaxElement speed={-0.10} className={styles.bgWrapper}>
           <Image
             src="/images/about/about_hero2.jpeg"
             alt="About Brooq Al Khalij"
@@ -115,10 +124,14 @@ export default function AboutPage() {
           {/* Right Column Content starting at column 7 */}
           <div className={styles.rightColumnContent}>
             <div className={styles.contentArea}>
-              <span className={styles.badge}>Who We Are</span>
-              <h1 className={styles.title}>
-                Built for strength. Engineered to last.
-              </h1>
+              <TextReveal animation="slide-up">
+                <span className={styles.badge}>Who We Are</span>
+              </TextReveal>
+              <TextReveal animation="blur" delay={0.15}>
+                <h1 className={styles.title}>
+                  Built for strength. Engineered to last.
+                </h1>
+              </TextReveal>
               <button 
                 className={styles.ctaButton}
                 onClick={() => setIsContactOpen(true)}
@@ -376,7 +389,7 @@ export default function AboutPage() {
       <section className={styles.featuredSection}>
         <div className={styles.featuredCardContainer}>
           {/* Background Image Layer */}
-          <ParallaxElement speed={-0.12} className={styles.featuredBgWrapper}>
+          <ParallaxElement speed={-0.10} className={styles.featuredBgWrapper}>
             <Image
               src="/images/about/about_precision.jpeg"
               alt="Featured Contracting Solution"
@@ -422,7 +435,7 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className={styles.storiesGrid}>
+          <div ref={storiesGridRef} className={styles.storiesGrid}>
             {/* Card 1 */}
             <div className={styles.storyCard}>
               <span className={styles.quoteMark}>“</span>
@@ -452,8 +465,8 @@ export default function AboutPage() {
           </div>
 
           <div className={styles.storiesControls}>
-            <button className={styles.controlBtn}>←</button>
-            <button className={styles.controlBtn}>→</button>
+            <button onClick={() => scrollStories("left")} className={styles.controlBtn}>←</button>
+            <button onClick={() => scrollStories("right")} className={styles.controlBtn}>→</button>
           </div>
         </div>
       </section>

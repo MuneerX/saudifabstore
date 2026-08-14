@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Factory, ShieldCheck, BadgeCheck, Star } from "lucide-react";
@@ -10,6 +10,12 @@ import styles from "./page.module.css"; // Import CSS module
 import { useProducts } from "@/lib/hooks/useProducts";
 import { useCartContext } from "@/components/CartContext";
 import { useParams } from "next/navigation";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const FALLBACK_BADGES = ["BESTSELLER", "BESTSELLER", "BESTSELLER", "LIMITED", "NEW"];
 const SAMPLE_SWATCH_SETS = [
@@ -23,6 +29,10 @@ export default function ProductDetailsPage() {
   const { id } = useParams(); // Get ID from URL using useParams
   const { getProductById, products, fetchProducts } = useProducts() as any;
   const { addToCart } = useCartContext();
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imageColumnRef = useRef<HTMLDivElement>(null);
+  const productTabsRef = useRef<HTMLDivElement>(null);
   
   const [product, setProduct] = useState<{
     _id: string;
@@ -36,6 +46,12 @@ export default function ProductDetailsPage() {
     images: string[];
     specImage?: string;
     category?: string;
+    material?: string;
+    dimensions?: string;
+    weight?: string;
+    fabricationDetails?: string;
+    surfacePreparation?: string;
+    testingCertifications?: string;
   } | null>(null);
   
   const [pageLoading, setPageLoading] = useState(true);
@@ -71,10 +87,51 @@ export default function ProductDetailsPage() {
     fetchProducts();
   }, [fetchProducts]);
 
+  useEffect(() => {
+    if (pageLoading || !product) return;
+
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(min-width: 901px)", () => {
+        if (imageColumnRef.current && productTabsRef.current) {
+          ScrollTrigger.create({
+            trigger: imageColumnRef.current,
+            start: "top top", // Pins flush at top 0 of viewport (no top navigation space left visible after scrolling)
+            endTrigger: productTabsRef.current,
+            end: "top bottom", // Stops sticky scrolling before specifications section
+            pin: true,
+            pinSpacing: false,
+            invalidateOnRefresh: true,
+            onEnter: () => {
+              if (imageColumnRef.current) {
+                gsap.to(imageColumnRef.current, { height: "100vh", duration: 0.3, ease: "power2.out" });
+              }
+            },
+            onLeaveBack: () => {
+              if (imageColumnRef.current) {
+                gsap.to(imageColumnRef.current, { height: "calc(100vh - 68px)", duration: 0.3, ease: "power2.out" });
+              }
+            }
+          });
+        }
+      });
+    }, containerRef);
+
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 250);
+
+    return () => {
+      clearTimeout(timer);
+      ctx.revert();
+    };
+  }, [pageLoading, product, activeTab, openAccordion]);
+
   const handleAddToCart = () => {
     if (product) {
-      // Default to quantity 1, Small size, Default Color as per mock-up style
-      addToCart(product._id, 1, "Regular", "Default Color");
+      // Default to quantity 1, Standard Spec, Industrial Finish
+      addToCart(product._id, 1, "Standard Spec", "Industrial Finish");
     }
   };
 
@@ -123,46 +180,38 @@ export default function ProductDetailsPage() {
 
   const accordionData = [
     {
-      title: "What is the material composition?",
-      content: "This product is made from 100% premium quality materials. It's soft, breathable, and designed to maintain its shape and color even after multiple uses/washes."
+      title: "What structural material grades & standards are used?",
+      content: "All steel components are fabricated from certified ASTM A36 / S275JR structural carbon steel or Grade 304/316 stainless steel. Every batch includes full Mill Test Certificates (MTR) traceable to heat numbers."
     },
     {
-      title: "How should I care for this item?",
-      content: "Clean with mild detergent or wash cold with like colors. Tumble dry low or hang dry. Do not bleach or use harsh chemicals. Handle with care to preserve quality."
+      title: "Can this product be customized to specific project dimensions?",
+      content: "Yes, our Dammam manufacturing facility provides full custom structural engineering and drafting. We fabricate to exact client technical drawings and certified load requirements."
     },
     {
-      title: "What is the fit like?",
-      content: "Regular fit with a comfortable, relaxed silhouette. True to size - we recommend ordering your usual size for the perfect fit."
+      title: "What surface preparation & protective coatings are applied?",
+      content: "Surface preparation is executed via commercial abrasive grit blasting to SA 2.5 profile. Protective options include hot-dip galvanizing, inorganic zinc silicate, high-build epoxy primer, or marine-grade polyurethane topcoats."
     },
     {
-      title: "Is this product available in other sizes?",
-      content: "Yes, this product is available in sizes ranging from Small to XX-Large. All sizes follow our standard dimensions chart."
+      title: "Are mill test certificates and QA documentation provided?",
+      content: "Yes. Every dispatch includes a complete Quality Assurance Dossier containing Mill Test Reports (MTR), Dry Film Thickness (DFT) inspection logs, and Non-Destructive Weld Testing (NDT) certificates."
     },
     {
-      title: "Does this product shrink after washing?",
-      content: "Our products are pre-treated during manufacturing, so they maintain their size and shape. However, we still recommend following the care instructions for best results."
+      title: "What is the dispatch & delivery timeline across KSA & GCC?",
+      content: "Standard stock items ship within 24 to 48 hours across KSA. Custom fabricated assemblies typically dispatch within 7 to 14 business days depending on engineering complexity."
     },
     {
-      title: "Is this product suitable for layering?",
-      content: "Yes! The regular fit and high-quality material make it perfect for layering under jackets or coats, or wearing as a standalone piece."
-    },
-    {
-      title: "How long does the color last?",
-      content: "We use colorfast dyes and premium finishes that are designed to resist fading. The color and texture vibrancy is maintained through proper care."
-    },
-    {
-      title: "Can I return or exchange this item?",
-      content: "Yes, we offer a 30-day satisfaction guarantee. If you're not completely happy with your purchase, you can return it for a full refund or exchange within 30 days of delivery."
+      title: "What load testing and safety compliance certifications apply?",
+      content: "All load-bearing structures and assemblies are proof-tested to 1.5x Safe Working Load (SWL) in full compliance with Saudi SASO, ISO 9001:2015, and international safety codes."
     }
   ];
 
   return (
-    <div className={styles.pageContainer}>
+    <div ref={containerRef} className={styles.pageContainer}>
       <Navbar isLight={true} hasBorder={true} />
  
       <div className={styles.detailSplitLayout}>
         {/* Left Column - Large Centered Image Wrapped in Card */}
-        <div className={styles.imageColumn}>
+        <div ref={imageColumnRef} className={styles.imageColumn}>
           <div className={styles.imageCard}>
             <Image
               src={product.images?.[0] || '/home/shirt1.png'}
@@ -282,7 +331,7 @@ export default function ProductDetailsPage() {
       </div>
 
       {/* Brand Product Tabs Section */}
-      <div className={styles.productTabsSection}>
+      <div ref={productTabsRef} className={styles.productTabsSection}>
         <div className={styles.tabsHeaderContainer}>
           <button
             className={`${styles.tabHeaderButton} ${activeTab === 'general' ? styles.activeTabButton : styles.inactiveTabButton}`}
@@ -397,15 +446,15 @@ export default function ProductDetailsPage() {
                   <div className={styles.specsTable}>
                     <div className={styles.specsTableRow}>
                       <div className={styles.specsTableLabel}>MATERIAL</div>
-                      <div className={styles.specsTableValue}>ASTM A36 Structural Carbon Steel / Grade A Solid Hardwood</div>
+                      <div className={styles.specsTableValue}>{product.material || "ASTM A36 Structural Carbon Steel / Grade A Solid Hardwood"}</div>
                     </div>
                     <div className={styles.specsTableRow}>
                       <div className={styles.specsTableLabel}>DIMENSIONS</div>
-                      <div className={styles.specsTableValue}>H: 120 cm x W: 85 cm x D: 60 cm (Customizable to order requirements)</div>
+                      <div className={styles.specsTableValue}>{product.dimensions || "H: 120 cm x W: 85 cm x D: 60 cm (Customizable to order requirements)"}</div>
                     </div>
                     <div className={styles.specsTableRow}>
                       <div className={styles.specsTableLabel}>WEIGHT</div>
-                      <div className={styles.specsTableValue}>Approx. 28 kg</div>
+                      <div className={styles.specsTableValue}>{product.weight || "Approx. 28 kg"}</div>
                     </div>
                   </div>
 
@@ -414,19 +463,19 @@ export default function ProductDetailsPage() {
                     <div className={styles.infoColItem}>
                       <h4 className={styles.infoColHeader}>FABRICATION DETAILS</h4>
                       <p className={styles.infoColText}>
-                        Precision welded and finished entirely in-house at our Dammam facilities. Employs advanced MIG/TIG welding processes to ensure high structural load capacity and structural endurance under extreme mechanical stress.
+                        {product.fabricationDetails || "Precision welded and finished entirely in-house at our Dammam facilities. Employs advanced MIG/TIG welding processes to ensure high structural load capacity and structural endurance under extreme mechanical stress."}
                       </p>
                     </div>
                     <div className={styles.infoColItem}>
                       <h4 className={styles.infoColHeader}>SURFACE PREPARATION</h4>
                       <p className={styles.infoColText}>
-                        Treated with commercial abrasive grit blasting (SA 2.5 profile) to remove all mill scale and oxides, followed immediately by an anti-corrosion epoxy primer and premium polyurethane top coat.
+                        {product.surfacePreparation || "Treated with commercial abrasive grit blasting (SA 2.5 profile) to remove all mill scale and oxides, followed immediately by an anti-corrosion epoxy primer and premium polyurethane top coat."}
                       </p>
                     </div>
                     <div className={styles.infoColItem}>
-                      <h4 className={styles.infoColHeader}>TESTING & CERTIFICATIONS</h4>
+                      <h4 className={styles.infoColHeader}>TESTING &amp; CERTIFICATIONS</h4>
                       <p className={styles.infoColText}>
-                        Fully tested and certified for safety compliance. Weld connections are non-destructively inspected. DFT (Dry Film Thickness) coating profiles are verified to meet chemical and marine resistance criteria.
+                        {product.testingCertifications || "Fully tested and certified for safety compliance. Weld connections are non-destructively inspected. DFT (Dry Film Thickness) coating profiles are verified to meet chemical and marine resistance criteria."}
                       </p>
                     </div>
                   </div>

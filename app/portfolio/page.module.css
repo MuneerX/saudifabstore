@@ -28,7 +28,10 @@
 
 .bgWrapper {
   position: absolute;
-  inset: 0;
+  top: -12.5%;
+  left: 0;
+  width: 100%;
+  height: 125%;
   z-index: 1;
 }
 
@@ -350,7 +353,10 @@
 
 .featuredBgWrapper {
   position: absolute;
-  inset: 0;
+  top: -15%;
+  left: 0;
+  width: 100%;
+  height: 130%;
   z-index: 1;
 }
 
@@ -489,6 +495,8 @@
   gap: 18px 12px;
   width: 100%;
   margin-bottom: 48px;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 
 .storyCard {
@@ -669,6 +677,30 @@
 }
 
 @media (max-width: 1024px) {
+  .guideSection {
+    padding-top: 24px;
+  }
+  .guideTabsHeader {
+    position: static;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    width: 100%;
+    gap: 8px;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #EBE7DF;
+  }
+  .guideTabsHeader::-webkit-scrollbar {
+    display: none;
+  }
+  .guideTabButton {
+    flex-shrink: 0;
+    font-size: 14px;
+    padding: 8px 14px;
+  }
   .guideCardsRow {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -684,5 +716,175 @@
   .featuredCard {
     width: 100%;
     padding: 32px 24px;
+  }
+}
+
+/* Lightbox Case Study Modal */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modalContent {
+  position: relative;
+  background-color: #ffffff;
+  color: #111111;
+  width: 100%;
+  max-width: 820px;
+  max-height: 90vh;
+  border-radius: 12px;
+  overflow-y: auto;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modalCloseBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.modalCloseBtn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  transform: scale(1.05);
+}
+
+.modalImageWrapper {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  background-color: #111111;
+  flex-shrink: 0;
+}
+
+.modalImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.modalBody {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modalCategory {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #EB5521;
+}
+
+.modalTitle {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 26px;
+  font-weight: 450;
+  line-height: 1.15;
+  color: #111111;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.modalMetaRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px 0;
+  border-top: 1px dashed rgba(17, 17, 17, 0.15);
+  border-bottom: 1px dashed rgba(17, 17, 17, 0.15);
+}
+
+.modalMetaItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.modalMetaLabel {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #888888;
+  letter-spacing: 0.05em;
+}
+
+.modalMetaVal {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #111111;
+}
+
+.modalDesc {
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 15.5px;
+  line-height: 1.5;
+  color: #54514a;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .modalBody {
+    padding: 20px;
+    gap: 14px;
+  }
+  .modalImageWrapper {
+    height: 220px;
+  }
+  .modalTitle {
+    font-size: 22px;
+  }
+  .modalMetaRow {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 }

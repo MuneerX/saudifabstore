@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { ParallaxElement } from "./ParallaxElement";
+import { TextReveal } from "./TextReveal";
 import styles from "./FaqSection.module.css";
 
 interface FaqItem {
@@ -50,26 +52,32 @@ export function FaqSection() {
       <div className={styles.brandFogGlow} />
       {/* Background Industrial Bolt Image Layer */}
       <div className={styles.bgImageContainer}>
-        <Image
-          src="/images/home/faq/bolt.png"
-          alt="Brooq Al Khalij Industrial Bolt background"
-          fill
-          className={styles.bgImage}
-          sizes="(max-width: 1024px) 100vw, 50vw"
-        />
+        <ParallaxElement speed={-0.10} style={{ position: "relative", width: "100%", height: "125%", top: "-12.5%" }}>
+          <Image
+            src="/images/home/faq/bolt.png"
+            alt="Brooq Al Khalij Industrial Bolt background"
+            fill
+            className={styles.bgImage}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+          />
+        </ParallaxElement>
       </div>
 
       <div className={styles.container}>
         {/* Left Column: Heading & Subtitle */}
         <div className={styles.leftCol}>
           <div className={styles.headerBlock}>
-            <h2 className={styles.headline}>
-              <span>Frequently</span>
-              <span className={styles.secondLine}>asked questions</span>
-            </h2>
-            <p className={styles.subText}>
-              Find answers to common questions about Brooq Al Khalij Group and our services.
-            </p>
+            <TextReveal animation="slide-up">
+              <h2 className={styles.headline}>
+                <span>Frequently</span>
+                <span className={styles.secondLine}>asked questions</span>
+              </h2>
+            </TextReveal>
+            <TextReveal animation="blur" delay={0.2}>
+              <p className={styles.subText}>
+                Find answers to common questions about Brooq Al Khalij Group and our services.
+              </p>
+            </TextReveal>
           </div>
         </div>
 

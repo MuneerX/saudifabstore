@@ -14,6 +14,12 @@ export interface IProduct extends Document {
   sku?: string;
   discountPrice?: number;
   specImage?: string;
+  material?: string;
+  dimensions?: string;
+  weight?: string;
+  fabricationDetails?: string;
+  surfacePreparation?: string;
+  testingCertifications?: string;
   tags?: string[];
   sizes?: string[];
   colors?: string[];
@@ -77,6 +83,30 @@ const ProductSchema: Schema = new Schema(
       min: 0,
     },
     specImage: {
+      type: String,
+      default: '',
+    },
+    material: {
+      type: String,
+      default: '',
+    },
+    dimensions: {
+      type: String,
+      default: '',
+    },
+    weight: {
+      type: String,
+      default: '',
+    },
+    fabricationDetails: {
+      type: String,
+      default: '',
+    },
+    surfacePreparation: {
+      type: String,
+      default: '',
+    },
+    testingCertifications: {
       type: String,
       default: '',
     },

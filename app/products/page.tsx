@@ -261,27 +261,7 @@ function ProductsPage() {
               </div>
             </div>
 
-            <div className={styles.separatorLine} />
 
-            {/* Colors Section */}
-            <div className={styles.filterSection}>
-              <h3 className={styles.filterSectionTitle}>Colors & Finish</h3>
-              <div className={styles.colorsList}>
-                {COLOR_OPTIONS.map(color => (
-                  <div
-                    key={color.name}
-                    className={`${styles.colorRow} ${selectedColors.includes(color.name.toLowerCase()) ? styles.colorRowSelected : ''}`}
-                    onClick={() => handleColorChange(color.name.toLowerCase())}
-                  >
-                    <span
-                      className={styles.colorSwatch}
-                      style={{ backgroundColor: color.hex }}
-                    />
-                    <span className={styles.colorName}>{color.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
 
             <div className={styles.separatorLine} />
 

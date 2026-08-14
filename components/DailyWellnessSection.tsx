@@ -13,6 +13,7 @@ import {
   Compass,
   ArrowRight 
 } from "lucide-react";
+import { ParallaxElement } from "./ParallaxElement";
 import styles from "./DailyWellnessSection.module.css";
 import { TreatmentQuizModal } from "./TreatmentQuizModal";
 
@@ -250,7 +251,7 @@ export function DailyWellnessSection() {
 
           {/* Background Image inside Card */}
           <div className={styles.imageTrigger}>
-            <div className={styles.imageTarget}>
+            <ParallaxElement speed={-0.10} className={styles.imageTarget} style={{ height: "125%", top: "-12.5%", width: "100%", position: "absolute" }}>
               <Image
                 src="/images/home/services/service_bg_3.png"
                 alt="Brooq Al Khalij Services background"
@@ -258,7 +259,7 @@ export function DailyWellnessSection() {
                 className={styles.imageFull}
                 priority
               />
-            </div>
+            </ParallaxElement>
           </div>
         </div>
 

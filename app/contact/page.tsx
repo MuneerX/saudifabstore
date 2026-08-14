@@ -5,6 +5,8 @@ import Image from "next/image";
 import { Navbar } from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { TreatmentQuizModal } from "../../components/TreatmentQuizModal";
+import { ParallaxElement } from "../../components/ParallaxElement";
+import { TextReveal } from "../../components/TextReveal";
 import { Phone, Mail, MessageSquare } from "lucide-react";
 import styles from "./page.module.css";
 
@@ -57,7 +59,7 @@ export default function ContactPage() {
       {/* Main Glass Contact Section */}
       <section className={styles.contactSection}>
         {/* Background Stock Image with Gradient Overlay inside the section */}
-        <div className={styles.heroBackground}>
+        <ParallaxElement speed={-0.10} className={styles.heroBackground}>
           <Image
             src="/images/contact/bg_7_2.jpeg"
             alt="Brooq Al Khalij Contact Background"
@@ -67,17 +69,21 @@ export default function ContactPage() {
             priority
           />
           <div className={styles.bgOverlay} />
-        </div>
+        </ParallaxElement>
 
         <div className={styles.contactSectionContainer}>
           <div className={styles.contactGrid}>
             {/* Left Column: Glassmorphic Contact Form */}
             <div className={styles.formGlassCard}>
               <div className={styles.cardHeader}>
-                <h1 className={styles.title}>Project Inquiry &amp; Quotation</h1>
-                <p className={styles.description}>
-                  Submit your project requirements below to receive a custom commercial quotation and technical consultation from our division engineers.*
-                </p>
+                <TextReveal animation="slide-up">
+                  <h1 className={styles.title}>Project Inquiry &amp; Quotation</h1>
+                </TextReveal>
+                <TextReveal animation="blur" delay={0.15}>
+                  <p className={styles.description}>
+                    Submit your project requirements below to receive a custom commercial quotation and technical consultation from our division engineers.*
+                  </p>
+                </TextReveal>
               </div>
 
               <form onSubmit={handleSubmit} className={styles.formGrid}>

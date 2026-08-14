@@ -2,10 +2,10 @@
   position: relative;
   width: 100%;
   background-color: #F8F9FA; /* Very slightly grey background */
-  padding: 24px 0 24px 0; /* Reduced top and bottom margins */
+  padding: 76px 0 24px 0; /* Padding-top (76px) pushes content below fixed navbar while hero background starts at top */
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 80px); /* Screen height minus navbar height */
+  height: calc(100vh - 4px);
   min-height: 580px;
 }
 
@@ -108,26 +108,28 @@
 
 .swatchPill {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 700; /* Increased weight for legibility */
-  padding: 6px 14px;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 5px 13px;
   border-radius: 4px;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  display: inline-block;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
-  background: linear-gradient(135deg, #2b3a4a 0%, #1a222d 100%); /* Deep Steel Slate */
-  color: #ffffff;
-  border: none;
+  letter-spacing: 0.03em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #ffffff;
+  color: #111827;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .pillAws,
 .pillIso,
 .pillAsme,
 .pillBlasting {
-  background: linear-gradient(135deg, #2b3a4a 0%, #1a222d 100%); /* Deep Steel Slate */
-  color: #ffffff;
-  border: none;
+  background-color: #ffffff;
+  color: #111827;
+  border: 1px solid #d1d5db;
 }
 
 .heroBottomRightContainer {
@@ -439,6 +441,20 @@
 }
 
 @media (max-width: 1024px) {
+  .heroSection {
+    height: auto;
+    min-height: auto;
+    padding: 76px 0 24px 0;
+  }
+  .heroMarqueeContainer {
+    height: clamp(340px, 45vh, 480px); /* Explicit height ensures marquee image renders on tablet view */
+    min-height: 340px;
+    flex-grow: 0;
+  }
+  .heroBottomBar {
+    padding: 20px 24px 0 24px;
+    gap: 20px;
+  }
   .overviewSection, .qaSection, .ctaCardContainer {
     padding: 60px 24px;
   }
@@ -450,21 +466,150 @@
     margin-bottom: 32px;
   }
   .capabilityCard {
-    flex-direction: column;
+    flex-direction: row;
+    align-items: flex-start;
     gap: 20px;
   }
   .cardImgWrapper {
-    width: 100%;
-    aspect-ratio: 16 / 10;
+    width: 200px;
+    max-width: 200px;
+    aspect-ratio: 4 / 3;
+    flex-shrink: 0;
   }
   .qaRight {
     grid-template-columns: 1fr;
   }
 }
 
+@media (max-width: 768px) {
+  .heroSection {
+    height: auto;
+    min-height: auto;
+    padding: 76px 0 24px 0;
+    gap: 20px;
+  }
+  .heroMarqueeContainer {
+    height: clamp(280px, 62vw, 380px);
+    min-height: 280px;
+    flex-grow: 0;
+  }
+  .heroBottomBar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0 16px;
+    gap: 20px;
+    width: 100%;
+  }
+  .heroBottomLeft {
+    gap: 16px;
+    width: 100%;
+  }
+  .heroTitle {
+    font-size: clamp(26px, 7vw, 34px);
+    line-height: 1.1;
+  }
+  .swatchesRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+  }
+  .swatchLabel {
+    font-size: 12px;
+  }
+  .swatchPills {
+    gap: 6px;
+    width: 100%;
+  }
+  .swatchPill {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+  .heroBottomRightContainer {
+    width: 100%;
+    align-items: stretch;
+    gap: 6px;
+  }
+  .heroBottomRight {
+    width: 100%;
+  }
+  .heroCtaCard {
+    width: 100%;
+    max-width: 100%;
+    height: 56px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .heroCtaText {
+    padding: 0 0 0 16px;
+    font-size: 15px;
+    align-items: center;
+  }
+  .heroCtaArrow {
+    width: 44px;
+    height: 44px;
+    margin-right: 6px;
+    border-radius: 4px;
+  }
+  .ctaSubtext {
+    text-align: left;
+    max-width: 100%;
+    font-size: 10.5px;
+  }
+
+  /* Capabilities Section Mobile Layout (768px and below) */
+  .overviewSection {
+    padding: 48px 16px;
+  }
+  .overviewContainer {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .overviewLeft {
+    grid-column: 1 / -1;
+    position: static;
+    margin-bottom: 20px;
+  }
+  .overviewLabel {
+    font-size: clamp(32px, 8vw, 44px);
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+  .overviewDesc {
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .overviewRight {
+    grid-column: 1 / -1;
+    gap: 32px;
+  }
+  .capabilityCard {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding-bottom: 32px;
+  }
+  .cardImgWrapper {
+    width: 100%;
+    max-width: 100%;
+    height: clamp(160px, 45vw, 210px); /* Scaled down capability images on mobile view */
+    aspect-ratio: 16 / 9;
+    border-radius: 8px;
+  }
+  .cardTitle {
+    font-size: 20px;
+    line-height: 1.25;
+  }
+  .cardDesc {
+    font-size: 14.5px;
+    line-height: 1.5;
+  }
+}
+
 @media (max-width: 600px) {
   .overviewSection, .qaSection {
-    padding-left: 20.8px;
-    padding-right: 20.8px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }

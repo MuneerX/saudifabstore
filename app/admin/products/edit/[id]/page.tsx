@@ -65,6 +65,13 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   const [qualityAssurance, setQualityAssurance] = useState("100% Mill test certified & traceable carbon grade");
   const [engineeringSupport, setEngineeringSupport] = useState("Full in-house structural drafting & consultation");
 
+  const [material, setMaterial] = useState("");
+  const [dimensions, setDimensions] = useState("");
+  const [weight, setWeight] = useState("");
+  const [fabricationDetails, setFabricationDetails] = useState("");
+  const [surfacePreparation, setSurfacePreparation] = useState("");
+  const [testingCertifications, setTestingCertifications] = useState("");
+
   // Fetch product details
   useEffect(() => {
     const fetchProduct = async () => {
@@ -83,6 +90,13 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
           setDiscountPrice(product.discountPrice !== undefined ? product.discountPrice.toString() : "");
           setStock(product.stock !== undefined ? product.stock.toString() : "20");
           setSpecImage(product.specImage || "");
+
+          setMaterial(product.material || "");
+          setDimensions(product.dimensions || "");
+          setWeight(product.weight || "");
+          setFabricationDetails(product.fabricationDetails || "");
+          setSurfacePreparation(product.surfacePreparation || "");
+          setTestingCertifications(product.testingCertifications || "");
           
           if (Array.isArray(product.images) && product.images.length > 0) {
             setUploadedImages(product.images);
@@ -244,6 +258,12 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
         stock: parseInt(stock) || 0,
         images: uploadedImages.length > 0 ? uploadedImages : ["/images/home/category_grid/container_3.jpeg"],
         specImage: specImage.trim(),
+        material: material.trim(),
+        dimensions: dimensions.trim(),
+        weight: weight.trim(),
+        fabricationDetails: fabricationDetails.trim(),
+        surfacePreparation: surfacePreparation.trim(),
+        testingCertifications: testingCertifications.trim(),
       };
 
       await apiClient.request(`/admin/products`, {
@@ -721,6 +741,80 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
             {activeTab === 'specs' && (
               <div className={styles.tabContentBlock}>
                 <div className={styles.specsTabSectionLayout}>
+                  <div className={styles.specsLeftCol}>
+                    <h3 className={styles.specsSectionTitle}>Technical Specifications</h3>
+                    <p className={styles.specSubtext}>Configure Material, Dimensions, Weight, Fabrication, Surface Prep, and Testing Certifications.</p>
+                  </div>
+                  <div className={styles.specsRightCol}>
+                    <div className={styles.specsTable}>
+                      <div className={styles.specsTableRow}>
+                        <div className={styles.specsTableLabel}>MATERIAL</div>
+                        <input
+                          type="text"
+                          value={material}
+                          onChange={(e) => setMaterial(e.target.value)}
+                          placeholder="e.g. ASTM A36 Structural Carbon Steel / Grade A Hardwood"
+                          className={styles.tableInput}
+                        />
+                      </div>
+                      <div className={styles.specsTableRow}>
+                        <div className={styles.specsTableLabel}>DIMENSIONS</div>
+                        <input
+                          type="text"
+                          value={dimensions}
+                          onChange={(e) => setDimensions(e.target.value)}
+                          placeholder="e.g. H: 120 cm x W: 85 cm x D: 60 cm (Customizable)"
+                          className={styles.tableInput}
+                        />
+                      </div>
+                      <div className={styles.specsTableRow}>
+                        <div className={styles.specsTableLabel}>WEIGHT</div>
+                        <input
+                          type="text"
+                          value={weight}
+                          onChange={(e) => setWeight(e.target.value)}
+                          placeholder="e.g. Approx. 28 kg"
+                          className={styles.tableInput}
+                        />
+                      </div>
+                      <div className={styles.specsTableRow} style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '8px' }}>
+                        <div className={styles.specsTableLabel}>FABRICATION DETAILS</div>
+                        <textarea
+                          value={fabricationDetails}
+                          onChange={(e) => setFabricationDetails(e.target.value)}
+                          placeholder="e.g. Precision welded and finished entirely in-house at our Dammam facilities..."
+                          rows={3}
+                          className={styles.descriptionTextarea}
+                          style={{ width: '100%' }}
+                        />
+                      </div>
+                      <div className={styles.specsTableRow} style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '8px' }}>
+                        <div className={styles.specsTableLabel}>SURFACE PREPARATION</div>
+                        <textarea
+                          value={surfacePreparation}
+                          onChange={(e) => setSurfacePreparation(e.target.value)}
+                          placeholder="e.g. Treated with commercial abrasive grit blasting (SA 2.5 profile)..."
+                          rows={3}
+                          className={styles.descriptionTextarea}
+                          style={{ width: '100%' }}
+                        />
+                      </div>
+                      <div className={styles.specsTableRow} style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '8px' }}>
+                        <div className={styles.specsTableLabel}>TESTING &amp; CERTIFICATIONS</div>
+                        <textarea
+                          value={testingCertifications}
+                          onChange={(e) => setTestingCertifications(e.target.value)}
+                          placeholder="e.g. Fully tested and certified for safety compliance..."
+                          rows={3}
+                          className={styles.descriptionTextarea}
+                          style={{ width: '100%' }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.specsTabSectionLayout} style={{ marginTop: '32px' }}>
                   <div className={styles.specsLeftCol}>
                     <h3 className={styles.specsSectionTitle}>Technical Diagram</h3>
                     <p className={styles.specSubtext}>Upload a technical drawing, CAD diagram, or specification schematic for this product.</p>

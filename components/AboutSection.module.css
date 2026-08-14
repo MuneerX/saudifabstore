@@ -20,10 +20,10 @@
 /* Background Image Layer */
 .bgWrapper {
   position: absolute;
-  top: 0;
+  top: -12.5%;
   left: 0;
   right: 0;
-  bottom: 0;
+  height: 125%;
   z-index: 1;
 }
 
@@ -176,4 +176,31 @@
 .primaryButton:hover {
   background: #d24414;
   transform: translateY(-1px);
+}
+
+/* Lower Desktop Viewports (1024px – 1440px): Scale headline and layout smoothly to fit background image */
+@media (min-width: 1024px) and (max-width: 1440px) {
+  .aboutSection {
+    min-height: 85vh;
+    padding: 80px 36px 90px 36px;
+  }
+  .bgImage {
+    object-position: 20% center;
+  }
+  .headlineWrap h2 {
+    font-size: clamp(36px, 3.8vw, 54px);
+    line-height: 1.06;
+    letter-spacing: -1.2px;
+  }
+  .lineThree {
+    letter-spacing: -1px;
+  }
+  .contentWrap {
+    gap: 24px;
+    padding-top: 18px;
+  }
+  .contentWrap p {
+    font-size: 15px;
+    line-height: 1.45;
+  }
 }

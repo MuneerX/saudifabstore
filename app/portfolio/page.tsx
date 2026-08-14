@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { FaqSection } from "@/components/FaqSection";
+import { ParallaxElement } from "@/components/ParallaxElement";
+import { TextReveal } from "@/components/TextReveal";
 import styles from "./page.module.css";
 import { TreatmentQuizModal } from "@/components/TreatmentQuizModal";
 import { X } from "lucide-react";
@@ -202,6 +205,19 @@ export default function PortfolioPage() {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+  const [mounted, setMounted] = useState(false);
+  const storiesGridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const scrollStories = (direction: "left" | "right") => {
+    if (storiesGridRef.current) {
+      const scrollAmount = direction === "left" ? -400 : 400;
+      storiesGridRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
 
   const filteredProjects = activeCategory === "all"
     ? PROJECTS
@@ -214,7 +230,7 @@ export default function PortfolioPage() {
 
       {/* Hero Section matching About page layout grid */}
       <section className={styles.heroSection}>
-        <div className={styles.bgWrapper}>
+        <ParallaxElement speed={-0.10} className={styles.bgWrapper}>
           <Image
             src="/images/portfolio_bg.jpeg"
             alt="Brooq Al Khalij Works Showcase"
@@ -223,17 +239,21 @@ export default function PortfolioPage() {
             sizes="100vw"
             priority
           />
-        </div>
+        </ParallaxElement>
 
         {/* 12-column grid container matching AboutSection's introGrid */}
         <div className={styles.introGrid}>
           {/* Right Column Content starting at column 7 */}
           <div className={styles.rightColumnContent}>
             <div className={styles.contentArea}>
-              <span className={styles.badge}>Portfolio &amp; Works</span>
-              <h1 className={styles.title}>
-                Proven Engineering. Executed Across 2,000+ Projects.
-              </h1>
+              <TextReveal animation="slide-up">
+                <span className={styles.badge}>Portfolio &amp; Works</span>
+              </TextReveal>
+              <TextReveal animation="blur" delay={0.15}>
+                <h1 className={styles.title}>
+                  Proven Engineering. Executed Across 2,000+ Projects.
+                </h1>
+              </TextReveal>
               <button 
                 className={styles.ctaButton}
                 onClick={() => setIsContactOpen(true)}
@@ -319,7 +339,7 @@ export default function PortfolioPage() {
       {/* Featured Solution Showcase Section matching About page Featured Section */}
       <section className={styles.featuredSection}>
         <div className={styles.featuredCardContainer}>
-          <div className={styles.featuredBgWrapper}>
+          <ParallaxElement speed={-0.05} className={styles.featuredBgWrapper}>
             <Image
               src="/images/blueprint_bg3.jpeg"
               alt="Featured Contracting Solution"
@@ -330,7 +350,7 @@ export default function PortfolioPage() {
               unoptimized
               priority
             />
-          </div>
+          </ParallaxElement>
 
           <div className={styles.featuredCard}>
             <h2 className={styles.featuredCardTitle}>
@@ -366,7 +386,7 @@ export default function PortfolioPage() {
             </div>
           </div>
 
-          <div className={styles.storiesGrid}>
+          <div ref={storiesGridRef} className={styles.storiesGrid}>
             {/* Card 1 */}
             <div className={styles.storyCard}>
               <span className={styles.quoteMark}>“</span>
@@ -396,8 +416,8 @@ export default function PortfolioPage() {
           </div>
 
           <div className={styles.storiesControls}>
-            <button className={styles.controlBtn}>←</button>
-            <button className={styles.controlBtn}>→</button>
+            <button onClick={() => scrollStories("left")} className={styles.controlBtn}>←</button>
+            <button onClick={() => scrollStories("right")} className={styles.controlBtn}>→</button>
           </div>
         </div>
       </section>
@@ -409,10 +429,10 @@ export default function PortfolioPage() {
       <Footer />
 
       {/* Lightbox Case Study Modal */}
-      {selectedProject && (
+      {selectedProject && mounted && createPortal(
         <div className={styles.modalOverlay} onClick={() => setSelectedProject(null)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.modalCloseBtn} onClick={() => setSelectedProject(null)}>
+            <button className={styles.modalCloseBtn} onClick={() => setSelectedProject(null)} aria-label="Close">
               <X size={18} />
             </button>
 
@@ -471,7 +491,8 @@ export default function PortfolioPage() {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Quote / Quiz Modal */}

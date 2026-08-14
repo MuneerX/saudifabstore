@@ -20,10 +20,10 @@
 /* Background Image Layer */
 .bgWrapper {
   position: absolute;
-  top: 0;
+  top: -12.5%;
   left: 0;
   right: 0;
-  bottom: 0;
+  height: 125%;
   z-index: 1;
 }
 

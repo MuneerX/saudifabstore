@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Stethoscope, UserCheck, Truck, Pill } from "lucide-react";
+import { TextReveal } from "./TextReveal";
 import styles from "./QualityCareSection.module.css";
 
 interface FeatureItem {
@@ -49,24 +50,28 @@ export function QualityCareSection() {
       <div className={styles.topTransitionGlow} />
       <div className={styles.container}>
         {/* Headline */}
-        <h2 className={styles.headline}>
-          Why Industry Leaders Choose <br />
-          Brooq Al Khalij Group
-        </h2>
+        <TextReveal animation="slide-up">
+          <h2 className={styles.headline}>
+            Why Industry Leaders Choose <br />
+            Brooq Al Khalij Group
+          </h2>
+        </TextReveal>
 
         {/* 4 Feature Columns Grid */}
-        <div className={styles.featuresGrid}>
-          {FEATURES.map((item) => (
-            <div key={item.id} className={styles.featureCard}>
-              <div className={styles.dashedDivider} />
-              <div className={styles.iconWrapper}>{item.icon}</div>
-              <div className={styles.contentBox}>
-                <h3 className={styles.featureTitle}>{item.title}</h3>
-                <p className={styles.featureDesc}>{item.description}</p>
+        <TextReveal animation="fade-stagger" stagger={0.08}>
+          <div className={styles.featuresGrid}>
+            {FEATURES.map((item) => (
+              <div key={item.id} className={styles.featureCard}>
+                <div className={styles.dashedDivider} />
+                <div className={styles.iconWrapper}>{item.icon}</div>
+                <div className={styles.contentBox}>
+                  <h3 className={styles.featureTitle}>{item.title}</h3>
+                  <p className={styles.featureDesc}>{item.description}</p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </TextReveal>
       </div>
     </section>
   );

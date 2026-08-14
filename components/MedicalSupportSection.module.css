@@ -733,3 +733,36 @@
   color: #ffffff;
   font-style: italic;
 }
+
+@media (max-width: 1440px) and (min-width: 1025px) {
+  .widgetsContainer {
+    min-height: 480px;
+  }
+  .widgetProgress {
+    width: 300px;
+    padding: 24px 28px;
+  }
+  .widgetInbox {
+    width: 360px;
+    padding: 24px 28px;
+    gap: 16px;
+  }
+  .widgetPrescription {
+    width: 420px;
+    padding: 24px 28px;
+    gap: 20px;
+  }
+  .rxTitle {
+    font-size: 20px;
+  }
+  .weightVal {
+    font-size: 38px;
+  }
+  .emblemYearBadge {
+    width: 72px;
+    height: 72px;
+  }
+  .emblemNumber {
+    font-size: 24px;
+  }
+}

@@ -12,10 +12,10 @@
 /* 1. Cinematic Background */
 .heroBackground {
   position: absolute;
-  top: 0;
+  top: -12.5%;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 125%;
   z-index: 1;
 }
 

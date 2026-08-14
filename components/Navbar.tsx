@@ -4,9 +4,15 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { Search, Menu } from "lucide-react";
+import { Search, Menu, X } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./Navbar.module.css";
 import { useCartContext } from "./CartContext";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const CENTER_LINKS = [
   { label: "Home", href: "/" },
@@ -180,6 +186,7 @@ export function Navbar({ hasBorder = false, isLight = false, children }: NavbarP
   const [visible, setVisible] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [shopProducts, setShopProducts] = useState<ShopProduct[]>([]);
   const [totalProductCount, setTotalProductCount] = useState<string>("15");
 
@@ -210,25 +217,24 @@ export function Navbar({ hasBorder = false, isLight = false, children }: NavbarP
   }, []);
 
   useEffect(() => {
-    let lastScrollY = window.scrollY;
+    if (typeof window === "undefined") return;
 
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      if (currentScrollY < 50) {
-        setVisible(true);
-        setIsScrolled(false);
-      } else {
-        const isScrollingUp = lastScrollY > currentScrollY;
-        setVisible(isScrollingUp);
-        setIsScrolled(true);
+    const st = ScrollTrigger.create({
+      onUpdate: (self) => {
+        const currentScrollY = self.scroll();
+        
+        if (currentScrollY < 50) {
+          setVisible(true);
+          setIsScrolled(false);
+        } else {
+          const isScrollingUp = self.direction === -1;
+          setVisible(isScrollingUp);
+          setIsScrolled(true);
+        }
       }
-      
-      lastScrollY = currentScrollY;
-    };
+    });
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => st.kill();
   }, []);
 
   const handleMouseEnter = (label: string) => {
@@ -252,6 +258,7 @@ export function Navbar({ hasBorder = false, isLight = false, children }: NavbarP
 
   return (
     <nav 
+      data-speed="fixed"
       className={`${styles.navbar} ${isNavbarLight ? styles.lightNavbar : ''} ${hasBorder ? styles.navBorder : ''} ${stickyClass}`}
       onMouseLeave={handleMouseLeave}
     >
@@ -259,8 +266,15 @@ export function Navbar({ hasBorder = false, isLight = false, children }: NavbarP
 
       {/* Left Logo */}
       <div className={styles.logoArea}>
-        <Link href="/" className={`${styles.logoText} ${isNavbarLight ? styles.lightText : ''}`}>
-          Brooq Al Khalij
+        <Link href="/">
+          <Image
+            src="/images/logo.png"
+            alt="Brooq Al Khalij Logo"
+            width={150}
+            height={36}
+            className={styles.logoImg}
+            priority
+          />
         </Link>
       </div>
 
@@ -294,11 +308,11 @@ export function Navbar({ hasBorder = false, isLight = false, children }: NavbarP
         </button>
         
         {session?.user ? (
-          <Link href="/profile" className={`${styles.navLinkPill} ${isNavbarLight ? styles.lightLinkPill : ''} hidden lg:inline-flex`}>
+          <Link href="/profile" className={`${styles.navLinkPill} ${isNavbarLight ? styles.lightLinkPill : ''}`}>
             Account
           </Link>
         ) : (
-          <Link href="/login" className={`${styles.navLinkPill} ${isNavbarLight ? styles.lightLinkPill : ''} hidden lg:inline-flex`}>
+          <Link href="/login" className={`${styles.navLinkPill} ${isNavbarLight ? styles.lightLinkPill : ''}`}>
             Login
           </Link>
         )}
@@ -312,9 +326,65 @@ export function Navbar({ hasBorder = false, isLight = false, children }: NavbarP
         </button>
 
         {/* Mobile Menu Toggle */}
-        <button className={`${styles.iconBtn} ${isNavbarLight ? styles.lightIconBtn : ''} ${styles.mobileMenuBtn}`} aria-label="Menu">
-          <Menu size={20} />
+        <button 
+          className={`${styles.iconBtn} ${isNavbarLight ? styles.lightIconBtn : ''} ${styles.mobileMenuBtn}`} 
+          aria-label="Menu"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
+      </div>
+
+      {/* Mobile Navigation Drawer */}
+      <div 
+        className={`${styles.mobileDrawerOverlay} ${isMobileMenuOpen ? styles.drawerOpen : ''}`}
+        onClick={() => setIsMobileMenuOpen(false)}
+      >
+        <div className={styles.mobileDrawerContent} onClick={(e) => e.stopPropagation()}>
+          <div className={styles.mobileNavLinks}>
+            {CENTER_LINKS.map((link) => (
+              <Link 
+                key={link.label} 
+                href={link.href} 
+                className={styles.mobileNavLink}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <span>{link.label}</span>
+                <span className={styles.mobileNavArrow}>→</span>
+              </Link>
+            ))}
+          </div>
+
+          <div className={styles.mobileDrawerActions}>
+            <button
+              type="button"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                openCart();
+              }}
+              className={`${styles.mobileActionBtn} ${styles.mobileActionBtnSecondary}`}
+            >
+              Cart ({cartItemCount < 10 ? `0${cartItemCount}` : cartItemCount})
+            </button>
+            {session?.user ? (
+              <Link 
+                href="/profile" 
+                className={`${styles.mobileActionBtn} ${styles.mobileActionBtnPrimary}`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                My Account
+              </Link>
+            ) : (
+              <Link 
+                href="/login" 
+                className={`${styles.mobileActionBtn} ${styles.mobileActionBtnPrimary}`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Login / Register
+              </Link>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Mega Menu Dropdown */}

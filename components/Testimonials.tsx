@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { Play } from "lucide-react";
+import { ParallaxElement } from "./ParallaxElement";
 import styles from "./Testimonials.module.css";
 
 export function Testimonials() {
@@ -14,13 +15,15 @@ export function Testimonials() {
           <div className={styles.leftCardsRow}>
             {/* Card 1: Leftmost lower portrait */}
             <div className={styles.card1Wrapper}>
-              <Image
-                src="/images/home/testimonial/fireproof.png"
-                alt="Averda Work Showcase"
-                fill
-                className={styles.cardImg}
-                sizes="(max-width: 768px) 100vw, 600px"
-              />
+              <ParallaxElement speed={-0.10} className={styles.cardImgWrapper}>
+                <Image
+                  src="/images/home/testimonial/fireproof.png"
+                  alt="Averda Work Showcase"
+                  fill
+                  className={styles.cardImg}
+                  sizes="(max-width: 768px) 100vw, 600px"
+                />
+              </ParallaxElement>
               <div className={styles.testimonialOverlay}>
                 <div className={styles.companyLogo}>
                   <Image 
@@ -38,14 +41,16 @@ export function Testimonials() {
 
             {/* Card 2: Center-left featured card with loading spinner */}
             <div className={styles.card2Wrapper}>
-              <Image
-                src="/images/home/testimonial/pipe.png"
-                alt="Gulf Middle East Work Showcase"
-                fill
-                className={styles.cardImg}
-                sizes="(max-width: 768px) 100vw, 800px"
-                priority
-              />
+              <ParallaxElement speed={-0.10} className={styles.cardImgWrapper}>
+                <Image
+                  src="/images/home/testimonial/pipe.png"
+                  alt="Gulf Middle East Work Showcase"
+                  fill
+                  className={styles.cardImg}
+                  sizes="(max-width: 768px) 100vw, 800px"
+                  priority
+                />
+              </ParallaxElement>
               <div className={styles.testimonialOverlay}>
                 <div className={styles.companyLogo}>
                   <Image 
@@ -117,13 +122,15 @@ export function Testimonials() {
             <div className={styles.rightCardsRow}>
               {/* Card 3: NOV content with circularsteel background */}
               <div className={styles.card3Wrapper}>
-                <Image
-                  src="/images/home/testimonial/circularsteel.png"
-                  alt="Satorp Work Showcase"
-                  fill
-                  className={styles.cardImg}
-                  sizes="(max-width: 768px) 100vw, 800px"
-                />
+                <ParallaxElement speed={-0.10} className={styles.cardImgWrapper}>
+                  <Image
+                    src="/images/home/testimonial/circularsteel.png"
+                    alt="Satorp Work Showcase"
+                    fill
+                    className={styles.cardImg}
+                    sizes="(max-width: 768px) 100vw, 800px"
+                  />
+                </ParallaxElement>
                 <div className={styles.testimonialOverlay}>
                   <div className={styles.companyLogo}>
                     <Image 
@@ -141,13 +148,15 @@ export function Testimonials() {
 
               {/* Card 4: Satorp content with steel background */}
               <div className={styles.card4Wrapper}>
-                <Image
-                  src="/images/home/testimonial/steel.png"
-                  alt="NOV Work Showcase"
-                  fill
-                  className={styles.cardImg}
-                  sizes="(max-width: 768px) 100vw, 600px"
-                />
+                <ParallaxElement speed={-0.10} className={styles.cardImgWrapper}>
+                  <Image
+                    src="/images/home/testimonial/steel.png"
+                    alt="NOV Work Showcase"
+                    fill
+                    className={styles.cardImg}
+                    sizes="(max-width: 768px) 100vw, 600px"
+                  />
+                </ParallaxElement>
                 <div className={`${styles.testimonialOverlay} ${styles.darkerOverlay}`}>
                   <p className={styles.testimonialText}>"At Brooq Al Khalij, our clients are the focus of everything we do. We work hard to deliver products that earn results."</p>
                 </div>

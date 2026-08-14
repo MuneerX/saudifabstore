@@ -40,8 +40,16 @@ const Footer: React.FC = () => {
         {/* Top bar: Centered pedestal° Logo + Social Icons on right */}
         <div className={styles.topBar}>
           <div className={styles.topBarInner}>
-            <div className={styles.topBarSpacer} />
-            <span className={styles.logoText}>Brooq Al Khalij</span>
+            <div className={styles.logoWrapper}>
+              <Image
+                src="/images/logo.png"
+                alt="Brooq Al Khalij Logo"
+                width={150}
+                height={48}
+                className={styles.logoImg}
+                priority
+              />
+            </div>
             <div className={styles.socialIcons}>
               <a href="#" className={styles.socialIcon} aria-label="Instagram">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
@@ -127,8 +135,8 @@ const Footer: React.FC = () => {
             <div className={styles.subscribeRow}>
               <div className={styles.legitBadge}>
                 <Image
-                  src="/images/legitscript-badge.png"
-                  alt="LegitScript Certified"
+                  src="/images/certified2.png"
+                  alt="Brooq Al Khalij Certified"
                   width={64}
                   height={64}
                 />

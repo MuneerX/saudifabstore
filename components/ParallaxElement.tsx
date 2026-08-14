@@ -1,17 +1,23 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface ParallaxElementProps {
   children: React.ReactNode;
-  speed?: number; // e.g. -0.2 (slower background), 0.15 (floating foreground)
+  speed?: number; // e.g. -0.15 (slower background), 0.15 (floating foreground)
   className?: string;
   style?: React.CSSProperties;
 }
 
 export function ParallaxElement({
   children,
-  speed = -0.2,
+  speed = -0.15,
   className = "",
   style = {}
 }: ParallaxElementProps) {
@@ -21,66 +27,27 @@ export function ParallaxElement({
     const el = targetRef.current;
     if (!el) return;
 
-    let isVisible = false;
-    let cachedInitialTop = 0;
+    // Shift percentage calculation for smooth scrub parallax
+    const yPercentShift = speed * 100; // e.g. -15% vertical shift
 
-    const measurePosition = () => {
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      cachedInitialTop = rect.top + window.scrollY;
-    };
-
-    measurePosition();
-
-    // IntersectionObserver to avoid scroll math when element is offscreen
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          isVisible = entry.isIntersecting;
-          if (isVisible) {
-            updatePosition();
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        el,
+        { yPercent: -yPercentShift },
+        {
+          yPercent: yPercentShift,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el.parentElement || el,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true, // Direct 1-to-1 scroll position sync (holds position instantly when scroll pauses)
           }
-        });
-      },
-      { threshold: 0 }
-    );
+        }
+      );
+    });
 
-    observer.observe(el);
-
-    const updatePosition = () => {
-      if (!isVisible || !el) return;
-      const viewportHeight = window.innerHeight;
-      const scrollY = window.scrollY;
-      
-      // Calculate offset from cached top - zero layout thrashing
-      const elementCenter = cachedInitialTop + el.offsetHeight / 2;
-      const viewportCenter = scrollY + viewportHeight / 2;
-      const centerOffset = elementCenter - viewportCenter;
-      const translateY = centerOffset * speed;
-
-      el.style.transform = `translate3d(0, ${translateY.toFixed(2)}px, 0)`;
-    };
-
-    let rafId: number;
-    const handleScroll = () => {
-      rafId = requestAnimationFrame(updatePosition);
-    };
-
-    const handleResize = () => {
-      measurePosition();
-      updatePosition();
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleResize, { passive: true });
-    updatePosition();
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(rafId);
-    };
+    return () => ctx.revert();
   }, [speed]);
 
   return (
@@ -96,3 +63,6 @@ export function ParallaxElement({
     </div>
   );
 }
+
+
+

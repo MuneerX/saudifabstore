@@ -8,7 +8,7 @@ export function Hero() {
   return (
     <section className={styles.heroSection}>
       {/* 1. Cinematic Background with Parallax */}
-      <ParallaxElement speed={-0.18} className={styles.heroBackground}>
+      <ParallaxElement speed={-0.10} className={styles.heroBackground}>
         <video
           className={styles.heroVideo}
           src="/images/video.mp4"

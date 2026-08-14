@@ -91,7 +91,7 @@
 .clientsGrid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   max-width: 1560px;
   margin: 60px auto 0 auto;
