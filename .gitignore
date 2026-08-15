@@ -7,3 +7,4 @@
 *.tsbuildinfo
 public/images/video.mp4
 *.mp4
+.vercel
