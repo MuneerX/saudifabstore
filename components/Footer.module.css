@@ -339,6 +339,7 @@
   min-height: 400px;
   overflow: hidden;
   position: relative;
+  text-decoration: none;
 }
 
 @media (max-width: 1600px) {

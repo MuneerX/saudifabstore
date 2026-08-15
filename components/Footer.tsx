@@ -53,7 +53,7 @@ const Footer: React.FC<FooterProps> = ({ noGradient = false }) => {
         {/* Top bar: Centered pedestal° Logo + Social Icons on right */}
         <div className={styles.topBar}>
           <div className={styles.topBarInner}>
-            <div className={styles.logoWrapper}>
+            <Link href="/" className={styles.logoWrapper}>
               <Image
                 src="/images/logo.png"
                 alt="Brooq Al Khalij Logo"
@@ -62,7 +62,7 @@ const Footer: React.FC<FooterProps> = ({ noGradient = false }) => {
                 className={styles.logoImg}
                 priority
               />
-            </div>
+            </Link>
             <div className={styles.socialIcons}>
               <a href="#" className={styles.socialIcon} aria-label="Instagram">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
@@ -101,19 +101,20 @@ const Footer: React.FC<FooterProps> = ({ noGradient = false }) => {
                 <ul className={styles.colList}>
                   <li><Link href="/about">About Us</Link></li>
                   <li><Link href="/services">Our Services</Link></li>
-                  <li><Link href="/products">Shop Products</Link></li>
+                  <li><Link href="/products">Products Catalog</Link></li>
                   <li><Link href="/contact">Contact Support</Link></li>
                 </ul>
               </div>
 
-              {/* Popular */}
+              {/* Services */}
               <div className={styles.col}>
                 <h4 className={styles.colHeading}>SERVICES</h4>
                 <ul className={styles.colList}>
-                  <li><a href="#">Steel Fabrication</a></li>
-                  <li><a href="#">Blasting Works</a></li>
-                  <li><a href="#">Painting & Coatings</a></li>
-                  <li><a href="#">Safety Materials</a></li>
+                  <li><Link href="/services/steel-fabrication">Steel Fabrication</Link></li>
+                  <li><Link href="/services/blasting-sandblasting">Blasting &amp; Sandblasting</Link></li>
+                  <li><Link href="/services/industrial-painting-coatings">Painting &amp; Coatings</Link></li>
+                  <li><Link href="/services/forklift-repair">Forklift Servicing</Link></li>
+                  <li><Link href="/services/general-safety-trading">Safety Gear Trading</Link></li>
                 </ul>
               </div>
 
@@ -121,9 +122,11 @@ const Footer: React.FC<FooterProps> = ({ noGradient = false }) => {
               <div className={styles.col}>
                 <h4 className={styles.colHeading}>RESOURCES</h4>
                 <ul className={styles.colList}>
-                  <li><a href="#">Company Profile</a></li>
-                  <li><a href="#">Project Portfolio</a></li>
-                  <li><a href="#">Contact Us</a></li>
+                  <li><Link href="/about">Company Profile</Link></li>
+                  <li><Link href="/services/protorc-torquing-bolting">ProTorc Bolting</Link></li>
+                  <li><Link href="/services/paper-plastic-packaging">Packaging Factory</Link></li>
+                  <li><Link href="/services/smart-woodworks">Smart Woodworks</Link></li>
+                  <li><Link href="/contact">Request Quote</Link></li>
                 </ul>
               </div>
             </div>
@@ -133,12 +136,12 @@ const Footer: React.FC<FooterProps> = ({ noGradient = false }) => {
             {/* Support Emails Row */}
             <div className={styles.supportRow}>
               <div className={styles.supportBlock}>
-                <p className={styles.supportLabel}>FOR SALES &amp; INQUIRIES:</p>
+                <p className={styles.supportLabel}>FOR B2B SALES &amp; PROJECT INQUIRIES:</p>
                 <a href="mailto:sales@brooqalkhalij.com" className={styles.supportEmail}>sales@brooqalkhalij.com</a>
               </div>
               <div className={styles.supportBlock}>
-                <p className={styles.supportLabel}>ALTERNATIVE EMAIL:</p>
-                <a href="mailto:sales1@brooqalkhalij.com" className={styles.supportEmail}>sales1@brooqalkhalij.com</a>
+                <p className={styles.supportLabel}>GENERAL SUPPORT &amp; HELP:</p>
+                <a href="mailto:info@brooqalkhalij.com" className={styles.supportEmail}>info@brooqalkhalij.com</a>
               </div>
             </div>
 
@@ -173,7 +176,7 @@ const Footer: React.FC<FooterProps> = ({ noGradient = false }) => {
 
           {/* Right Column: Green CTA Card + Separate Member Login Button Below */}
           <div className={styles.rightCtaCol}>
-            <div className={styles.ctaCard}>
+            <Link href="/contact" className={styles.ctaCard}>
               <p className={styles.ctaLabel}>READY TO WORK WITH US?</p>
               <div className={styles.ctaScrollText}>
                 <div className={styles.ctaScrollTrack}>
@@ -181,13 +184,13 @@ const Footer: React.FC<FooterProps> = ({ noGradient = false }) => {
                   <span aria-hidden>Request a Quote</span>
                 </div>
               </div>
-            </div>
+            </Link>
 
             {/* Member Login as a wider left-aligned button with exact arrow icon */}
-            <a href="#" className={styles.memberLoginBtn}>
+            <Link href="/login" className={styles.memberLoginBtn}>
               <ArrowIcon color="#2b2b29" />
               <span>Client Portal</span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -300,7 +300,7 @@
 
 .centerImage {
   object-fit: cover;
-  object-position: top center;
+  object-position: center 42%;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
