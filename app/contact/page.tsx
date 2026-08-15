@@ -8,6 +8,7 @@ import { TreatmentQuizModal } from "../../components/TreatmentQuizModal";
 import { ParallaxElement } from "../../components/ParallaxElement";
 import { TextReveal } from "../../components/TextReveal";
 import { Phone, Mail, MessageSquare } from "lucide-react";
+import { toast } from "sonner";
 import styles from "./page.module.css";
 
 export default function ContactPage() {
@@ -26,6 +27,7 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    toast.success("Thank you! Your project inquiry has been received. Our engineering team will contact you shortly.");
     setIsModalOpen(true);
   };
 
@@ -267,7 +269,7 @@ export default function ContactPage() {
                 <span className={styles.quickContactHeader}>Direct Contact Channels:</span>
                 <div className={styles.contactChannelsList}>
                   <a 
-                    href="https://wa.me/966500000000" 
+                    href="https://wa.me/966538121100?text=Hello%20Brooq%20Al%20Khalij%2C%20I%20would%20like%20to%20inquire%20about%20your%20services." 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className={styles.whatsappChannelItem}

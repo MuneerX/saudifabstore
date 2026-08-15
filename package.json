@@ -29,6 +29,8 @@
     "@remotion/player": "^4.0.498",
     "@tabler/icons-react": "^3.34.1",
     "@tanstack/react-table": "^8.21.3",
+    "@types/animejs": "^3.1.13",
+    "animejs": "^4.5.0",
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

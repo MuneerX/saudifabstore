@@ -10,6 +10,10 @@
   padding: 0 12.8px 12.8px 12.8px;
 }
 
+.noGradient {
+  background: transparent !important;
+}
+
 /* ── Inner Card ── */
 .footerCard {
   background-color: #2b2b29;
@@ -600,5 +604,111 @@
     font-size: 14.5px;
     justify-content: center;
     border-radius: 6px;
+  }
+}
+
+/* ── Sub-Footer Bar below Footer Card ── */
+.subFooterBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px 8px;
+  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  color: #6E6B64;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.subFooterLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: #6E6B64;
+}
+
+.subFooterCenter {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.subFooterLink {
+  color: #6E6B64;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 400;
+  transition: color 0.2s ease;
+}
+
+.subFooterLink:hover {
+  color: #111111;
+  text-decoration: underline;
+}
+
+.subFooterRight {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.privacyChoicesBtn {
+  background: none;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #6E6B64;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}
+
+.privacyChoicesBtn:hover {
+  color: #111111;
+}
+
+.brandDivider {
+  color: #CBD5E1;
+  font-size: 12px;
+}
+
+.mubarakBranding {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #6E6B64;
+}
+
+.mubarakLabel {
+  color: #8E8A81;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.mubarakLink {
+  color: #111111;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.mubarakLink:hover {
+  color: #EB5521;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .subFooterBar {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 16px 12px 4px;
   }
 }

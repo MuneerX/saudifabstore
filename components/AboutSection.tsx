@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ParallaxElement } from "./ParallaxElement";
 import { TextReveal } from "./TextReveal";
 import styles from "./AboutSection.module.css";
@@ -51,12 +52,12 @@ export function AboutSection() {
               </p>
             </TextReveal>
 
-            <button
+            <Link
+              href="/services"
               className={styles.primaryButton}
-              onClick={() => setIsQuizOpen(true)}
             >
               Explore Our Services
-            </button>
+            </Link>
           </div>
         </div>
       </section>

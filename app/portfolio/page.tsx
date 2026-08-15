@@ -11,6 +11,7 @@ import { ParallaxElement } from "@/components/ParallaxElement";
 import { TextReveal } from "@/components/TextReveal";
 import styles from "./page.module.css";
 import { TreatmentQuizModal } from "@/components/TreatmentQuizModal";
+import ServiceArrowIcon from "@/components/ServiceArrowIcon";
 import { X } from "lucide-react";
 
 interface ProjectItem {
@@ -254,12 +255,9 @@ export default function PortfolioPage() {
                   Proven Engineering. Executed Across 2,000+ Projects.
                 </h1>
               </TextReveal>
-              <button 
-                className={styles.ctaButton}
-                onClick={() => setIsContactOpen(true)}
-              >
-                <span className={styles.arrowIcon}>→</span> Request Project Proposal
-              </button>
+              <Link href="/contact" className={styles.ctaButton}>
+                <ServiceArrowIcon width={10} height={18} /> Request Project Proposal
+              </Link>
             </div>
 
             <div className={styles.featuresArea}>
@@ -363,12 +361,9 @@ export default function PortfolioPage() {
               Review our technical dossier of completed projects across Saudi Arabia. Submit your custom design drawings or contracting guidelines, and our senior engineering team will deliver a comprehensive project feasibility quote.
             </p>
 
-            <button 
-              className={styles.featuredPrimaryBtn}
-              onClick={() => setIsContactOpen(true)}
-            >
+            <Link href="/contact" className={styles.featuredPrimaryBtn}>
               Submit Project Request
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -412,6 +407,24 @@ export default function PortfolioPage() {
                 &ldquo;Brooq Al Khalij helped us deliver our logistics terminal project on schedule. Their execution team is extremely professional and their anti-corrosive blast coatings are durable. They really give you peace of mind.&rdquo;
               </p>
               <span className={styles.storyAuthor}>Sultan S.</span>
+            </div>
+
+            {/* Card 4 (New) */}
+            <div className={styles.storyCard}>
+              <span className={styles.quoteMark}>“</span>
+              <p className={styles.storyText}>
+                &ldquo;Our Saudi Aramco certified pipe racks and structural steel skid frames arrived fully compliant with AWS D1.1 specifications. Excellent workshop craftsmanship and material traceability.&rdquo;
+              </p>
+              <span className={styles.storyAuthor}>Tariq H. — Project Director</span>
+            </div>
+
+            {/* Card 5 (New) */}
+            <div className={styles.storyCard}>
+              <span className={styles.quoteMark}>“</span>
+              <p className={styles.storyText}>
+                &ldquo;Outstanding sandblasting surface preparation and C5-M marine coating durability for our heavy contracting fleet in Dammam Industrial Area. Highly recommended partner.&rdquo;
+              </p>
+              <span className={styles.storyAuthor}>Mohammad N. — Operations Manager</span>
             </div>
           </div>
 
@@ -479,15 +492,14 @@ export default function PortfolioPage() {
               </div>
 
               <div style={{ marginTop: '12px' }}>
-                <button 
+                <Link 
+                  href="/contact"
                   className={styles.featuredPrimaryBtn}
-                  onClick={() => {
-                    setSelectedProject(null);
-                    setIsContactOpen(true);
-                  }}
+                  style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
                 >
-                  Inquire About Similar Project →
-                </button>
+                  <span>Inquire About Similar Project</span>
+                  <ServiceArrowIcon width={10} height={18} />
+                </Link>
               </div>
             </div>
           </div>

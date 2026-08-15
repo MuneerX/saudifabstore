@@ -9,8 +9,11 @@ import { AboutPageSection } from "../../components/AboutPageSection";
 import { FaqSection } from "../../components/FaqSection";
 import { ParallaxElement } from "../../components/ParallaxElement";
 import { TextReveal } from "../../components/TextReveal";
+import ServiceArrowIcon from "../../components/ServiceArrowIcon";
 import styles from "./page.module.css";
 import { TreatmentQuizModal } from "../../components/TreatmentQuizModal";
+import { ResourceGuideModal, GUIDE_ARTICLES_DATA, ResourceArticle } from "../../components/ResourceGuideModal";
+import { CoreValueModal, CORE_VALUES_DATA, CoreValueItem } from "../../components/CoreValueModal";
 
 const GUIDE_TABS = [
   { id: "general", label: "General" },
@@ -19,49 +22,22 @@ const GUIDE_TABS = [
 ];
 
 const GUIDE_ARTICLES: {
-  [key: string]: Array<{ title: string; image: string }>;
+  [key: string]: ResourceArticle[];
 } = {
   general: [
-    {
-      title: "Why structural integrity is critical for heavy industrial storage",
-      image: "/images/about/general1.jpeg"
-    },
-    {
-      title: "A complete guide to lifting and material handling safety compliance",
-      image: "/images/about/general_2.jpeg"
-    },
-    {
-      title: "Essential protective coatings: how to combat steel oxidation",
-      image: "/images/about/general3.jpeg"
-    }
+    GUIDE_ARTICLES_DATA["general-0"],
+    GUIDE_ARTICLES_DATA["general-1"],
+    GUIDE_ARTICLES_DATA["general-2"]
   ],
   quality: [
-    {
-      title: "Certified safety standards: understanding ISO 9001 in KSA fabrication",
-      image: "/images/about/quality1.jpeg"
-    },
-    {
-      title: "Weld inspections and non-destructive testing (NDT) workflows",
-      image: "/images/about/quality2.jpeg"
-    },
-    {
-      title: "Dry film thickness (DFT) gauges: guaranteeing coating durability",
-      image: "/images/about/quality3.jpeg"
-    }
+    GUIDE_ARTICLES_DATA["quality-0"],
+    GUIDE_ARTICLES_DATA["quality-1"],
+    GUIDE_ARTICLES_DATA["quality-2"]
   ],
   engineering: [
-    {
-      title: "Custom structures: transitioning from initial CAD design to workshop floor",
-      image: "/images/about/design1.jpeg"
-    },
-    {
-      title: "Optimizing load capacities for large-scale contracting projects",
-      image: "/images/about/design2.jpeg"
-    },
-    {
-      title: "Sustainable carbon steel sourcing: grades, testing, and compliance",
-      image: "/images/about/design3.jpeg"
-    }
+    GUIDE_ARTICLES_DATA["engineering-0"],
+    GUIDE_ARTICLES_DATA["engineering-1"],
+    GUIDE_ARTICLES_DATA["engineering-2"]
   ]
 };
 
@@ -91,6 +67,8 @@ const DIFFERENCE_FEATURES = [
 export default function AboutPage() {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [activeGuideTab, setActiveGuideTab] = useState("general");
+  const [selectedArticle, setSelectedArticle] = useState<ResourceArticle | null>(null);
+  const [selectedCoreValue, setSelectedCoreValue] = useState<CoreValueItem | null>(null);
   const storiesGridRef = useRef<HTMLDivElement>(null);
 
   const scrollStories = (direction: "left" | "right") => {
@@ -132,12 +110,9 @@ export default function AboutPage() {
                   Built for strength. Engineered to last.
                 </h1>
               </TextReveal>
-              <button 
-                className={styles.ctaButton}
-                onClick={() => setIsContactOpen(true)}
-              >
-                <span className={styles.arrowIcon}>→</span> Get started today
-              </button>
+              <Link href="/contact" className={styles.ctaButton}>
+                <ServiceArrowIcon width={10} height={18} /> Get started today
+              </Link>
             </div>
 
             <div className={styles.featuresArea}>
@@ -150,12 +125,12 @@ export default function AboutPage() {
                 </div>
                 <div className={styles.featureCol}>
                   <p className={styles.featureText}>
-                    ISO-certified quality & structural engineering
+                    ISO-certified quality &amp; structural engineering
                   </p>
                 </div>
                 <div className={styles.featureCol}>
                   <p className={styles.featureText}>
-                    Reliable contracting & project execution in KSA
+                    Reliable contracting &amp; project execution in KSA
                   </p>
                 </div>
               </div>
@@ -164,7 +139,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Guide Section (Implementing tabbed guide structure like attached image) */}
+      {/* Guide Section */}
       <section className={styles.guideSection}>
         {/* Absolute header tabs overlapping border line */}
         <div className={styles.guideTabsHeader}>
@@ -186,14 +161,16 @@ export default function AboutPage() {
         <div className={styles.guideGridContainer}>
           <div className={styles.guideTitleArea}>
             <h2 className={styles.guideMainTitle}>Industrial Resource Guide</h2>
-            <Link href="/products" className={styles.guideViewAll}>
-              <span>→ View all</span>
-            </Link>
           </div>
 
           <div className={styles.guideCardsRow}>
             {GUIDE_ARTICLES[activeGuideTab].map((article, idx) => (
-              <Link key={idx} href="/products" className={styles.guideCardLink}>
+              <div
+                key={idx}
+                className={styles.guideCardLink}
+                onClick={() => setSelectedArticle(article)}
+                style={{ cursor: "pointer" }}
+              >
                 <div className={styles.guideCardImageWrapper}>
                   <Image
                     src={article.image}
@@ -204,16 +181,16 @@ export default function AboutPage() {
                   />
                 </div>
                 <h3 className={styles.guideCardText}>{article.title}</h3>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Body Details - Render the standard AboutPageSection component immediately after Guide section */}
+      {/* Body Details */}
       <AboutPageSection />
 
-      {/* Difference Section (Reusing Why Choose features from homepage styled after reference image) */}
+      {/* Difference Section */}
       <section className={styles.differenceSection}>
         <div className={styles.topTransitionGlow} />
         <div className={styles.differenceContainer}>
@@ -222,7 +199,7 @@ export default function AboutPage() {
           </h2>
 
           <div className={styles.differenceFeaturedBox}>
-            <div className={styles.differenceImageWrapper}>
+            <ParallaxElement speed={-0.10} className={styles.differenceImageWrapper}>
               <Image
                 src="/images/about/about_container2.png"
                 alt="Brooq Al Khalij Featured Container"
@@ -232,9 +209,9 @@ export default function AboutPage() {
                 quality={95}
                 priority
               />
-            </div>
+            </ParallaxElement>
             <Link href="/products" className={styles.differenceCtaBtn}>
-              View featured product
+              View products
             </Link>
           </div>
 
@@ -253,8 +230,6 @@ export default function AboutPage() {
       {/* Core Values & Quality Commitments Section */}
       <section className={styles.calculatorsSection}>
         <div className={styles.calculatorsContainer}>
-          
-          {/* Headline block outside grid (above divider) */}
           <div className={styles.calculatorsTitleArea}>
             <h2 className={styles.calculatorsTitle}>
               Core Values &amp; <br />
@@ -262,25 +237,24 @@ export default function AboutPage() {
             </h2>
           </div>
 
-          {/* Black/Dark dashed divider line */}
           <div className={styles.calculatorsDivider} />
 
-          {/* Grid Area: Description (left) alongside 2 tall cards (right) */}
           <div className={styles.topCalculatorsRow}>
             <div className={styles.calculatorsHeaderArea}>
               <p className={styles.calculatorsDesc}>
                 We build with absolute integrity, ensuring every project meets rigorous Saudi and international standards for safety, durability, and craftsmanship.
               </p>
-              <button 
-                className={styles.calculatorsHeaderBtn}
-                onClick={() => setIsContactOpen(true)}
-              >
+              <Link href="/contact" className={styles.calculatorsHeaderBtn}>
                 Inquire about standards
-              </button>
+              </Link>
             </div>
 
             {/* Top Card 1: ISO Standards & Quality */}
-            <div className={`${styles.calcCard} ${styles.topCalcCard1}`}>
+            <div
+              className={`${styles.calcCard} ${styles.topCalcCard1}`}
+              onClick={() => setSelectedCoreValue(CORE_VALUES_DATA.iso)}
+              style={{ cursor: "pointer" }}
+            >
               <div className={styles.cardBgImageWrapper}>
                 <Image
                   src="/images/about/iso2.png"
@@ -294,13 +268,18 @@ export default function AboutPage() {
                 ISO Standards &amp; Quality Control
               </h3>
 
-              <Link href="/about" className={styles.calcCardLink}>
-                <span>→ View Quality Policy</span>
-              </Link>
+              <div className={styles.calcCardLink}>
+                <ServiceArrowIcon width={10} height={18} />
+                <span>View Quality Policy</span>
+              </div>
             </div>
 
             {/* Top Card 2: Uncompromising Safety */}
-            <div className={`${styles.calcCard} ${styles.topCalcCard2}`}>
+            <div
+              className={`${styles.calcCard} ${styles.topCalcCard2}`}
+              onClick={() => setSelectedCoreValue(CORE_VALUES_DATA.safety)}
+              style={{ cursor: "pointer" }}
+            >
               <div className={styles.cardBgImageWrapper}>
                 <Image
                   src="/images/about/safety3.png"
@@ -314,16 +293,21 @@ export default function AboutPage() {
                 Uncompromising Safety Protocols
               </h3>
 
-              <Link href="/about" className={styles.calcCardLink}>
-                <span>→ View Safety Standards</span>
-              </Link>
+              <div className={styles.calcCardLink}>
+                <ServiceArrowIcon width={10} height={18} />
+                <span>View Safety Standards</span>
+              </div>
             </div>
           </div>
 
           {/* Bottom Row: 3 Cards */}
           <div className={styles.bottomCalculatorsRow}>
             {/* Bottom Card 1: Professional Execution */}
-            <div className={`${styles.calcCard} ${styles.bottomCalcCard1}`}>
+            <div
+              className={`${styles.calcCard} ${styles.bottomCalcCard1}`}
+              onClick={() => setSelectedCoreValue(CORE_VALUES_DATA.execution)}
+              style={{ cursor: "pointer" }}
+            >
               <div className={styles.cardBgImageWrapper}>
                 <Image
                   src="/images/about/professional3.png"
@@ -337,13 +321,18 @@ export default function AboutPage() {
                 Professional &amp; Certified Execution
               </h3>
 
-              <Link href="/about" className={styles.calcCardLink}>
-                <span>→ Meet Our Engineers</span>
-              </Link>
+              <div className={styles.calcCardLink}>
+                <ServiceArrowIcon width={10} height={18} />
+                <span>Meet Our Engineers</span>
+              </div>
             </div>
 
             {/* Bottom Card 2: Customer-First Approach */}
-            <div className={`${styles.calcCard} ${styles.bottomCalcCard2}`}>
+            <div
+              className={`${styles.calcCard} ${styles.bottomCalcCard2}`}
+              onClick={() => setSelectedCoreValue(CORE_VALUES_DATA.support)}
+              style={{ cursor: "pointer" }}
+            >
               <div className={styles.cardBgImageWrapper}>
                 <Image
                   src="/images/about/support2.png"
@@ -357,13 +346,18 @@ export default function AboutPage() {
                 Customer-First &amp; Emergency Support
               </h3>
 
-              <Link href="/about" className={styles.calcCardLink}>
-                <span>→ Contact Support</span>
-              </Link>
+              <div className={styles.calcCardLink}>
+                <ServiceArrowIcon width={10} height={18} />
+                <span>Contact Support</span>
+              </div>
             </div>
 
             {/* Bottom Card 3: Value & Durability */}
-            <div className={`${styles.calcCard} ${styles.bottomCalcCard3}`}>
+            <div
+              className={`${styles.calcCard} ${styles.bottomCalcCard3}`}
+              onClick={() => setSelectedCoreValue(CORE_VALUES_DATA.durability)}
+              style={{ cursor: "pointer" }}
+            >
               <div className={styles.cardBgImageWrapper}>
                 <Image
                   src="/images/about/maximum.png"
@@ -377,18 +371,18 @@ export default function AboutPage() {
                 Maximum Value &amp; Long-Term Durability
               </h3>
 
-              <Link href="/about" className={styles.calcCardLink}>
-                <span>→ View ROI Details</span>
-              </Link>
+              <div className={styles.calcCardLink}>
+                <ServiceArrowIcon width={10} height={18} />
+                <span>View ROI Details</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Solution Showcase Section (Nesting inside container card, flush bottom-right) */}
+      {/* Featured Solution Showcase Section */}
       <section className={styles.featuredSection}>
         <div className={styles.featuredCardContainer}>
-          {/* Background Image Layer */}
           <ParallaxElement speed={-0.10} className={styles.featuredBgWrapper}>
             <Image
               src="/images/about/about_precision.jpeg"
@@ -400,7 +394,6 @@ export default function AboutPage() {
             />
           </ParallaxElement>
 
-          {/* White Card Content (Aligned to right bottom, flush with the parent edges without spaces) */}
           <div className={styles.featuredCard}>
             <h2 className={styles.featuredCardTitle}>
               Build with absolute strength, <br />project with confidence
@@ -412,17 +405,14 @@ export default function AboutPage() {
               Custom structural steel, precision industrial fabrication, and high-durability coatings engineered to secure your facilities, support heavy operations, and guarantee lasting reliability.
             </p>
 
-            <button 
-              className={styles.featuredPrimaryBtn}
-              onClick={() => setIsContactOpen(true)}
-            >
+            <Link href="/contact" className={styles.featuredPrimaryBtn}>
               Get started
-            </button>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Testimonials / Customer Stories Section (Real Stories, Real Results) */}
+      {/* Testimonials / Customer Stories Section */}
       <section className={styles.storiesSection}>
         <div className={styles.storiesContainer}>
           <div className={styles.storiesHeader}>
@@ -462,6 +452,24 @@ export default function AboutPage() {
               </p>
               <span className={styles.storyAuthor}>Sultan S.</span>
             </div>
+
+            {/* Card 4 (New) */}
+            <div className={styles.storyCard}>
+              <span className={styles.quoteMark}>“</span>
+              <p className={styles.storyText}>
+                &ldquo;Our Saudi Aramco certified pipe racks and structural steel skid frames arrived fully compliant with AWS D1.1 specifications. Excellent workshop craftsmanship and material traceability.&rdquo;
+              </p>
+              <span className={styles.storyAuthor}>Tariq H. — Project Director</span>
+            </div>
+
+            {/* Card 5 (New) */}
+            <div className={styles.storyCard}>
+              <span className={styles.quoteMark}>“</span>
+              <p className={styles.storyText}>
+                &ldquo;Outstanding sandblasting surface preparation and C5-M marine coating durability for our heavy contracting fleet in Dammam Industrial Area. Highly recommended partner.&rdquo;
+              </p>
+              <span className={styles.storyAuthor}>Mohammad N. — Operations Manager</span>
+            </div>
           </div>
 
           <div className={styles.storiesControls}>
@@ -471,15 +479,29 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Accordion FAQ Section reused from homepage */}
+      {/* Accordion FAQ Section */}
       <FaqSection />
 
-      {/* Footer — StayUpToDate removed */}
+      {/* Footer */}
       <Footer />
 
       <TreatmentQuizModal
         isOpen={isContactOpen}
         onClose={() => setIsContactOpen(false)}
+      />
+
+      <ResourceGuideModal
+        article={selectedArticle}
+        isOpen={!!selectedArticle}
+        onClose={() => setSelectedArticle(null)}
+        onContactClick={() => setIsContactOpen(true)}
+      />
+
+      <CoreValueModal
+        valueItem={selectedCoreValue}
+        isOpen={!!selectedCoreValue}
+        onClose={() => setSelectedCoreValue(null)}
+        onContactClick={() => setIsContactOpen(true)}
       />
     </div>
   );

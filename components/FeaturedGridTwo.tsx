@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./FeaturedGridTwo.module.css";
 
 interface GridItem {
@@ -9,20 +10,23 @@ interface GridItem {
   title: string;
   imageSrc: string;
   alt: string;
+  href: string;
 }
 
 const ITEMS: GridItem[] = [
   {
-    id: "workshop-equipment",
-    title: "Workshop Equipment",
-    imageSrc: "/images/home/category_grid/workshop2.jpeg",
-    alt: "Workshop Equipment"
+    id: "hardware-piping",
+    title: "Hardware & Piping",
+    imageSrc: "/images/home/category_grid/pipe4.jpeg",
+    alt: "Hardware & Piping",
+    href: "/products?category=Hardware%20%26%20Piping"
   },
   {
-    id: "trolleys-transportation",
-    title: "Trolleys & Transportation",
-    imageSrc: "/images/home/category_grid/transport2.jpeg",
-    alt: "Trolleys & Transportation"
+    id: "safety-chemical",
+    title: "Safety & Chemical",
+    imageSrc: "/images/home/category_grid/chemical3.jpeg",
+    alt: "Safety & Chemical",
+    href: "/products?category=Safety%20%26%20Chemical"
   }
 ];
 
@@ -31,7 +35,7 @@ export function FeaturedGridTwo() {
     <section className={styles.section}>
       <div className={styles.grid}>
         {ITEMS.map((item) => (
-          <div key={item.id} className={styles.card}>
+          <Link key={item.id} href={item.href} className={styles.card}>
             <div className={styles.imageWrapper} data-speed="auto">
               <Image
                 src={item.imageSrc}
@@ -45,7 +49,7 @@ export function FeaturedGridTwo() {
             </div>
             <div className={styles.gradientOverlay} />
             <h3 className={styles.label}>{item.title}</h3>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

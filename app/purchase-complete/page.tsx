@@ -91,7 +91,7 @@ function PurchaseCompleteContent() {
             </div>
           </div>
         </main>
-        <Footer />
+        <Footer noGradient={true} />
       </div>
     );
   }
@@ -120,7 +120,7 @@ function PurchaseCompleteContent() {
             </div>
           </div>
         </main>
-        <Footer />
+        <Footer noGradient={true} />
       </div>
     );
   }
@@ -277,7 +277,7 @@ function PurchaseCompleteContent() {
         </div>
       </main>
 
-      <Footer />
+      <Footer noGradient={true} />
     </div>
   );
 }
@@ -298,7 +298,7 @@ export default function PurchaseCompletePage() {
               </div>
             </div>
           </main>
-          <Footer />
+          <Footer noGradient={true} />
         </div>
       }
     >

@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { 
   Layers, 
   Flame, 
@@ -23,6 +24,7 @@ interface ServiceItem {
   subheading: string;
   imageSrc: string;
   icon: React.ReactNode;
+  link: string;
 }
 
 const SERVICES: ServiceItem[] = [
@@ -31,56 +33,64 @@ const SERVICES: ServiceItem[] = [
     name: "Steel Fabrication",
     subheading: "Custom steel structures, workbenches, cranes, trailers & office containers.",
     imageSrc: "/images/home/services/steel2.jpeg",
-    icon: <Layers size={30} strokeWidth={1.5} />
+    icon: <Layers size={30} strokeWidth={1.5} />,
+    link: "/services/steel-fabrication"
   },
   {
     id: "blasting-works",
     name: "Blasting & Sandblasting",
     subheading: "Abrasive sandblasting, paint & rust removal, mill scale surface prep.",
     imageSrc: "/images/home/services/blasting3.jpeg",
-    icon: <Flame size={30} strokeWidth={1.5} />
+    icon: <Flame size={30} strokeWidth={1.5} />,
+    link: "/services/blasting-sandblasting"
   },
   {
     id: "painting-coatings",
     name: "Industrial Painting & Coatings",
     subheading: "High-durability protective surface coatings and fireproof coating applications.",
     imageSrc: "/images/home/services/painting3.jpeg",
-    icon: <Shield size={30} strokeWidth={1.5} />
+    icon: <Shield size={30} strokeWidth={1.5} />,
+    link: "/services/industrial-painting-coatings"
   },
   {
     id: "forklift-repair",
     name: "Forklift Repair & Servicing",
     subheading: "Comprehensive maintenance, overhaul, and repair for heavy equipment.",
     imageSrc: "/images/home/services/forklift2.jpeg",
-    icon: <Wrench size={30} strokeWidth={1.5} />
+    icon: <Wrench size={30} strokeWidth={1.5} />,
+    link: "/services/forklift-repair"
   },
   {
     id: "torquing-bolting",
     name: "Protorc Torquing & Bolting",
     subheading: "Precision bolting, hydraulic torquing, and torque control for industrial plants.",
     imageSrc: "/images/home/services/protoc3.jpeg",
-    icon: <Settings size={30} strokeWidth={1.5} />
+    icon: <Settings size={30} strokeWidth={1.5} />,
+    link: "/services/protorc-torquing-bolting"
   },
   {
     id: "safety-trading",
     name: "General Safety Trading",
     subheading: "Supply of certified safety gloves, helmets, goggles, and industrial gear.",
     imageSrc: "/images/home/services/general2.jpeg",
-    icon: <HardHat size={30} strokeWidth={1.5} />
+    icon: <HardHat size={30} strokeWidth={1.5} />,
+    link: "/services/general-safety-trading"
   },
   {
     id: "packaging-factory",
     name: "Paper & Plastic Packaging",
     subheading: "BCT-rated heavy compression corrugated boxes & plastic packaging.",
-    imageSrc: "/images/home/services/paper2.jpeg",
-    icon: <Package size={30} strokeWidth={1.5} />
+    imageSrc: "/images/home/services/paper4.png",
+    icon: <Package size={30} strokeWidth={1.5} />,
+    link: "/services/paper-plastic-packaging"
   },
   {
     id: "custom-woodworks",
     name: "Smart Woodworks & Joinery",
     subheading: "Precision joinery, custom industrial timber fabrication, and woodwork.",
     imageSrc: "/images/home/services/wood2.jpeg",
-    icon: <Compass size={30} strokeWidth={1.5} />
+    icon: <Compass size={30} strokeWidth={1.5} />,
+    link: "/services/smart-woodworks"
   }
 ];
 
@@ -218,27 +228,27 @@ export function DailyWellnessSection() {
                         {/* Bottom Section: Divider & Side-by-Side Action Buttons */}
                         <div className={styles.cardFooterDivider}>
                           <div className={styles.cardButtonGroup}>
-                            <button
+                            <Link
+                              href="/contact"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                if (hasDraggedRef.current) return;
-                                setIsQuizOpen(true);
+                                if (hasDraggedRef.current) e.preventDefault();
                               }}
                               className={styles.primaryGetStartedBtn}
                             >
                               Request Quote
-                            </button>
+                            </Link>
 
-                            <button
+                            <Link
+                              href={srv.link}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                if (hasDraggedRef.current) return;
-                                setIsQuizOpen(true);
+                                if (hasDraggedRef.current) e.preventDefault();
                               }}
                               className={styles.secondaryLearnBtn}
                             >
                               <span>↳ Learn more</span>
-                            </button>
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -277,8 +287,8 @@ export function DailyWellnessSection() {
                 Browse our full range of contracting and industrial services, or contact our engineering team to receive tailored proposals for your project.
               </p>
               <div className={styles.ctaFlex}>
-                <button
-                  onClick={() => setIsQuizOpen(true)}
+                <Link
+                  href="/services"
                   className={styles.subSectionPrimaryBtn1}
                 >
                   <svg
@@ -299,14 +309,14 @@ export function DailyWellnessSection() {
                     />
                   </svg>
                   <span>Explore All Services</span>
-                </button>
+                </Link>
                 <div className={styles.horizontalDivider} />
-                <button
-                  onClick={() => setIsQuizOpen(true)}
+                <Link
+                  href="/contact"
                   className={styles.subSectionPrimaryBtn2}
                 >
                   <span>Contact Us</span>
-                </button>
+                </Link>
               </div>
             </div>
           </div>

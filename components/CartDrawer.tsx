@@ -5,11 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCartContext } from "./CartContext";
 import styles from "./CartDrawer.module.css";
+import { LegalModal, LegalTab } from "./LegalModal";
 
 export function CartDrawer() {
   const { cart, isCartOpen, closeCart, updateCart, removeFromCart, addToCart } = useCartContext();
   const [agreedToTerms, setAgreedToTerms] = useState(true);
   const [recProducts, setRecProducts] = useState<any[]>([]);
+  const [legalModalOpen, setLegalModalOpen] = useState(false);
+  const [legalModalTab, setLegalModalTab] = useState<LegalTab>("terms");
 
   // Drag to scroll refs and state for recommendations list
   const recListRef = useRef<HTMLDivElement>(null);
@@ -286,7 +289,19 @@ export function CartDrawer() {
               onChange={(e) => setAgreedToTerms(e.target.checked)}
             />
             <label htmlFor="cartTermsCheckbox" className={styles.termsLabel}>
-              I agree to the <a href="#" className={styles.termsLink} onClick={(e) => e.preventDefault()}>Terms and Conditions</a>
+              I agree to the{" "}
+              <button
+                type="button"
+                className={styles.termsLink}
+                style={{ background: "none", border: "none", padding: 0, textDecoration: "underline", cursor: "pointer", font: "inherit" }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setLegalModalTab("terms");
+                  setLegalModalOpen(true);
+                }}
+              >
+                Terms and Conditions
+              </button>
             </label>
           </div>
 
@@ -302,6 +317,12 @@ export function CartDrawer() {
           </Link>
         </div>
       </div>
+
+      <LegalModal
+        isOpen={legalModalOpen}
+        onClose={() => setLegalModalOpen(false)}
+        defaultTab={legalModalTab}
+      />
     </>
   );
 }

@@ -25,7 +25,7 @@ export function TextReveal({
   as: Component = "div",
   animation = "slide-up",
   delay = 0,
-  duration = 1.0,
+  duration = 0.7,
   stagger = 0.04,
 }: TextRevealProps) {
   const containerRef = useRef<HTMLElement>(null);
@@ -42,9 +42,9 @@ export function TextReveal({
           gsap.fromTo(
             words,
             {
-              y: "110%",
+              y: "90%",
               opacity: 0,
-              rotateX: -20,
+              rotateX: -15,
             },
             {
               y: "0%",
@@ -53,10 +53,10 @@ export function TextReveal({
               duration: duration,
               stagger: stagger,
               delay: delay,
-              ease: "power3.out",
+              ease: "power2.out",
               scrollTrigger: {
                 trigger: el,
-                start: "top 92%",
+                start: "top 85%",
                 once: true,
                 toggleActions: "play none none none",
               },
@@ -67,20 +67,20 @@ export function TextReveal({
         gsap.fromTo(
           el,
           {
-            filter: "blur(14px)",
+            filter: "blur(8px)",
             opacity: 0,
-            y: 35,
+            y: 25,
           },
           {
             filter: "blur(0px)",
             opacity: 1,
             y: 0,
-            duration: duration * 1.2,
+            duration: duration * 1.1,
             delay: delay,
             ease: "power2.out",
             scrollTrigger: {
               trigger: el,
-              start: "top 92%",
+              start: "top 85%",
               once: true,
               toggleActions: "play none none none",
             },
@@ -92,19 +92,19 @@ export function TextReveal({
           gsap.fromTo(
             childrenNodes,
             {
-              y: 35,
+              y: 25,
               opacity: 0,
             },
             {
               y: 0,
               opacity: 1,
               duration: duration,
-              stagger: stagger * 2,
+              stagger: stagger * 1.8,
               delay: delay,
-              ease: "power3.out",
+              ease: "power2.out",
               scrollTrigger: {
                 trigger: el,
-                start: "top 90%",
+                start: "top 85%",
                 once: true,
                 toggleActions: "play none none none",
               },
@@ -114,7 +114,7 @@ export function TextReveal({
           gsap.fromTo(
             el,
             {
-              y: 35,
+              y: 25,
               opacity: 0,
             },
             {
@@ -122,10 +122,10 @@ export function TextReveal({
               opacity: 1,
               duration: duration,
               delay: delay,
-              ease: "power3.out",
+              ease: "power2.out",
               scrollTrigger: {
                 trigger: el,
-                start: "top 90%",
+                start: "top 85%",
                 once: true,
                 toggleActions: "play none none none",
               },
@@ -137,7 +137,7 @@ export function TextReveal({
         gsap.fromTo(
           el,
           {
-            y: 45,
+            y: 30,
             opacity: 0,
           },
           {
@@ -145,10 +145,10 @@ export function TextReveal({
             opacity: 1,
             duration: duration,
             delay: delay,
-            ease: "power3.out",
+            ease: "power2.out",
             scrollTrigger: {
               trigger: el,
-              start: "top 92%",
+              start: "top 85%",
               once: true,
               toggleActions: "play none none none",
             },

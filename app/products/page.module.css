@@ -13,7 +13,7 @@
   margin-right: auto;
   padding-left: 36.8px; /* Aligns with homepage why choose section margin (12.8px + 24px) */
   padding-right: 36.8px;
-  padding-top: 77px; /* Offset for fixed top navbar */
+  padding-top: 135px; /* Offset for fixed top navbar + marquee bar */
   padding-bottom: 120px;
   width: 100%;
 }
@@ -21,7 +21,6 @@
 @media (max-width: 1280px) {
   .container {
     padding-left: 32.8px; /* Aligns with homepage layout */
-    padding-right: 32.8px;
   }
 }
 
@@ -29,7 +28,7 @@
   .container {
     padding-left: 20.8px; /* Aligns with homepage why choose section mobile margin (12.8px + 8px) */
     padding-right: 20.8px;
-    padding-top: 80px;
+    padding-top: 135px;
     padding-bottom: 80px;
   }
 }

@@ -94,41 +94,41 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <main className="flex-1">
-        <div className="animate-slide-up animate-delay-200">
+        <div className="animate-slide-up">
           <Hero />
         </div>
-        <div className="animate-fade-blur animate-delay-250">
+        <div>
           <CategoryGrid />
         </div>
-        <div className="animate-fade-blur animate-delay-280">
+        <div>
           <StudioBanner />
         </div>
-        <div className="animate-fade-blur animate-delay-290">
+        <div>
           <FeaturedGridTwo />
         </div>
-        <div className="animate-slide-stagger animate-delay-300">
+        <div>
           <DailyWellnessSection />
         </div>
-        <div className="animate-fade-blur animate-delay-400">
+        <div>
           <AboutSection />
         </div>
-        <div className="animate-fade-blur animate-delay-450">
+        <div>
           <QualityCareSection />
         </div>
-        <div className="animate-fade-blur animate-delay-480">
+        <div>
           <MedicalSupportSection />
         </div>
-        <div className="animate-fade-blur animate-delay-490">
+        <div>
           <HowItWorksSection />
         </div>
-        <div className="animate-slide-stagger animate-delay-800">
+        <div>
           <Testimonials />
         </div>
-        <div className="animate-fade-blur">
+        <div>
           <FaqSection />
         </div>
       </main>
-      <div style={{ position: 'relative' }} className="animate-slide-up animate-delay-500">
+      <div style={{ position: 'relative' }}>
         <Footer />
       </div>
     </div>

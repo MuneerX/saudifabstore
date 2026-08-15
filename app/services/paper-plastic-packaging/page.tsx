@@ -2,12 +2,14 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Navbar } from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import { FaqSection } from "../../../components/FaqSection";
 import { TreatmentQuizModal } from "../../../components/TreatmentQuizModal";
 import { Eye, FileCheck, Ruler, ShieldCheck } from "lucide-react";
 import styles from "../steel-fabrication/page.module.css";
+import ServiceArrowIcon from "../../../components/ServiceArrowIcon";
 
 export default function PaperPlasticPackagingPage() {
   const [isContactOpen, setIsContactOpen] = useState(false);
@@ -122,15 +124,17 @@ export default function PaperPlasticPackagingPage() {
 
           <div className={styles.heroBottomRightContainer}>
             <div className={styles.heroBottomRight}>
-              <button 
+              <Link 
+                href="/contact"
                 className={styles.heroCtaCard}
-                onClick={() => setIsContactOpen(true)}
               >
                 <div className={styles.heroCtaText}>
                   Request Packaging Quote
                 </div>
-                <span className={styles.heroCtaArrow}>→</span>
-              </button>
+                <span className={styles.heroCtaArrow}>
+                  <ServiceArrowIcon width={10} height={18} />
+                </span>
+              </Link>
             </div>
           </div>
         </div>

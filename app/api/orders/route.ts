@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
 
     // Process order items, ensuring every product ID is a valid ObjectId
     const defaultProduct = await Product.findOne();
-    const fallbackProductId = defaultProduct ? defaultProduct._id.toString() : new mongoose.Types.ObjectId().toString();
+    const fallbackProductId = defaultProduct ? (defaultProduct as any)._id.toString() : new mongoose.Types.ObjectId().toString();
 
     const orderItems: { product: string; quantity: number; price: number }[] = rawItems.map((item: any) => {
       const rawProdId = item.product?._id || item.product;

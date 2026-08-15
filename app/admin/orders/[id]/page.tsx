@@ -38,6 +38,9 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
       city: string;
       postalCode: string;
       country: string;
+      name?: string;
+      email?: string;
+      phone?: string;
     };
     orderItems?: {
       product?: {

@@ -7,9 +7,10 @@ import { Factory, ShieldCheck, BadgeCheck, Star } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import styles from "./page.module.css"; // Import CSS module
+import { ShopMarquee } from "@/components/ShopMarquee";
 import { useProducts } from "@/lib/hooks/useProducts";
 import { useCartContext } from "@/components/CartContext";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -26,6 +27,7 @@ const SAMPLE_SWATCH_SETS = [
 ];
 
 export default function ProductDetailsPage() {
+  const router = useRouter();
   const { id } = useParams(); // Get ID from URL using useParams
   const { getProductById, products, fetchProducts } = useProducts() as any;
   const { addToCart } = useCartContext();
@@ -135,6 +137,13 @@ export default function ProductDetailsPage() {
     }
   };
 
+  const handleInstantCheckout = () => {
+    if (product) {
+      addToCart(product._id, 1, "Standard Spec", "Industrial Finish");
+      router.push("/checkout");
+    }
+  };
+
   const toggleAccordion = (index: number) => {
     setOpenAccordion(prev => prev === index ? null : index);
   };
@@ -207,8 +216,8 @@ export default function ProductDetailsPage() {
 
   return (
     <div ref={containerRef} className={styles.pageContainer}>
-      <Navbar isLight={true} hasBorder={true} />
- 
+      <Navbar isLight={true} hasBorder={true} showMarquee={true} />
+
       <div className={styles.detailSplitLayout}>
         {/* Left Column - Large Centered Image Wrapped in Card */}
         <div ref={imageColumnRef} className={styles.imageColumn}>
@@ -263,7 +272,7 @@ export default function ProductDetailsPage() {
 
             {/* Action Buttons inside the Box */}
             <div className={styles.actionButtonsGroup}>
-              <button className={styles.buyNowBtn} onClick={handleAddToCart}>
+              <button className={styles.buyNowBtn} onClick={handleInstantCheckout}>
                 <svg className={styles.buyNowArrow} width="10" height="19" viewBox="0 0 10 19" fill="none">
                   <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14384 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
                 </svg>

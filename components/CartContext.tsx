@@ -28,6 +28,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const closeCart = () => setIsCartOpen(false);
   const toggleCart = () => setIsCartOpen((prev) => !prev);
 
+  React.useEffect(() => {
+    const handleOpenEvent = () => setIsCartOpen(true);
+    window.addEventListener("open-cart-drawer", handleOpenEvent);
+    return () => window.removeEventListener("open-cart-drawer", handleOpenEvent);
+  }, []);
+
   const addToCartAndOpen = async (productId: string, quantity: number, size?: string, color?: string) => {
     const result = await cartHook.addToCart(productId, quantity, size, color);
     setIsCartOpen(true);

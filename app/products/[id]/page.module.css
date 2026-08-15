@@ -10,7 +10,7 @@
   align-items: flex-start;
   min-height: calc(100vh - 68px);
   background-color: #ffffff;
-  padding-top: 68px; /* Exact height of fixed top navbar (68px) */
+  padding-top: 135px; /* Offset for fixed top navbar + top marquee bar */
   position: relative;
 }
 

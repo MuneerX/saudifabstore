@@ -11,6 +11,7 @@ import { ParallaxElement } from "../../components/ParallaxElement";
 import { TextReveal } from "../../components/TextReveal";
 import styles from "./page.module.css";
 import { TreatmentQuizModal } from "../../components/TreatmentQuizModal";
+import ServiceArrowIcon from "../../components/ServiceArrowIcon";
 
 
 const SERVICE_DIFFERENCE = [
@@ -78,12 +79,9 @@ export default function ServicesPage() {
                   Precision fabrication. Expert contracting.
                 </h1>
               </TextReveal>
-              <button 
-                className={styles.ctaButton}
-                onClick={() => setIsContactOpen(true)}
-              >
-                <span className={styles.arrowIcon}>→</span> Book a consultation
-              </button>
+              <Link href="/contact" className={styles.ctaButton}>
+                <ServiceArrowIcon width={10} height={18} /> Book a consultation
+              </Link>
             </div>
 
             <div className={styles.featuresArea}>
@@ -91,17 +89,17 @@ export default function ServicesPage() {
               <div className={styles.featuresGrid}>
                 <div className={styles.featureCol}>
                   <p className={styles.featureText}>
-                    Custom CNC machining & heavy structural steel works
+                    Custom CNC machining &amp; heavy structural steel works
                   </p>
                 </div>
                 <div className={styles.featureCol}>
                   <p className={styles.featureText}>
-                    Abrasive blasting & certified protective coating applications
+                    Abrasive blasting &amp; certified protective coating applications
                   </p>
                 </div>
                 <div className={styles.featureCol}>
                   <p className={styles.featureText}>
-                    Commercial stone, solid surface, & warehousing contracting
+                    Commercial stone, solid surface, &amp; warehousing contracting
                   </p>
                 </div>
               </div>
@@ -122,12 +120,9 @@ export default function ServicesPage() {
             <p className={styles.benefitsDesc}>
               Maximize operational efficiency, guarantee structural compliance, and extend asset lifespans with our certified industrial solutions.
             </p>
-            <button 
-              className={styles.benefitsCta}
-              onClick={() => setIsContactOpen(true)}
-            >
-              ↳ Get started
-            </button>
+            <Link href="/contact" className={styles.benefitsCta}>
+              <ServiceArrowIcon width={10} height={18} /> Get started
+            </Link>
           </div>
 
           {/* Right Column: All 8 Core Services matching Home Page */}
@@ -151,9 +146,7 @@ export default function ServicesPage() {
                 <Link href="/services/steel-fabrication" className={styles.serviceDetailBtn}>
                   <span>Explore Service</span>
                   <span className={styles.serviceBtnArrow}>
-                    <svg width="10" height="19" viewBox="0 0 10 19" fill="none">
-                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
-                    </svg>
+                    <ServiceArrowIcon width={10} height={18} />
                   </span>
                 </Link>
               </div>
@@ -178,9 +171,7 @@ export default function ServicesPage() {
                 <Link href="/services/blasting-sandblasting" className={styles.serviceDetailBtn}>
                   <span>Explore Service</span>
                   <span className={styles.serviceBtnArrow}>
-                    <svg width="10" height="19" viewBox="0 0 10 19" fill="none">
-                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
-                    </svg>
+                    <ServiceArrowIcon width={10} height={18} />
                   </span>
                 </Link>
               </div>
@@ -205,9 +196,7 @@ export default function ServicesPage() {
                 <Link href="/services/industrial-painting-coatings" className={styles.serviceDetailBtn}>
                   <span>Explore Service</span>
                   <span className={styles.serviceBtnArrow}>
-                    <svg width="10" height="19" viewBox="0 0 10 19" fill="none">
-                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
-                    </svg>
+                    <ServiceArrowIcon width={10} height={18} />
                   </span>
                 </Link>
               </div>
@@ -232,9 +221,7 @@ export default function ServicesPage() {
                 <Link href="/services/forklift-repair" className={styles.serviceDetailBtn}>
                   <span>Explore Service</span>
                   <span className={styles.serviceBtnArrow}>
-                    <svg width="10" height="19" viewBox="0 0 10 19" fill="none">
-                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
-                    </svg>
+                    <ServiceArrowIcon width={10} height={18} />
                   </span>
                 </Link>
               </div>
@@ -259,9 +246,7 @@ export default function ServicesPage() {
                 <Link href="/services/protorc-torquing-bolting" className={styles.serviceDetailBtn}>
                   <span>Explore Service</span>
                   <span className={styles.serviceBtnArrow}>
-                    <svg width="10" height="19" viewBox="0 0 10 19" fill="none">
-                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
-                    </svg>
+                    <ServiceArrowIcon width={10} height={18} />
                   </span>
                 </Link>
               </div>
@@ -286,9 +271,7 @@ export default function ServicesPage() {
                 <Link href="/services/general-safety-trading" className={styles.serviceDetailBtn}>
                   <span>Explore Service</span>
                   <span className={styles.serviceBtnArrow}>
-                    <svg width="10" height="19" viewBox="0 0 10 19" fill="none">
-                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
-                    </svg>
+                    <ServiceArrowIcon width={10} height={18} />
                   </span>
                 </Link>
               </div>
@@ -313,9 +296,7 @@ export default function ServicesPage() {
                 <Link href="/services/paper-plastic-packaging" className={styles.serviceDetailBtn}>
                   <span>Explore Service</span>
                   <span className={styles.serviceBtnArrow}>
-                    <svg width="10" height="19" viewBox="0 0 10 19" fill="none">
-                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
-                    </svg>
+                    <ServiceArrowIcon width={10} height={18} />
                   </span>
                 </Link>
               </div>
@@ -340,9 +321,7 @@ export default function ServicesPage() {
                 <Link href="/services/smart-woodworks" className={styles.serviceDetailBtn}>
                   <span>Explore Service</span>
                   <span className={styles.serviceBtnArrow}>
-                    <svg width="10" height="19" viewBox="0 0 10 19" fill="none">
-                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14327 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
-                    </svg>
+                    <ServiceArrowIcon width={10} height={18} />
                   </span>
                 </Link>
               </div>
@@ -533,28 +512,49 @@ export default function ServicesPage() {
           </div>
 
           <div ref={storiesGridRef} className={styles.storiesGrid}>
+            {/* Card 1 */}
             <div className={styles.storyCard}>
               <span className={styles.quoteMark}>“</span>
               <p className={styles.storyText}>
-                &ldquo;Brooq Al Khalij&apos;s steel fabrication division exceeded all our requirements. The custom heavy-duty baskets were built precisely to blueprint specifications and hold up under immense daily load capacities.&rdquo;
+                &ldquo;Brooq Al Khalij&apos;s engineering team is top-notch. They responded quickly, providing incredibly helpful structural load calculations. Their prompt replies and support made our warehouse design process effortless.&rdquo;
               </p>
               <span className={styles.storyAuthor}>Eng. Khalid A.</span>
             </div>
 
+            {/* Card 2 */}
             <div className={styles.storyCard}>
               <span className={styles.quoteMark}>“</span>
               <p className={styles.storyText}>
-                &ldquo;We contracted Brooq Al Khalij for our chemical terminal tank blasting and protective coating works. Their SA 2.5 prep and epoxy coatings are flawless, completely matching our strict ISO specs.&rdquo;
+                &ldquo;I am thrilled with the exceptional quality of structural steel fabrication. A minor specification adjustment was swiftly resolved, and our heavy industrial vessels arrived well-packaged and promptly on site.&rdquo;
               </p>
               <span className={styles.storyAuthor}>Fahad M.</span>
             </div>
 
+            {/* Card 3 */}
             <div className={styles.storyCard}>
               <span className={styles.quoteMark}>“</span>
               <p className={styles.storyText}>
-                &ldquo;Outstanding warehousing construction services. They managed everything from structural load calculations to final erection and turnkey sign-off. Highly recommend their contracting teams.&rdquo;
+                &ldquo;Brooq Al Khalij helped us deliver our logistics terminal project on schedule. Their execution team is extremely professional and their anti-corrosive blast coatings are durable. They really give you peace of mind.&rdquo;
               </p>
               <span className={styles.storyAuthor}>Sultan S.</span>
+            </div>
+
+            {/* Card 4 (New) */}
+            <div className={styles.storyCard}>
+              <span className={styles.quoteMark}>“</span>
+              <p className={styles.storyText}>
+                &ldquo;Our Saudi Aramco certified pipe racks and structural steel skid frames arrived fully compliant with AWS D1.1 specifications. Excellent workshop craftsmanship and material traceability.&rdquo;
+              </p>
+              <span className={styles.storyAuthor}>Tariq H. — Project Director</span>
+            </div>
+
+            {/* Card 5 (New) */}
+            <div className={styles.storyCard}>
+              <span className={styles.quoteMark}>“</span>
+              <p className={styles.storyText}>
+                &ldquo;Outstanding sandblasting surface preparation and C5-M marine coating durability for our heavy contracting fleet in Dammam Industrial Area. Highly recommended partner.&rdquo;
+              </p>
+              <span className={styles.storyAuthor}>Mohammad N. — Operations Manager</span>
             </div>
           </div>
 

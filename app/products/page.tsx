@@ -11,6 +11,7 @@ import styles from "./page.module.css";
 import { useProducts } from "@/lib/hooks/useProducts";
 import { INITIAL_PRODUCTS } from "@/lib/data/initialProducts";
 import { X } from "lucide-react";
+import { ShopMarquee } from "@/components/ShopMarquee";
 
 // Define the type for product items
 interface ProductItem {
@@ -96,11 +97,26 @@ function ProductsPage() {
     if (categoryParam) {
       const categoryMapping: { [key: string]: string } = {
         'forklift': 'Forklift Attachments',
+        'forklift attachments': 'Forklift Attachments',
+        'lifting-handling': 'Forklift Attachments',
         'warehouse': 'Warehouse & Logistics',
+        'warehouse & logistics': 'Warehouse & Logistics',
+        'storage-containers': 'Warehouse & Logistics',
+        'workshop-equipment': 'Warehouse & Logistics',
+        'workshop equipment': 'Warehouse & Logistics',
+        'trolleys-transportation': 'Warehouse & Logistics',
+        'trolleys & transportation': 'Warehouse & Logistics',
+        'trolley': 'Warehouse & Logistics',
+        'transportation': 'Warehouse & Logistics',
         'safety': 'Safety Equipment',
+        'safety equipment': 'Safety Equipment',
+        'safety-protection': 'Safety Equipment',
         'hardware': 'Hardware & Piping',
+        'hardware & piping': 'Hardware & Piping',
         'lifting': 'Lifting Equipment',
-        'chemical': 'Safety & Chemical'
+        'lifting equipment': 'Lifting Equipment',
+        'chemical': 'Safety & Chemical',
+        'safety & chemical': 'Safety & Chemical'
       };
       const mappedCategory = categoryMapping[categoryParam.toLowerCase()] || categoryParam;
       if (mappedCategory) {
@@ -139,8 +155,17 @@ function ProductsPage() {
   // Determine actual display products list (using fetched products or BR Products catalog)
   const baseProductsList = (products && products.length > 0) ? products : (INITIAL_PRODUCTS as any);
 
+  const searchQuery = searchParams.get('search') || searchParams.get('q') || searchParams.get('query') || '';
+
   // Filter & Sort logic for display
   const filteredProducts = baseProductsList.filter((product: any) => {
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase().trim();
+      const matchName = product.name?.toLowerCase().includes(q);
+      const matchCat = product.category?.toLowerCase().includes(q);
+      const matchSub = product.subtext?.toLowerCase().includes(q);
+      if (!matchName && !matchCat && !matchSub) return false;
+    }
     if (selectedTypes.length > 0) {
       const matchCat = selectedTypes.some(t => product.category.toLowerCase().includes(t.toLowerCase()));
       if (!matchCat) return false;
@@ -184,7 +209,7 @@ function ProductsPage() {
 
   return (
     <div className={styles.pageContainer}>
-      <Navbar isLight={true} hasBorder={true} />
+      <Navbar isLight={true} hasBorder={true} showMarquee={true} />
 
       {/* Main Container */}
       <div className={styles.container}>

@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import styles from './Footer.module.css';
 import Image from 'next/image';
+import Link from 'next/link';
+import { LegalModal, LegalTab } from './LegalModal';
 
 const ArrowIcon = ({ color = "#ffffff" }: { color?: string }) => (
   <svg
@@ -26,8 +28,19 @@ const ArrowIcon = ({ color = "#ffffff" }: { color?: string }) => (
   </svg>
 );
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  noGradient?: boolean;
+}
+
+const Footer: React.FC<FooterProps> = ({ noGradient = false }) => {
   const [email, setEmail] = useState('');
+  const [legalModalOpen, setLegalModalOpen] = useState(false);
+  const [legalModalTab, setLegalModalTab] = useState<LegalTab>('privacy');
+
+  const openLegalModal = (tab: LegalTab) => {
+    setLegalModalTab(tab);
+    setLegalModalOpen(true);
+  };
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,7 +48,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className={styles.footer}>
+    <footer className={`${styles.footer} ${noGradient ? styles.noGradient : ''}`}>
       <div className={styles.footerCard}>
         {/* Top bar: Centered pedestal° Logo + Social Icons on right */}
         <div className={styles.topBar}>
@@ -86,10 +99,10 @@ const Footer: React.FC = () => {
               <div className={styles.col}>
                 <h4 className={styles.colHeading}>COMPANY</h4>
                 <ul className={styles.colList}>
-                  <li><a href="/about">About Us</a></li>
-                  <li><a href="/services">Our Services</a></li>
-                  <li><a href="/products">Shop Products</a></li>
-                  <li><a href="/contact">Contact Support</a></li>
+                  <li><Link href="/about">About Us</Link></li>
+                  <li><Link href="/services">Our Services</Link></li>
+                  <li><Link href="/products">Shop Products</Link></li>
+                  <li><Link href="/contact">Contact Support</Link></li>
                 </ul>
               </div>
 
@@ -178,6 +191,47 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Sub-Footer Bar below footerCard matching reference design */}
+      <div className={styles.subFooterBar}>
+        <div className={styles.subFooterLeft}>
+          <span>© 2026 Brooq Al Khalij Co. LLC. All rights reserved.</span>
+          <span className={styles.brandDivider}>•</span>
+          <div className={styles.mubarakBranding}>
+            <span className={styles.mubarakLabel}>Engineered by</span>
+            <a
+              href="https://mubaraktech.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.mubarakLink}
+            >
+              Mubarak
+            </a>
+          </div>
+        </div>
+        <div className={styles.subFooterCenter}>
+          <button onClick={() => openLegalModal('privacy')} className={styles.subFooterLink}>Privacy Policy</button>
+          <button onClick={() => openLegalModal('terms')} className={styles.subFooterLink}>Terms &amp; Conditions</button>
+          <button onClick={() => openLegalModal('saso-iso')} className={styles.subFooterLink}>SASO &amp; ISO Compliance</button>
+        </div>
+        <div className={styles.subFooterRight}>
+          <button onClick={() => openLegalModal('privacy')} className={styles.privacyChoicesBtn}>
+            <svg width="30" height="14" viewBox="0 0 30 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0.5" y="0.5" width="29" height="13" rx="6.5" fill="#0066CC" stroke="#0066CC"/>
+              <path d="M7 1H14L11.5 13H7C3.68629 13 1 10.3137 1 7C1 3.68629 3.68629 1 7 1Z" fill="#FFFFFF"/>
+              <path d="M4.5 7L6.5 9L9.5 4.5" stroke="#0066CC" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M19 4.5L24 9.5M24 4.5L19 9.5" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+            <span>Your Privacy Choices</span>
+          </button>
+        </div>
+      </div>
+
+      <LegalModal
+        isOpen={legalModalOpen}
+        onClose={() => setLegalModalOpen(false)}
+        defaultTab={legalModalTab}
+      />
     </footer>
   );
 };

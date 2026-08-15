@@ -1091,16 +1091,27 @@
 }
 
 .storiesGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px 12px; /* Matched reduced spacing like calculators section */
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 16px;
   width: 100%;
   margin-bottom: 48px;
   overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
   scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 8px;
+}
+
+.storiesGrid::-webkit-scrollbar {
+  display: none;
 }
 
 .storyCard {
+  flex: 0 0 calc((100% - 32px) / 3);
+  min-width: calc((100% - 32px) / 3);
+  scroll-snap-align: start;
   background-color: #FAF9F6; /* Softer warm off-white card bg */
   border-radius: 16px;
   padding: 44px 40px 36px 40px; /* Reduced top/bottom padding slightly */
@@ -1110,7 +1121,9 @@
   align-items: center;
   text-align: center;
   min-height: 463px; /* Increased height by 3px */
-  transition: transform 0.3s ease;
+  border: none;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .storyCard:hover {
@@ -1152,19 +1165,19 @@
   width: 44px;
   height: 44px;
   border-radius: 4px;
-  background-color: #222222;
-  color: #ffffff;
-  border: none;
+  background-color: #FAF9F6;
+  color: #111111;
+  border: 1px solid #EAE5DC;
   font-size: 16px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .controlBtn:hover {
-  background-color: #000000;
+  background-color: #EBE5DA;
 }
 
 /* Responsive constraints matching homepage styling */

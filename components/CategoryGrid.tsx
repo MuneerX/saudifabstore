@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./CategoryGrid.module.css";
 
 interface CategoryCard {
@@ -9,6 +10,7 @@ interface CategoryCard {
   title: string;
   imageSrc: string;
   alt: string;
+  href: string;
 }
 
 const CATEGORIES: CategoryCard[] = [
@@ -16,19 +18,22 @@ const CATEGORIES: CategoryCard[] = [
     id: "storage-containers",
     title: "Storage & Containers",
     imageSrc: "/images/home/category_grid/container_3.jpeg",
-    alt: "Storage & Containers"
+    alt: "Storage & Containers",
+    href: "/products?category=Warehouse%20%26%20Logistics"
   },
   {
     id: "lifting-handling",
     title: "Lifting & Material Handling",
     imageSrc: "/images/home/category_grid/lifting_3.jpeg",
-    alt: "Lifting & Material Handling"
+    alt: "Lifting & Material Handling",
+    href: "/products?category=Forklift%20Attachments"
   },
   {
     id: "safety-protection",
     title: "Safety & Protection",
     imageSrc: "/images/home/category_grid/safety_3.jpeg",
-    alt: "Safety & Protection"
+    alt: "Safety & Protection",
+    href: "/products?category=Safety%20Equipment"
   }
 ];
 
@@ -37,7 +42,7 @@ export function CategoryGrid() {
     <section className={styles.section}>
       <div className={styles.grid}>
         {CATEGORIES.map((item) => (
-          <div key={item.id} className={styles.card}>
+          <Link key={item.id} href={item.href} className={styles.card}>
             <div className={styles.imageWrapper} data-speed="auto">
               <Image
                 src={item.imageSrc}
@@ -51,7 +56,7 @@ export function CategoryGrid() {
             </div>
             <div className={styles.gradientOverlay} />
             <h3 className={styles.label}>{item.title}</h3>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

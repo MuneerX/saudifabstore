@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
 import { ParallaxElement } from "./ParallaxElement";
@@ -34,12 +35,12 @@ export function StudioBanner() {
             </h2>
           </TextReveal>
 
-          <button className={styles.configureBtn}>
+          <Link href="/contact" className={styles.configureBtn}>
             <span>Request Quote</span>
             <span className={styles.iconBadge}>
               <Sparkles size={16} />
             </span>
-          </button>
+          </Link>
         </div>
       </div>
     </section>

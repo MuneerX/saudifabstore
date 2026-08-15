@@ -3,12 +3,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Search, Menu, X } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./Navbar.module.css";
 import { useCartContext } from "./CartContext";
+import { ShopMarquee } from "./ShopMarquee";
+import { SearchModal } from "./SearchModal";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -72,44 +75,44 @@ const MEGA_MENUS: Record<string, MegaMenuData> = {
     col1Title: "FEATURED",
     col1Links: [
       { label: "Overview & Certifications", href: "/services" },
-      { label: "ISO 9001 & AWS Standards", href: "/services" },
-      { label: "Quality Audit Reports", href: "/services" },
+      { label: "ISO 9001 & AWS Standards", href: "/services#certifications" },
+      { label: "Quality Audit Reports", href: "/services#audits" },
       { label: "Custom Scope Calculator", href: "/contact" }
     ],
     popularTitle: "POPULAR RIGHT NOW",
     popularThumbs: [
-      { src: "/images/home/services/steel.jpeg", alt: "Steel", href: "/services" },
-      { src: "/images/home/services/blasting.jpeg", alt: "Blasting", href: "/services" },
-      { src: "/images/home/services/painting2.jpeg", alt: "Painting", href: "/services" },
-      { src: "/images/home/services/forkliftrepair.jpeg", alt: "Forklift", href: "/services" }
+      { src: "/images/home/services/steel.jpeg", alt: "Steel Fabrication", href: "/services/steel-fabrication" },
+      { src: "/images/home/services/blasting.jpeg", alt: "Sandblasting", href: "/services/blasting-sandblasting" },
+      { src: "/images/home/services/painting2.jpeg", alt: "Coatings & Painting", href: "/services/industrial-painting-coatings" },
+      { src: "/images/home/services/forkliftrepair.jpeg", alt: "Forklift Repair", href: "/services/forklift-repair" }
     ],
     col2Title: "CORE SERVICES",
     col2Links: [
-      { label: "Heavy Structural Steel Fabrication", href: "/services" },
-      { label: "Sandblasting & Surface Prep (SA 2.5)", href: "/services" },
-      { label: "Epoxy & Defensive Coatings", href: "/services" },
-      { label: "Forklift Mechanical & Engine Fixes", href: "/services" },
-      { label: "ProTorc Hydraulic Bolt Torquing", href: "/services" },
-      { label: "Diesel Fire Pump Maintenance", href: "/services" }
+      { label: "Heavy Structural Steel Fabrication", href: "/services/steel-fabrication" },
+      { label: "Sandblasting & Surface Prep (SA 2.5)", href: "/services/blasting-sandblasting" },
+      { label: "Epoxy & Defensive Coatings", href: "/services/industrial-painting-coatings" },
+      { label: "Forklift Mechanical & Engine Fixes", href: "/services/forklift-repair" },
+      { label: "ProTorc Hydraulic Bolt Torquing", href: "/services/protorc-torquing-bolting" },
+      { label: "General Safety & Chemical Trading", href: "/services/general-safety-trading" }
     ],
     col2ShopAll: { label: "Shop all Services", href: "/services", count: "16" },
 
     col3Title: "SPECIALIZED SCOPE",
     col3Links: [
-      { label: "Pipe Cold Cutting & Beveling", href: "/services" },
-      { label: "On-Site Flange Facing Machining", href: "/services" },
-      { label: "Intumescent Structural Fireproofing", href: "/services" },
-      { label: "Dry Film Thickness (DFT) Audits", href: "/services" },
-      { label: "Non-Destructive Testing (NDT)", href: "/services" },
+      { label: "Paper & Plastic Packaging", href: "/services/paper-plastic-packaging" },
+      { label: "Smart Woodworks & Joinery", href: "/services/smart-woodworks" },
+      { label: "Pipe Cold Cutting & Beveling", href: "/services/protorc-torquing-bolting" },
+      { label: "On-Site Flange Facing Machining", href: "/services/protorc-torquing-bolting" },
+      { label: "Intumescent Structural Fireproofing", href: "/services/industrial-painting-coatings" },
       { label: "Annual Maintenance Contracts (AMC)", href: "/contact" }
     ],
     col3ShopAll: { label: "Shop all Solutions", href: "/services", count: "53" },
 
     featureCard: {
-      image: "/images/home/services/steel2.jpeg",
+      image: "/images/services/featured/painting.png",
       title: "Precision Industrial Coatings",
       sub: "SA 2.5 Grit Blasting & AWS Engineering",
-      href: "/services"
+      href: "/services/industrial-painting-coatings"
     },
 
     bottomBar: {
@@ -123,10 +126,10 @@ const MEGA_MENUS: Record<string, MegaMenuData> = {
     type: "products",
     featuredTitle: "FEATURED",
     featuredLinks: [
-      { label: "Forklift Attachments", href: "/products" },
-      { label: "Warehouse & Logistics", href: "/products" },
-      { label: "Safety Equipment", href: "/products" },
-      { label: "Hardware & Piping", href: "/products" }
+      { label: "Forklift Attachments", href: "/products?category=forklift" },
+      { label: "Warehouse & Logistics", href: "/products?category=warehouse" },
+      { label: "Safety Equipment", href: "/products?category=safety" },
+      { label: "Hardware & Piping", href: "/products?category=hardware" }
     ],
     products: [
       {
@@ -174,13 +177,60 @@ const MEGA_MENUS: Record<string, MegaMenuData> = {
   }
 };
 
+const FEATURED_SERVICES_SLIDES = [
+  {
+    image: "/images/services/featured/painting.png",
+    title: "Precision Industrial Coatings",
+    sub: "SA 2.5 Grit Blasting & Epoxy Coatings",
+    href: "/services/industrial-painting-coatings"
+  },
+  {
+    image: "/images/services/featured/steel.png",
+    title: "Structural Steel Fabrication",
+    sub: "Certified ASTM A36 Steel & MTR Dossiers",
+    href: "/services/steel-fabrication"
+  },
+  {
+    image: "/images/services/featured/blasting.png",
+    title: "Sandblasting & Surface Prep",
+    sub: "High-Pressure Abrasive Grit Blasting",
+    href: "/services/blasting-sandblasting"
+  },
+  {
+    image: "/images/services/featured/forklift.png",
+    title: "Forklift Repair & Engine Fixes",
+    sub: "Hydraulic, Transmission & Overhaul AMC",
+    href: "/services/forklift-repair"
+  },
+  {
+    image: "/images/services/featured/protoc.png",
+    title: "ProTorc Hydraulic Torquing",
+    sub: "Flange Bolting & Calibrated Tensioning",
+    href: "/services/protorc-torquing-bolting"
+  },
+  {
+    image: "/images/services/featured/trading.png",
+    title: "General Safety Trading",
+    sub: "PPE, Chemical Storage & SASO Tools",
+    href: "/services/general-safety-trading"
+  },
+  {
+    image: "/images/services/featured/wood.png",
+    title: "Smart Woodworks & Packaging",
+    sub: "Custom Pallets, Crates & ISPM-15 Wood",
+    href: "/services/smart-woodworks"
+  }
+];
+
 interface NavbarProps {
   hasBorder?: boolean;
   isLight?: boolean;
+  showMarquee?: boolean;
   children?: React.ReactNode;
 }
 
-export function Navbar({ hasBorder = false, isLight = false, children }: NavbarProps) {
+export function Navbar({ hasBorder = false, isLight = false, showMarquee = false, children }: NavbarProps) {
+  const router = useRouter();
   const { data: session } = useSession();
   const { cart, openCart } = useCartContext();
   const [visible, setVisible] = useState(true);
@@ -189,6 +239,14 @@ export function Navbar({ hasBorder = false, isLight = false, children }: NavbarP
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [shopProducts, setShopProducts] = useState<ShopProduct[]>([]);
   const [totalProductCount, setTotalProductCount] = useState<string>("15");
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [currentFeaturedIndex, setCurrentFeaturedIndex] = useState(0);
+
+  // Set random featured service image from featured folder on page reload
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * FEATURED_SERVICES_SLIDES.length);
+    setCurrentFeaturedIndex(randomIndex);
+  }, []);
 
   const cartItemCount = cart?.items?.reduce((sum: number, item: any) => sum + (item.quantity || 0), 0) || 0;
 
@@ -240,6 +298,9 @@ export function Navbar({ hasBorder = false, isLight = false, children }: NavbarP
   const handleMouseEnter = (label: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     if (MEGA_MENUS[label]) {
+      if (label === "Services") {
+        setCurrentFeaturedIndex((prev) => (prev + 1) % FEATURED_SERVICES_SLIDES.length);
+      }
       setActiveMenu(label);
     } else {
       setActiveMenu(null);
@@ -257,12 +318,16 @@ export function Navbar({ hasBorder = false, isLight = false, children }: NavbarP
   const currentMenuData = activeMenu ? MEGA_MENUS[activeMenu] : null;
 
   return (
-    <nav 
+    <div
       data-speed="fixed"
-      className={`${styles.navbar} ${isNavbarLight ? styles.lightNavbar : ''} ${hasBorder ? styles.navBorder : ''} ${stickyClass}`}
+      className={`${styles.navbarWrapper} ${stickyClass}`}
       onMouseLeave={handleMouseLeave}
     >
-      {children}
+      {showMarquee && <ShopMarquee />}
+      <nav 
+        className={`${styles.navbar} ${isNavbarLight ? styles.lightNavbar : ''} ${hasBorder ? styles.navBorder : ''}`}
+      >
+        {children}
 
       {/* Left Logo */}
       <div className={styles.logoArea}>
@@ -303,7 +368,12 @@ export function Navbar({ hasBorder = false, isLight = false, children }: NavbarP
 
       {/* Right Links & Actions */}
       <div className={styles.rightNav}>
-        <button className={`${styles.iconBtn} ${isNavbarLight ? styles.lightIconBtn : ''}`} aria-label="Search">
+        <button 
+          type="button" 
+          onClick={() => setIsSearchModalOpen(true)}
+          className={`${styles.iconBtn} ${isNavbarLight ? styles.lightIconBtn : ''}`} 
+          aria-label="Search"
+        >
           <Search size={16} />
         </button>
         
@@ -505,22 +575,46 @@ export function Navbar({ hasBorder = false, isLight = false, children }: NavbarP
                   )}
                 </div>
 
-                {/* Column 4: Large Featured Right Card */}
+                {/* Column 4: Large Featured Right Card with Auto-cycling Slides */}
                 <div className={styles.menuCol}>
-                  {currentMenuData.featureCard && (
-                    <Link href={currentMenuData.featureCard.href} className={styles.featureCard}>
+                  {activeMenu === "Services" ? (
+                    <Link 
+                      href={FEATURED_SERVICES_SLIDES[currentFeaturedIndex].href} 
+                      className={styles.featureCard}
+                    >
                       <Image 
-                        src={currentMenuData.featureCard.image} 
-                        alt={currentMenuData.featureCard.title}
+                        key={FEATURED_SERVICES_SLIDES[currentFeaturedIndex].image}
+                        src={FEATURED_SERVICES_SLIDES[currentFeaturedIndex].image} 
+                        alt={FEATURED_SERVICES_SLIDES[currentFeaturedIndex].title}
                         fill
                         className={styles.featureCardImage}
                         sizes="360px"
                       />
                       <div className={styles.featureCardOverlay}>
-                        <h4 className={styles.featureCardTitle}>{currentMenuData.featureCard.title}</h4>
-                        <p className={styles.featureCardSub}>{currentMenuData.featureCard.sub}</p>
+                        <h4 className={styles.featureCardTitle}>
+                          {FEATURED_SERVICES_SLIDES[currentFeaturedIndex].title}
+                        </h4>
+                        <p className={styles.featureCardSub}>
+                          {FEATURED_SERVICES_SLIDES[currentFeaturedIndex].sub}
+                        </p>
                       </div>
                     </Link>
+                  ) : (
+                    currentMenuData.featureCard && (
+                      <Link href={currentMenuData.featureCard.href} className={styles.featureCard}>
+                        <Image 
+                          src={currentMenuData.featureCard.image} 
+                          alt={currentMenuData.featureCard.title}
+                          fill
+                          className={styles.featureCardImage}
+                          sizes="360px"
+                        />
+                        <div className={styles.featureCardOverlay}>
+                          <h4 className={styles.featureCardTitle}>{currentMenuData.featureCard.title}</h4>
+                          <p className={styles.featureCardSub}>{currentMenuData.featureCard.sub}</p>
+                        </div>
+                      </Link>
+                    )
                   )}
                 </div>
 
@@ -536,5 +630,7 @@ export function Navbar({ hasBorder = false, isLight = false, children }: NavbarP
         )}
       </div>
     </nav>
+    <SearchModal isOpen={isSearchModalOpen} onClose={() => setIsSearchModalOpen(false)} />
+    </div>
   );
 }

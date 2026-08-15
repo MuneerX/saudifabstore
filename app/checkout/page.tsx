@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { ShieldCheck, Truck, CreditCard, Lock, ArrowRight, AlertCircle, Loader2, CheckCircle2, ChevronRight } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { ShopMarquee } from "@/components/ShopMarquee";
 import { useCart } from "@/lib/hooks/useCart";
 import styles from "./page.module.css";
 
@@ -238,7 +239,7 @@ export default function CheckoutPage() {
   return (
     <div className={styles.pageWrapper}>
       {/* Light Navbar matching page theme */}
-      <Navbar hasBorder={true} isLight={true} />
+      <Navbar hasBorder={true} isLight={true} showMarquee={true} />
 
       <main className={styles.checkoutSection}>
         <div className={styles.checkoutContainer}>

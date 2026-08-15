@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { HardHat } from "lucide-react";
 import styles from "./MedicalSupportSection.module.css";
 import { TextReveal } from "./TextReveal";
@@ -81,12 +82,12 @@ export function MedicalSupportSection() {
                   Brooq Al Khalij delivers creative strategies, tactics and approaches to help clients grow their business with over 2,000+ completed projects across 7 specialized divisions.
                 </p>
               </TextReveal>
-              <button
+              <Link
+                href="/our-works"
                 className={styles.primaryButton}
-                onClick={() => setIsQuizOpen(true)}
               >
                 View Portfolio
-              </button>
+              </Link>
             </div>
 
             {/* 3 Distinct Floating Cards Spread Across Section */}

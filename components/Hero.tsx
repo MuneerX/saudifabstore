@@ -11,7 +11,7 @@ export function Hero() {
       <ParallaxElement speed={-0.10} className={styles.heroBackground}>
         <video
           className={styles.heroVideo}
-          src="/images/video.mp4"
+          src="/images/video2.mp4"
           autoPlay
           loop
           muted
