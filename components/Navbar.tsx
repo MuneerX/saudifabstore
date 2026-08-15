@@ -134,39 +134,39 @@ const MEGA_MENUS: Record<string, MegaMenuData> = {
     products: [
       {
         name: "Forklift Single-Fork Hook",
-        image: "/images/home/services/forklift2.jpeg",
+        image: "/uploads/3ea54b4f-1709-49b3-be9c-1b4302dc01e9.jpg",
         href: "/products/prod-1",
         isConfigure: true,
         buttonLabel: "Configure",
         subtext: "Heavy duty hook"
       },
       {
+        name: "Double-Fork Crane Hook",
+        image: "/uploads/e8ee6716-6e69-452c-be8e-3144204da037.png",
+        href: "/products/prod-2",
+        buttonLabel: "Shop",
+        subtext: "Dual fork hoist"
+      },
+      {
         name: "Forklift Man Basket",
-        image: "/images/home/category_grid/safety_3.jpeg",
+        image: "/uploads/24cb699e-8ef3-42ad-bad6-fd80de609556.png",
         href: "/products/prod-3",
         buttonLabel: "Shop",
         subtext: "OSHA platform"
       },
       {
+        name: "Crane Boom Jib",
+        image: "/uploads/948c5187-5f11-4c45-9803-693baa5c22f2.png",
+        href: "/products/prod-4",
+        buttonLabel: "Shop",
+        subtext: "Telescopic boom"
+      },
+      {
         name: "Heavy Steel Pallet",
-        image: "/images/home/category_grid/container_3.jpeg",
+        image: "/uploads/b3030289-577c-47e1-aadc-3b49d74266c4.png",
         href: "/products/prod-6",
         buttonLabel: "Shop",
-        subtext: "Fully welded"
-      },
-      {
-        name: "Safety Bollard Post",
-        image: "/images/home/category_grid/safety_3.jpeg",
-        href: "/products/prod-7",
-        buttonLabel: "Shop",
-        subtext: "High visibility"
-      },
-      {
-        name: "Self-Dumping Hopper",
-        image: "/images/home/category_grid/workshop2.jpeg",
-        href: "/products/prod-8",
-        buttonLabel: "Shop",
-        subtext: "Automatic dump"
+        subtext: "Fully welded deck"
       }
     ],
     bottomBar: {
