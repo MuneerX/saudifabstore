@@ -223,7 +223,7 @@ export default function ProductDetailsPage() {
         <div ref={imageColumnRef} className={styles.imageColumn}>
           <div className={styles.imageCard}>
             <Image
-              src={product.images?.[0] || '/home/shirt1.png'}
+              src={(product.images?.[0] && !product.images[0].includes('/uploads/')) ? product.images[0] : '/images/home/services/steel2.jpeg'}
               alt={product.name}
               width={600}
               height={600}
@@ -442,7 +442,7 @@ export default function ProductDetailsPage() {
                   {/* Stock Schematic / Technical Specification Diagram */}
                   <div className={styles.schematicContainer}>
                     <Image
-                      src={product.specImage || product.images[0] || "/images/home/about/steel-raw.jpg"}
+                      src={(product.specImage && !product.specImage.includes('/uploads/')) ? product.specImage : ((product.images?.[0] && !product.images[0].includes('/uploads/')) ? product.images[0] : "/images/home/services/steel2.jpeg")}
                       alt={`${product.name} Technical Specification Diagram`}
                       width={600}
                       height={350}

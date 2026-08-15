@@ -260,7 +260,7 @@ export function Navbar({ hasBorder = false, isLight = false, showMarquee = false
         if (data && data.products && data.products.length > 0) {
           const mapped: ShopProduct[] = data.products.map((p: any) => ({
             name: p.name,
-            image: (p.images && p.images.length > 0) ? p.images[0] : "/images/home/category_grid/container_3.jpeg",
+            image: (p.images && p.images.length > 0 && !p.images[0].includes('/uploads/')) ? p.images[0] : "/images/home/category_grid/container_3.jpeg",
             href: `/products/${p._id || p.id || p.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
             buttonLabel: "Shop",
             subtext: p.category || "Industrial Product"

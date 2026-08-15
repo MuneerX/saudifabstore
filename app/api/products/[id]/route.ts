@@ -39,7 +39,21 @@ export async function GET(
       product = await Product.findOne({}) || INITIAL_PRODUCTS[0];
     }
     
-    return NextResponse.json({ product });
+    const pObj = typeof product.toObject === 'function' ? product.toObject() : { ...product };
+    const fallbackProd = INITIAL_PRODUCTS.find(ip => ip._id === pObj._id || ip.name?.toLowerCase() === (pObj.name || '').toLowerCase());
+    
+    const cleanImages = (pObj.images || []).filter((img: string) => img && !img.includes('/uploads/'));
+    if (cleanImages.length === 0) {
+      pObj.images = (fallbackProd && fallbackProd.images) ? fallbackProd.images : ["/images/home/category_grid/container_3.jpeg"];
+    } else {
+      pObj.images = cleanImages;
+    }
+
+    if (!pObj.specImage || pObj.specImage.includes('/uploads/')) {
+      pObj.specImage = pObj.images[0] || "/images/home/services/steel2.jpeg";
+    }
+
+    return NextResponse.json({ product: pObj });
   } catch (error) {
     console.error('Error fetching product:', error);
     return NextResponse.json(
