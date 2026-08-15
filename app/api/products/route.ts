@@ -63,19 +63,16 @@ export async function GET(request: NextRequest) {
       products = filtered.slice((page - 1) * limit, page * limit);
     }
     
-    // Sanitize image URLs in products to purge any old uploaded or broken asset URLs
+    // Preserve product images and specImage diagrams
     const sanitizedProducts = (products || []).map((p: any) => {
       const pObj = typeof p.toObject === 'function' ? p.toObject() : { ...p };
-      const fallbackProd = INITIAL_PRODUCTS.find(ip => ip._id === pObj._id || ip.name.toLowerCase() === (pObj.name || '').toLowerCase());
+      const fallbackProd = INITIAL_PRODUCTS.find(ip => ip._id === pObj._id || ip.name?.toLowerCase() === (pObj.name || '').toLowerCase());
       
-      const cleanImages = (pObj.images || []).filter((img: string) => img && !img.includes('/uploads/'));
-      if (cleanImages.length === 0) {
+      if (!pObj.images || pObj.images.length === 0) {
         pObj.images = (fallbackProd && fallbackProd.images) ? fallbackProd.images : ["/images/home/category_grid/container_3.jpeg"];
-      } else {
-        pObj.images = cleanImages;
       }
 
-      if (!pObj.specImage || pObj.specImage.includes('/uploads/')) {
+      if (!pObj.specImage) {
         pObj.specImage = pObj.images[0] || "/images/home/services/steel2.jpeg";
       }
       return pObj;

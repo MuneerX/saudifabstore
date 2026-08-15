@@ -42,14 +42,11 @@ export async function GET(
     const pObj = typeof product.toObject === 'function' ? product.toObject() : { ...product };
     const fallbackProd = INITIAL_PRODUCTS.find(ip => ip._id === pObj._id || ip.name?.toLowerCase() === (pObj.name || '').toLowerCase());
     
-    const cleanImages = (pObj.images || []).filter((img: string) => img && !img.includes('/uploads/'));
-    if (cleanImages.length === 0) {
+    if (!pObj.images || pObj.images.length === 0) {
       pObj.images = (fallbackProd && fallbackProd.images) ? fallbackProd.images : ["/images/home/category_grid/container_3.jpeg"];
-    } else {
-      pObj.images = cleanImages;
     }
 
-    if (!pObj.specImage || pObj.specImage.includes('/uploads/')) {
+    if (!pObj.specImage) {
       pObj.specImage = pObj.images[0] || "/images/home/services/steel2.jpeg";
     }
 
