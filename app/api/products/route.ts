@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 import Product from '@/lib/models/Product';
 import connectToDatabase from '@/lib/db/connect';
 import { INITIAL_PRODUCTS } from '@/lib/data/initialProducts';

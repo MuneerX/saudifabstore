@@ -134,7 +134,7 @@ const MEGA_MENUS: Record<string, MegaMenuData> = {
     products: [
       {
         name: "Forklift Single-Fork Hook",
-        image: "/images/home/services/forkliftrepair.jpeg",
+        image: "/images/home/services/forklift2.jpeg",
         href: "/products/prod-1",
         isConfigure: true,
         buttonLabel: "Configure",
@@ -487,12 +487,13 @@ export function Navbar({ hasBorder = false, isLight = false, showMarquee = false
                     <Link key={idx} href={prod.href} className={styles.productCard}>
                       <div className={styles.productImgWrapper}>
                         <Image
-                          src={prod.image}
+                          src={prod.image || "/images/home/category_grid/container_3.jpeg"}
                           alt={prod.name}
-                          fill
+                          width={180}
+                          height={180}
                           unoptimized
                           className={styles.productImg}
-                          sizes="200px"
+                          style={{ objectFit: 'contain', maxHeight: '180px', width: 'auto', margin: '0 auto' }}
                         />
                       </div>
                       <span className={styles.productTitle}>{prod.name}</span>
