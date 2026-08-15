@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import mongoose from 'mongoose';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import Product from '@/lib/models/Product';
 import connectToDatabase from '@/lib/db/connect';
 import { INITIAL_PRODUCTS } from '@/lib/data/initialProducts';
+import { deleteMultipleFromUploadcare } from '@/lib/utils/uploadcare';
 
 // GET /api/admin/products/[id] - Get a single product (admin only)
 export async function GET(
@@ -27,13 +29,15 @@ export async function GET(
     let product = null;
 
     const isMongoId = /^[0-9a-fA-F]{24}$/.test(targetId);
-    if (isMongoId) {
-      product = await Product.findById(targetId);
-    } else {
-      product = await Product.findOne({
-        $or: [{ _id: targetId }, { name: targetId.replace(/-/g, ' ') }]
-      });
-    }
+    const queryId = isMongoId ? new mongoose.Types.ObjectId(targetId) : targetId;
+
+    product = await Product.findOne({
+      $or: [
+        { _id: targetId },
+        { _id: queryId },
+        { name: targetId.replace(/-/g, ' ') }
+      ]
+    });
 
     if (!product) {
       const initial = INITIAL_PRODUCTS.find(p => p._id === targetId || p.name.toLowerCase().replace(/[^a-z0-9]/g, '-') === targetId);
@@ -49,7 +53,17 @@ export async function GET(
       );
     }
 
-    return NextResponse.json({ product });
+    const pObj = typeof product.toObject === 'function' ? product.toObject() : { ...product };
+    const fallbackProd = INITIAL_PRODUCTS.find(ip => ip._id === pObj._id || ip.name?.toLowerCase() === (pObj.name || '').toLowerCase());
+
+    if (pObj.material === undefined || pObj.material === null) pObj.material = fallbackProd?.material || "";
+    if (pObj.dimensions === undefined || pObj.dimensions === null) pObj.dimensions = fallbackProd?.dimensions || "";
+    if (pObj.weight === undefined || pObj.weight === null) pObj.weight = fallbackProd?.weight || "";
+    if (pObj.fabricationDetails === undefined || pObj.fabricationDetails === null) pObj.fabricationDetails = fallbackProd?.fabricationDetails || "";
+    if (pObj.surfacePreparation === undefined || pObj.surfacePreparation === null) pObj.surfacePreparation = fallbackProd?.surfacePreparation || "";
+    if (pObj.testingCertifications === undefined || pObj.testingCertifications === null) pObj.testingCertifications = fallbackProd?.testingCertifications || "";
+
+    return NextResponse.json({ product: pObj });
   } catch (error) {
     console.error('Error fetching product:', error);
     return NextResponse.json(
@@ -77,13 +91,34 @@ export async function DELETE(
     await connectToDatabase();
 
     const resolvedParams = await params;
-    const product = await Product.findByIdAndDelete(resolvedParams.id);
+    const targetId = resolvedParams.id;
+    const isMongoId = /^[0-9a-fA-F]{24}$/.test(targetId);
+    const queryId = isMongoId ? new mongoose.Types.ObjectId(targetId) : targetId;
+
+    const product = await Product.findOneAndDelete({
+      $or: [{ _id: targetId }, { _id: queryId }]
+    });
 
     if (!product) {
       return NextResponse.json(
         { error: 'Product not found' },
         { status: 404 }
       );
+    }
+
+    // Automatically purge deleted product images from Uploadcare CDN
+    const pObj = typeof product.toObject === 'function' ? product.toObject() : product;
+    const imagesToPurge = [
+      ...(pObj.images || []),
+      pObj.specImage,
+      pObj.image
+    ].filter(Boolean) as string[];
+
+    if (imagesToPurge.length > 0) {
+      console.log("Purging admin deleted product images from Uploadcare:", imagesToPurge);
+      deleteMultipleFromUploadcare(imagesToPurge).catch(err => {
+        console.error("Error purging admin deleted product images from Uploadcare:", err);
+      });
     }
 
     return NextResponse.json(

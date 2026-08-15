@@ -18,11 +18,13 @@
   width: 50%;
   background-color: #ffffff;
   display: flex;
-  justify-content: center;
-  align-items: stretch;
-  padding: 16px; /* Clean initial padding around image card */
-  position: relative; /* GSAP ScrollTrigger manages pinning */
-  height: calc(100vh - 68px); /* Initial height below navbar */
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  position: relative;
+  min-height: calc(100vh - 68px);
   z-index: 2;
   box-sizing: border-box;
 }
@@ -30,7 +32,8 @@
 .imageCard {
   width: 100%;
   max-width: none;
-  height: 100%; /* Stretches 100% full screen height */
+  height: calc(100vh - 170px);
+  min-height: 600px;
   background-color: #F8F9FA;
   border: none;
   border-radius: 8px;
@@ -38,7 +41,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 30px;
+  padding: 40px;
   box-sizing: border-box;
 }
 

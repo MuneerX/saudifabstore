@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect, useRef, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import styles from "./page.module.css";
 import apiClient from "@/lib/apiClient";
+import { INITIAL_PRODUCTS } from "@/lib/data/initialProducts";
 
 const CATEGORY_OPTIONS = [
   { value: "Steel Fabrication", label: "Steel Fabrication" },
@@ -43,6 +44,60 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [activeTab, setActiveTab] = useState<'general' | 'specs' | 'details'>('general');
+
+  const isSavedRef = useRef(false);
+  const sessionDraftsRef = useRef<string[]>([]);
+
+  // Automatically purge unsaved draft Uploadcare uploads if page is closed/reloaded
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (!isSavedRef.current && sessionDraftsRef.current.length > 0) {
+        sessionDraftsRef.current.forEach((url) => {
+          if (url.includes("ucarecdn.com")) {
+            fetch("/api/upload", {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ fileUrl: url }),
+              keepalive: true,
+            }).catch(() => {});
+          }
+        });
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      if (!isSavedRef.current && sessionDraftsRef.current.length > 0) {
+        sessionDraftsRef.current.forEach((url) => {
+          if (url.includes("ucarecdn.com")) {
+            fetch("/api/upload", {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ fileUrl: url }),
+              keepalive: true,
+            }).catch(() => {});
+          }
+        });
+      }
+    };
+  }, []);
+
+  const handleCancel = () => {
+    if (!isSavedRef.current && sessionDraftsRef.current.length > 0) {
+      sessionDraftsRef.current.forEach((url) => {
+        if (url.includes("ucarecdn.com")) {
+          fetch("/api/upload", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ fileUrl: url }),
+          }).catch(() => {});
+        }
+      });
+      sessionDraftsRef.current = [];
+    }
+    router.push("/admin/products");
+  };
 
   // Form State
   const [name, setName] = useState("");
@@ -91,12 +146,16 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
           setStock(product.stock !== undefined ? product.stock.toString() : "20");
           setSpecImage(product.specImage || "");
 
-          setMaterial(product.material || "");
-          setDimensions(product.dimensions || "");
-          setWeight(product.weight || "");
-          setFabricationDetails(product.fabricationDetails || "");
-          setSurfacePreparation(product.surfacePreparation || "");
-          setTestingCertifications(product.testingCertifications || "");
+          const fallbackSpec = INITIAL_PRODUCTS.find(
+            (ip) => ip._id === product._id || ip.name?.toLowerCase() === (product.name || '').toLowerCase()
+          );
+
+          setMaterial(product.material || fallbackSpec?.material || "ASTM A36 / S275JR Structural Carbon Steel");
+          setDimensions(product.dimensions || fallbackSpec?.dimensions || "Customizable H: 120 cm x W: 85 cm x D: 60 cm");
+          setWeight(product.weight || fallbackSpec?.weight || "Approx. 35.0 kg");
+          setFabricationDetails(product.fabricationDetails || fallbackSpec?.fabricationDetails || "Precision welded and finished entirely in-house at our Dammam facilities.");
+          setSurfacePreparation(product.surfacePreparation || fallbackSpec?.surfacePreparation || "SA 2.5 Abrasive grit blasted with anti-corrosion epoxy primer and polyurethane finish.");
+          setTestingCertifications(product.testingCertifications || fallbackSpec?.testingCertifications || "100% Mill Test Certified (MTR) & Non-Destructive Weld Inspection (NDT) SASO compliant.");
           
           if (Array.isArray(product.images) && product.images.length > 0) {
             setUploadedImages(product.images);
@@ -146,7 +205,11 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
       });
 
       const uploadedUrls = await Promise.all(uploadPromises);
-      setUploadedImages((prev) => [...prev, ...uploadedUrls]);
+      setUploadedImages((prev) => {
+        const realPrev = prev.filter(img => !img.startsWith('/images/home/'));
+        return [...uploadedUrls, ...realPrev];
+      });
+      sessionDraftsRef.current.push(...uploadedUrls);
     } catch (err) {
       console.error("Error uploading images:", err);
       setError("Failed to upload images. Please try again.");
@@ -157,12 +220,24 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
 
   const handleAddImageUrl = () => {
     if (newImageUrl.trim()) {
-      setUploadedImages((prev) => [...prev, newImageUrl.trim()]);
+      setUploadedImages((prev) => {
+        const realPrev = prev.filter(img => !img.startsWith('/images/home/'));
+        return [newImageUrl.trim(), ...realPrev];
+      });
       setNewImageUrl("");
     }
   };
 
   const removeImage = (index: number) => {
+    const removedUrl = uploadedImages[index];
+    if (removedUrl && (removedUrl.includes("ucarecdn.com") || removedUrl.startsWith("/uploads/"))) {
+      fetch("/api/upload", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fileUrl: removedUrl }),
+      }).catch((err) => console.error("Error deleting removed image from Uploadcare:", err));
+      sessionDraftsRef.current = sessionDraftsRef.current.filter(url => url !== removedUrl);
+    }
     setUploadedImages((prev) => prev.filter((_, i) => i !== index));
   };
 
@@ -225,6 +300,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
       if (!response.ok) throw new Error("Upload failed");
       const data = await response.json();
       setSpecImage(data.fileUrl);
+      sessionDraftsRef.current.push(data.fileUrl);
     } catch (err) {
       console.error("Error uploading specification image:", err);
       setError("Failed to upload specification diagram.");
@@ -248,6 +324,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     try {
       setSaving(true);
       setError(null);
+      isSavedRef.current = true;
 
       const updateData = {
         name: name.trim(),
@@ -305,10 +382,10 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
       <div className={styles.adminControlHeader}>
         <div className={styles.adminHeaderInner}>
           <div className={styles.adminHeaderLeft}>
-            <Link href="/admin/products" className={styles.backLink}>
+            <button type="button" onClick={handleCancel} className={styles.backLink}>
               <ArrowLeft size={16} />
               <span>Back to Products</span>
-            </Link>
+            </button>
             <div className={styles.adminModeBadge}>
               <span className={styles.adminDot} />
               <span>LIVE PRODUCT EDITOR</span>
@@ -316,11 +393,9 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
           </div>
 
           <div className={styles.adminHeaderActions}>
-            <Link href="/admin/products" className={styles.headerCancelLink}>
-              <button type="button" className={styles.headerCancelBtn}>
-                Cancel
-              </button>
-            </Link>
+            <button type="button" onClick={handleCancel} className={styles.headerCancelBtn}>
+              Cancel
+            </button>
 
             <button
               type="submit"
@@ -569,23 +644,6 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                       placeholder="0.00"
                       className={styles.priceInput}
                       required
-                    />
-                  </div>
-                </div>
-
-                <div className={styles.fieldBlock}>
-                  <label htmlFor="product-discount-price" className={styles.fieldLabel}>DISCOUNT PRICE (€)</label>
-                  <div className={styles.priceInputWrapper}>
-                    <span className={styles.currencyPrefix}>€</span>
-                    <input
-                      id="product-discount-price"
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      value={discountPrice}
-                      onChange={(e) => setDiscountPrice(e.target.value)}
-                      placeholder="Optional"
-                      className={styles.priceInput}
                     />
                   </div>
                 </div>

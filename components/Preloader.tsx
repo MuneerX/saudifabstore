@@ -19,19 +19,66 @@ export function Preloader() {
   const subTextRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    if (pathname !== "/") return;
+    let isLocked = false;
 
-    // Lock page scroll during animation sequence
-    document.body.style.overflow = "hidden";
+    const preventScroll = (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    const preventScrollKeys = (e: KeyboardEvent) => {
+      const keys = ['Space', 'PageUp', 'PageDown', 'End', 'Home', 'ArrowUp', 'ArrowDown'];
+      if (keys.includes(e.code) || keys.includes(e.key)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    const unlockScroll = () => {
+      if (!isLocked) return;
+      isLocked = false;
+
+      window.removeEventListener("wheel", preventScroll);
+      window.removeEventListener("touchmove", preventScroll);
+      window.removeEventListener("keydown", preventScrollKeys);
+    };
+
+    if (pathname !== "/") {
+      return;
+    }
+
+    // Pin viewport to top & attach scroll prevention listeners during preloader animation
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+      isLocked = true;
+      window.addEventListener("wheel", preventScroll, { passive: false });
+      window.addEventListener("touchmove", preventScroll, { passive: false });
+      window.addEventListener("keydown", preventScrollKeys, { passive: false });
+    }
+
+    let isHeroReady = false;
+
+    // Function to check if hero video and home page assets are loaded
+    const checkAndResume = () => {
+      if (isHeroReady) return;
+      isHeroReady = true;
+      if (tlRef.current) {
+        tlRef.current.play();
+      }
+    };
+
+    const tlRef = { current: null as gsap.core.Timeline | null };
 
     // Create GSAP Master Timeline for 100% Lockstep Synchronized Reveal
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         onComplete: () => {
-          document.body.style.overflow = "";
+          unlockScroll();
           setIsDone(true);
         }
       });
+
+      tlRef.current = tl;
 
       // ==========================================
       // PHASE 1: Razor-thin Light Beam Line & Dot (First Image)
@@ -47,6 +94,32 @@ export function Preloader() {
         duration: 0.4,
         ease: "back.out(2)",
       }, "-=0.2")
+
+      // PAUSE AT THE END OF PHASE 1 UNTIL HERO VIDEO IS LOADED
+      .addPause("phase1Hold", () => {
+        // Check if hero video is already loaded
+        const video = document.getElementById("hero-video") as HTMLVideoElement | null;
+        if (video) {
+          if (video.readyState >= 3) {
+            checkAndResume();
+          } else {
+            video.addEventListener("canplaythrough", checkAndResume, { once: true });
+            video.addEventListener("canplay", checkAndResume, { once: true });
+            video.addEventListener("loadeddata", checkAndResume, { once: true });
+          }
+        } else {
+          checkAndResume();
+        }
+
+        if (document.readyState === "complete") {
+          setTimeout(checkAndResume, 400);
+        } else {
+          window.addEventListener("load", checkAndResume, { once: true });
+        }
+
+        // Safety fallback: maximum wait 3.5 seconds
+        setTimeout(checkAndResume, 3500);
+      })
 
       // ==========================================
       // PHASE 2: Letterbox Window & Curtain Panels Open in Synchronized Lockstep (Second Image)
@@ -124,9 +197,9 @@ export function Preloader() {
 
     return () => {
       ctx.revert();
-      document.body.style.overflow = "";
+      unlockScroll();
     };
-  }, []);
+  }, [pathname]);
 
   if (pathname !== "/" || isDone) return null;
 

@@ -29,6 +29,9 @@ export interface IProduct extends Document {
 
 const ProductSchema: Schema = new Schema(
   {
+    _id: {
+      type: Schema.Types.Mixed,
+    },
     name: {
       type: String,
       required: true,
@@ -128,6 +131,7 @@ const ProductSchema: Schema = new Schema(
   },
   {
     timestamps: true,
+    strict: false,
   }
 );
 
@@ -135,4 +139,6 @@ if (mongoose.models && mongoose.models.Product) {
   delete mongoose.models.Product;
 }
 
-export default mongoose.model<IProduct>('Product', ProductSchema);
+const Product = mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);
+
+export default Product;

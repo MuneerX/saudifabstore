@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
       products = filtered.slice((page - 1) * limit, page * limit);
     }
     
-    // Preserve product images and specImage diagrams
+    // Preserve product images, specImage diagrams, and technical specification fields
     const sanitizedProducts = (products || []).map((p: any) => {
       const pObj = typeof p.toObject === 'function' ? p.toObject() : { ...p };
       const fallbackProd = INITIAL_PRODUCTS.find(ip => ip._id === pObj._id || ip.name?.toLowerCase() === (pObj.name || '').toLowerCase());
@@ -77,6 +77,14 @@ export async function GET(request: NextRequest) {
       if (!pObj.specImage) {
         pObj.specImage = pObj.images[0] || "/images/home/services/steel2.jpeg";
       }
+
+      if (pObj.material === undefined || pObj.material === null) pObj.material = fallbackProd?.material || "";
+      if (pObj.dimensions === undefined || pObj.dimensions === null) pObj.dimensions = fallbackProd?.dimensions || "";
+      if (pObj.weight === undefined || pObj.weight === null) pObj.weight = fallbackProd?.weight || "";
+      if (pObj.fabricationDetails === undefined || pObj.fabricationDetails === null) pObj.fabricationDetails = fallbackProd?.fabricationDetails || "";
+      if (pObj.surfacePreparation === undefined || pObj.surfacePreparation === null) pObj.surfacePreparation = fallbackProd?.surfacePreparation || "";
+      if (pObj.testingCertifications === undefined || pObj.testingCertifications === null) pObj.testingCertifications = fallbackProd?.testingCertifications || "";
+
       return pObj;
     });
 

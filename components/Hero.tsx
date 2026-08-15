@@ -10,12 +10,14 @@ export function Hero() {
       {/* 1. Cinematic Background with Parallax */}
       <ParallaxElement speed={-0.10} className={styles.heroBackground}>
         <video
+          id="hero-video"
           className={styles.heroVideo}
           src="/images/video2.mp4"
           autoPlay
           loop
           muted
           playsInline
+          preload="auto"
         />
       </ParallaxElement>
 

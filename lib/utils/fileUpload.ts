@@ -1,20 +1,23 @@
-// This is a placeholder for file upload functionality
-// In a real application, you would integrate with a service like Cloudinary or AWS S3
+import { deleteFromUploadcare } from './uploadcare';
 
 export async function uploadFile(file: File): Promise<string> {
-  // This is a mock implementation
-  // In a real app, you would:
-  // 1. Upload the file to a storage service
-  // 2. Return the URL of the uploaded file
-  
-  // For now, we'll just return a placeholder URL
-  return `https://example.com/uploads/${file.name}`;
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch('/api/upload', {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error || 'Failed to upload image to Uploadcare CDN');
+  }
+
+  const data = await response.json();
+  return data.fileUrl;
 }
 
 export async function deleteFile(url: string): Promise<void> {
-  // This is a mock implementation
-  // In a real app, you would:
-  // 1. Delete the file from the storage service
-  
-  console.log(`Deleting file: ${url}`);
+  await deleteFromUploadcare(url);
 }

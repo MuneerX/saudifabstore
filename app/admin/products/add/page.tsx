@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -41,6 +41,60 @@ export default function AddProductPage() {
   const [success, setSuccess] = useState(false);
   const [activeTab, setActiveTab] = useState<'general' | 'specs' | 'details'>('general');
 
+  const isSavedRef = useRef(false);
+  const sessionDraftsRef = useRef<string[]>([]);
+
+  // Automatically purge unsaved draft Uploadcare uploads if page is closed/reloaded
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (!isSavedRef.current && sessionDraftsRef.current.length > 0) {
+        sessionDraftsRef.current.forEach((url) => {
+          if (url.includes("ucarecdn.com")) {
+            fetch("/api/upload", {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ fileUrl: url }),
+              keepalive: true,
+            }).catch(() => {});
+          }
+        });
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      if (!isSavedRef.current && sessionDraftsRef.current.length > 0) {
+        sessionDraftsRef.current.forEach((url) => {
+          if (url.includes("ucarecdn.com")) {
+            fetch("/api/upload", {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ fileUrl: url }),
+              keepalive: true,
+            }).catch(() => {});
+          }
+        });
+      }
+    };
+  }, []);
+
+  const handleCancel = () => {
+    if (!isSavedRef.current && sessionDraftsRef.current.length > 0) {
+      sessionDraftsRef.current.forEach((url) => {
+        if (url.includes("ucarecdn.com")) {
+          fetch("/api/upload", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ fileUrl: url }),
+          }).catch(() => {});
+        }
+      });
+      sessionDraftsRef.current = [];
+    }
+    router.push("/admin/products");
+  };
+
   // Form State
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -61,6 +115,13 @@ export default function AddProductPage() {
   const [dispatchLogistics, setDispatchLogistics] = useState("Direct workshop dispatch & turnkey GCC delivery");
   const [qualityAssurance, setQualityAssurance] = useState("100% Mill test certified & traceable carbon grade");
   const [engineeringSupport, setEngineeringSupport] = useState("Full in-house structural drafting & consultation");
+
+  const [material, setMaterial] = useState("ASTM A36 / S275JR Structural Carbon Steel");
+  const [dimensions, setDimensions] = useState("Customizable H: 120 cm x W: 85 cm x D: 60 cm");
+  const [weight, setWeight] = useState("Approx. 35.0 kg");
+  const [fabricationDetails, setFabricationDetails] = useState("Precision MIG/TIG welded and stress-relieved structural assembly at our Dammam facilities.");
+  const [surfacePreparation, setSurfacePreparation] = useState("SA 2.5 Abrasive grit blasted with anti-corrosion epoxy primer and polyurethane finish.");
+  const [testingCertifications, setTestingCertifications] = useState("100% Mill Test Certified (MTR) & Non-Destructive Weld Inspection (NDT) SASO compliant.");
 
   // Image Upload Handlers
   const handleImageUpload = async (files: FileList | File[]) => {
@@ -87,7 +148,11 @@ export default function AddProductPage() {
       });
 
       const uploadedUrls = await Promise.all(uploadPromises);
-      setUploadedImages((prev) => [...prev, ...uploadedUrls]);
+      setUploadedImages((prev) => {
+        const realPrev = prev.filter(img => !img.startsWith('/images/home/'));
+        return [...uploadedUrls, ...realPrev];
+      });
+      sessionDraftsRef.current.push(...uploadedUrls);
     } catch (err) {
       console.error("Error uploading images:", err);
       setError("Failed to upload images. Please try again.");
@@ -98,12 +163,24 @@ export default function AddProductPage() {
 
   const handleAddImageUrl = () => {
     if (newImageUrl.trim()) {
-      setUploadedImages((prev) => [...prev, newImageUrl.trim()]);
+      setUploadedImages((prev) => {
+        const realPrev = prev.filter(img => !img.startsWith('/images/home/'));
+        return [newImageUrl.trim(), ...realPrev];
+      });
       setNewImageUrl("");
     }
   };
 
   const removeImage = (index: number) => {
+    const removedUrl = uploadedImages[index];
+    if (removedUrl && (removedUrl.includes("ucarecdn.com") || removedUrl.startsWith("/uploads/"))) {
+      fetch("/api/upload", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fileUrl: removedUrl }),
+      }).catch((err) => console.error("Error deleting removed image from Uploadcare:", err));
+      sessionDraftsRef.current = sessionDraftsRef.current.filter(url => url !== removedUrl);
+    }
     setUploadedImages((prev) => prev.filter((_, i) => i !== index));
   };
 
@@ -166,6 +243,7 @@ export default function AddProductPage() {
       if (!response.ok) throw new Error("Upload failed");
       const data = await response.json();
       setSpecImage(data.fileUrl);
+      sessionDraftsRef.current.push(data.fileUrl);
     } catch (err) {
       console.error("Error uploading specification image:", err);
       setError("Failed to upload specification diagram.");
@@ -189,16 +267,22 @@ export default function AddProductPage() {
     try {
       setIsSubmitting(true);
       setError(null);
+      isSavedRef.current = true;
 
       const productPayload = {
         name: name.trim(),
         description: description.trim() || undefined,
         category,
         price: parseFloat(price) || 0,
-        discountPrice: discountPrice ? parseFloat(discountPrice) : undefined,
         stock: parseInt(stock) || 0,
         images: uploadedImages.length > 0 ? uploadedImages : ["/images/home/category_grid/container_3.jpeg"],
         specImage: specImage.trim(),
+        material: material.trim(),
+        dimensions: dimensions.trim(),
+        weight: weight.trim(),
+        fabricationDetails: fabricationDetails.trim(),
+        surfacePreparation: surfacePreparation.trim(),
+        testingCertifications: testingCertifications.trim(),
       };
 
       await apiClient.createAdminProduct(productPayload);
@@ -223,10 +307,10 @@ export default function AddProductPage() {
       <div className={styles.adminControlHeader}>
         <div className={styles.adminHeaderInner}>
           <div className={styles.adminHeaderLeft}>
-            <Link href="/admin/products" className={styles.backLink}>
+            <button type="button" onClick={handleCancel} className={styles.backLink}>
               <ArrowLeft size={16} />
               <span>Back to Products</span>
-            </Link>
+            </button>
             <div className={styles.adminModeBadge}>
               <span className={styles.adminDot} />
               <span>ADD NEW PRODUCT</span>
@@ -234,11 +318,9 @@ export default function AddProductPage() {
           </div>
 
           <div className={styles.adminHeaderActions}>
-            <Link href="/admin/products" className={styles.headerCancelLink}>
-              <button type="button" className={styles.headerCancelBtn}>
-                Cancel
-              </button>
-            </Link>
+            <button type="button" onClick={handleCancel} className={styles.headerCancelBtn}>
+              Cancel
+            </button>
 
             <button
               type="submit"
@@ -492,23 +574,6 @@ export default function AddProductPage() {
                 </div>
 
                 <div className={styles.fieldBlock}>
-                  <label htmlFor="add-discount-price" className={styles.fieldLabel}>DISCOUNT PRICE (€)</label>
-                  <div className={styles.priceInputWrapper}>
-                    <span className={styles.currencyPrefix}>€</span>
-                    <input
-                      id="add-discount-price"
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      value={discountPrice}
-                      onChange={(e) => setDiscountPrice(e.target.value)}
-                      placeholder="Optional"
-                      className={styles.priceInput}
-                    />
-                  </div>
-                </div>
-
-                <div className={styles.fieldBlock}>
                   <label htmlFor="add-product-stock" className={styles.fieldLabel}>UNITS IN STOCK</label>
                   <input
                     id="add-product-stock"
@@ -660,11 +725,77 @@ export default function AddProductPage() {
               <div className={styles.tabContentBlock}>
                 <div className={styles.specsTabSectionLayout}>
                   <div className={styles.specsLeftCol}>
-                    <h3 className={styles.specsSectionTitle}>Technical Diagram</h3>
-                    <p className={styles.specSubtext}>Upload a technical drawing, CAD diagram, or specification schematic for this product.</p>
+                    <h3 className={styles.specsSectionTitle}>Technical Specifications</h3>
+                    <p className={styles.specSubtext}>Configure Material, Dimensions, Weight, Fabrication, Surface Prep, and Testing Certifications.</p>
                   </div>
                   <div className={styles.specsRightCol}>
-                    <div className={styles.specImageEditorBox}>
+                    <div className={styles.specsTable}>
+                      <div className={styles.specsTableRow}>
+                        <div className={styles.specsTableLabel}>MATERIAL</div>
+                        <input
+                          type="text"
+                          value={material}
+                          onChange={(e) => setMaterial(e.target.value)}
+                          placeholder="e.g. ASTM A36 Structural Carbon Steel / Grade A Hardwood"
+                          className={styles.tableInput}
+                        />
+                      </div>
+                      <div className={styles.specsTableRow}>
+                        <div className={styles.specsTableLabel}>DIMENSIONS</div>
+                        <input
+                          type="text"
+                          value={dimensions}
+                          onChange={(e) => setDimensions(e.target.value)}
+                          placeholder="e.g. H: 120 cm x W: 85 cm x D: 60 cm (Customizable)"
+                          className={styles.tableInput}
+                        />
+                      </div>
+                      <div className={styles.specsTableRow}>
+                        <div className={styles.specsTableLabel}>WEIGHT</div>
+                        <input
+                          type="text"
+                          value={weight}
+                          onChange={(e) => setWeight(e.target.value)}
+                          placeholder="e.g. Approx. 28 kg"
+                          className={styles.tableInput}
+                        />
+                      </div>
+                      <div className={styles.specsTableRow} style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '8px' }}>
+                        <div className={styles.specsTableLabel}>FABRICATION DETAILS</div>
+                        <textarea
+                          value={fabricationDetails}
+                          onChange={(e) => setFabricationDetails(e.target.value)}
+                          placeholder="e.g. Precision welded and finished entirely in-house at our Dammam facilities..."
+                          rows={3}
+                          className={styles.descriptionTextarea}
+                          style={{ width: '100%' }}
+                        />
+                      </div>
+                      <div className={styles.specsTableRow} style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '8px' }}>
+                        <div className={styles.specsTableLabel}>SURFACE PREPARATION</div>
+                        <textarea
+                          value={surfacePreparation}
+                          onChange={(e) => setSurfacePreparation(e.target.value)}
+                          placeholder="e.g. Treated with commercial abrasive grit blasting (SA 2.5 profile)..."
+                          rows={3}
+                          className={styles.descriptionTextarea}
+                          style={{ width: '100%' }}
+                        />
+                      </div>
+                      <div className={styles.specsTableRow} style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '8px' }}>
+                        <div className={styles.specsTableLabel}>TESTING &amp; CERTIFICATIONS</div>
+                        <textarea
+                          value={testingCertifications}
+                          onChange={(e) => setTestingCertifications(e.target.value)}
+                          placeholder="e.g. Fully tested and certified for safety compliance..."
+                          rows={3}
+                          className={styles.descriptionTextarea}
+                          style={{ width: '100%' }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className={styles.specImageEditorBox} style={{ marginTop: '24px' }}>
                       <div className={styles.specSchematicWrapper}>
                         <Image
                           src={specImage || uploadedImages[0] || "/images/home/about/steel-raw.jpg"}

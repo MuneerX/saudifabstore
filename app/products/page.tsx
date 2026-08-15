@@ -64,7 +64,7 @@ function ProductsPage() {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 2000 });
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
   const [isDragging, setIsDragging] = useState<'min' | 'max' | null>(null);
   const [sliderRef, setSliderRef] = useState<HTMLDivElement | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -97,6 +97,7 @@ function ProductsPage() {
     if (categoryParam) {
       const categoryMapping: { [key: string]: string } = {
         'forklift': 'Forklift Attachments',
+        'forklift-repair': 'Forklift Attachments',
         'forklift attachments': 'Forklift Attachments',
         'lifting-handling': 'Forklift Attachments',
         'warehouse': 'Warehouse & Logistics',
@@ -111,14 +112,22 @@ function ProductsPage() {
         'safety': 'Safety Equipment',
         'safety equipment': 'Safety Equipment',
         'safety-protection': 'Safety Equipment',
+        'general-safety-trading': 'Safety Equipment',
         'hardware': 'Hardware & Piping',
         'hardware & piping': 'Hardware & Piping',
+        'steel-fabrication': 'Hardware & Piping',
+        'steel': 'Hardware & Piping',
+        'industrial-painting-coatings': 'Warehouse & Logistics',
+        'blasting-sandblasting': 'Hardware & Piping',
+        'smart-woodworks': 'Warehouse & Logistics',
+        'paper-plastic-packaging': 'Warehouse & Logistics',
+        'protorc-torquing-bolting': 'Lifting Equipment',
         'lifting': 'Lifting Equipment',
         'lifting equipment': 'Lifting Equipment',
         'chemical': 'Safety & Chemical',
         'safety & chemical': 'Safety & Chemical'
       };
-      const mappedCategory = categoryMapping[categoryParam.toLowerCase()] || categoryParam;
+      const mappedCategory = categoryMapping[categoryParam.toLowerCase()];
       if (mappedCategory) {
         setSelectedTypes([mappedCategory]);
       }
@@ -133,7 +142,7 @@ function ProductsPage() {
       if (selectedColors.length > 0) params.color = selectedColors.join(',');
       if (selectedSizes.length > 0) params.size = selectedSizes.join(',');
       if (priceRange.min > 0) params.minPrice = priceRange.min;
-      if (priceRange.max < 2000) params.maxPrice = priceRange.max;
+      if (priceRange.max < 10000) params.maxPrice = priceRange.max;
 
       fetchProducts(params);
     }

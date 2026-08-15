@@ -11,6 +11,12 @@ export interface ProductData {
   isFeatured: boolean;
   rating: number;
   badge?: string;
+  material?: string;
+  dimensions?: string;
+  weight?: string;
+  fabricationDetails?: string;
+  surfacePreparation?: string;
+  testingCertifications?: string;
 }
 
 export const INITIAL_PRODUCTS: ProductData[] = [
@@ -21,11 +27,18 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     price: 450.00,
     category: "Forklift Attachments",
     brand: "Brooq Al Khalij",
-    images: ["/images/home/services/forkliftrepair.jpeg"],
+    images: ["/uploads/3ea54b4f-1709-49b3-be9c-1b4302dc01e9.jpg", "/uploads/5ae305c6-2e82-4e4d-9293-6231391b1f2b.png"],
+    specImage: "/uploads/1f68fdc3-06f4-4406-9001-92e3112c0a69.png",
     stock: 25,
     isFeatured: true,
     rating: 4.9,
-    badge: "BESTSELLER"
+    badge: "BESTSELLER",
+    material: "ASTM A572 Grade 50 High-Tensile Forged Steel",
+    dimensions: "Fork Pocket: 180 mm x 65 mm | Overall Length: 450 mm",
+    weight: "Approx. 18.5 kg",
+    fabricationDetails: "Heavy-duty reinforced forged steel pocket with safety locking pin and 360-degree swivel alloy safety hook.",
+    surfacePreparation: "High-visibility industrial safety yellow powder coat over SA 2.5 grit blasted steel.",
+    testingCertifications: "Proof load tested to 1.5x SWL (2,000 kg capacity). ISO 9001:2015 & SASO certified."
   },
   {
     _id: "prod-2",
@@ -34,11 +47,18 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     price: 850.00,
     category: "Forklift Attachments",
     brand: "Brooq Al Khalij",
-    images: ["/images/home/services/forkliftrepair.jpeg"],
+    images: ["/uploads/e8ee6716-6e69-452c-be8e-3144204da037.png", "/uploads/1240adb3-c5e1-4bac-997f-adaba951dab5.jpeg"],
+    specImage: "/uploads/fc5f142b-cbc2-439d-a683-230d845dd387.jpeg",
     stock: 18,
     isFeatured: true,
     rating: 4.8,
-    badge: "POPULAR"
+    badge: "POPULAR",
+    material: "Heavy Gauge Structural Carbon Steel & Drop-Forged Swivel Hook",
+    dimensions: "Span: 920 mm | Fork Pockets: 180 mm x 65 mm (Dual Fit)",
+    weight: "Approx. 34.0 kg",
+    fabricationDetails: "Dual-pocket welded structural crossbeam designed for balanced overhead load distribution.",
+    surfacePreparation: "Commercial abrasive grit blast (SA 2.5 profile) with heavy duty polyurethane finish.",
+    testingCertifications: "Weld connections non-destructively tested (NDT). Rated for 4,000 kg SWL."
   },
   {
     _id: "prod-3",
@@ -47,11 +67,18 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     price: 1200.00,
     category: "Forklift Attachments",
     brand: "Brooq Al Khalij",
-    images: ["/images/home/category_grid/safety_3.jpeg"],
+    images: ["/uploads/24cb699e-8ef3-42ad-bad6-fd80de609556.png", "/images/home/category_grid/safety_3.jpeg"],
+    specImage: "/images/home/services/steel.jpeg",
     stock: 12,
     isFeatured: true,
     rating: 5.0,
-    badge: "CERTIFIED"
+    badge: "CERTIFIED",
+    material: "Tubular Steel Frame with Diamond Expanded Mesh Floor",
+    dimensions: "W: 1200 mm x D: 1000 mm x H: 1100 mm Guardrail",
+    weight: "Approx. 98.0 kg",
+    fabricationDetails: "Fully enclosed safety guardrails, inward-opening self-locking gate, integrated harness lanyard anchor points.",
+    surfacePreparation: "Dual coat safety orange epoxy primer and weather-resistant enamel topcoat.",
+    testingCertifications: "OSHA & SASO Compliant | Certified 300 kg Load Capacity (2 Workers + Tools)."
   },
   {
     _id: "prod-4",
@@ -60,11 +87,18 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     price: 1450.00,
     category: "Forklift Attachments",
     brand: "Brooq Al Khalij",
-    images: ["/images/home/category_grid/lifting_3.jpeg"],
+    images: ["/uploads/948c5187-5f11-4c45-9803-693baa5c22f2.png", "/uploads/9869cea5-3e3a-4e3e-85f2-6bfd06813e16.jpg"],
+    specImage: "/uploads/1eac9bbb-b9d3-4e5e-b97b-465d68fcf86a.jpeg",
     stock: 10,
     isFeatured: true,
     rating: 4.9,
-    badge: "LIMITED"
+    badge: "LIMITED",
+    material: "High-Yield Structural Hollow Section Steel",
+    dimensions: "Retracted: 2100 mm | Extended: 3600 mm",
+    weight: "Approx. 135.0 kg",
+    fabricationDetails: "Multi-position telescopic inner boom with quick-release locking pin and heavy swivel hook attachment.",
+    surfacePreparation: "SA 2.5 Grit Blast, Zinc-Rich Epoxy Primer & Safety Yellow Polyurethane finish.",
+    testingCertifications: "Certificated Load Chart supplied for 2,500 kg to 500 kg reach SWL."
   },
   {
     _id: "prod-5",
@@ -73,11 +107,18 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     price: 320.00,
     category: "Forklift Attachments",
     brand: "Brooq Al Khalij",
-    images: ["/images/home/category_grid/transport2.jpeg"],
+    images: ["/uploads/ecc09ee4-9d8d-4e08-b971-0c80771ac979.png", "/images/home/category_grid/transport2.jpeg"],
+    specImage: "/uploads/0ba1bc16-3390-459b-8aa0-7a39e0a75b53.jpeg",
     stock: 30,
     isFeatured: true,
     rating: 4.7,
-    badge: "NEW"
+    badge: "NEW",
+    material: "Heavy Wall Seamless Channel Steel",
+    dimensions: "Length: 2100 mm | Fits Tine Width: up to 130 mm",
+    weight: "Approx. 52.0 kg per pair",
+    fabricationDetails: "Fully welded box section sleeves with heel retaining pin for secure retention on original fork tines.",
+    surfacePreparation: "Durable black industrial powder coat finish.",
+    testingCertifications: "Manufactured in accordance with ISO 2328 standards."
   },
   {
     _id: "prod-6",
@@ -86,11 +127,18 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     price: 280.00,
     category: "Warehouse & Logistics",
     brand: "Brooq Al Khalij",
-    images: ["/images/home/category_grid/container_3.jpeg"],
+    images: ["/uploads/b3030289-577c-47e1-aadc-3b49d74266c4.png", "/images/home/category_grid/container_3.jpeg"],
+    specImage: "/images/home/services/steel2.jpeg",
     stock: 50,
     isFeatured: true,
     rating: 4.9,
-    badge: "BESTSELLER"
+    badge: "BESTSELLER",
+    material: "Formed Carbon Steel Deck & Reinforced Runner Tubes",
+    dimensions: "W: 1200 mm x D: 1000 mm x H: 150 mm",
+    weight: "Approx. 42.0 kg",
+    fabricationDetails: "4-way forklift and pallet truck entry design with heavy duty perimeter rim channel.",
+    surfacePreparation: "Hot-dip galvanized coating for maximum corrosion resistance in outdoor storage.",
+    testingCertifications: "Static Load Capacity: 4,000 kg | Dynamic Load Capacity: 1,500 kg."
   },
   {
     _id: "prod-7",
@@ -99,11 +147,18 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     price: 190.00,
     category: "Safety Equipment",
     brand: "Brooq Al Khalij",
-    images: ["/images/home/category_grid/safety_3.jpeg"],
+    images: ["/images/home/category_grid/safety_3.jpeg", "/images/home/services/general2.jpeg"],
+    specImage: "/images/home/services/steel.jpeg",
     stock: 40,
     isFeatured: true,
     rating: 4.8,
-    badge: "SAFETY GRADE"
+    badge: "SAFETY GRADE",
+    material: "Schedule 40 Heavy Structural Steel Pipe",
+    dimensions: "Height: 1100 mm | Outer Diameter: 114 mm | Base Plate: 200 mm x 200 mm",
+    weight: "Approx. 16.0 kg",
+    fabricationDetails: "Heavy steel base flange plate with 4 pre-drilled anchor bolt holes and welded domed top cap.",
+    surfacePreparation: "High visibility yellow powder coat with black 3M reflective tape stripes.",
+    testingCertifications: "Designed to withstand low-speed vehicle impacts up to 5,000 kg."
   },
   {
     _id: "prod-8",
@@ -112,11 +167,18 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     price: 980.00,
     category: "Warehouse & Logistics",
     brand: "Brooq Al Khalij",
-    images: ["/images/home/category_grid/workshop2.jpeg"],
+    images: ["/uploads/1eecdedc-cd94-4183-ab5b-3010a00e0ef1.png", "/images/home/category_grid/workshop2.jpeg"],
+    specImage: "/images/home/services/steel2.jpeg",
     stock: 15,
     isFeatured: true,
     rating: 4.9,
-    badge: "HEAVY DUTY"
+    badge: "HEAVY DUTY",
+    material: "3 mm Reinforced Carbon Steel Plate & Heavy Structural Channel Base",
+    dimensions: "Volume: 1.0 m³ | Length: 1550 mm x Width: 1050 mm x Height: 980 mm",
+    weight: "Approx. 145.0 kg",
+    fabricationDetails: "Automatic bumper-release tipping mechanism with manual safety latch chain for controlled dumping.",
+    surfacePreparation: "Abrasive grit blasted and coated with heavy duty industrial enamel topcoat.",
+    testingCertifications: "Rated SWL Capacity: 1,500 kg | TUV & SASO certified tipping mechanism."
   },
   {
     _id: "prod-9",
@@ -125,11 +187,18 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     price: 340.00,
     category: "Warehouse & Logistics",
     brand: "Brooq Al Khalij",
-    images: ["/images/home/category_grid/transport2.jpeg"],
+    images: ["/uploads/9e04c6cb-0f40-4191-b51d-ac83348863e4.png", "/images/home/category_grid/transport2.jpeg"],
+    specImage: "/images/home/services/steel.jpeg",
     stock: 20,
     isFeatured: false,
     rating: 4.6,
-    badge: "POPULAR"
+    badge: "POPULAR",
+    material: "Heavy Gauge Cold Rolled Sheet Steel Shelves & Tubular Corner Posts",
+    dimensions: "W: 900 mm x D: 500 mm x H: 950 mm",
+    weight: "Approx. 38.0 kg",
+    fabricationDetails: "Deep lip anti-spill trays with ergonomic tubular push handle and 4 industrial polyurethane casters (2 swivel with brakes).",
+    surfacePreparation: "Textured scratch-resistant electrostatic powder coating.",
+    testingCertifications: "Maximum Total Load Rating: 450 kg (150 kg per shelf level)."
   },
   {
     _id: "prod-10",
@@ -138,11 +207,18 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     price: 1100.00,
     category: "Lifting Equipment",
     brand: "Brooq Al Khalij",
-    images: ["/images/home/category_grid/lifting_3.jpeg"],
+    images: ["/uploads/623d033a-0f03-412a-b56a-2285f722a810.png", "/images/home/category_grid/lifting_3.jpeg"],
+    specImage: "/uploads/79b78c3e-960e-4a43-8bc2-b0578d8f5a8e.png",
     stock: 14,
     isFeatured: true,
     rating: 5.0,
-    badge: "CERTIFIED"
+    badge: "CERTIFIED",
+    material: "Heavy Structural Steel Frame & Reinforced Wire Mesh Sides",
+    dimensions: "Length: 1500 mm x Width: 1200 mm x Side Mesh Height: 800 mm",
+    weight: "Approx. 165.0 kg",
+    fabricationDetails: "4 corner lifting pad eyes welded to main structural uprights, drop-down loading gate with dual safety pins.",
+    surfacePreparation: "SA 2.5 Abrasive blast profile with high-durability epoxy safety yellow coating.",
+    testingCertifications: "Proof tested to 2.0x SWL (Rated SWL: 2,000 kg). Full NDT & SASO lifting certificate."
   },
   {
     _id: "prod-11",
@@ -151,11 +227,18 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     price: 650.00,
     category: "Safety Equipment",
     brand: "Brooq Al Khalij",
-    images: ["/images/home/services/chemical.jpeg"],
+    images: ["/images/home/services/chemical.jpeg", "/images/home/category_grid/chemical3.jpeg"],
+    specImage: "/uploads/058abd83-17f8-4fa1-950f-1681b2535ed3.png",
     stock: 22,
     isFeatured: true,
     rating: 4.9,
-    badge: "SAFETY GRADE"
+    badge: "SAFETY GRADE",
+    material: "Grade 304 Stainless Steel Pipework & High-Impact ABS Spray Heads",
+    dimensions: "Overall Height: 2300 mm | Floor Flange Base: 200 mm Diameter",
+    weight: "Approx. 22.5 kg",
+    fabricationDetails: "Pull-rod operated drench shower head and stainless steel foot treadle + hand push plate for eyewash bowl.",
+    surfacePreparation: "Polished stainless steel finish with chemical resistant safety yellow ABS components.",
+    testingCertifications: "ANSI Z358.1 & EN 15154 Compliant | Flow Rate: 76 L/min shower, 11.5 L/min eyewash."
   },
   {
     _id: "prod-12",
@@ -164,11 +247,18 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     price: 145.00,
     category: "Hardware & Piping",
     brand: "Brooq Al Khalij",
-    images: ["/images/home/services/steel.jpeg"],
+    images: ["/uploads/ebf4945d-a426-4772-bd50-f897ed90ac8b.png", "/images/home/category_grid/pipe4.jpeg"],
+    specImage: "/images/home/services/steel2.jpeg",
     stock: 60,
     isFeatured: false,
     rating: 4.7,
-    badge: "IN STOCK"
+    badge: "IN STOCK",
+    material: "Heavy Forged Carbon Steel Halves & High-Tensile Grade 8.8 Fasteners",
+    dimensions: "Nominal Pipe Diameter: 4 inch (114.3 mm) | Plate Thickness: 12 mm",
+    weight: "Approx. 8.2 kg",
+    fabricationDetails: "Precision machined dual half-pipe collars with heavy mounting base plate for rigid vibration damping.",
+    surfacePreparation: "Hot-dip galvanized to ASTM A123 specification or fluoropolymer PTFE coating option.",
+    testingCertifications: "Designed for high-vibration drilling rig manifolds and ASME B31.3 piping installations."
   },
   {
     _id: "prod-13",
@@ -177,11 +267,18 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     price: 45.00,
     category: "Safety Equipment",
     brand: "Brooq Al Khalij",
-    images: ["/images/home/category_grid/safety_3.jpeg"],
+    images: ["/uploads/0789f391-5211-4cca-a005-68636b78f3aa.jpeg", "/images/home/category_grid/safety_3.jpeg"],
+    specImage: "/images/home/services/steel.jpeg",
     stock: 100,
     isFeatured: false,
     rating: 4.8,
-    badge: "BESTSELLER"
+    badge: "BESTSELLER",
+    material: "Glass Reinforced Polymer (GRP) Composite with Embedded Silicon Carbide Grit",
+    dimensions: "Length: 750 mm | Top Depth: 55 mm | Nose Drop: 55 mm | Thickness: 4 mm",
+    weight: "Approx. 0.9 kg per piece",
+    fabricationDetails: "Pre-drilled countersunk fixing holes for quick mechanical installation over steel grating or concrete steps.",
+    surfacePreparation: "UV stabilized safety yellow nose with high-friction coarse silicon grit top surface.",
+    testingCertifications: "BS 7976-2 Extremely Low Slip Potential rating in wet and oily environments."
   },
   {
     _id: "prod-14",
@@ -190,11 +287,18 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     price: 580.00,
     category: "Safety & Chemical",
     brand: "Brooq Al Khalij",
-    images: ["/images/home/services/chemical.jpeg"],
+    images: ["/uploads/49dc8447-7b24-4eaf-b051-7700b2145207.png", "/images/home/category_grid/chemical3.jpeg"],
+    specImage: "/uploads/0efa03fc-31d7-46dc-9d21-86011f0b1798.png",
     stock: 18,
     isFeatured: true,
     rating: 4.9,
-    badge: "ECO-SAFE"
+    badge: "ECO-SAFE",
+    material: "100% Virgin UV-Stabilized Polyethylene Sump & Hot-Dip Galvanized Removable Steel Grate",
+    dimensions: "W: 1300 mm x D: 1300 mm x H: 300 mm | Sump Capacity: 230 Liters",
+    weight: "Approx. 44.0 kg",
+    fabricationDetails: "Seamless rotationally molded spill sump with 2-way forklift pockets and easy-clean drain plug.",
+    surfacePreparation: "Chemical resistant yellow polyethylene body with heavy anti-slip steel floor mesh.",
+    testingCertifications: "Exceeds EPA 40 CFR 264.175 spill containment regulations for 4 x 205L chemical drums."
   },
   {
     _id: "prod-15",
@@ -203,10 +307,17 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     price: 85.00,
     category: "Hardware & Piping",
     brand: "Brooq Al Khalij",
-    images: ["/images/home/services/stone.jpeg"],
+    images: ["/uploads/bf6acb7a-bbaf-49a5-975f-b0c663e82e8e.png", "/images/home/services/stone.jpeg"],
+    specImage: "/images/home/services/steel.jpeg",
     stock: 80,
     isFeatured: false,
     rating: 4.7,
-    badge: "PREMIUM"
+    badge: "PREMIUM",
+    material: "6 mm Structural Steel Plate & 50x50x5 mm Steel Angle Arm",
+    dimensions: "Horizontal Reach: 450 mm | Vertical Wall Leg: 250 mm | Width: 60 mm",
+    weight: "Approx. 3.5 kg per bracket",
+    fabricationDetails: "Precision MIG welded gusseted cantilever arm with 3 wall anchor holes and flush counter mounting slots.",
+    surfacePreparation: "SA 2.5 Abrasive blast with durable matte black industrial powder coat finish.",
+    testingCertifications: "Safe Working Load: 250 kg per bracket pair when anchored into solid masonry or structural steel."
   }
 ];

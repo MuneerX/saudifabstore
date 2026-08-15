@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import mongoose from 'mongoose';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import Product from '@/lib/models/Product';
 import connectToDatabase from '@/lib/db/connect';
 import { INITIAL_PRODUCTS } from '@/lib/data/initialProducts';
+import { deleteMultipleFromUploadcare } from '@/lib/utils/uploadcare';
 
 // GET /api/admin/products - Get all products with filters (admin only)
 export async function GET(request: NextRequest) {
@@ -84,7 +86,13 @@ export async function GET(request: NextRequest) {
         stock: p.stock,
         isFeatured: p.isFeatured,
         rating: p.rating,
-        badge: p.badge
+        badge: p.badge,
+        material: p.material,
+        dimensions: p.dimensions,
+        weight: p.weight,
+        fabricationDetails: p.fabricationDetails,
+        surfacePreparation: p.surfacePreparation,
+        testingCertifications: p.testingCertifications,
       }));
 
       return NextResponse.json({
@@ -94,9 +102,23 @@ export async function GET(request: NextRequest) {
         total: fallbackList.length
       });
     }
-    
+
+    const sanitizedProducts = (products || []).map((p: any) => {
+      const pObj = typeof p.toObject === 'function' ? p.toObject() : { ...p };
+      const fallbackProd = INITIAL_PRODUCTS.find(ip => ip._id === pObj._id || ip.name?.toLowerCase() === (pObj.name || '').toLowerCase());
+
+      if (pObj.material === undefined || pObj.material === null) pObj.material = fallbackProd?.material || "";
+      if (pObj.dimensions === undefined || pObj.dimensions === null) pObj.dimensions = fallbackProd?.dimensions || "";
+      if (pObj.weight === undefined || pObj.weight === null) pObj.weight = fallbackProd?.weight || "";
+      if (pObj.fabricationDetails === undefined || pObj.fabricationDetails === null) pObj.fabricationDetails = fallbackProd?.fabricationDetails || "";
+      if (pObj.surfacePreparation === undefined || pObj.surfacePreparation === null) pObj.surfacePreparation = fallbackProd?.surfacePreparation || "";
+      if (pObj.testingCertifications === undefined || pObj.testingCertifications === null) pObj.testingCertifications = fallbackProd?.testingCertifications || "";
+
+      return pObj;
+    });
+
     return NextResponse.json({
-      products,
+      products: sanitizedProducts,
       totalPages: Math.ceil(total / limit) || 1,
       currentPage: page,
       total
@@ -145,6 +167,12 @@ export async function POST(request: NextRequest) {
         ? body.images
         : (body.image ? [body.image] : ['/images/home/category_grid/container_3.jpeg']),
       specImage: body.specImage || '',
+      material: body.material || '',
+      dimensions: body.dimensions || '',
+      weight: body.weight || '',
+      fabricationDetails: body.fabricationDetails || '',
+      surfacePreparation: body.surfacePreparation || '',
+      testingCertifications: body.testingCertifications || '',
       tags: body.tags || [],
       sizes: body.sizes || [],
       colors: body.colors || [],
@@ -208,22 +236,25 @@ export async function PUT(request: NextRequest) {
     
     await connectToDatabase();
     
-    let product;
+    let product = null;
+    let oldProduct = null;
     const isMongoId = /^[0-9a-fA-F]{24}$/.test(productId);
-    
-    if (isMongoId) {
-      product = await Product.findByIdAndUpdate(
-        productId,
-        updateData,
-        { new: true, runValidators: true }
-      );
-    } else {
-      product = await Product.findOneAndUpdate(
-        { $or: [{ _id: productId }, { name: updateData.name }] },
-        updateData,
-        { new: true, runValidators: true, upsert: true }
-      );
-    }
+    const queryId = isMongoId ? new mongoose.Types.ObjectId(productId) : productId;
+
+    const queryFilter = {
+      $or: [
+        { _id: productId },
+        { _id: queryId },
+        ...(updateData.name ? [{ name: updateData.name }] : [])
+      ]
+    };
+
+    oldProduct = await Product.findOne(queryFilter);
+    await Product.collection.updateOne(
+      queryFilter,
+      { $set: updateData }
+    );
+    product = await Product.findOne(queryFilter);
     
     if (!product) {
       return NextResponse.json(
@@ -231,11 +262,26 @@ export async function PUT(request: NextRequest) {
         { status: 404 }
       );
     }
+
+    // Automatically purge replaced/removed images from Uploadcare CDN
+    if (oldProduct) {
+      const oldImages = [...(oldProduct.images || []), oldProduct.specImage].filter(Boolean) as string[];
+      const newImages = [...(updateData.images || []), updateData.specImage].filter(Boolean) as string[];
+      const removedImages = oldImages.filter(img => !newImages.includes(img));
+
+      if (removedImages.length > 0) {
+        deleteMultipleFromUploadcare(removedImages).catch(err => {
+          console.error("Error purging replaced images from Uploadcare:", err);
+        });
+      }
+    }
     
+    const updatedObj = typeof product.toObject === 'function' ? product.toObject() : { ...product };
+
     return NextResponse.json(
       { 
         message: 'Product updated successfully',
-        product
+        product: updatedObj
       }
     );
   } catch (error) {
@@ -270,13 +316,33 @@ export async function DELETE(request: NextRequest) {
     
     await connectToDatabase();
     
-    const product = await Product.findByIdAndDelete(productId);
+    const isMongoId = mongoose.Types.ObjectId.isValid(productId);
+    const queryId = isMongoId ? new mongoose.Types.ObjectId(productId) : productId;
+
+    const product = await Product.findOneAndDelete({
+      $or: [{ _id: productId }, { _id: queryId }]
+    });
     
     if (!product) {
       return NextResponse.json(
         { error: 'Product not found' },
         { status: 404 }
       );
+    }
+
+    // Automatically purge deleted product images from Uploadcare CDN
+    const pObj = typeof product.toObject === 'function' ? product.toObject() : product;
+    const imagesToPurge = [
+      ...(pObj.images || []),
+      pObj.specImage,
+      pObj.image
+    ].filter(Boolean) as string[];
+
+    if (imagesToPurge.length > 0) {
+      console.log("Purging deleted product images from Uploadcare:", imagesToPurge);
+      deleteMultipleFromUploadcare(imagesToPurge).catch(err => {
+        console.error("Error purging deleted product images from Uploadcare:", err);
+      });
     }
     
     return NextResponse.json(
