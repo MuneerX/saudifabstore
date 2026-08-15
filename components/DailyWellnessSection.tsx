@@ -261,7 +261,7 @@ export function DailyWellnessSection() {
 
           {/* Background Image inside Card */}
           <div className={styles.imageTrigger}>
-            <ParallaxElement speed={-0.10} className={styles.imageTarget} style={{ height: "125%", top: "-12.5%", width: "100%", position: "absolute" }}>
+            <ParallaxElement speed={-0.10} className={styles.imageTarget} style={{ height: "150%", top: "-30%", width: "100%", position: "absolute" }}>
               <Image
                 src="/images/home/services/service_bg_3.png"
                 alt="Brooq Al Khalij Services background"
