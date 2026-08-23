@@ -84,7 +84,7 @@
   line-height: 1.15;
   letter-spacing: -0.96px;
   font-weight: 400;
-  font-family: "Host Grotesk", "Plus Jakarta Sans", Arial, sans-serif;
+  font-family: "Host Grotesk", "Plus Jakarta Sans", 'Archivo Narrow', sans-serif;
 }
 
 .headingMain {
@@ -121,7 +121,7 @@
   border-radius: 6px;
   font-size: 1rem;
   font-weight: 500;
-  font-family: "Host Grotesk", "Plus Jakarta Sans", Arial, sans-serif;
+  font-family: "Host Grotesk", "Plus Jakarta Sans", 'Archivo Narrow', sans-serif;
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;

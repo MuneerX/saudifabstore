@@ -1,0 +1,258 @@
+.promoGridSection {
+  width: 100%;
+  margin: 32px 0;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1.15fr 1.35fr 0.9fr;
+  gap: 16px;
+  width: 100%;
+}
+
+/* CARD 1: Left Large Banner */
+.cardLeftLarge {
+  background: linear-gradient(135deg, #fff9a6 0%, #feec3c 100%);
+  border-radius: 18px;
+  padding: 44px 36px;
+  min-height: 540px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(212, 195, 20, 0.12);
+  border: 1px solid #e5d430;
+}
+
+.eyebrowLeft {
+  font-size: 15px;
+  font-weight: 700;
+  color: #b45309;
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.titleLeft {
+  font-size: 34px;
+  font-weight: 800;
+  color: #78350f;
+  line-height: 1.1;
+  margin: 0 0 28px 0;
+  max-width: 260px;
+  letter-spacing: -0.02em;
+}
+
+.capsuleCtaBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  color: #d97706;
+  border: 1.5px solid #d97706;
+  border-radius: 9999px;
+  padding: 8px 24px;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.capsuleCtaBtn:hover {
+  background-color: #d97706;
+  color: #ffffff;
+}
+
+/* MIDDLE COLUMN */
+.middleCol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* CARD 2: Middle Top Wide Banner */
+.cardMiddleTop {
+  background: linear-gradient(135deg, #d1fae5 0%, #e0f2fe 100%);
+  border-radius: 18px;
+  padding: 28px 32px;
+  min-height: 212px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+
+.eyebrowTop {
+  font-size: 14px;
+  font-weight: 700;
+  color: #064e3b;
+  margin-bottom: 6px;
+}
+
+.titleTop {
+  font-size: 24px;
+  font-weight: 800;
+  color: #064e3b;
+  line-height: 1.25;
+  margin: 0 0 12px 0;
+  max-width: 300px;
+  letter-spacing: -0.01em;
+}
+
+.underlineLinkGreen {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #064e3b;
+  text-decoration: underline;
+  margin-bottom: 16px;
+}
+
+.underlineLinkGreen:hover {
+  color: #047857;
+}
+
+.subtextTop {
+  font-size: 11px;
+  color: #047857;
+  margin-top: auto;
+  line-height: 1.3;
+}
+
+/* BOTTOM ROW (Cards 3 & 4) */
+.bottomRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  flex: 1;
+}
+
+/* CARD 3: Middle Bottom-Left Peach Card */
+.cardPeach {
+  background: #ffedd5;
+  border-radius: 18px;
+  padding: 24px;
+  min-height: 212px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+
+.titlePeach {
+  font-size: 20px;
+  font-weight: 800;
+  color: #7c2d12;
+  line-height: 1.25;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.01em;
+}
+
+.underlineLinkPeach {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #7c2d12;
+  text-decoration: underline;
+}
+
+.underlineLinkPeach:hover {
+  color: #9a3412;
+}
+
+/* CARD 4: Middle Bottom-Right White Card */
+.cardWhite {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 24px;
+  min-height: 212px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.titleWhite {
+  font-size: 20px;
+  font-weight: 800;
+  color: #002d58;
+  line-height: 1.25;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.01em;
+}
+
+.underlineLinkBlue {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0071dc;
+  text-decoration: underline;
+}
+
+.underlineLinkBlue:hover {
+  color: #005bb5;
+}
+
+/* CARD 5: Right Large Banner */
+.cardRightLarge {
+  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+  border-radius: 18px;
+  padding: 44px 34px;
+  min-height: 540px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(153, 27, 27, 0.06);
+  border: 1px solid #fecdd3;
+}
+
+.eyebrowRight {
+  font-size: 14px;
+  font-weight: 700;
+  color: #be123c;
+  margin-bottom: 8px;
+}
+
+.titleRight {
+  font-size: 26px;
+  font-weight: 800;
+  color: #881337;
+  line-height: 1.2;
+  margin: 0 0 16px 0;
+  max-width: 230px;
+  letter-spacing: -0.02em;
+}
+
+.underlineLinkRight {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #be123c;
+  text-decoration: underline;
+}
+
+.underlineLinkRight:hover {
+  color: #e11d48;
+}
+
+/* RESPONSIVE MEDIA QUERIES */
+@media (max-width: 1024px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+  }
+  .cardLeftLarge, .cardRightLarge {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .bottomRow {
+    grid-template-columns: 1fr;
+  }
+}

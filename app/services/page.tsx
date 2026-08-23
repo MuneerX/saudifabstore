@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useRef } from "react";
 import Image from "next/image";
@@ -59,7 +59,7 @@ export default function ServicesPage() {
         <ParallaxElement speed={-0.10} className={styles.bgWrapper}>
           <Image
             src="/images/services/services_hero4.jpeg"
-            alt="Brooq Al Khalij Services background"
+            alt="Saudi Fab Store Services background"
             fill
             className={styles.bgImage}
             sizes="100vw"
@@ -516,7 +516,7 @@ export default function ServicesPage() {
             <div className={styles.storyCard}>
               <span className={styles.quoteMark}>“</span>
               <p className={styles.storyText}>
-                &ldquo;Brooq Al Khalij&apos;s engineering team is top-notch. They responded quickly, providing incredibly helpful structural load calculations. Their prompt replies and support made our warehouse design process effortless.&rdquo;
+                &ldquo;Saudi Fab Store&apos;s engineering team is top-notch. They responded quickly, providing incredibly helpful structural load calculations. Their prompt replies and support made our warehouse design process effortless.&rdquo;
               </p>
               <span className={styles.storyAuthor}>Eng. Khalid A.</span>
             </div>
@@ -534,7 +534,7 @@ export default function ServicesPage() {
             <div className={styles.storyCard}>
               <span className={styles.quoteMark}>“</span>
               <p className={styles.storyText}>
-                &ldquo;Brooq Al Khalij helped us deliver our logistics terminal project on schedule. Their execution team is extremely professional and their anti-corrosive blast coatings are durable. They really give you peace of mind.&rdquo;
+                &ldquo;Saudi Fab Store helped us deliver our logistics terminal project on schedule. Their execution team is extremely professional and their anti-corrosive blast coatings are durable. They really give you peace of mind.&rdquo;
               </p>
               <span className={styles.storyAuthor}>Sultan S.</span>
             </div>
@@ -578,3 +578,4 @@ export default function ServicesPage() {
     </div>
   );
 }
+

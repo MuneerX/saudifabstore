@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import Image from "next/image";
@@ -61,7 +61,7 @@ export function Testimonials() {
                     className={`${styles.logoImg} ${styles.gulfLogo}`}
                   />
                 </div>
-                <p className={styles.testimonialText}>"Professionalism is trademark. Brooq Al Khalij does all work in a professional manner and completion of work on time."</p>
+                <p className={styles.testimonialText}>"Professionalism is trademark. Saudi Fab Store does all work in a professional manner and completion of work on time."</p>
                 <p className={styles.testimonialAuthor}>John, Gulf Middle East</p>
               </div>
             </div>
@@ -158,7 +158,7 @@ export function Testimonials() {
                   />
                 </ParallaxElement>
                 <div className={`${styles.testimonialOverlay} ${styles.darkerOverlay}`}>
-                  <p className={styles.testimonialText}>"At Brooq Al Khalij, our clients are the focus of everything we do. We work hard to deliver products that earn results."</p>
+                  <p className={styles.testimonialText}>"At Saudi Fab Store, our clients are the focus of everything we do. We work hard to deliver products that earn results."</p>
                 </div>
               </div>
             </div>

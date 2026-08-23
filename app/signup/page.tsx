@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -79,7 +79,7 @@ export default function SignupPage() {
         <div className={styles.heroBackground}>
           <Image
             src="/images/bg_4.jpeg"
-            alt="Brooq Al Khalij Register Background"
+            alt="Saudi Fab Store Register Background"
             fill
             className={styles.bgImage}
             sizes="100vw"
@@ -96,7 +96,7 @@ export default function SignupPage() {
               <div className={styles.cardHeader}>
                 <h1 className={styles.title}>Create Account</h1>
                 <p className={styles.description}>
-                  Register for secure access to the Brooq client portal to request B2B quotes and track structural fabrications.
+                  Register for secure access to the Saudi Fab Client portal to request B2B quotes and track structural fabrications.
                 </p>
               </div>
 
@@ -133,7 +133,7 @@ export default function SignupPage() {
                     </div>
                     <input
                       type="text"
-                      placeholder="Brooq Partner Ltd"
+                      placeholder="Saudi Fab Partner Ltd"
                       value={company}
                       onChange={(e) => setCompany(e.target.value)}
                       className={styles.inputField}
@@ -211,7 +211,7 @@ export default function SignupPage() {
                     className={styles.checkbox}
                   />
                   <label htmlFor="signupTerms" className={styles.termsText}>
-                    I agree to the Brooq Al Khalij <Link href="/contact" className={styles.termsLink}>Terms of Service</Link> and Portal Privacy Policy.
+                    I agree to the Saudi Fab Store <Link href="/contact" className={styles.termsLink}>Terms of Service</Link> and Portal Privacy Policy.
                   </label>
                 </div>
 

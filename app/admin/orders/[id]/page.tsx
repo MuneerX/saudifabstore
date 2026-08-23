@@ -145,7 +145,7 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Invoice #${order._id} - Brooq Al Khalij</title>
+          <title>Invoice #${order._id} - Saudi Fab Store</title>
           <style>
             @media print {
               body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 20px; color: #111; }
@@ -193,11 +193,11 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
           <div class="invoice-card">
             <div class="invoice-header">
               <div class="brand-section">
-                <div class="company-name">Brooq Al Khalij</div>
+                <div class="company-name">Saudi Fab Store</div>
                 <div class="company-tagline">Contracting & Trading Co.</div>
                 <div class="company-details">
                   King Fahd Road, Dammam 31952, Kingdom of Saudi Arabia<br/>
-                  Phone: +966 13 800 0000 | Email: sales@brooqalkhalij.com<br/>
+                  Phone: +966 13 800 0000 | Email: sales@saudifabstore.com<br/>
                   CR: 2050123456 | VAT Reg No: 300123456700003
                 </div>
               </div>
@@ -273,7 +273,7 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
             </div>
 
             <div class="footer-info">
-              Thank you for choosing Brooq Al Khalij Contracting & Trading Co.<br/>
+              Thank you for choosing Saudi Fab Store Contracting & Trading Co.<br/>
               Invoice generated electronically on ${new Date().toLocaleString()}
             </div>
 

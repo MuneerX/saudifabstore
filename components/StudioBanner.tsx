@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import Link from "next/link";
@@ -31,7 +31,7 @@ export function StudioBanner() {
           <TextReveal animation="blur">
             <h2 className={styles.title}>
               <span className={styles.headingMain}>Planning your custom steel project?</span>
-              <span className={styles.headingSub}>We've got your back with Brooq Al Khalij engineering.</span>
+              <span className={styles.headingSub}>We've got your back with Saudi Fab Store engineering.</span>
             </h2>
           </TextReveal>
 
@@ -46,3 +46,4 @@ export function StudioBanner() {
     </section>
   );
 }
+

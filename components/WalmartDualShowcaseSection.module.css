@@ -1,0 +1,451 @@
+.dualSection {
+  width: 100%;
+  margin: 32px 0;
+}
+
+.dualGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  width: 100%;
+}
+
+.quadrantBox {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+/* TOP-LEFT & BOTTOM-RIGHT PRODUCT ROW QUADRANTS */
+.rowHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.rowTitleGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.mainTitle {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.subTitle {
+  font-size: 12.5px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.viewAllLink {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0071dc;
+  text-decoration: underline;
+}
+
+.viewAllLink:hover {
+  color: #005bb5;
+}
+
+.miniTrack {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 4px 4px 16px 4px;
+}
+
+.miniTrack::-webkit-scrollbar {
+  display: none;
+}
+
+/* Standard Walmart Product Card Structure */
+.walmartProductCard {
+  min-width: 240px;
+  max-width: 260px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.walmartProductCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.imgBox {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.imgAnchor {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.clearanceBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+  background-color: #FEEC3C;
+  color: #0f172a;
+  font-size: 11.5px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.rollbackBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+  background-color: #0071dc;
+  color: #ffffff;
+  font-size: 11.5px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.heartBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.15s ease;
+}
+
+.heartBtn:hover {
+  background-color: #ffffff;
+  transform: scale(1.08);
+}
+
+.heartOutline {
+  color: #475569;
+}
+
+.heartFilled {
+  color: #ef4444;
+  fill: #ef4444;
+}
+
+.productImg {
+  object-fit: contain;
+  max-height: 210px;
+  width: 95%;
+  height: 95%;
+  transform: scale(1.22);
+  transition: transform 0.2s ease;
+}
+
+.walmartProductCard:hover .productImg {
+  transform: scale(1.26);
+}
+
+.actionBtnRow {
+  margin-bottom: 10px;
+}
+
+.addPillBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background-color: #ffffff;
+  color: #0f172a;
+  border: 1px solid #0f172a;
+  border-radius: 9999px;
+  padding: 5px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.addPillBtn:hover {
+  background-color: #0f172a;
+  color: #ffffff;
+}
+
+.optionsPillBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  padding: 5px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.optionsPillBtn:hover {
+  border-color: #0071dc;
+  color: #0071dc;
+}
+
+/* Price Container & Superscript Styling */
+.priceContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4px;
+}
+
+.priceRow {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.nowGreenLabel {
+  font-size: 14px;
+  font-weight: 800;
+  color: #007f00;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.superscriptPriceGroup {
+  display: inline-flex;
+  align-items: flex-start;
+  color: #0f172a;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.priceCurrencySymbol {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-right: 3px;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.priceWholeDigits {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.priceSupCents {
+  font-size: 12px;
+  font-weight: 800;
+  color: #0f172a;
+  position: relative;
+  top: 0.15em;
+  margin-left: 1px;
+  line-height: 1;
+}
+
+.originalPriceStrikethrough {
+  font-size: 13px;
+  color: #94a3b8;
+  text-decoration: line-through;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.optionsSubtext {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.productTitle {
+  font-size: 16.5px;
+  line-height: 1.35;
+  font-weight: 600;
+  margin: 6px 0 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.titleAnchor {
+  color: #1e293b;
+  text-decoration: none;
+}
+
+.titleAnchor:hover {
+  color: #0071dc;
+  text-decoration: underline;
+}
+
+/* TOP-RIGHT FEATURE BANNER CARD */
+.topRightBannerCard {
+  background: linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 100%);
+  border-radius: 16px;
+  padding: 36px 32px;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+}
+
+.eyebrowBlue {
+  font-size: 14px;
+  font-weight: 800;
+  color: #002d58;
+  margin-bottom: 6px;
+}
+
+.bannerMainTitle {
+  font-size: 34px;
+  font-weight: 800;
+  color: #002d58;
+  line-height: 1.1;
+  margin: 0 0 20px 0;
+  max-width: 280px;
+  letter-spacing: -0.02em;
+}
+
+.shopNowWhiteBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  color: #002d58;
+  border: 1.5px solid #002d58;
+  border-radius: 9999px;
+  padding: 8px 24px;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.15s ease;
+  align-self: flex-start;
+}
+
+.shopNowWhiteBtn:hover {
+  background-color: #002d58;
+  color: #ffffff;
+}
+
+.expressPillBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #0071dc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+.bannerRightImgBox {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  top: 16px;
+  width: 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bannerRightImg {
+  object-fit: contain;
+  max-height: 260px;
+}
+
+/* BOTTOM-LEFT LANDSCAPE FEATURE BANNER CARD */
+.bottomLeftBannerCard {
+  background: linear-gradient(135deg, #fff9a6 0%, #feec3c 100%);
+  border-radius: 16px;
+  padding: 36px 32px;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e5d430;
+}
+
+.landscapeTitle {
+  font-size: 36px;
+  font-weight: 800;
+  color: #002d58;
+  line-height: 1.1;
+  margin: 0 0 20px 0;
+  max-width: 260px;
+  letter-spacing: -0.02em;
+}
+
+.landscapeRightImgBox {
+  position: absolute;
+  right: 20px;
+  bottom: 16px;
+  top: 16px;
+  width: 48%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .dualGrid {
+    grid-template-columns: 1fr;
+  }
+}

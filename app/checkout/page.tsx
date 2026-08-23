@@ -86,14 +86,14 @@ export default function CheckoutPage() {
     setPromoError("");
     const cleanCode = promoCode.trim().toUpperCase();
 
-    if (cleanCode === "BROOQ10" || cleanCode === "WELCOME10") {
+    if (cleanCode === "saudifabstore10" || cleanCode === "WELCOME10") {
       setDiscountAmount(0.1); // 10% off
       setPromoApplied(true);
-    } else if (cleanCode === "BROOQ20") {
+    } else if (cleanCode === "saudifabstore20") {
       setDiscountAmount(0.2); // 20% off
       setPromoApplied(true);
     } else {
-      setPromoError("Invalid promo code. Try 'BROOQ10'.");
+      setPromoError("Invalid promo code. Try 'saudifabstore10'.");
     }
   };
 
@@ -425,6 +425,8 @@ export default function CheckoutPage() {
                       </span>
                     </label>
 
+                    {/* Express Priority Dispatch Option - Commented out for later use */}
+                    {/*
                     <label 
                       className={`${styles.shippingOption} ${shippingMethod === "express" ? styles.shippingOptionSelected : ""}`}
                       onClick={() => setShippingMethod("express")}
@@ -444,6 +446,7 @@ export default function CheckoutPage() {
                       </div>
                       <span className={styles.shippingPrice}>$45.00</span>
                     </label>
+                    */}
                   </div>
                 </div>
 
@@ -591,7 +594,7 @@ export default function CheckoutPage() {
               <form onSubmit={handleApplyPromo} className={styles.promoBlock}>
                 <input
                   type="text"
-                  placeholder="Promo code (e.g. BROOQ10)"
+                  placeholder="Promo code (e.g. saudifabstore10)"
                   value={promoCode}
                   onChange={(e) => setPromoCode(e.target.value)}
                   className={styles.promoInput}

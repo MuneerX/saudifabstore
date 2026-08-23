@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
@@ -225,7 +225,7 @@ export function Preloader() {
         >
           <Image
             src="/images/logo.png"
-            alt="Brooq Al Khalij Official Logo"
+            alt="Saudi Fab Store Official Logo"
             width={400}
             height={100}
             className={styles.brandLogoImg}
@@ -243,3 +243,4 @@ export function Preloader() {
     </div>
   );
 }
+

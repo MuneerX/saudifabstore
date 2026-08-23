@@ -19,12 +19,12 @@ export const authOptions: NextAuthOptions = {
 
         // Hardcoded admin fallback for demo/testing convenience
         if (
-          (credentials.email === 'admin@brooqalkhalij.com' || credentials.email === 'admin@example.com') && 
+          (credentials.email === 'admin@saudifabstore.com' || credentials.email === 'admin@example.com') && 
           credentials.password === 'admin123'
         ) {
           return {
             id: 'admin-static-id',
-            name: 'Brooq Admin',
+            name: 'Saudi Fab Admin',
             email: credentials.email,
             role: 'admin',
           };

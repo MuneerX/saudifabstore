@@ -1,659 +1,742 @@
-.navbarWrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 50;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.stickyVisible {
-  transform: translateY(0);
-}
-
-.stickyHidden {
-  transform: translateY(-100%);
-}
-
-.navbar {
-  position: relative;
+/* Walmart Header Root Container */
+.walmartHeaderContainer {
   width: 100%;
-  height: 68px; /* Locks navigation bar height to 68px */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: var(--font-archivo), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* PRIMARY TOP NAV BAR (Walmart Signature Blue #0071DC) */
+.topHeaderBar {
+  background-color: #FEEC3C;
+  color: #0f172a;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 16px; /* Side padding only; vertical alignment handled by height */
-  background-color: transparent;
-  color: #ffffff;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  gap: 16px;
+  padding: 8px 24px;
+  min-height: 64px;
+  position: relative;
 }
 
-.logoArea {
-  display: flex;
-  align-items: center;
-}
-
-.logoImg {
-  height: 58px;
-  width: auto;
-  object-fit: contain;
-  display: block;
-  filter: brightness(0) invert(1);
-  transition: filter 0.3s ease;
-}
-
-.lightNavbar .logoImg {
-  filter: brightness(0);
-}
-
-.logoText {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 23px;
-  font-weight: 300;
-  letter-spacing: -0.05em;
-  color: #ffffff;
-  text-decoration: none;
-}
-
-.centerNav {
+/* Mobile Hamburger Button */
+.mobileHamburgerBtn {
   display: none;
-}
-
-@media (min-width: 1024px) {
-  .centerNav {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-left: 72px;
-    margin-right: auto;
-  }
-
-  .mobileMenuBtn {
-    display: none !important;
-  }
-}
-
-.navLinkPill {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 400;
-  color: #ffffff;
-  text-decoration: none;
-  padding: 6px 14px;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-  letter-spacing: -0.02em;
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.lightLinkPill {
-  color: #111111 !important;
-}
-
-/* Active Nav Pill highlight (Exact match for Pedestal reference image) */
-.activePillDark {
-  background-color: #ffffff !important;
-  color: #111111 !important;
-  font-weight: 500;
-}
-
-.activePillLight {
-  background-color: #111111 !important;
-  color: #ffffff !important;
-  font-weight: 500;
-}
-
-.rightNav {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.iconBtn {
-  background: none;
+  background: transparent;
   border: none;
-  color: #ffffff;
+  color: #0f172a;
   cursor: pointer;
-  display: flex;
+  padding: 6px;
+  border-radius: 50%;
   align-items: center;
   justify-content: center;
-  padding: 0;
-  opacity: 0.9;
-  transition: opacity 0.2s ease;
 }
 
-
-.mobileMenuBtn {
-  display: block;
+.mobileHamburgerBtn:hover {
+  background-color: rgba(0, 0, 0, 0.08);
 }
 
-.navBorder {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.lightNavbar {
-  background-color: #ffffff;
-  color: #111111;
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.lightText {
-  color: #111111 !important;
-  font-weight: 400;
-  letter-spacing: -0.04em;
-}
-
-.lightIconBtn {
-  color: #111111 !important;
-}
-
-/* ==========================================================================
-   MEGA MENU DROPDOWN STYLES
-   ========================================================================== */
-
-.megaMenuWrapper {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  width: 100%;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e5e5e5;
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.06);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-6px);
-  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.22s ease;
-  pointer-events: none;
-  z-index: 100;
-}
-
-.megaMenuWrapper.menuOpen {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.megaMenuContainer {
-  width: 100%;
-}
-
-.megaMenuInner {
-  max-width: 100%;
-  padding: 32px 16px 12px 16px; /* Compact top, side, and bottom grid padding */
-  display: grid;
-  grid-template-columns: 200px 220px 220px 1fr;
-  column-gap: 96px; /* Horizontal space between categories */
-  row-gap: 12px; /* Small vertical gap above bottom button row */
-  align-items: stretch; /* Stretch columns to align top & bottom bounds */
-  text-align: left;
-}
-
-.menuCol {
+/* Brand Logo Box */
+.logoBox {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  height: 100%;
-}
-
-.colHeader {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #888888;
-  margin-bottom: 18px;
-}
-
-.menuLinkList {
-  display: flex;
-  flex-direction: column;
-  gap: 3px; /* Reduced vertical space between links */
-}
-
-.menuLink {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 400;
-  color: #111111;
-  text-decoration: none;
-  transition: color 0.15s ease;
-  letter-spacing: -0.03em; /* Reduced letter spacing more */
-  line-height: 1.45; /* Compact line height */
-}
-
-.menuLink:hover {
-  color: #000000;
-  font-weight: 500;
-}
-
-.shopAllLink {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  margin-top: 18px;
-  margin-bottom: 4px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #111111;
-  text-decoration: none;
-  display: inline-flex;
   align-items: center;
-  gap: 3px;
-  transition: color 0.15s ease;
+  text-decoration: none;
+  padding: 4px 6px;
+  border-radius: 9999px;
+  transition: background-color 0.15s ease;
 }
 
-.shopAllLink:hover {
-  color: #666666;
+.logoBox:hover {
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
-.shopAllLink sup {
-  font-size: 10px;
-  font-weight: 600;
-  margin-left: 1px;
-}
-
-/* Popular Right Now Sub-section inside Col 1 - Aligned to bottom left */
-.popularSection {
-  margin-top: auto; /* Pushes cleanly to bottom left */
-  padding-top: 12px;
-}
-
-.popularHeader {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #888888;
-  margin-bottom: 14px;
-}
-
-.popularThumbGrid {
+.logoWrapper {
+  position: relative;
   display: flex;
+  align-items: center;
   gap: 6px;
 }
 
-.popularThumb {
-  position: relative;
-  width: 140px; /* Increased card width more */
-  height: 92px; /* Scaled card height up */
-  border-radius: 4px;
-  overflow: hidden;
-  background-color: #eaeaea;
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-  display: block;
+.brandLogoImg {
+  object-fit: contain;
+  filter: brightness(0);
 }
 
-.popularThumb:hover {
-  transform: scale(1.1); /* Scaled up more */
-}
-
-.thumbImg {
-  object-fit: cover;
-}
-
-/* Right Feature Card - Tall feature image occupying full space down to bottom button */
-.featureCard {
-  position: relative;
-  width: 100%;
-  max-width: 380px;
-  height: 380px;
-  min-height: 380px;
-  border-radius: 3px;
-  overflow: hidden;
-  background-color: #111111;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  justify-self: end;
-  margin-left: auto;
-}
-
-.featureCardImage {
-  object-fit: cover;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.featureCard:hover .featureCardImage {
-  transform: scale(1.04);
-}
-
-.featureCardOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 28px;
-  color: #ffffff;
-}
-
-.featureCardTitle {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 18px;
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 4px;
-  letter-spacing: -0.02em;
-}
-
-.featureCardSub {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
-  font-weight: 400;
-}
-
-/* Mega Menu Bottom Bar - Spans full grid width inside megaMenuInner matching left & right margins */
-.megaMenuBottomBar {
-  grid-column: 1 / -1;
-  width: 100%;
-  background-color: #ededed;
-  padding: 9px 18px;
-  border-radius: 4px;
-  text-align: center;
-  border: 1px solid #e0e0e0;
+.sparkBadge {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 0;
 }
 
-.bottomBarLink {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #111111;
-  text-decoration: none;
-  letter-spacing: -0.01em;
-  transition: color 0.15s ease;
-  display: inline-flex;
+.yellowSparkIcon {
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+/* Fulfillment & Location Pill Button */
+.locationPillWrapper {
+  position: relative;
+}
+
+.deliverToPillBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: rgba(255, 255, 255, 0.35);
+  color: #0f172a;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 9999px;
+  padding: 6px 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.deliverToPillBtn:hover {
+  background-color: rgba(255, 255, 255, 0.55);
+  border-color: rgba(15, 23, 42, 0.25);
+}
+
+.handIconBadge {
+  width: 28px;
+  height: 28px;
+  background-color: rgba(15, 23, 42, 0.08);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.truckIcon {
+  color: #0f172a;
+}
+
+.deliverTextGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.deliverTitleRow {
+  display: flex;
   align-items: center;
   gap: 4px;
 }
 
-.bottomBarLink:hover {
-  color: #555555;
+.deliverTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.1;
 }
 
-.bottomBarLink sup {
-  font-size: 10px;
-  font-weight: 600;
-}
-
-/* ==========================================================================
-   PRODUCT SHOWCASE MEGA MENU STYLES (Pedestal Shop Dropdown Reference Layout)
-   ========================================================================== */
-
-.shopMegaMenuInner {
-  max-width: 100%;
-  padding: 36px 32px 16px 32px;
-  display: flex;
-  flex-direction: column;
-}
-
-.shopTopRow {
-  margin-bottom: 24px;
-  text-align: left;
-}
-
-.shopHeader {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #888888;
-  margin-bottom: 10px;
-}
-
-.shopSubLinkGrid {
-  display: flex;
-  align-items: center;
-  gap: 36px;
-}
-
-.shopSubLink {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 400;
-  color: #111111;
-  text-decoration: none;
-  transition: color 0.15s ease;
-  letter-spacing: -0.03em;
-}
-
-.shopSubLink:hover {
-  color: #666666;
-}
-
-.productGrid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px; /* Reduced space between products */
-  align-items: end;
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.productCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  color: inherit;
+.pillChevron {
+  color: #0f172a;
   transition: transform 0.2s ease;
 }
 
-.productCard:hover {
-  transform: translateY(-3px);
+.chevronRotate {
+  transform: rotate(180deg);
 }
 
-.productImgWrapper {
-  position: relative;
-  width: 100%;
-  height: 230px; /* Increased image height */
+.deliverSubtext {
+  font-size: 11px;
+  color: #475569;
+  line-height: 1.2;
+}
+
+/* Fulfillment Dropdown Modal */
+.fulfillmentDropdownCard {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 340px;
+  background: #ffffff;
+  color: #1e293b;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  z-index: 1100;
+  animation: fadeInDown 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdownHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 14px;
+}
+
+.dropdownHeader h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.productImg {
-  object-fit: contain;
-  transition: transform 0.3s ease;
+.closeBtn:hover {
+  background: #f1f5f9;
+  color: #0f172a;
 }
 
-.productCard:hover .productImg {
-  transform: scale(1.04);
+.fulfillmentOptionsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
-.productTitle {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  color: #111111;
-  margin-bottom: 8px;
-  letter-spacing: -0.03em;
+.optionCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+  padding: 12px 8px;
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.configureBtn {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  background-color: #ffffff;
-  border: 1px solid #dcdcdc;
-  padding: 4px 14px;
-  border-radius: 4px;
+.optionCard:hover {
+  border-color: #0071dc;
+  background: #f0f7ff;
+}
+
+.optionActive {
+  border-color: #0071dc;
+  background: #e6f1fc;
+  color: #0071dc;
+}
+
+.optionIcon {
+  color: #0071dc;
+}
+
+.optionLabel {
   font-size: 13px;
-  font-weight: 500;
-  color: #111111;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+.optionSub {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.postalCodeSection {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.postalCodeSection label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.postalInputRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  padding: 4px 6px 4px 12px;
+}
+
+.inputPinIcon {
+  color: #0071dc;
+  flex-shrink: 0;
+}
+
+.postalInputRow input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.savePostalBtn {
+  background: #0071dc;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.savePostalBtn:hover {
+  background: #005bb5;
+}
+
+/* Full-Width Walmart Pill Search Bar */
+.pillSearchBarForm {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  background-color: #ffffff;
+  border-radius: 9999px;
+  padding: 4px 6px 4px 18px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.2s ease;
+  margin: 0 8px;
+  position: relative;
+}
+
+.pillSearchBarForm:focus-within {
+  box-shadow: 0 0 0 3px #FEEC3C, inset 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.pillSearchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: #0f172a;
+  width: 100%;
+}
+
+.pillSearchInput::placeholder {
+  color: #64748b;
+  font-weight: 400;
+}
+
+.circularSearchBtn {
+  width: 36px;
+  height: 36px;
+  background-color: #0f172a;
+  border: none;
+  border-radius: 50%;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  flex-shrink: 0;
+}
+
+.circularSearchBtn:hover {
+  background-color: #1e293b;
+  transform: scale(1.05);
+}
+
+.searchMagnifierIcon {
+  color: #ffffff;
+}
+
+/* Right Navigation Controls */
+.rightNavControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navActionBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  text-decoration: none;
+  color: #0f172a;
+  transition: background-color 0.15s ease;
+}
+
+.navActionBox:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.navActionIcon {
+  color: #0f172a;
+}
+
+.actionTextStack {
+  display: flex;
+  flex-direction: column;
+}
+
+.actionSubText {
+  font-size: 11px;
+  color: #475569;
+  line-height: 1.1;
+}
+
+.actionMainText {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* Walmart Cart Action Button */
+.cartActionBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 9999px;
+  color: #0f172a;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.cartActionBtn:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.cartIconBadgeWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.walmartCartIcon {
+  color: #0f172a;
+}
+
+.walmartCartBadge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background-color: #0f172a;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.cartPriceStack {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.cartPriceLabel {
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* SECONDARY SUB-HEADER BAR (Ice Blue #E6F1FC) */
+.subHeaderNav {
+  background-color: #E5D430;
+  color: #0f172a;
+  padding: 6px 24px;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #c9ba25;
+}
+
+.subHeaderInner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.dropdownPillWrapper {
+  position: relative;
+}
+
+.whitePillBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #ffffff;
+  color: #0f172a;
+  border: 1px solid #ffffff;
+  border-radius: 9999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.whitePillBtn:hover {
+  background-color: #0f172a;
+  color: #ffffff;
+}
+
+.subBarDivider {
+  width: 1px;
+  height: 20px;
+  background-color: rgba(15, 23, 42, 0.2);
+  margin: 0 4px;
+}
+
+/* Category Chips Track */
+.categoryChipsTrack {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.categoryChipsTrack::-webkit-scrollbar {
+  display: none;
+}
+
+.chipPill {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-  transition: border-color 0.15s ease, background-color 0.15s ease;
-}
-
-.productCard:hover .configureBtn {
-  border-color: #111111;
-  background-color: #fafafa;
-}
-
-.shopUnderlineLink {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  gap: 6px;
+  padding: 6px 14px;
+  background-color: rgba(255, 255, 255, 0.45);
+  border: 1px solid transparent;
+  border-radius: 9999px;
   font-size: 13px;
-  font-weight: 500;
-  color: #111111;
-  letter-spacing: -0.02em;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color 0.15s ease;
+  font-weight: 700;
+  color: #0f172a;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.15s ease;
 }
 
-.productCard:hover .shopUnderlineLink {
-  color: #666666;
+.chipPill:hover {
+  background-color: #0f172a;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.productSubtext {
-  font-size: 12px;
-  color: #888888;
-  margin-top: 6px;
-  font-weight: 400;
-  letter-spacing: -0.02em;
+.chipPillHighlight {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background-color: #0f172a;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #ffffff;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
 }
 
-/* ==========================================================================
-   MOBILE VIEWPORT INDIVIDUAL OVERRIDES (max-width: 768px)
-   ========================================================================== */
-
-@media (max-width: 768px) {
-  .rightNav {
-    gap: 8px; /* Decreased space between login/account, search, and menu icons for mobile view individually */
-  }
-  .rightNav .navLinkPill {
-    padding: 4px 10px;
-    font-size: 13px;
-  }
+.chipPillHighlight:hover {
+  background-color: #b45309;
 }
 
-/* Mobile Navigation Drawer */
+/* Mega Menu Dropdown */
+.megaMenuDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 320px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.18);
+  padding: 12px;
+  z-index: 1100;
+  animation: fadeInDown 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.megaMenuGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.megaMenuItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #1e293b;
+  transition: background 0.15s ease;
+}
+
+.megaMenuItem:hover {
+  background: #f0f7ff;
+}
+
+.megaMenuItem strong {
+  display: block;
+  font-size: 13px;
+  color: #0071dc;
+}
+
+.megaMenuItem p {
+  font-size: 11px;
+  color: #64748b;
+  margin: 2px 0 0 0;
+}
+
+/* MOBILE DRAWER OVERLAY */
 .mobileDrawerOverlay {
   position: fixed;
   inset: 0;
-  top: 68px;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 99;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: flex;
+  justify-content: flex-start;
+  animation: fadeIn 0.2s ease;
 }
 
-.mobileDrawerOverlay.drawerOpen {
-  opacity: 1;
-  visibility: visible;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .mobileDrawerContent {
-  background-color: #ffffff;
-  color: #111111;
-  width: 100%;
-  max-height: calc(100vh - 68px);
-  overflow-y: auto;
-  padding: 20px;
+  width: 300px;
+  max-width: 85vw;
+  height: 100%;
+  background: #ffffff;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
-  border-bottom: 1px solid #e5e5e5;
-  transform: translateY(-12px);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  animation: slideInLeft 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.mobileDrawerOverlay.drawerOpen .mobileDrawerContent {
-  transform: translateY(0);
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
 }
 
-.mobileNavLinks {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.mobileNavLink {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 17px;
-  font-weight: 500;
-  color: #111111;
-  text-decoration: none;
-  padding: 12px 14px;
-  border-radius: 6px;
-  transition: background-color 0.2s ease, color 0.2s ease;
+.mobileDrawerHeader {
+  background: #0071dc;
+  color: #ffffff;
+  padding: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.mobileNavLink:hover {
-  background-color: #f5f5f5;
-  color: #EB5521;
-}
-
-.mobileNavArrow {
-  font-size: 14px;
-  color: #888888;
-  transition: transform 0.2s ease;
-}
-
-.mobileNavLink:hover .mobileNavArrow {
-  transform: translateX(3px);
-  color: #EB5521;
-}
-
-.mobileDrawerActions {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding-top: 16px;
-  border-top: 1px solid #eeeeee;
-  margin-top: 8px;
-}
-
-.mobileActionBtn {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  padding: 14px;
-  border-radius: 6px;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
+.mobileUserBadge {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.2s ease;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 700;
 }
 
-.mobileActionBtnPrimary {
-  background-color: #EB5521;
-  color: #ffffff;
+.closeDrawerBtn {
+  background: transparent;
   border: none;
+  color: #ffffff;
+  cursor: pointer;
 }
 
-.mobileActionBtnPrimary:hover {
-  background-color: #d24414;
+.mobileDrawerBody {
+  padding: 20px 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.mobileActionBtnSecondary {
-  background-color: #f5f5f5;
-  color: #111111;
-  border: 1px solid #e0e0e0;
+.mobileNavSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.mobileActionBtnSecondary:hover {
-  background-color: #eaeaea;
+.mobileNavSection h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #64748b;
+  margin: 0 0 4px 0;
+}
+
+.mobileNavSection a {
+  font-size: 14px;
+  color: #1e293b;
+  text-decoration: none;
+  padding: 6px 0;
+  font-weight: 500;
+}
+
+.mobileNavSection a:hover {
+  color: #0071dc;
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 1100px) {
+  .locationPillWrapper {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .topHeaderBar {
+    padding: 8px 14px;
+  }
+  
+  .mobileHamburgerBtn {
+    display: flex;
+  }
+
+  .navActionBox {
+    display: none;
+  }
+  
+  .subHeaderNav {
+    padding: 6px 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .subBarDivider {
+    display: none;
+  }
+  
+  .cartPriceStack {
+    display: none;
+  }
 }

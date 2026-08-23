@@ -1,0 +1,323 @@
+/* Walmart "Popular items in this category" Carousel Section - Products Page Card System */
+
+.carouselSectionContainer {
+  width: 100%;
+  max-width: 1520px;
+  margin: 40px auto 20px auto;
+  padding: 0 20px;
+  position: relative;
+}
+
+.sectionHeaderRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sectionTitle {
+  font-size: 22px;
+  font-weight: 800;
+  color: #111111;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.sectionSubhead {
+  font-size: 13.5px;
+  color: #666666;
+  margin: 0;
+}
+
+.scrollNavBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.15s ease;
+}
+
+.scrollNavBtn:hover {
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #000000;
+}
+
+/* CAROUSEL TRACK */
+.carouselTrack {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 6px 2px 18px 2px;
+  scrollbar-width: none;
+}
+
+.carouselTrack::-webkit-scrollbar {
+  display: none;
+}
+
+/* PRODUCT CARD - EXACT MATCH TO PRODUCTS PAGE */
+.productCard {
+  flex: 0 0 calc((100% - 4 * 20px) / 5);
+  min-width: 250px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid #f1f5f9;
+}
+
+.productCard:hover {
+  border-color: #e2e8f0;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.07);
+  transform: translateY(-3px);
+}
+
+/* Top Header Badge Chip Row */
+.cardHeaderBadgeRow {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.topHeaderBadgeChip {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.badgeBestSeller {
+  background-color: #cc0052;
+  color: #ffffff;
+}
+
+.badgeNew {
+  background-color: #0058a3;
+  color: #ffffff;
+}
+
+.badgeLimited {
+  background-color: #FEEC3C;
+  color: #111111;
+}
+
+/* Image Frame Box */
+.imageFrameBox {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background-color: #f8fafc;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.productImg {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  transition: transform 0.25s ease;
+}
+
+.productCard:hover .productImg {
+  transform: scale(1.05);
+}
+
+/* Card Body Area */
+.cardBodyArea {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modelBrandName {
+  font-size: 14px;
+  font-weight: 800;
+  color: #111111;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.modelAnchor {
+  color: #111111;
+  text-decoration: none;
+}
+
+.modelAnchor:hover {
+  text-decoration: underline;
+}
+
+.subDescriptionText {
+  font-size: 12.5px;
+  color: #484848;
+  line-height: 1.35;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 34px;
+}
+
+/* Price Section */
+.priceSection {
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mainPriceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.currencyPrefix {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #111111;
+}
+
+.bigPriceDigits {
+  font-size: 24px;
+  font-weight: 800;
+  color: #111111;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.discountSavingsTag {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0058a3;
+  margin-top: 2px;
+}
+
+/* Star Rating Row */
+.starRatingRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.starGroup {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.reviewCountLink {
+  font-size: 12px;
+  color: #484848;
+  text-decoration: underline;
+}
+
+/* Action Buttons Row */
+.cardActionButtonsRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.addPillBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background-color: #0058a3;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 8px 20px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  flex: 1;
+  box-shadow: 0 2px 8px rgba(0, 88, 163, 0.25);
+  transition: all 0.15s ease;
+}
+
+.addPillBtn:hover {
+  background-color: #004f93;
+  box-shadow: 0 4px 12px rgba(0, 88, 163, 0.35);
+  transform: translateY(-1px);
+}
+
+.optionsPillBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #111111;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 8px 20px;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  flex: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.15s ease;
+}
+
+.optionsPillBtn:hover {
+  background-color: #000000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
+}
+
+.heartIconButton {
+  background: transparent;
+  border: none;
+  color: #111111;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+}
+
+.heartIconButton:hover {
+  transform: scale(1.15);
+}
+
+@media (max-width: 1200px) {
+  .productCard {
+    flex: 0 0 250px;
+  }
+}

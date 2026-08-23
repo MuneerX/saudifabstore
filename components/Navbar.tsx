@@ -1,226 +1,32 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Search, Menu, X } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { 
+  Search01Icon, 
+  Location01Icon, 
+  ShoppingCart01Icon, 
+  Menu01Icon, 
+  ArrowDown01Icon, 
+  ShoppingBagFavoriteIcon, 
+  UserSquareIcon, 
+  Cancel01Icon, 
+  DeliveryTruck01Icon, 
+  Store01Icon, 
+  PackageIcon, 
+  Grid02Icon, 
+  Wrench01Icon, 
+  ShieldCheckIcon,
+  Call02Icon,
+  CubeIcon
+} from "@hugeicons/core-free-icons";
 import styles from "./Navbar.module.css";
 import { useCartContext } from "./CartContext";
-import { ShopMarquee } from "./ShopMarquee";
 import { SearchModal } from "./SearchModal";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-const CENTER_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
-  { label: "Portfolio", href: "/portfolio" },
-  { label: "Shop", href: "/products" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" }
-];
-
-interface ShopProduct {
-  name: string;
-  image: string;
-  href: string;
-  buttonLabel: string;
-  isConfigure?: boolean;
-  subtext: string;
-}
-
-interface MegaMenuData {
-  type?: "columns" | "products";
-  col1Title?: string;
-  col1Links?: { label: string; href: string }[];
-  popularTitle?: string;
-  popularThumbs?: { src: string; alt: string; href: string }[];
-  
-  col2Title?: string;
-  col2Links?: { label: string; href: string }[];
-  col2ShopAll?: { label: string; href: string; count: string };
-
-  col3Title?: string;
-  col3Links?: { label: string; href: string }[];
-  col3ShopAll?: { label: string; href: string; count: string };
-
-  featureCard?: {
-    image: string;
-    title: string;
-    sub: string;
-    href: string;
-  };
-
-  // Product Showcase Layout properties (Pedestal reference design)
-  featuredTitle?: string;
-  featuredLinks?: { label: string; href: string }[];
-  products?: ShopProduct[];
-
-  bottomBar: {
-    label: string;
-    href: string;
-    count?: string;
-  };
-}
-
-const MEGA_MENUS: Record<string, MegaMenuData> = {
-  Services: {
-    type: "columns",
-    col1Title: "FEATURED",
-    col1Links: [
-      { label: "Overview & Certifications", href: "/services" },
-      { label: "ISO 9001 & AWS Standards", href: "/services#certifications" },
-      { label: "Quality Audit Reports", href: "/services#audits" },
-      { label: "Custom Scope Calculator", href: "/contact" }
-    ],
-    popularTitle: "POPULAR RIGHT NOW",
-    popularThumbs: [
-      { src: "/images/home/services/steel.jpeg", alt: "Steel Fabrication", href: "/services/steel-fabrication" },
-      { src: "/images/home/services/blasting.jpeg", alt: "Sandblasting", href: "/services/blasting-sandblasting" },
-      { src: "/images/home/services/painting2.jpeg", alt: "Coatings & Painting", href: "/services/industrial-painting-coatings" },
-      { src: "/images/home/services/forkliftrepair.jpeg", alt: "Forklift Repair", href: "/services/forklift-repair" }
-    ],
-    col2Title: "CORE SERVICES",
-    col2Links: [
-      { label: "Heavy Structural Steel Fabrication", href: "/services/steel-fabrication" },
-      { label: "Sandblasting & Surface Prep (SA 2.5)", href: "/services/blasting-sandblasting" },
-      { label: "Epoxy & Defensive Coatings", href: "/services/industrial-painting-coatings" },
-      { label: "Forklift Mechanical & Engine Fixes", href: "/services/forklift-repair" },
-      { label: "ProTorc Hydraulic Bolt Torquing", href: "/services/protorc-torquing-bolting" },
-      { label: "General Safety & Chemical Trading", href: "/services/general-safety-trading" }
-    ],
-    col2ShopAll: { label: "Shop all Services", href: "/services", count: "16" },
-
-    col3Title: "SPECIALIZED SCOPE",
-    col3Links: [
-      { label: "Paper & Plastic Packaging", href: "/services/paper-plastic-packaging" },
-      { label: "Smart Woodworks & Joinery", href: "/services/smart-woodworks" },
-      { label: "Pipe Cold Cutting & Beveling", href: "/services/protorc-torquing-bolting" },
-      { label: "On-Site Flange Facing Machining", href: "/services/protorc-torquing-bolting" },
-      { label: "Intumescent Structural Fireproofing", href: "/services/industrial-painting-coatings" },
-      { label: "Annual Maintenance Contracts (AMC)", href: "/contact" }
-    ],
-    col3ShopAll: { label: "Shop all Solutions", href: "/services", count: "53" },
-
-    featureCard: {
-      image: "/images/services/featured/painting.png",
-      title: "Precision Industrial Coatings",
-      sub: "SA 2.5 Grit Blasting & AWS Engineering",
-      href: "/services/industrial-painting-coatings"
-    },
-
-    bottomBar: {
-      label: "Explore all Brooq Al Khalij Services",
-      href: "/services",
-      count: "53"
-    }
-  },
-
-  Shop: {
-    type: "products",
-    featuredTitle: "FEATURED",
-    featuredLinks: [
-      { label: "Forklift Attachments", href: "/products?category=forklift" },
-      { label: "Warehouse & Logistics", href: "/products?category=warehouse" },
-      { label: "Safety Equipment", href: "/products?category=safety" },
-      { label: "Hardware & Piping", href: "/products?category=hardware" }
-    ],
-    products: [
-      {
-        name: "Forklift Single-Fork Hook",
-        image: "/uploads/3ea54b4f-1709-49b3-be9c-1b4302dc01e9.jpg",
-        href: "/products/prod-1",
-        isConfigure: true,
-        buttonLabel: "Configure",
-        subtext: "Heavy duty hook"
-      },
-      {
-        name: "Double-Fork Crane Hook",
-        image: "/uploads/e8ee6716-6e69-452c-be8e-3144204da037.png",
-        href: "/products/prod-2",
-        buttonLabel: "Shop",
-        subtext: "Dual fork hoist"
-      },
-      {
-        name: "Forklift Man Basket",
-        image: "/uploads/24cb699e-8ef3-42ad-bad6-fd80de609556.png",
-        href: "/products/prod-3",
-        buttonLabel: "Shop",
-        subtext: "OSHA platform"
-      },
-      {
-        name: "Crane Boom Jib",
-        image: "/uploads/948c5187-5f11-4c45-9803-693baa5c22f2.png",
-        href: "/products/prod-4",
-        buttonLabel: "Shop",
-        subtext: "Telescopic boom"
-      },
-      {
-        name: "Heavy Steel Pallet",
-        image: "/uploads/b3030289-577c-47e1-aadc-3b49d74266c4.png",
-        href: "/products/prod-6",
-        buttonLabel: "Shop",
-        subtext: "Fully welded deck"
-      }
-    ],
-    bottomBar: {
-      label: "Shop all Brooq Al Khalij Products",
-      href: "/products",
-      count: "15"
-    }
-  }
-};
-
-const FEATURED_SERVICES_SLIDES = [
-  {
-    image: "/images/services/featured/painting.png",
-    title: "Precision Industrial Coatings",
-    sub: "SA 2.5 Grit Blasting & Epoxy Coatings",
-    href: "/services/industrial-painting-coatings"
-  },
-  {
-    image: "/images/services/featured/steel.png",
-    title: "Structural Steel Fabrication",
-    sub: "Certified ASTM A36 Steel & MTR Dossiers",
-    href: "/services/steel-fabrication"
-  },
-  {
-    image: "/images/services/featured/blasting.png",
-    title: "Sandblasting & Surface Prep",
-    sub: "High-Pressure Abrasive Grit Blasting",
-    href: "/services/blasting-sandblasting"
-  },
-  {
-    image: "/images/services/featured/forklift.png",
-    title: "Forklift Repair & Engine Fixes",
-    sub: "Hydraulic, Transmission & Overhaul AMC",
-    href: "/services/forklift-repair"
-  },
-  {
-    image: "/images/services/featured/protoc.png",
-    title: "ProTorc Hydraulic Torquing",
-    sub: "Flange Bolting & Calibrated Tensioning",
-    href: "/services/protorc-torquing-bolting"
-  },
-  {
-    image: "/images/services/featured/trading.png",
-    title: "General Safety Trading",
-    sub: "PPE, Chemical Storage & SASO Tools",
-    href: "/services/general-safety-trading"
-  },
-  {
-    image: "/images/services/featured/wood.png",
-    title: "Smart Woodworks & Packaging",
-    sub: "Custom Pallets, Crates & ISPM-15 Wood",
-    href: "/services/smart-woodworks"
-  }
-];
 
 interface NavbarProps {
   hasBorder?: boolean;
@@ -229,409 +35,354 @@ interface NavbarProps {
   children?: React.ReactNode;
 }
 
-export function Navbar({ hasBorder = false, isLight = false, showMarquee = false, children }: NavbarProps) {
+function Icon({ icon, size = 20, strokeWidth = 1.8, className = "" }: { icon: any; size?: number; strokeWidth?: number; className?: string }) {
+  const iconData = Array.isArray(icon) ? icon : (icon?.default || icon || []);
+  if (!Array.isArray(iconData) || iconData.length === 0) return null;
+  return <HugeiconsIcon icon={iconData} size={size} strokeWidth={strokeWidth} className={className} />;
+}
+
+export function Navbar({}: NavbarProps) {
   const router = useRouter();
   const { data: session } = useSession();
   const { cart, openCart } = useCartContext();
-  const [visible, setVisible] = useState(true);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [activeMenu, setActiveMenu] = useState<string | null>(null);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [shopProducts, setShopProducts] = useState<ShopProduct[]>([]);
-  const [totalProductCount, setTotalProductCount] = useState<string>("15");
+  
+  const [searchQuery, setSearchQuery] = useState("");
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [currentFeaturedIndex, setCurrentFeaturedIndex] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLocationDropdownOpen, setIsLocationDropdownOpen] = useState(false);
+  const [isDepartmentsOpen, setIsDepartmentsOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [fulfillmentType, setFulfillmentType] = useState<"delivery" | "pickup">("delivery");
+  const [currentPostalCode, setCurrentPostalCode] = useState("Dammam, 31952");
 
-  // Set random featured service image from featured folder on page reload
-  useEffect(() => {
-    const randomIndex = Math.floor(Math.random() * FEATURED_SERVICES_SLIDES.length);
-    setCurrentFeaturedIndex(randomIndex);
-  }, []);
+  const deptsRef = useRef<HTMLDivElement>(null);
+  const servicesRef = useRef<HTMLDivElement>(null);
+  const locationRef = useRef<HTMLDivElement>(null);
 
   const cartItemCount = cart?.items?.reduce((sum: number, item: any) => sum + (item.quantity || 0), 0) || 0;
+  const cartTotalPrice = cart?.items?.reduce((sum: number, item: any) => {
+    const price = item.product?.price ?? item.price ?? 0;
+    return sum + (price * (item.quantity || 1));
+  }, 0) || 0;
 
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
+  // Close dropdowns when clicking outside
   useEffect(() => {
-    // Automatically fetch real product images from database to sync with shop dropdown menu
-    fetch('/api/products?limit=5')
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.products && data.products.length > 0) {
-          const mapped: ShopProduct[] = data.products.map((p: any) => ({
-            name: p.name,
-            image: (p.images && p.images.length > 0) ? p.images[0] : "/images/home/category_grid/container_3.jpeg",
-            href: `/products/${p._id || p.id || p.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
-            buttonLabel: "Shop",
-            subtext: p.category || "Industrial Product"
-          }));
-          setShopProducts(mapped);
-        }
-        if (data && data.total) {
-          setTotalProductCount(data.total.toString());
-        }
-      })
-      .catch(err => console.error("Failed to sync shop navigation dropdown images:", err));
+    function handleClickOutside(event: MouseEvent) {
+      if (deptsRef.current && !deptsRef.current.contains(event.target as Node)) {
+        setIsDepartmentsOpen(false);
+      }
+      if (servicesRef.current && !servicesRef.current.contains(event.target as Node)) {
+        setIsServicesOpen(false);
+      }
+      if (locationRef.current && !locationRef.current.contains(event.target as Node)) {
+        setIsLocationDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const st = ScrollTrigger.create({
-      onUpdate: (self) => {
-        const currentScrollY = self.scroll();
-        
-        if (currentScrollY < 50) {
-          setVisible(true);
-          setIsScrolled(false);
-        } else {
-          const isScrollingUp = self.direction === -1;
-          setVisible(isScrollingUp);
-          setIsScrolled(true);
-        }
-      }
-    });
-
-    return () => st.kill();
-  }, []);
-
-  const handleMouseEnter = (label: string) => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    if (MEGA_MENUS[label]) {
-      if (label === "Services") {
-        setCurrentFeaturedIndex((prev) => (prev + 1) % FEATURED_SERVICES_SLIDES.length);
-      }
-      setActiveMenu(label);
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
     } else {
-      setActiveMenu(null);
+      setIsSearchModalOpen(true);
     }
   };
 
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setActiveMenu(null);
-    }, 120);
-  };
-
-  const isNavbarLight = isLight || isScrolled || !!activeMenu;
-  const stickyClass = visible ? styles.stickyVisible : styles.stickyHidden;
-  const currentMenuData = activeMenu ? MEGA_MENUS[activeMenu] : null;
-
   return (
-    <div
-      data-speed="fixed"
-      className={`${styles.navbarWrapper} ${stickyClass}`}
-      onMouseLeave={handleMouseLeave}
-    >
-      {showMarquee && <ShopMarquee />}
-      <nav 
-        className={`${styles.navbar} ${isNavbarLight ? styles.lightNavbar : ''} ${hasBorder ? styles.navBorder : ''}`}
-      >
-        {children}
-
-      {/* Left Logo */}
-      <div className={styles.logoArea}>
-        <Link href="/">
-          <Image
-            src="/images/logo.png"
-            alt="Brooq Al Khalij Logo"
-            width={150}
-            height={36}
-            className={styles.logoImg}
-            priority
-          />
-        </Link>
-      </div>
-
-      {/* Center Links (Desktop) */}
-      <div className={styles.centerNav}>
-        {CENTER_LINKS.map((link) => {
-          const isActive = activeMenu === link.label;
-          let pillStyle = `${styles.navLinkPill} ${isNavbarLight ? styles.lightLinkPill : ''}`;
-
-          if (isActive) {
-            pillStyle += ` ${isNavbarLight ? styles.activePillLight : styles.activePillDark}`;
-          }
-
-          return (
-            <Link
-              key={link.label}
-              href={link.href}
-              className={pillStyle}
-              onMouseEnter={() => handleMouseEnter(link.label)}
-            >
-              {link.label}
-            </Link>
-          );
-        })}
-      </div>
-
-      {/* Right Links & Actions */}
-      <div className={styles.rightNav}>
-        <button 
-          type="button" 
-          onClick={() => setIsSearchModalOpen(true)}
-          className={`${styles.iconBtn} ${isNavbarLight ? styles.lightIconBtn : ''}`} 
-          aria-label="Search"
-        >
-          <Search size={16} />
-        </button>
+    <header className={styles.walmartHeaderContainer}>
+      {/* PRIMARY TOP NAV BAR (Walmart Signature Blue #0071DC) */}
+      <div className={styles.topHeaderBar}>
         
-        {session?.user ? (
-          <Link href="/profile" className={`${styles.navLinkPill} ${isNavbarLight ? styles.lightLinkPill : ''}`}>
-            Account
-          </Link>
-        ) : (
-          <Link href="/login" className={`${styles.navLinkPill} ${isNavbarLight ? styles.lightLinkPill : ''}`}>
-            Login
-          </Link>
-        )}
-        <button
-          type="button"
-          onClick={openCart}
-          className={`${styles.navLinkPill} ${isNavbarLight ? styles.lightLinkPill : ''} hidden lg:inline-flex`}
-          style={{ cursor: 'pointer' }}
-        >
-          Cart<sup style={{ fontSize: '9px', marginLeft: '1px' }}>{cartItemCount < 10 ? `0${cartItemCount}` : cartItemCount}</sup>
-        </button>
-
         {/* Mobile Menu Toggle */}
         <button 
-          className={`${styles.iconBtn} ${isNavbarLight ? styles.lightIconBtn : ''} ${styles.mobileMenuBtn}`} 
-          aria-label="Menu"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          type="button" 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
+          className={styles.mobileHamburgerBtn}
+          aria-label="Toggle navigation menu"
         >
-          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          <Icon icon={Menu01Icon} size={22} />
         </button>
-      </div>
 
-      {/* Mobile Navigation Drawer */}
-      <div 
-        className={`${styles.mobileDrawerOverlay} ${isMobileMenuOpen ? styles.drawerOpen : ''}`}
-        onClick={() => setIsMobileMenuOpen(false)}
-      >
-        <div className={styles.mobileDrawerContent} onClick={(e) => e.stopPropagation()}>
-          <div className={styles.mobileNavLinks}>
-            {CENTER_LINKS.map((link) => (
-              <Link 
-                key={link.label} 
-                href={link.href} 
-                className={styles.mobileNavLink}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <span>{link.label}</span>
-                <span className={styles.mobileNavArrow}>→</span>
-              </Link>
-            ))}
+        {/* Brand Logo */}
+        <Link href="/" className={styles.logoBox}>
+          <div className={styles.logoWrapper}>
+            <Image
+              src="/images/logo.png"
+              alt="Saudi Fab Store Logo"
+              width={140}
+              height={34}
+              className={styles.brandLogoImg}
+              priority
+            />
           </div>
+        </Link>
 
-          <div className={styles.mobileDrawerActions}>
-            <button
-              type="button"
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                openCart();
-              }}
-              className={`${styles.mobileActionBtn} ${styles.mobileActionBtnSecondary}`}
-            >
-              Cart ({cartItemCount < 10 ? `0${cartItemCount}` : cartItemCount})
-            </button>
-            {session?.user ? (
-              <Link 
-                href="/profile" 
-                className={`${styles.mobileActionBtn} ${styles.mobileActionBtnPrimary}`}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                My Account
-              </Link>
-            ) : (
-              <Link 
-                href="/login" 
-                className={`${styles.mobileActionBtn} ${styles.mobileActionBtnPrimary}`}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Login / Register
-              </Link>
-            )}
-          </div>
+        {/* Pickup or Delivery Pill Button */}
+        <div className={styles.locationPillWrapper} ref={locationRef}>
+          <button 
+            type="button"
+            className={styles.deliverToPillBtn}
+            onClick={() => setIsLocationDropdownOpen(!isLocationDropdownOpen)}
+            aria-expanded={isLocationDropdownOpen}
+          >
+            <div className={styles.handIconBadge}>
+              <Icon icon={DeliveryTruck01Icon} size={16} className={styles.truckIcon} />
+            </div>
+            <div className={styles.deliverTextGroup}>
+              <div className={styles.deliverTitleRow}>
+                <span className={styles.deliverTitle}>
+                  {fulfillmentType === "delivery" ? "Pickup or delivery?" : "In-store pickup"}
+                </span>
+                <Icon icon={ArrowDown01Icon} size={14} className={styles.pillChevron} />
+              </div>
+              <span className={styles.deliverSubtext}>
+                {currentPostalCode} • Main Hub
+              </span>
+            </div>
+          </button>
+
+          {/* Fulfillment Dropdown Modal */}
+          {isLocationDropdownOpen && (
+            <div className={styles.fulfillmentDropdownCard}>
+              <div className={styles.dropdownHeader}>
+                <h3>How do you want your item?</h3>
+                <button type="button" onClick={() => setIsLocationDropdownOpen(false)} className={styles.closeBtn}>
+                  <Icon icon={Cancel01Icon} size={16} />
+                </button>
+              </div>
+
+              <div className={styles.fulfillmentOptionsGrid}>
+                <button 
+                  type="button"
+                  className={`${styles.optionCard} ${fulfillmentType === "delivery" ? styles.optionActive : ""}`}
+                  onClick={() => setFulfillmentType("delivery")}
+                >
+                  <Icon icon={DeliveryTruck01Icon} size={24} className={styles.optionIcon} />
+                  <span className={styles.optionLabel}>Shipping &amp; Delivery</span>
+                  <span className={styles.optionSub}>Direct to your site</span>
+                </button>
+
+                <button 
+                  type="button"
+                  className={`${styles.optionCard} ${fulfillmentType === "pickup" ? styles.optionActive : ""}`}
+                  onClick={() => setFulfillmentType("pickup")}
+                >
+                  <Icon icon={Store01Icon} size={24} className={styles.optionIcon} />
+                  <span className={styles.optionLabel}>Store Pickup</span>
+                  <span className={styles.optionSub}>Dammam Hub Depot</span>
+                </button>
+              </div>
+
+              <div className={styles.postalCodeSection}>
+                <label htmlFor="locationSelect">Location / City:</label>
+                <div className={styles.postalInputRow}>
+                  <Icon icon={Location01Icon} size={16} className={styles.inputPinIcon} />
+                  <input 
+                    id="locationSelect"
+                    type="text" 
+                    value={currentPostalCode} 
+                    onChange={(e) => setCurrentPostalCode(e.target.value)}
+                    placeholder="Enter city or postal code"
+                  />
+                  <button 
+                    type="button" 
+                    onClick={() => setIsLocationDropdownOpen(false)}
+                    className={styles.savePostalBtn}
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Full-Width Walmart Pill Search Bar */}
+        <form onSubmit={handleSearchSubmit} className={styles.pillSearchBarForm}>
+          <input
+            type="text"
+            placeholder="Search everything at Saudi Fab Store online and in store"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className={styles.pillSearchInput}
+          />
+          <button type="submit" className={styles.circularSearchBtn} aria-label="Search">
+            <Icon icon={Search01Icon} size={18} className={styles.searchMagnifierIcon} />
+          </button>
+        </form>
+
+        {/* Right Navigation Controls */}
+        <div className={styles.rightNavControls}>
+          
+          {/* Reorder / My Items */}
+          <Link href="/products?sort=popular" className={styles.navActionBox}>
+            <Icon icon={ShoppingBagFavoriteIcon} size={20} className={styles.navActionIcon} />
+            <div className={styles.actionTextStack}>
+              <span className={styles.actionSubText}>Reorder</span>
+              <span className={styles.actionMainText}>My Items</span>
+            </div>
+          </Link>
+
+          {/* User Sign In / Account */}
+          <Link href={session?.user ? "/profile" : "/login"} className={styles.navActionBox}>
+            <Icon icon={UserSquareIcon} size={20} className={styles.navActionIcon} />
+            <div className={styles.actionTextStack}>
+              <span className={styles.actionSubText}>
+                {session?.user ? `Hello, ${session.user.name?.split(" ")[0] || 'User'}` : 'Sign In'}
+              </span>
+              <span className={styles.actionMainText}>Account</span>
+            </div>
+          </Link>
+
+          {/* Cart Icon & Total Price */}
+          <button type="button" onClick={openCart} className={styles.cartActionBtn} aria-label="Shopping Cart">
+            <div className={styles.cartIconBadgeWrapper}>
+              <Icon icon={ShoppingCart01Icon} size={24} className={styles.walmartCartIcon} />
+              {cartItemCount > 0 && (
+                <span className={styles.walmartCartBadge}>{cartItemCount}</span>
+              )}
+            </div>
+            <div className={styles.cartPriceStack}>
+              <span className={styles.cartPriceLabel}>
+                SAR {cartTotalPrice.toFixed(2)}
+              </span>
+            </div>
+          </button>
+
         </div>
       </div>
 
-      {/* Mega Menu Dropdown */}
-      <div 
-        className={`${styles.megaMenuWrapper} ${activeMenu ? styles.menuOpen : ''}`}
-        onMouseEnter={() => {
-          if (timeoutRef.current) clearTimeout(timeoutRef.current);
-        }}
-      >
-        {currentMenuData && (
-          <div className={styles.megaMenuContainer}>
-            {currentMenuData.type === "products" ? (
-              /* Product Showcase Horizontal Grid Dropdown (Pedestal Shop Reference Layout) */
-              <div className={styles.shopMegaMenuInner}>
-                {/* Top Row: FEATURED header & Sub-links */}
-                <div className={styles.shopTopRow}>
-                  <span className={styles.shopHeader}>{currentMenuData.featuredTitle || "FEATURED"}</span>
-                  <div className={styles.shopSubLinkGrid}>
-                    {currentMenuData.featuredLinks?.map((link, idx) => (
-                      <Link key={idx} href={link.href} className={styles.shopSubLink}>
-                        {link.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
+      {/* SECONDARY SUB-HEADER BAR (Ice Blue #E6F1FC) */}
+      <div className={styles.subHeaderNav}>
+        <div className={styles.subHeaderInner}>
+          
+          {/* Departments Dropdown Pill */}
+          <div className={styles.dropdownPillWrapper} ref={deptsRef}>
+            <button 
+              type="button" 
+              className={styles.whitePillBtn}
+              onClick={() => {
+                setIsDepartmentsOpen(!isDepartmentsOpen);
+                setIsServicesOpen(false);
+              }}
+            >
+              <Icon icon={Grid02Icon} size={16} />
+              <span>Departments</span>
+              <Icon icon={ArrowDown01Icon} size={14} className={`${styles.pillChevron} ${isDepartmentsOpen ? styles.chevronRotate : ""}`} />
+            </button>
 
-                {/* 5 Product Cards Horizontal Row */}
-                <div className={styles.productGrid}>
-                  {(shopProducts.length > 0 ? shopProducts : (currentMenuData.products || [])).map((prod, idx) => (
-                    <Link key={idx} href={prod.href} className={styles.productCard}>
-                      <div className={styles.productImgWrapper}>
-                        <Image
-                          src={prod.image || "/images/home/category_grid/container_3.jpeg"}
-                          alt={prod.name}
-                          width={180}
-                          height={180}
-                          unoptimized
-                          className={styles.productImg}
-                          style={{ objectFit: 'contain', maxHeight: '180px', width: 'auto', margin: '0 auto' }}
-                        />
-                      </div>
-                      <span className={styles.productTitle}>{prod.name}</span>
-                      {prod.isConfigure ? (
-                        <span className={styles.configureBtn}>✦ {prod.buttonLabel}</span>
-                      ) : (
-                        <span className={styles.shopUnderlineLink}>{prod.buttonLabel}</span>
-                      )}
-                      <span className={styles.productSubtext}>{prod.subtext}</span>
-                    </Link>
-                  ))}
-                </div>
-
-                {/* Bottom Full-Width Bar */}
-                <div className={styles.megaMenuBottomBar}>
-                  <Link href={currentMenuData.bottomBar.href} className={styles.bottomBarLink}>
-                    {currentMenuData.bottomBar.label} <sup>{totalProductCount || currentMenuData.bottomBar.count}</sup>
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              /* Standard 4-Column Layout (Services & Divisions) */
-              <div className={styles.megaMenuInner}>
-                {/* Column 1: Featured Links & Popular Right Now */}
-                <div className={styles.menuCol}>
-                  <span className={styles.colHeader}>{currentMenuData.col1Title}</span>
-                  <div className={styles.menuLinkList}>
-                    {currentMenuData.col1Links?.map((link, idx) => (
-                      <Link key={idx} href={link.href} className={styles.menuLink}>
-                        {link.label}
-                      </Link>
-                    ))}
-                  </div>
-
-                  {currentMenuData.popularThumbs && (
-                    <div className={styles.popularSection}>
-                      <span className={styles.popularHeader}>{currentMenuData.popularTitle}</span>
-                      <div className={styles.popularThumbGrid}>
-                        {currentMenuData.popularThumbs.map((thumb, idx) => (
-                          <Link key={idx} href={thumb.href} className={styles.popularThumb} title={thumb.alt}>
-                            <Image src={thumb.src} alt={thumb.alt} fill className={styles.thumbImg} sizes="140px" />
-                          </Link>
-                        ))}
-                      </div>
+            {isDepartmentsOpen && (
+              <div className={styles.megaMenuDropdown}>
+                <div className={styles.megaMenuGrid}>
+                  <Link href="/products?category=Forklift+Attachments" onClick={() => setIsDepartmentsOpen(false)} className={styles.megaMenuItem}>
+                    <Icon icon={PackageIcon} size={18} />
+                    <div>
+                      <strong>Forklift Attachments</strong>
+                      <p>Skip buckets, tippers &amp; clamps</p>
                     </div>
-                  )}
-                </div>
-
-                {/* Column 2: Core Offerings / Categories */}
-                <div className={styles.menuCol}>
-                  <span className={styles.colHeader}>{currentMenuData.col2Title}</span>
-                  <div className={styles.menuLinkList}>
-                    {currentMenuData.col2Links?.map((link, idx) => (
-                      <Link key={idx} href={link.href} className={styles.menuLink}>
-                        {link.label}
-                      </Link>
-                    ))}
-                  </div>
-                  {currentMenuData.col2ShopAll && (
-                    <Link href={currentMenuData.col2ShopAll.href} className={styles.shopAllLink}>
-                      {currentMenuData.col2ShopAll.label}<sup>{currentMenuData.col2ShopAll.count}</sup>
-                    </Link>
-                  )}
-                </div>
-
-                {/* Column 3: Specialized Scope / Products */}
-                <div className={styles.menuCol}>
-                  <span className={styles.colHeader}>{currentMenuData.col3Title}</span>
-                  <div className={styles.menuLinkList}>
-                    {currentMenuData.col3Links?.map((link, idx) => (
-                      <Link key={idx} href={link.href} className={styles.menuLink}>
-                        {link.label}
-                      </Link>
-                    ))}
-                  </div>
-                  {currentMenuData.col3ShopAll && (
-                    <Link href={currentMenuData.col3ShopAll.href} className={styles.shopAllLink}>
-                      {currentMenuData.col3ShopAll.label}<sup>{currentMenuData.col3ShopAll.count}</sup>
-                    </Link>
-                  )}
-                </div>
-
-                {/* Column 4: Large Featured Right Card with Auto-cycling Slides */}
-                <div className={styles.menuCol}>
-                  {activeMenu === "Services" ? (
-                    <Link 
-                      href={FEATURED_SERVICES_SLIDES[currentFeaturedIndex].href} 
-                      className={styles.featureCard}
-                    >
-                      <Image 
-                        key={FEATURED_SERVICES_SLIDES[currentFeaturedIndex].image}
-                        src={FEATURED_SERVICES_SLIDES[currentFeaturedIndex].image} 
-                        alt={FEATURED_SERVICES_SLIDES[currentFeaturedIndex].title}
-                        fill
-                        className={styles.featureCardImage}
-                        sizes="360px"
-                      />
-                      <div className={styles.featureCardOverlay}>
-                        <h4 className={styles.featureCardTitle}>
-                          {FEATURED_SERVICES_SLIDES[currentFeaturedIndex].title}
-                        </h4>
-                        <p className={styles.featureCardSub}>
-                          {FEATURED_SERVICES_SLIDES[currentFeaturedIndex].sub}
-                        </p>
-                      </div>
-                    </Link>
-                  ) : (
-                    currentMenuData.featureCard && (
-                      <Link href={currentMenuData.featureCard.href} className={styles.featureCard}>
-                        <Image 
-                          src={currentMenuData.featureCard.image} 
-                          alt={currentMenuData.featureCard.title}
-                          fill
-                          className={styles.featureCardImage}
-                          sizes="360px"
-                        />
-                        <div className={styles.featureCardOverlay}>
-                          <h4 className={styles.featureCardTitle}>{currentMenuData.featureCard.title}</h4>
-                          <p className={styles.featureCardSub}>{currentMenuData.featureCard.sub}</p>
-                        </div>
-                      </Link>
-                    )
-                  )}
-                </div>
-
-                {/* Bottom Bar aligned with overall content left and right margins */}
-                <div className={styles.megaMenuBottomBar}>
-                  <Link href={currentMenuData.bottomBar.href} className={styles.bottomBarLink}>
-                    {currentMenuData.bottomBar.label} {currentMenuData.bottomBar.count && <sup>{currentMenuData.bottomBar.count}</sup>}
+                  </Link>
+                  <Link href="/products?category=Warehouse+%26+Logistics" onClick={() => setIsDepartmentsOpen(false)} className={styles.megaMenuItem}>
+                    <Icon icon={CubeIcon} size={18} />
+                    <div>
+                      <strong>Warehouse &amp; Logistics</strong>
+                      <p>Bins, skips &amp; storage racks</p>
+                    </div>
+                  </Link>
+                  <Link href="/products?category=Safety+Equipment" onClick={() => setIsDepartmentsOpen(false)} className={styles.megaMenuItem}>
+                    <Icon icon={ShieldCheckIcon} size={18} />
+                    <div>
+                      <strong>Safety Equipment</strong>
+                      <p>PPE, harnesses &amp; barrier nets</p>
+                    </div>
+                  </Link>
+                  <Link href="/products?category=Lifting+Equipment" onClick={() => setIsDepartmentsOpen(false)} className={styles.megaMenuItem}>
+                    <Icon icon={Wrench01Icon} size={18} />
+                    <div>
+                      <strong>Lifting Equipment</strong>
+                      <p>Slings, hoists &amp; steel shackles</p>
+                    </div>
                   </Link>
                 </div>
               </div>
             )}
           </div>
-        )}
+
+          {/* Shop All Link Pill */}
+          <Link href="/products" className={styles.whitePillBtn}>
+            <Icon icon={Store01Icon} size={16} />
+            <span>Shop All</span>
+          </Link>
+
+          {/* Divider Line */}
+          <div className={styles.subBarDivider}></div>
+
+          {/* Scrollable Quick Category Chip Pills Track */}
+          <div className={styles.categoryChipsTrack}>
+            <Link href="/products?sort=popular" className={styles.chipPill}>Rollbacks &amp; Deals</Link>
+            <Link href="/products?category=Forklift+Attachments" className={styles.chipPill}>Forklift Accessories</Link>
+            <Link href="/products?category=Warehouse+%26+Logistics" className={styles.chipPill}>Warehouse Equipment</Link>
+            <Link href="/products?category=Safety+Equipment" className={styles.chipPill}>Safety &amp; PPE</Link>
+            <Link href="/products?badge=BESTSELLER" className={styles.chipPill}>Lifting &amp; Cranes</Link>
+            <Link href="/products?sort=newest" className={styles.chipPill}>New Arrivals</Link>
+            <Link href="/contact" className={styles.chipPillHighlight}>
+              <span>Saudi Fab+</span>
+            </Link>
+            <Link href="/contact" className={styles.chipPill}>B2B Wholesale</Link>
+            <Link href="/contact" className={styles.chipPill}>
+              <Icon icon={Call02Icon} size={13} />
+              <span>Customer Service</span>
+            </Link>
+          </div>
+
+        </div>
       </div>
-    </nav>
-    <SearchModal isOpen={isSearchModalOpen} onClose={() => setIsSearchModalOpen(false)} />
-    </div>
+
+      {/* MOBILE DRAWER OVERLAY */}
+      {isMobileMenuOpen && (
+        <div className={styles.mobileDrawerOverlay} onClick={() => setIsMobileMenuOpen(false)}>
+          <div className={styles.mobileDrawerContent} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.mobileDrawerHeader}>
+              <div className={styles.mobileUserBadge}>
+                <Icon icon={UserSquareIcon} size={24} />
+                <span>{session?.user ? `Hello, ${session.user.name}` : 'Sign In / Register'}</span>
+              </div>
+              <button type="button" onClick={() => setIsMobileMenuOpen(false)} className={styles.closeDrawerBtn}>
+                <Icon icon={Cancel01Icon} size={20} />
+              </button>
+            </div>
+
+            <div className={styles.mobileDrawerBody}>
+              <div className={styles.mobileNavSection}>
+                <h4>Departments</h4>
+                <Link href="/products?category=Forklift+Attachments" onClick={() => setIsMobileMenuOpen(false)}>Forklift Attachments</Link>
+                <Link href="/products?category=Warehouse+%26+Logistics" onClick={() => setIsMobileMenuOpen(false)}>Warehouse &amp; Logistics</Link>
+                <Link href="/products?category=Safety+Equipment" onClick={() => setIsMobileMenuOpen(false)}>Safety Equipment</Link>
+                <Link href="/products?category=Lifting+Equipment" onClick={() => setIsMobileMenuOpen(false)}>Lifting &amp; Cranes</Link>
+              </div>
+
+              <div className={styles.mobileNavSection}>
+                <h4>Shop &amp; Catalog</h4>
+                <Link href="/products" onClick={() => setIsMobileMenuOpen(false)}>Shop All Products</Link>
+                <Link href="/products?sort=popular" onClick={() => setIsMobileMenuOpen(false)}>Best Sellers &amp; Deals</Link>
+                <Link href="/products?sort=newest" onClick={() => setIsMobileMenuOpen(false)}>New Arrivals</Link>
+              </div>
+
+              <div className={styles.mobileNavSection}>
+                <h4>Account &amp; Support</h4>
+                <Link href="/profile" onClick={() => setIsMobileMenuOpen(false)}>My Account</Link>
+                <Link href="/admin/orders" onClick={() => setIsMobileMenuOpen(false)}>Orders &amp; Returns</Link>
+                <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>Customer Service</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <SearchModal isOpen={isSearchModalOpen} onClose={() => setIsSearchModalOpen(false)} />
+    </header>
   );
 }
+

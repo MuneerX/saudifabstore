@@ -1,5 +1,5 @@
 @import "tw-animate-css";
-@import url('https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300..900;1,300..900&family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* GSAP ScrollSmoother CSS */
 html, body {
@@ -27,14 +27,14 @@ html, body {
 /* Commercial-Free Neo-Grotesque Font Fallbacks for PP Neue Montreal */
 @font-face {
   font-family: 'PP Neue Montreal';
-  src: local('Host Grotesk'), local('PP Neue Montreal'), local('pp-neue-montreal');
+  src: local('Archivo'), local('Host Grotesk'), local('PP Neue Montreal'), local('pp-neue-montreal');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 .font-neue-montreal {
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Archivo', 'Host Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .font-serif-brand {
@@ -55,8 +55,17 @@ html, body {
   --secondary: #f0f0f0;
   --secondary-foreground: #000000;
   --secondary-hover: #e0e0e0;
-  --accent: #EB5521;
-  --brand-orange: #EB5521;
+  --accent: #FEEC3C;
+  --brand-yellow: #FEEC3C;
+  --brand-yellow-hover: #E5D430;
+  --brand-yellow-dark: #D4C320;
+  --brand-emerald: #059669;
+  --brand-emerald-hover: #047857;
+  --brand-emerald-dark: #065f46;
+  --brand-forest-dark: #062419;
+  --brand-forest-sub: #0f3828;
+  --brand-forest-card: #0a2e21;
+  --brand-forest-footer: #041e15;
   --accent-foreground: #ffffff;
   --destructive: #dc2626;
   --destructive-hover: #b91c1c;
@@ -176,12 +185,27 @@ html, body {
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Montserrat', 'Satoshi', sans-serif; /* Montserrat as primary, Satoshi as fallback */
-  font-weight: 400; /* Default font weight */
+  font-family: var(--font-archivo), 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
 }
 
-/* Base styles for h1, h2, p etc. */
-h1, h2, h3, h4, h5, h6 {
+/* Framed Page Container with generous left & right margins */
+.siteFramedContainer {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 40px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .siteFramedContainer {
+    padding: 0 16px;
+  }
+}
+
+/* Base styles for h1, h2, h3, h4, h5, h6 (Archivo) */
+h1, h2, h3, h4, h5, h6, .font-title, [class*="title"], [class*="Title"], [class*="heading"], [class*="Heading"] {
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -194,6 +218,11 @@ p {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+/* Base styles for buttons, CTAs, navigation links, inputs, labels, and badges (Archivo Narrow) */
+button, .btn, [class*="btn"], [class*="Btn"], [class*="button"], [class*="Button"], input, select, textarea, label, .badge, [class*="badge"], [class*="Badge"], .subLink, .navLink {
+  font-family: var(--font-archivo-narrow), 'Archivo Narrow', sans-serif;
 }
 
 button {

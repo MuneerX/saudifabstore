@@ -1,715 +1,490 @@
-/* ── Outer Section Wrapper ── */
-.footer {
-  background: linear-gradient(
-    to bottom,
-    rgba(251, 202, 174, 0.42) 0%,
-    rgba(255, 255, 255, 1) 40%,
-    rgba(255, 255, 255, 1) 100%
-  );
+/* Saudi Noon Style Footer Navigation CSS */
+
+.noonFooterContainer {
   width: 100%;
-  padding: 0 12.8px 12.8px 12.8px;
+  background-color: #ffffff;
+  font-family: 'Archivo', 'Host Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 40px;
 }
 
-.noGradient {
-  background: transparent !important;
+/* 1. TOP HELP & SUPPORT BANNER */
+.helpBannerWrapper {
+  background-color: #f7f9fe;
+  border-bottom: 1px solid #e9eef8;
+  padding: 18px 24px;
 }
 
-/* ── Inner Card ── */
-.footerCard {
-  background-color: #2b2b29;
-  color: #ffffff;
-  width: 100%;
-  border-radius: 9.6px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-/* ── Top Bar (Perfect Center Logo, no bottom span line) ── */
-.topBar {
-  width: 100%;
-  padding: 24px 0;
-  position: relative;
-}
-
-.topBarInner {
-  max-width: 100%;
-  margin: 0;
-  padding: 0 48px;
+.helpBannerContainer {
+  max-width: 1520px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: flex-end; /* Social icons anchored to right */
-  position: relative;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
 }
 
-.logoWrapper {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-}
-
-.logoImg {
-  height: 72px;
-  width: auto;
-  object-fit: contain;
-  display: block;
-  filter: brightness(0) invert(1);
-}
-
-.socialIcons {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.socialIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 50%;
-  color: #ffffff;
-  text-decoration: none;
-  transition: background 0.2s ease;
-}
-
-.socialIcon:hover {
-  background: rgba(255, 255, 255, 0.18);
-}
-
-/* ── Hero Headline ── */
-.heroHeadline {
-  text-align: center;
-  padding: 60px 48px 72px;
-}
-
-.heroText {
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(40px, 5.5vw, 76px);
-  line-height: 1.02;
-  letter-spacing: -2px;
-  font-weight: 400;
-  color: #ffffff;
-  margin: 0;
-}
-
-/* ── Main Grid: Links + CTA Column ── */
-.mainGrid {
-  max-width: 100%;
-  margin: 0;
-  width: 100%;
-  padding: 0 16px 60px 200px;
-  display: grid;
-  grid-template-columns: 1fr 580px; /* Scaled down green box column width slightly */
-  gap: 40px;
-  align-items: start;
-}
-
-@media (max-width: 1600px) {
-  .mainGrid {
-    padding-left: 100px;
-    grid-template-columns: 1fr 500px;
-  }
-}
-
-@media (max-width: 1280px) {
-  .mainGrid {
-    padding-left: 60px;
-    grid-template-columns: 1fr 420px;
-  }
-}
-
-@media (max-width: 1100px) {
-  .mainGrid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-    padding-left: 48px;
-    padding-right: 48px;
-  }
-}
-
-/* ── Link Columns Side ── */
-.linkColumns {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.colDivider {
-  width: 100%;
-  height: 0;
-  border-top: 1px dotted rgba(255, 255, 255, 0.12); /* Lower opacity for subtle span line */
-  margin: 0;
-}
-
-.colsRow {
-  display: grid;
-  grid-template-columns: 1.1fr 1.3fr 1.3fr;
-  gap: 20px;
-  padding: 32px 0 60px; /* Restored 60px bottom spacing before span line */
-  align-items: start;
-}
-
-@media (max-width: 768px) {
-  .colsRow {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
-  }
-}
-
-.col {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.colHeading {
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  color: #ffffff;
-  margin: 0;
-  text-transform: uppercase;
-}
-
-.colList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.helpTextGroup {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.colList li a {
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+.helpTitle {
   font-size: 16px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.75);
-  text-decoration: none;
-  transition: opacity 0.2s ease;
-  letter-spacing: -0.015em;
-  line-height: 1.2;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.01em;
 }
 
-.colList li a:hover {
-  color: #ffffff;
-  opacity: 1;
-}
-
-/* ── Support Row (Styled like Category Section Above) ── */
-.supportRow {
-  display: grid;
-  grid-template-columns: 2.4fr 1.3fr;
-  gap: 20px;
-  padding: 32px 0 52px; /* Top padding 32px matching navigation section top padding exactly */
-  align-items: start;
-}
-
-@media (max-width: 768px) {
-  .supportRow {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-}
-
-.supportBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.supportLabel {
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  color: #ffffff;
-  text-transform: uppercase;
+.helpSubtitle {
+  font-size: 12.5px;
+  color: #64748b;
   margin: 0;
 }
 
-.supportEmail {
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.75);
-  text-decoration: none;
-  transition: opacity 0.2s ease;
-  letter-spacing: -0.015em;
-  line-height: 1.2;
-}
-
-.supportEmail:hover {
-  color: #ffffff;
-  opacity: 1;
-}
-
-/* ── Subscribe Row (Right Aligned under left column) ── */
-.subscribeRow {
+.supportChannelsGroup {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-  padding: 32px 0 0; /* Top padding 32px matching navigation section top padding exactly */
+  gap: 24px;
+  flex-wrap: wrap;
 }
 
-.legitBadge {
-  flex-shrink: 0;
-}
-
-.subscribeForm {
-  max-width: 560px;
-  width: 100%;
+.channelBadgeCard {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #ffffff;
-  padding-bottom: 10px;
-  gap: 12px;
-  margin-left: auto;
-}
-
-.emailInput {
-  flex: 1;
-  background: none;
-  border: none;
-  outline: none;
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: -0.015em;
-  color: #ffffff;
-}
-
-.emailInput::placeholder {
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: -0.015em;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.subscribeBtn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  color: #ffffff;
-  white-space: nowrap;
-  transition: opacity 0.2s ease;
-  letter-spacing: -0.015em;
-}
-
-.subscribeBtn:hover {
-  opacity: 0.8;
-}
-
-.arrowIcon {
-  display: inline-block;
-  flex-shrink: 0;
-  transition: transform 0.2s ease;
-}
-
-/* ── Right CTA Column (Green Card + Member Login Button below) ── */
-.rightCtaCol {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.ctaCard {
-  background-color: #EB5521;
-  border-radius: 14px;
-  padding: 32px 36px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 400px;
-  overflow: hidden;
-  position: relative;
-  text-decoration: none;
-}
-
-@media (max-width: 1600px) {
-  .ctaCard {
-    padding: 24px 28px;
-    min-height: 320px;
-  }
-}
-
-@media (max-width: 1280px) {
-  .ctaCard {
-    padding: 20px 24px;
-    min-height: 280px;
-  }
-}
-
-.ctaLabel {
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: rgba(255, 255, 255, 0.7);
-  text-transform: uppercase;
-  margin: 0;
-}
-
-.ctaScrollText {
-  flex: 1;
-  display: flex;
-  align-items: flex-end;
-  overflow: hidden;
-  padding: 20px 0 10px;
-  width: 100%;
-}
-
-.ctaScrollTrack {
-  display: flex;
-  width: max-content;
-  animation: scrollText 12s linear infinite;
-}
-
-.ctaScrollText span {
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(44px, 5.5vw, 76px);
-  font-weight: 400;
-  color: #ffffff;
-  white-space: nowrap;
-  letter-spacing: -2px;
-  line-height: 1;
-  padding-right: 36px;
-  display: inline-block;
-}
-
-@keyframes scrollText {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* Member Login Button (Full width reverted, font matching navigation links exactly) */
-.memberLoginBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
   gap: 10px;
-  background: #ffffff;
-  color: #2b2b29;
   text-decoration: none;
-  font-family: 'Host Grotesk', 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px; /* Matched navigation link font-size */
-  font-weight: 500; /* Matched navigation link font-weight */
-  letter-spacing: -0.015em; /* Matched navigation link letter-spacing */
-  padding: 16px 24px;
-  border-radius: 4px;
-  width: 100%; /* Full column width reverted */
-  transition: transform 0.2s ease, background 0.2s ease;
+  background-color: #ffffff;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(254, 236, 60, 0.7);
+  box-shadow: 0 2px 8px rgba(254, 236, 60, 0.18);
+  transition: all 0.15s ease;
 }
 
-.memberLoginBtn:hover {
-  background: #f0ede6;
+.channelBadgeCard:hover {
+  border-color: #FEEC3C;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(254, 236, 60, 0.4);
 }
 
-.memberLoginBtn:hover .arrowIcon {
-  transform: translateX(3px);
-}
-
-@media (max-width: 1600px) {
-  .memberLoginBtn {
-    padding: 14px 20px;
-    font-size: 15px;
-  }
-}
-
-@media (max-width: 1280px) {
-  .memberLoginBtn {
-    padding: 12px 18px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 768px) {
-  .footer {
-    padding: 0 10px 10px 10px;
-  }
-  .topBarInner {
-    padding: 0 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: static;
-  }
-  .logoWrapper {
-    position: static;
-    transform: none;
-    left: auto;
-  }
-  .heroHeadline {
-    padding: 48px 24px 48px;
-  }
-  .heroText {
-    font-size: clamp(34px, 6vw, 48px);
-    letter-spacing: -1px;
-  }
-  .mainGrid {
-    padding: 0 24px 40px 24px;
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-  .colsRow {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 24px 0 40px;
-  }
-  .supportRow {
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    padding: 24px 0;
-  }
-  .subscribeRow {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    padding: 24px 0 0;
-  }
-  .subscribeForm {
-    max-width: 400px;
-  }
-  .ctaCard {
-    min-height: 220px;
-    padding: 24px 28px;
-  }
-  .ctaScrollText span {
-    font-size: 36px;
-  }
-}
-
-/* Dedicated Mobile Viewport Override (<= 576px) */
-@media (max-width: 576px) {
-  .footer {
-    padding: 0 6px 6px 6px;
-  }
-  .footerCard {
-    border-radius: 8px;
-  }
-  .topBar {
-    padding: 20px 0 12px;
-  }
-  .topBarInner {
-    padding: 0 16px;
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
-    justify-content: center;
-  }
-  .logoImg {
-    height: 56px;
-  }
-  .socialIcons {
-    gap: 12px;
-  }
-  .heroHeadline {
-    padding: 32px 16px 36px;
-  }
-  .heroText {
-    font-size: clamp(26px, 7.5vw, 36px);
-    line-height: 1.1;
-    letter-spacing: -0.5px;
-  }
-  .mainGrid {
-    padding: 0 16px 32px 16px;
-    gap: 28px;
-  }
-  .colsRow {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 28px 16px;
-    padding: 20px 0 32px;
-  }
-  .colsRow .col:nth-child(3) {
-    grid-column: 1 / -1;
-  }
-  .colHeading {
-    font-size: 10px;
-  }
-  .colList li a {
-    font-size: 14.5px;
-  }
-  .supportRow {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 20px 0;
-  }
-  .supportEmail {
-    font-size: 14.5px;
-    word-break: break-all;
-  }
-  .subscribeRow {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-    padding: 20px 0 0;
-  }
-  .legitBadge {
-    align-self: center;
-  }
-  .subscribeForm {
-    margin-left: 0;
-    width: 100%;
-    max-width: 100%;
-  }
-  .emailInput {
-    font-size: 14px;
-    min-width: 0;
-  }
-  .emailInput::placeholder {
-    font-size: 14px;
-  }
-  .subscribeBtn {
-    font-size: 14px;
-  }
-  .rightCtaCol {
-    gap: 12px;
-  }
-  .ctaCard {
-    min-height: 170px;
-    padding: 20px;
-    border-radius: 10px;
-  }
-  .ctaLabel {
-    font-size: 9px;
-    letter-spacing: 0.12em;
-  }
-  .ctaScrollText {
-    padding: 12px 0 4px;
-  }
-  .ctaScrollText span {
-    font-size: 30px;
-    padding-right: 16px;
-    letter-spacing: -1px;
-  }
-  .memberLoginBtn {
-    padding: 14px 16px;
-    font-size: 14.5px;
-    justify-content: center;
-    border-radius: 6px;
-  }
-}
-
-/* ── Sub-Footer Bar below Footer Card ── */
-.subFooterBar {
+.channelIconCircle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #FEEC3C;
+  color: #0f172a;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 18px 24px 8px;
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 12px;
-  color: #6E6B64;
-  gap: 16px;
-  flex-wrap: wrap;
+  justify-content: center;
+  font-weight: 800;
+  box-shadow: 0 2px 6px rgba(254, 236, 60, 0.35);
 }
 
-.subFooterLeft {
+.channelLabelGroup {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  font-size: 12px;
-  color: #6E6B64;
+  flex-direction: column;
 }
 
-.subFooterCenter {
-  display: flex;
-  align-items: center;
+.channelLabelTag {
+  font-size: 9.5px;
+  font-weight: 800;
+  color: #64748b;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.channelValueText {
+  font-size: 14px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+/* 2. MULTI-COLUMN CATEGORY NAVIGATION LINKS */
+.navLinksSection {
+  padding: 32px 24px;
+  background-color: #ffffff;
+}
+
+.navLinksContainer {
+  max-width: 1520px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
   gap: 20px;
 }
 
-.subFooterLink {
-  color: #6E6B64;
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 400;
-  transition: color 0.2s ease;
-}
-
-.subFooterLink:hover {
-  color: #111111;
-  text-decoration: underline;
-}
-
-.subFooterRight {
+.navColumn {
   display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
-.privacyChoicesBtn {
-  background: none;
-  border: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #6E6B64;
-  font-size: 12px;
-  cursor: pointer;
-  padding: 0;
+.columnTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111111;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.01em;
   font-family: inherit;
 }
 
-.privacyChoicesBtn:hover {
-  color: #111111;
+.columnList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.brandDivider {
-  color: #CBD5E1;
+.columnList a {
   font-size: 12px;
+  color: #404040;
+  text-decoration: none;
+  transition: color 0.12s ease;
+  line-height: 1.7;
 }
 
-.mubarakBranding {
+.columnList a:hover {
+  color: #0071dc;
+}
+
+.linkBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  color: #404040;
+  cursor: pointer;
+  text-align: left;
+  line-height: 1.7;
+  transition: color 0.12s ease;
+  font-family: inherit;
+}
+
+.linkBtn:hover {
+  color: #0071dc;
+}
+
+.regionText {
+  font-size: 12px;
+  color: #404040;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+/* 3. SHOP ON THE GO & CONNECT WITH US */
+.appSocialRow {
+  padding: 20px 24px 28px 24px;
+  background-color: #ffffff;
+}
+
+.appSocialContainer {
+  max-width: 1520px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.sectionHeaderTitle {
+  font-size: 11px;
+  font-weight: 800;
+  color: #0058a3;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.shopOnGoBlock,
+.connectWithUsBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.appStoreBadgesGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.appBadgePill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  background-color: #000000;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 8px;
   font-size: 12px;
-  color: #6E6B64;
-}
-
-.mubarakLabel {
-  color: #8E8A81;
-  font-size: 11px;
-  font-weight: 400;
-}
-
-.mubarakLink {
-  color: #111111;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
-  transition: color 0.2s ease;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
 }
 
-.mubarakLink:hover {
-  color: #EB5521;
+.appBadgePill:hover {
+  transform: translateY(-1px);
+  background-color: #0058a3;
+  color: #ffffff;
+}
+
+.yellowSocialGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.yellowSocialCircle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #FEEC3C;
+  color: #0f172a;
+  font-size: 15px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+  box-shadow: 0 2px 6px rgba(254, 236, 60, 0.4);
+}
+
+.yellowSocialCircle:hover {
+  transform: scale(1.08);
+  background-color: #facc15;
+}
+
+/* 4. BOTTOM LEGAL & PAYMENT BAR */
+.bottomLegalSection {
+  background-color: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  padding: 18px 24px;
+}
+
+.bottomLegalContainer {
+  max-width: 1520px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.legalTopFlexRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.copyrightText {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.paymentBadgesRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.paymentBadgeImg {
+  height: 24px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 4px;
+  background-color: #ffffff;
+  padding: 2px 6px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.policyLinksRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.policyLinksRow a,
+.policyBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  color: #475569;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.12s ease;
+}
+
+.policyLinksRow a:hover,
+.policyBtn:hover {
+  color: #0f172a;
   text-decoration: underline;
 }
 
+.legalCrNotice {
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
+/* DISTINCT CONTACT PAGE FOOTER VARIANT (#fafafa background with top border) */
+.contactFooterContainer {
+  background-color: #fafafa;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.contactFooterOfficesSection {
+  max-width: 1520px;
+  margin: 0 auto;
+  padding: 32px 36px 24px 36px;
+}
+
+.detailsHeaderBlock {
+  margin-bottom: 32px;
+}
+
+.detailsMainTitle {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
+}
+
+.detailsSubText {
+  font-size: 14.5px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+  max-width: 760px;
+}
+
+.unboxedDetailsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.unboxedDetailItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.detailIconCircle {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background-color: #FEEC3C;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.detailTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detailLabelTag {
+  font-size: 11px;
+  font-weight: 800;
+  color: #0058a3;
+  letter-spacing: 0.04em;
+}
+
+.detailPrimaryLink {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: #0f172a;
+  text-decoration: none;
+  line-height: 1.3;
+  transition: color 0.15s ease;
+}
+
+.detailPrimaryLink:hover {
+  color: #0058a3;
+  text-decoration: underline;
+}
+
+.detailPrimaryText {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.detailSubTextDesc {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.contactFooterContainer .bottomLegalSection {
+  background: transparent;
+  border-top: 1px solid #e2e8f0;
+  padding: 0;
+}
+
+.contactFooterContainer .bottomLegalContainer {
+  max-width: 1520px;
+  margin: 0 auto;
+  padding: 24px 36px 32px 36px;
+}
+
+.contactFooterContainer .copyrightText,
+.contactFooterContainer .policyLinksRow a,
+.contactFooterContainer .policyBtn {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.contactFooterContainer .policyLinksRow a:hover,
+.contactFooterContainer .policyBtn:hover {
+  color: #0058a3;
+  text-decoration: underline;
+}
+
+/* RESPONSIVE MEDIA QUERIES */
+@media (max-width: 1200px) {
+  .navLinksContainer {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
-  .subFooterBar {
+  .navLinksContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .legalTopFlexRow {
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 12px;
-    padding: 16px 12px 4px;
+    align-items: flex-start;
+  }
+  .appSocialContainer {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

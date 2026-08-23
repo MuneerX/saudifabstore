@@ -1,17 +1,19 @@
 import mongoose from 'mongoose';
 
-// Extend the global type to include mongoose
-declare global {
-  var mongoose: {
-    conn: typeof mongoose | null;
-    promise: Promise<typeof mongoose> | null;
-  };
+interface MongooseCache {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
 }
 
-let cached = global.mongoose;
+declare global {
+  // eslint-disable-next-line no-var
+  var mongooseCache: MongooseCache | undefined;
+}
 
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+let cached: MongooseCache = global.mongooseCache || { conn: null, promise: null };
+
+if (!global.mongooseCache) {
+  global.mongooseCache = cached;
 }
 
 async function connectToDatabase() {
@@ -31,8 +33,8 @@ async function connectToDatabase() {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(uri, opts).then(() => {
-      return mongoose;
+    cached.promise = mongoose.connect(uri, opts).then((m) => {
+      return m;
     });
   }
   cached.conn = await cached.promise;

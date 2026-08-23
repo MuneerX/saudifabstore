@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
@@ -55,7 +55,7 @@ export function MedicalSupportSection() {
             {isVideoEnded && (
               <Image
                 src="/images/home/portfolio/forklift_end_2.png"
-                alt="Brooq Al Khalij Forklift Portfolio End Frame"
+                alt="Saudi Fab Store Forklift Portfolio End Frame"
                 fill
                 className={styles.endFrameImage}
                 priority
@@ -79,7 +79,7 @@ export function MedicalSupportSection() {
               </TextReveal>
               <TextReveal animation="blur" delay={0.15}>
                 <p className={styles.bodyCopy}>
-                  Brooq Al Khalij delivers creative strategies, tactics and approaches to help clients grow their business with over 2,000+ completed projects across 7 specialized divisions.
+                  Saudi Fab Store delivers creative strategies, tactics and approaches to help clients grow their business with over 2,000+ completed projects across 7 specialized divisions.
                 </p>
               </TextReveal>
               <Link
@@ -134,7 +134,7 @@ export function MedicalSupportSection() {
                   </div>
                 </div>
                 <div className={styles.rxDetails}>
-                  <h3 className={styles.rxTitle}>Brooq Al Khalij Group</h3>
+                  <h3 className={styles.rxTitle}>Saudi Fab Store Group</h3>
                   <span className={styles.rxSub}>Est. 2000 — Dallah Ind. Area, Dammam</span>
                   <div className={styles.prescribedFooter}>
                     <span>Group Managing Director</span>
@@ -156,3 +156,4 @@ export function MedicalSupportSection() {
     </>
   );
 }
+

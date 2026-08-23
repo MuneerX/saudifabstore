@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
@@ -158,7 +158,7 @@ function PurchaseCompleteContent() {
             <div className={styles.headerBlock}>
               <h1 className={styles.title}>Order Confirmed &amp; Settlement Received!</h1>
               <p className={styles.subtitle}>
-                Thank you for your commercial order with Brooq Al Khalij. Your order has been registered in our dispatch network, and a copy of your commercial receipt has been generated.
+                Thank you for your commercial order with Saudi Fab Store. Your order has been registered in our dispatch network, and a copy of your commercial receipt has been generated.
               </p>
             </div>
 
@@ -259,9 +259,9 @@ function PurchaseCompleteContent() {
             <div className={styles.supportBox}>
               <p className={styles.supportTitle}>Need dispatch assistance or drawing modifications for your order?</p>
               <div className={styles.supportChannels}>
-                <a href="mailto:info@brooqalkhalij.com" className={styles.supportChannel}>
+                <a href="mailto:info@saudifabstore.com" className={styles.supportChannel}>
                   <Mail size={15} />
-                  <span>info@brooqalkhalij.com</span>
+                  <span>info@saudifabstore.com</span>
                 </a>
                 <a href="tel:+966138121100" className={styles.supportChannel}>
                   <Phone size={15} />

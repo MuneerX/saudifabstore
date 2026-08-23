@@ -52,7 +52,7 @@ const ProductSchema: Schema = new Schema(
     },
     brand: {
       type: String,
-      default: 'Brooq Al Khalij',
+      default: 'Saudi Fab Store',
     },
     images: [
       {

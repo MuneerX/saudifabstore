@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import Image from "next/image";
@@ -14,7 +14,7 @@ export function AboutPageSection() {
         <ParallaxElement speed={-0.10} className={styles.bgWrapper}>
           <Image
             src="/images/about/about_2.png"
-            alt="Brooq Al Khalij Company history and background"
+            alt="Saudi Fab Store Company history and background"
             fill
             className={styles.bgImage}
             sizes="100vw"
@@ -41,7 +41,7 @@ export function AboutPageSection() {
           <div className={styles.contentWrap}>
             <TextReveal animation="blur" delay={0.2}>
               <p>
-                For over two decades, BROOQ AL KHALIJ has stood as a cornerstone of structural engineering and contracting in the Eastern Province. From our advanced facilities in Dammam, we deliver custom steel fabrication, high-precision sandblasting, and premium coatings that empower infrastructure projects nationwide.
+                For over two decades, Saudi Fab Store has stood as a cornerstone of structural engineering and contracting in the Eastern Province. From our advanced facilities in Dammam, we deliver custom steel fabrication, high-precision sandblasting, and premium coatings that empower infrastructure projects nationwide.
               </p>
             </TextReveal>
           </div>
@@ -50,3 +50,4 @@ export function AboutPageSection() {
     </>
   );
 }
+

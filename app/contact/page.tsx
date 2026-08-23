@@ -1,401 +1,687 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
-import { Navbar } from "../../components/Navbar";
-import Footer from "../../components/Footer";
-import { TreatmentQuizModal } from "../../components/TreatmentQuizModal";
-import { ParallaxElement } from "../../components/ParallaxElement";
-import { TextReveal } from "../../components/TextReveal";
-import { Phone, Mail, MessageSquare } from "lucide-react";
+import Footer from "@/components/Footer";
+import { ShaderGradient } from "@/components/ShaderGradient";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { 
+  InformationSquareIcon, 
+  Mail01Icon,
+  PhoneCallIcon, 
+  CheckmarkBadge01Icon, 
+  Message01Icon,
+  ArrowRight01Icon,
+  DeliveryTruck01Icon,
+  DeliveryReturn02Icon,
+  ReceiptIcon,
+  Award04Icon,
+  PackageIcon,
+  CreditCardIcon,
+  Copy01Icon,
+  Tick02Icon,
+  Location01Icon,
+  DeliveryBox01Icon
+} from "@hugeicons/core-free-icons";
 import { toast } from "sonner";
 import styles from "./page.module.css";
 
 export default function ContactPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isOpenDivision, setIsOpenDivision] = useState(false);
-  const [isOpenScope, setIsOpenScope] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    division: "steel",
-    location: "",
-    scope: "small",
-    message: ""
-  });
+  const [step, setStep] = useState<"survey" | "submitted">("survey");
+  const [ticketId, setTicketId] = useState("");
+  const [copied, setCopied] = useState(false);
+
+  // Unified Survey State
+  const [selectedTopic, setSelectedTopic] = useState("orders");
+  const [subCategory, setSubCategory] = useState("");
+  const [referenceNumber, setReferenceNumber] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [preferredAction, setPreferredAction] = useState("");
+  const [notes, setNotes] = useState("");
+
+  const topics = [
+    { id: "orders", label: "Order Tracking & Dispatch", icon: DeliveryTruck01Icon },
+    { id: "returns", label: "30-Day Site Return Claim", icon: DeliveryReturn02Icon },
+    { id: "billing", label: "VAT Tax Invoice & CR", icon: ReceiptIcon },
+    { id: "logistics", label: "Crane & Heavy Logistics", icon: Location01Icon },
+    { id: "quality", label: "SASO & Mill Quality Certs", icon: Award04Icon },
+    { id: "credit", label: "B2B Commercial Credit", icon: CreditCardIcon },
+    { id: "rfq", label: "Custom Product RFQ", icon: PackageIcon }
+  ];
+
+  // Dynamic Guidance & Solutions Map (Clean titles without category badges)
+  const categoryGuidanceMap: Record<string, {
+    title: string;
+    items: { question: string; answer: string }[];
+  }> = {
+    orders: {
+      title: "Order Tracking & Dispatch Solutions",
+      items: [
+        {
+          question: "Where can I track my active order status online?",
+          answer: "You can track live flatbed dispatches, driver contact info, PO history, and MTR heat certificates directly in your Client Profile / Orders page (/profile)."
+        },
+        {
+          question: "How do I get driver live GPS tracking?",
+          answer: "Enter your PO number in the survey or visit your Client Profile page for real-time dispatch telemetry and driver updates across KSA."
+        },
+        {
+          question: "Where can I download MTR mill heat certificates?",
+          answer: "All SASO & ASTM certified steel orders include digital MTR mill heat certs downloadable directly from your Client Profile or emailed upon dispatch."
+        },
+        {
+          question: "What if my flatbed delivery is delayed on-site?",
+          answer: "Choose 'Immediate Dispatch Call Back'. We reroute drivers or dispatch priority backup flatbeds within 15 minutes across KSA."
+        }
+      ]
+    },
+    returns: {
+      title: "30-Day Site Return & Claim Guidance",
+      items: [
+        {
+          question: "What is covered under the 30-day site guarantee?",
+          answer: "Any non-compliant dimensional specs, structural coating defects, or transit damage are covered for 100% free site pickup and replacement."
+        },
+        {
+          question: "How quickly are replacement products dispatched?",
+          answer: "Once site engineering inspection is confirmed, replacement flatbed dispatches depart from Dammam or Riyadh within 24 hours."
+        },
+        {
+          question: "Can I receive a commercial credit refund note?",
+          answer: "Yes, approved claims can issue an immediate commercial credit note applied directly to your corporate procurement account."
+        }
+      ]
+    },
+    billing: {
+      title: "15% VAT Tax Invoice & ZATCA Assistance",
+      items: [
+        {
+          question: "How do I obtain an official ZATCA 15% VAT Tax Invoice?",
+          answer: "Submit your CR or PO number. Instant PDF ZATCA tax invoices are emailed to your corporate address immediately."
+        },
+        {
+          question: "Can I edit the company CR or VAT registration details?",
+          answer: "Select 'Company CR / VAT Number Edit Request'. Our finance desk updates ZATCA e-invoicing records before issuing final tax receipts."
+        },
+        {
+          question: "What payment methods are supported for B2B orders?",
+          answer: "We support direct corporate bank wire transfers (SAR / USD), certified company cheques, and credit line billing for approved accounts."
+        }
+      ]
+    },
+    logistics: {
+      title: "Crane & Restricted Zone Logistics",
+      items: [
+        {
+          question: "Do flatbed trucks include crane unloading on-site?",
+          answer: "Crane-rigged flatbed trailers can be scheduled by selecting 'Assign Crane-Rigged Flatbed Trailer' in your resolution preferences."
+        },
+        {
+          question: "How do you handle Aramco & SABIC gate permits?",
+          answer: "Our drivers hold active Aramco / SABIC IQAMA clearances and vehicle gate passes for seamless restricted industrial zone entry."
+        },
+        {
+          question: "Are oversized transport permits provided?",
+          answer: "Yes, special oversized transport permits and escort vehicles are coordinated for long-span girders, heavy tanks, and structural frames."
+        }
+      ]
+    },
+    quality: {
+      title: "SASO & Mill Certification Guidance",
+      items: [
+        {
+          question: "Are SWL proof load test sheets provided?",
+          answer: "All lifting beams, spreader bars, and heavy shackles are proof-load tested with official third-party SWL test certificates."
+        },
+        {
+          question: "What NDT weld inspection reports are available?",
+          answer: "We provide NDT MPI (Magnetic Particle) and UT (Ultrasonic Testing) weld inspection dossiers certified by ASNT Level II engineers."
+        },
+        {
+          question: "Is Saudi Fab Store ISO 9001 certified?",
+          answer: "Yes, Saudi Fab Store operates under audited ISO 9001:2015 Quality Management and SASO safety compliance standards."
+        }
+      ]
+    },
+    credit: {
+      title: "B2B Commercial Credit & Terms",
+      items: [
+        {
+          question: "What credit terms are available for corporate buyers?",
+          answer: "We offer 30-day standard, 60-day project, and 90-day mega-contractor commercial credit terms for verified Saudi commercial accounts."
+        },
+        {
+          question: "What documents are required to apply for credit?",
+          answer: "Submit your Commercial Registration (CR), VAT certificate, 6 months bank statement, and corporate procurement authorization letter."
+        },
+        {
+          question: "How long does credit application approval take?",
+          answer: "Commercial credit evaluations are completed by our B2B finance desk within 2 business days upon receiving completed documents."
+        }
+      ]
+    },
+    rfq: {
+      title: "Custom Product Fabrication Guidance",
+      items: [
+        {
+          question: "How fast do I receive a formal line-item quotation?",
+          answer: "Standard product RFQs receive formal line-item quotation PDFs within 2 hours. Custom engineered fabrications take under 4 hours."
+        },
+        {
+          question: "Can I submit custom CAD / PDF engineering drawings?",
+          answer: "Yes, attach notes or request engineering review. Our Dammam workshop estimators review DWG, DXF, and PDF drawings directly."
+        },
+        {
+          question: "What surface preparation & coating profiles are offered?",
+          answer: "We offer SA 2.5 sandblasting, hot-dip galvanizing (ASTM A123), epoxy primers, and custom polyurethane industrial finishes."
+        }
+      ]
+    }
+  };
+
+  const subCategoryOptions: Record<string, string[]> = {
+    orders: [
+      "Flatbed Truck Delayed On-Site",
+      "Partial Material Delivered",
+      "Driver Unreachable / GPS Offline",
+      "Missing MTR Mill Heat Certificate"
+    ],
+    returns: [
+      "Material Damaged in Transit",
+      "Non-Compliant Dimensional Spec",
+      "Coating Profile / Paint Defect",
+      "Wrong Quantity / Spec Delivered"
+    ],
+    billing: [
+      "Request Official 15% VAT Tax Invoice PDF",
+      "Company CR / VAT Number Edit Request",
+      "Payment Receipt & Wire Confirmation",
+      "Commercial Price Discrepancy"
+    ],
+    logistics: [
+      "Crane Unloading Required at Job Site",
+      "Restricted Zone Access Permit (Aramco / SABIC)",
+      "Oversized Load Special Transport Permit",
+      "Scheduled Off-Hours Site Delivery"
+    ],
+    quality: [
+      "SWL Proof Load Testing Certificate",
+      "NDT Weld Inspection Report (MPI / UT)",
+      "SASO Safety Compliance Audit Sheet",
+      "ISO 9001:2015 Quality System Dossier"
+    ],
+    credit: [
+      "30-Day Standard Commercial Credit Term",
+      "60-Day Extended Turnkey Project Credit",
+      "90-Day Mega-Contractor Credit Line",
+      "Annual Blanket Procurement Account"
+    ],
+    rfq: [
+      "Forklift Attachments & Material Handling",
+      "Waste Containers & Industrial Skips",
+      "Lifting & Hoisting Equipment",
+      "Safety & Hazard Protection Equipment",
+      "Hardware & Structural Supplies",
+      "Warehouse & Logistics Equipment",
+      "Safety & Chemical Storage Cabinets",
+      "Pallet Rack & Column Protection"
+    ]
+  };
+
+  const actionOptions: Record<string, string[]> = {
+    orders: [
+      "Immediate Dispatch Call Back (Under 15 Mins)",
+      "Email Driver Live GPS Tracking Link",
+      "Re-issue MTR Mill Certificates PDF"
+    ],
+    returns: [
+      "Dispatch Immediate Replacement Flatbed",
+      "Issue Commercial Credit Refund Note",
+      "Schedule Site Engineering Inspection"
+    ],
+    billing: [
+      "Email Revised Tax Invoice PDF Immediately",
+      "Call Finance Desk for Account Reconciliation",
+      "Download Official ZATCA Receipt"
+    ],
+    logistics: [
+      "Assign Crane-Rigged Flatbed Trailer",
+      "Submit Zone Clearance & Driver IQAMA",
+      "Contact Logistics Manager Pre-Arrival"
+    ],
+    quality: [
+      "Send Stamped PDF Quality Package via Email",
+      "Include Stamped Hardcopy in Next Delivery",
+      "Speak with Quality Assurance Engineer"
+    ],
+    credit: [
+      "Send Commercial Credit Application Form",
+      "Direct Call from B2B Finance Director",
+      "Schedule Executive Setup Meeting"
+    ],
+    rfq: [
+      "Send Formal Line-Item Quotation PDF",
+      "Call Commercial Estimating Desk",
+      "Schedule Workshop Engineering Review"
+    ]
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Thank you! Your project inquiry has been received. Our engineering team will contact you shortly.");
-    setIsModalOpen(true);
+    const generatedTicket = `SF-${Math.floor(100000 + Math.random() * 900000)}`;
+    setTicketId(generatedTicket);
+    setStep("submitted");
+    toast.success(`Support Ticket ${generatedTicket} created! Our Dammam team is reviewing your request.`);
   };
 
-  const divisionLabels: Record<string, string> = {
-    steel: "Steel Fabrication",
-    blasting: "Blasting Works",
-    coatings: "Painting & Coatings",
-    forklift: "Forklift Repair",
-    protorc: "ProTorc Torquing",
-    diesel: "Diesel Pump Maintenance",
-    chemical: "Chemical Factory",
-    paper: "Paper & Plastic",
-    stone: "Brooq Stone",
-    wood: "Smart Woodworks",
-    trading: "General Trading",
-    zameter: "Zameter"
+  const handleCopyTicket = () => {
+    navigator.clipboard.writeText(ticketId);
+    setCopied(true);
+    toast.success("Ticket ID copied!");
+    setTimeout(() => setCopied(false), 2000);
   };
 
-  const scopeLabels: Record<string, string> = {
-    small: "Under 50 Tons / Small Batch",
-    medium: "50 – 200 Tons / Medium Commercial",
-    large: "200+ Tons / Turnkey Industrial",
-    maintenance: "Preventative AMC Contract"
+  const handleNewSurvey = () => {
+    setStep("survey");
+    setSubCategory("");
+    setReferenceNumber("");
+    setFullName("");
+    setEmail("");
+    setPhone("");
+    setPreferredAction("");
+    setNotes("");
   };
+
+  const activeGuidance = categoryGuidanceMap[selectedTopic] || categoryGuidanceMap.orders;
 
   return (
     <div className={styles.pageWrapper}>
-      {/* Overlay Navbar */}
-      <Navbar isLight={false} hasBorder={false} />
+      {/* Distinct & Simple Transparent Navigation Bar for Contact Page */}
+      <header className={styles.transparentHeader}>
+        <div className={styles.headerContainer}>
+          {/* Brand Logo & Help Badge */}
+          <div className={styles.logoBadgeGroup}>
+            <Link href="/" className={styles.brandLogoLink}>
+              <Image 
+                src="/images/logo.png" 
+                alt="Saudi Fab Store" 
+                width={130} 
+                height={36} 
+                className={styles.logoImg}
+                priority
+              />
+            </Link>
+            <span className={styles.headerDivider}>/</span>
+            <span className={styles.helpBadgeLabel}>Help &amp; Support Portal</span>
+          </div>
 
-      {/* Main Glass Contact Section */}
-      <section className={styles.contactSection}>
-        {/* Background Stock Image with Gradient Overlay inside the section */}
-        <ParallaxElement speed={-0.10} className={styles.heroBackground}>
-          <Image
-            src="/images/contact/bg_7_2.jpeg"
-            alt="Brooq Al Khalij Contact Background"
-            fill
-            className={styles.bgImage}
-            sizes="100vw"
-            priority
-          />
-          <div className={styles.bgOverlay} />
-        </ParallaxElement>
+          {/* Contact Specific Nav Links */}
+          <nav className={styles.contactNavLinks}>
+            <button type="button" onClick={handleNewSurvey} className={styles.navLinkBtn}>
+              <HugeiconsIcon icon={DeliveryTruck01Icon} size={16} strokeWidth={2.2} />
+              <span>Track Orders</span>
+            </button>
+            <a href="https://wa.me/966538121100" target="_blank" rel="noopener noreferrer" className={styles.navLinkItem}>
+              <HugeiconsIcon icon={Message01Icon} size={16} strokeWidth={2.2} />
+              <span>WhatsApp Support</span>
+            </a>
+            <a href="tel:+966138121100" className={styles.navLinkItem}>
+              <HugeiconsIcon icon={PhoneCallIcon} size={16} strokeWidth={2.2} />
+              <span>+966 13 812 1100</span>
+            </a>
+          </nav>
 
-        <div className={styles.contactSectionContainer}>
-          <div className={styles.contactGrid}>
-            {/* Left Column: Glassmorphic Contact Form */}
-            <div className={styles.formGlassCard}>
-              <div className={styles.cardHeader}>
-                <TextReveal animation="slide-up">
-                  <h1 className={styles.title}>Project Inquiry &amp; Quotation</h1>
-                </TextReveal>
-                <TextReveal animation="blur" delay={0.15}>
-                  <p className={styles.description}>
-                    Submit your project requirements below to receive a custom commercial quotation and technical consultation from our division engineers.*
-                  </p>
-                </TextReveal>
-              </div>
-
-              <form onSubmit={handleSubmit} className={styles.formGrid}>
-                {/* Form Row 1 */}
-                <div className={styles.formRow}>
-                  <div className={styles.fieldGroup}>
-                    <div className={styles.labelRow}>
-                      <span className={styles.labelText}>Full Name</span>
-                      <span className={styles.dashedConnector} />
-                    </div>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Enter your name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className={styles.inputField}
-                    />
-                  </div>
-
-                  <div className={styles.fieldGroup}>
-                    <div className={styles.labelRow}>
-                      <span className={styles.labelText}>Email Address</span>
-                      <span className={styles.dashedConnector} />
-                    </div>
-                    <input
-                      type="email"
-                      required
-                      placeholder="name@company.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className={styles.inputField}
-                    />
-                  </div>
-                </div>
-
-                {/* Form Row 2 */}
-                <div className={styles.formRow}>
-                  <div className={styles.fieldGroup}>
-                    <div className={styles.labelRow}>
-                      <span className={styles.labelText}>Phone Number</span>
-                      <span className={styles.dashedConnector} />
-                    </div>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="+966 5X XXX XXXX"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className={styles.inputField}
-                    />
-                  </div>
-
-                  <div className={styles.fieldGroup}>
-                    <div className={styles.labelRow}>
-                      <span className={styles.labelText}>Division</span>
-                      <span className={styles.dashedConnector} />
-                    </div>
-                    <div className={styles.customDropdownWrapper}>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setIsOpenDivision(!isOpenDivision);
-                          setIsOpenScope(false);
-                        }}
-                        className={styles.customDropdownTrigger}
-                      >
-                        <span>{divisionLabels[formData.division]}</span>
-                        <span className={`${styles.customDropdownTriggerArrow} ${isOpenDivision ? styles.customDropdownTriggerArrowOpen : ""}`} />
-                      </button>
-                      {isOpenDivision && (
-                        <ul className={styles.customDropdownMenu}>
-                          {Object.keys(divisionLabels).map((key) => (
-                            <li
-                              key={key}
-                              onClick={() => {
-                                setFormData({ ...formData, division: key });
-                                setIsOpenDivision(false);
-                              }}
-                              className={`${styles.customDropdownItem} ${formData.division === key ? styles.customDropdownItemActive : ""}`}
-                            >
-                              {divisionLabels[key]}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Form Row 3 */}
-                <div className={styles.formRow}>
-                  <div className={styles.fieldGroup}>
-                    <div className={styles.labelRow}>
-                      <span className={styles.labelText}>Project Location</span>
-                      <span className={styles.dashedConnector} />
-                    </div>
-                    <input
-                      type="text"
-                      placeholder="City / Industrial Zone"
-                      value={formData.location}
-                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                      className={styles.inputField}
-                    />
-                  </div>
-
-                  <div className={styles.fieldGroup}>
-                    <div className={styles.labelRow}>
-                      <span className={styles.labelText}>Estimated Scope</span>
-                      <span className={styles.dashedConnector} />
-                    </div>
-                    <div className={styles.customDropdownWrapper}>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setIsOpenScope(!isOpenScope);
-                          setIsOpenDivision(false);
-                        }}
-                        className={styles.customDropdownTrigger}
-                      >
-                        <span>{scopeLabels[formData.scope]}</span>
-                        <span className={`${styles.customDropdownTriggerArrow} ${isOpenScope ? styles.customDropdownTriggerArrowOpen : ""}`} />
-                      </button>
-                      {isOpenScope && (
-                        <ul className={styles.customDropdownMenu}>
-                          {Object.keys(scopeLabels).map((key) => (
-                            <li
-                              key={key}
-                              onClick={() => {
-                                setFormData({ ...formData, scope: key });
-                                setIsOpenScope(false);
-                              }}
-                              className={`${styles.customDropdownItem} ${formData.scope === key ? styles.customDropdownItemActive : ""}`}
-                            >
-                              {scopeLabels[key]}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Form Row 4 - Full Textarea */}
-                <div className={styles.fieldGroup}>
-                  <div className={styles.labelRow}>
-                    <span className={styles.labelText}>Requirements &amp; Technical Notes</span>
-                    <span className={styles.dashedConnector} />
-                  </div>
-                  <textarea
-                    placeholder="Provide drawing references, dimensions, or specific material grade requirements..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className={styles.textareaField}
-                  />
-                </div>
-
-                {/* Submit Action Button */}
-                <button type="submit" className={styles.submitBtn}>
-                  Submit Inquiry &amp; Request Quote
-                </button>
-
-                {/* Bottom Disclaimer Note */}
-                <p className={styles.disclaimerText}>
-                  *All submitted requirements are directly evaluated by qualified Brooq Al Khalij project engineers. We will review your blueprint specs and respond with a formal proposal.
-                </p>
-              </form>
-            </div>
-
-            {/* Right Column: Live Metric Stats, Quick Channels & Branch Cards */}
-            <div className={styles.infoColumn}>
-              {/* Live Metric Stats Display */}
-              <div className={styles.liveMetricCard}>
-                <span className={styles.metricLabel}>Direct Response Hotline:</span>
-                <h2 className={styles.metricNumber}>24/7</h2>
-                <span className={styles.metricSubtext}>Average technician dispatch: under 2 hours</span>
-              </div>
-
-              {/* Direct Quick Communication Channels */}
-              <div className={styles.quickContactCard}>
-                <span className={styles.quickContactHeader}>Direct Contact Channels:</span>
-                <div className={styles.contactChannelsList}>
-                  <a 
-                    href="https://wa.me/966538121100?text=Hello%20Brooq%20Al%20Khalij%2C%20I%20would%20like%20to%20inquire%20about%20your%20services." 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className={styles.whatsappChannelItem}
-                  >
-                    <MessageSquare size={18} />
-                    <span>Chat on WhatsApp</span>
-                  </a>
-                  <a href="tel:+966138121100" className={styles.contactChannelItem}>
-                    <Phone size={18} />
-                    <span>Call: +966 13 812 1100</span>
-                  </a>
-                  <a href="mailto:info@brooqalkhalij.com" className={styles.contactChannelItem}>
-                    <Mail size={18} />
-                    <span>Email: info@brooqalkhalij.com</span>
-                  </a>
-                </div>
-              </div>
-
-              {/* Branch Locations Section */}
-              <div className={styles.branchCardsContainer}>
-                <span className={styles.branchCardsLabel}>Regional Divisions &amp; Workshops:</span>
-                <div className={styles.branchGrid}>
-                  {/* Branch Card 1 - Dammam */}
-                  <div className={styles.branchGlassCard}>
-                    <h3 className={styles.branchBigText}>Dammam</h3>
-                    <span className={styles.branchSubText}>Headquarters &amp; Heavy Fabrication</span>
-                    <p className={styles.branchAddress}>
-                      2nd Industrial City, Street 68<br />
-                      Dammam, Saudi Arabia
-                    </p>
-                    <svg className={styles.branchWaveSvg} viewBox="0 0 400 60" preserveAspectRatio="none">
-                      <path
-                        d="M0,30 C150,60 250,0 400,30 L400,60 L0,60 Z"
-                        fill="rgba(255, 255, 255, 0.08)"
-                      />
-                    </svg>
-                  </div>
-
-                  {/* Branch Card 2 - Riyadh */}
-                  <div className={styles.branchGlassCard}>
-                    <h3 className={styles.branchBigText}>Riyadh</h3>
-                    <span className={styles.branchSubText}>Logistics &amp; Trading Branch</span>
-                    <p className={styles.branchAddress}>
-                      Al-Sulay Industrial District<br />
-                      Riyadh, Saudi Arabia
-                    </p>
-                    <svg className={styles.branchWaveSvg} viewBox="0 0 400 60" preserveAspectRatio="none">
-                      <path
-                        d="M0,20 C120,55 280,5 400,35 L400,60 L0,60 Z"
-                        fill="rgba(255, 255, 255, 0.08)"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
+          {/* Right Action: Back to Store */}
+          <div className={styles.headerRightActions}>
+            <Link href="/products" className={styles.backToStoreBtn}>
+              <span>Back to Store</span>
+              <HugeiconsIcon icon={ArrowRight01Icon} size={14} strokeWidth={2.2} />
+            </Link>
           </div>
         </div>
-      </section>
+      </header>
 
-      {/* Editorial Estimation Guide Section */}
-      <section className={styles.infoSection}>
-        <div className={styles.infoSectionContainer}>
-          <h2 className={styles.infoSectionTitle}>Our Project Estimation &amp; Consultation Process</h2>
-          <div className={styles.dashedDivider} />
-          
-          <p className={styles.infoSectionIntro}>
-            A formal project estimation represents the calculated budget, material allocation, and timeline required to complete your industrial build, structural fabrication, or contracting project. Every proposal balances material specifications, assembly complexity, quality certifications, and logistics variables to deliver a competitive cost projection.
+      {/* 1. HERO HEADER SECTION WITH MESHGRADIENT SHADER */}
+      <section className={styles.heroSection}>
+        <div className={styles.shaderFrame}>
+          <ShaderGradient />
+          <div className={styles.shaderBottomFade} />
+        </div>
+
+        <div className={styles.heroContainer}>
+          <div className={styles.heroBadgeRow}>
+            <span className={styles.brandYellowBadge}>
+              <HugeiconsIcon icon={CheckmarkBadge01Icon} size={14} strokeWidth={2.2} />
+              Support Center &amp; Self-Service Hub
+            </span>
+          </div>
+
+          <h1 className={styles.heroMainTitle}>Customer Service &amp; Support Center</h1>
+          <p className={styles.heroSubTitle}>
+            How can we help you today? Complete our unified diagnostic survey below to track dispatches, request 15% VAT invoices, report site returns, or access SASO quality certificates.
           </p>
 
-          <div className={styles.infoSubSection}>
-            <h3 className={styles.infoSubSectionTitle}>How Proposals Are Formulated</h3>
-            <p className={styles.infoSubSectionText}>
-              Our engineering team evaluates your blueprint drawings, material grades (such as raw carbon steel tonnage or surface square meters), and fabrication specifications to generate a comprehensive bill of materials and transparent line-item proposal.
-            </p>
-          </div>
+          {/* 3 Top Support Channel Quick Cards */}
+          <div className={styles.topCardsGrid}>
+            
+            {/* Card 1 */}
+            <a href="mailto:care@saudifab.com?subject=Customer%20Support%20%26%20Inquiry" className={styles.quickChannelCard}>
+              <div className={styles.cardIconCircle}>
+                <HugeiconsIcon icon={Mail01Icon} size={22} strokeWidth={2.2} />
+              </div>
+              <div className={styles.cardTextGroup}>
+                <h3 className={styles.cardTitle}>Email Customer Support</h3>
+                <p className={styles.cardDesc}>Send a direct email inquiry to our commercial &amp; customer support desk in Dammam.</p>
+              </div>
+              <span className={styles.cardArrowLink}>
+                Send email <HugeiconsIcon icon={ArrowRight01Icon} size={14} strokeWidth={2.2} />
+              </span>
+            </a>
 
-          <div className={styles.infoSubSection}>
-            <h3 className={styles.infoSubSectionTitle}>Key Project Variables</h3>
-            <p className={styles.infoSubSectionText}>
-              A typical industrial steel or contracting estimate assumes standard AWS certified welds and a base SA 2.5 blast profile. Our engineers ensure all raw specifications strictly adhere to KSA building code limits and client safety standards.
-            </p>
-          </div>
+            {/* Card 2 */}
+            <a href="https://wa.me/966538121100" target="_blank" rel="noopener noreferrer" className={styles.quickChannelCard}>
+              <div className={styles.cardIconCircle}>
+                <HugeiconsIcon icon={Message01Icon} size={22} strokeWidth={2.2} />
+              </div>
+              <div className={styles.cardTextGroup}>
+                <h3 className={styles.cardTitle}>WhatsApp Technician Chat</h3>
+                <p className={styles.cardDesc}>Direct instant chat with senior workshop engineers for immediate site requirements.</p>
+              </div>
+              <span className={styles.cardArrowLink}>
+                Start chat <HugeiconsIcon icon={ArrowRight01Icon} size={14} strokeWidth={2.2} />
+              </span>
+            </a>
 
-          <div className={styles.infoSubSection}>
-            <h3 className={styles.infoSubSectionTitle}>Key Proposal Evaluation Factors</h3>
-            <p className={styles.infoSubSectionText}>
-              If your project blueprints contain any of the following parameters, our engineers will incorporate specialized adjustments into your quotation:
-            </p>
-            <ul className={styles.infoList}>
-              <li className={styles.infoListItem}>Raw steel index price fluctuations and specialized alloy sourcing</li>
-              <li className={styles.infoListItem}>Complex multi-plane connection nodes requiring specialized manual fit-ups</li>
-              <li className={styles.infoListItem}>Specific environmental ratings (high humidity or maritime anti-corrosion profiles)</li>
-              <li className={styles.infoListItem}>Accelerated delivery schedules requiring dual-shift fabrication labor</li>
-            </ul>
-          </div>
+            {/* Card 3 */}
+            <a href="tel:+966138121100" className={styles.quickChannelCard}>
+              <div className={styles.cardIconCircle}>
+                <HugeiconsIcon icon={PhoneCallIcon} size={22} strokeWidth={2.2} />
+              </div>
+              <div className={styles.cardTextGroup}>
+                <h3 className={styles.cardTitle}>Direct Hotline Call</h3>
+                <p className={styles.cardDesc}>Speak directly with our Dammam commercial estimating desk for urgent POs.</p>
+              </div>
+              <span className={styles.cardArrowLink}>
+                Call hotline <HugeiconsIcon icon={ArrowRight01Icon} size={14} strokeWidth={2.2} />
+              </span>
+            </a>
 
-          <div className={styles.infoSubSection}>
-            <h3 className={styles.infoSubSectionTitle}>Estimation Optimization Tips</h3>
-            <ul className={styles.infoList}>
-              <li className={styles.infoListItem}>
-                <strong>Material Sourcing:</strong> Opt for standard hot-rolled structural shapes where possible to secure the lowest mill run rates.
-              </li>
-              <li className={styles.infoListItem}>
-                <strong>Welding Specs:</strong> Utilize automated fillet welding over manual double-bevel joins where high stress allows to speed up production.
-              </li>
-              <li className={styles.infoListItem}>
-                <strong>Surface Treatment:</strong> Coordinate blasting and prime painting in-shop to reduce mobilization costs.
-              </li>
-              <li className={styles.infoListItem}>
-                <strong>Logistics:</strong> Batch delivery timelines to match site erection phases and prevent container storage surcharges.
-              </li>
-            </ul>
           </div>
         </div>
       </section>
 
-      {/* Footer Wrapper with White Background */}
-      <div style={{ backgroundColor: "#ffffff", width: "100%" }}>
-        <Footer />
-      </div>
+      {/* 2. UNIFIED ALL-IN-ONE SUPPORT DIAGNOSTIC & RESOLUTION SURVEY SECTION */}
+      <section id="support-survey" className={styles.unifiedSurveySection}>
+        <div className={styles.surveyContainer}>
+          <div className={styles.twoColumnSupportGrid}>
+            
+            {/* LEFT COLUMN: Unified Diagnostic Survey & Resolution Form */}
+            <div className={styles.surveyFormColumn}>
+              
+              {step === "survey" ? (
+                <>
+                  <div className={styles.surveyHeaderBlock}>
+                    <h2 className={styles.surveyMainTitle}>Report &amp; Track Support Issues</h2>
+                    <p className={styles.surveySubDesc}>
+                      Select your topic below, choose your diagnostic category, and receive an instant support ticket ID for guaranteed under 2-hour response across Saudi Arabia.
+                    </p>
+                  </div>
 
-      <TreatmentQuizModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+                  <form onSubmit={handleSubmit} className={styles.unifiedFormGrid}>
+                    
+                    {/* STEP 1: TOPIC SELECTION CARDS */}
+                    <div className={styles.fieldGroup}>
+                      <label className={styles.fieldLabel}>1. Select Support Topic *</label>
+                      <div className={styles.topicCardsGrid}>
+                        {topics.map((t) => {
+                          const isSelected = selectedTopic === t.id;
+                          return (
+                            <div
+                              key={t.id}
+                              onClick={() => {
+                                setSelectedTopic(t.id);
+                                setSubCategory("");
+                                setPreferredAction("");
+                              }}
+                              className={`${styles.topicCard} ${isSelected ? styles.topicCardActive : ''}`}
+                            >
+                              <div className={styles.topicIconBox}>
+                                <HugeiconsIcon icon={t.icon} size={18} strokeWidth={2.2} />
+                              </div>
+                              <span className={styles.topicLabel}>{t.label}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* STEP 2: SPECIFIC SUB-CATEGORY DIAGNOSTICS */}
+                    <div className={styles.fieldGroup}>
+                      <label className={styles.fieldLabel}>2. Select Specific Problem Category *</label>
+                      <div className={styles.subCategoryGrid}>
+                        {subCategoryOptions[selectedTopic]?.map((option, idx) => {
+                          const isSelected = subCategory === option;
+                          return (
+                            <div
+                              key={idx}
+                              onClick={() => setSubCategory(option)}
+                              className={`${styles.subCategoryTile} ${isSelected ? styles.subCategoryTileActive : ''}`}
+                            >
+                              <span className={styles.tileRadioDot}>
+                                {isSelected && <span className={styles.tileRadioInnerDot} />}
+                              </span>
+                              <span className={styles.tileText}>{option}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* STEP 3: IDENTIFICATION & CONTACT DETAILS */}
+                    <div className={styles.formRow}>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.fieldLabel}>PO Number / Order # / CR # (Optional)</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. PO-98412 / CR 1010XXXXXX / SF-8821"
+                          value={referenceNumber}
+                          onChange={(e) => setReferenceNumber(e.target.value)}
+                          className={styles.inputField}
+                        />
+                      </div>
+
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.fieldLabel}>Full Name *</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Enter your full name"
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                          className={styles.inputField}
+                        />
+                      </div>
+                    </div>
+
+                    <div className={styles.formRow}>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.fieldLabel}>Corporate Email *</label>
+                        <input
+                          type="email"
+                          required
+                          placeholder="name@company.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className={styles.inputField}
+                        />
+                      </div>
+
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.fieldLabel}>Phone / WhatsApp *</label>
+                        <input
+                          type="tel"
+                          required
+                          placeholder="+966 5X XXX XXXX"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          className={styles.inputField}
+                        />
+                      </div>
+                    </div>
+
+                    {/* STEP 4: PREFERRED RESOLUTION ACTION */}
+                    <div className={styles.fieldGroup}>
+                      <label className={styles.fieldLabel}>4. Preferred Resolution Action *</label>
+                      <div className={styles.actionPillsRow}>
+                        {actionOptions[selectedTopic]?.map((act, idx) => {
+                          const isSelected = preferredAction === act;
+                          return (
+                            <button
+                              type="button"
+                              key={idx}
+                              onClick={() => setPreferredAction(act)}
+                              className={`${styles.actionBtnPill} ${isSelected ? styles.actionBtnPillActive : ''}`}
+                            >
+                              <span>{act}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* STEP 5: NOTES & REMARKS */}
+                    <div className={styles.fieldGroup}>
+                      <label className={styles.fieldLabel}>Additional Notes &amp; Site Details</label>
+                      <textarea
+                        placeholder="Provide any specific driver notes, site access permits, or drawing details to help our team resolve this immediately..."
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
+                        className={styles.textareaField}
+                      />
+                    </div>
+
+                    {/* Submit Button */}
+                    <button 
+                      type="submit" 
+                      disabled={!subCategory || !fullName || !phone}
+                      className={styles.primarySubmitBtn}
+                    >
+                      Submit Support Survey &amp; Generate Ticket ID
+                    </button>
+
+                    <p className={styles.disclaimerNote}>
+                      *All submitted tickets are tracked directly by our Dammam commercial desk under strict SLA. Response time guaranteed under 2 business hours.
+                    </p>
+
+                  </form>
+                </>
+              ) : (
+                <div className={styles.submittedContainer}>
+                  <div className={styles.successIconCircle}>
+                    <HugeiconsIcon icon={CheckmarkBadge01Icon} size={48} strokeWidth={2.2} />
+                  </div>
+
+                  <h2 className={styles.successTitle}>Support Ticket Dispatched!</h2>
+                  <p className={styles.successSub}>
+                    Your issue survey has been received by Saudi Fab Store Commercial &amp; Logistics Desk in Dammam.
+                  </p>
+
+                  {/* Ticket Reference Box */}
+                  <div className={styles.ticketCardBox}>
+                    <span className={styles.ticketBoxLabel}>Official Support Ticket ID:</span>
+                    <div className={styles.ticketValueRow}>
+                      <span className={styles.ticketCode}>{ticketId}</span>
+                      <button type="button" onClick={handleCopyTicket} className={styles.copyBtn}>
+                        <HugeiconsIcon icon={copied ? Tick02Icon : Copy01Icon} size={16} strokeWidth={2.2} />
+                        <span>{copied ? "Copied!" : "Copy ID"}</span>
+                      </button>
+                    </div>
+                    <span className={styles.slaBadge}>Guaranteed SLA Response: Under 2 Hours</span>
+                  </div>
+
+                  <div className={styles.directContactPrompt}>
+                    <span>Need emergency site assistance right now?</span>
+                    <div className={styles.directButtonsRow}>
+                      <a 
+                        href={`https://wa.me/966538121100?text=Hello%2C%20I%20have%20submitted%20ticket%20${ticketId}%20and%20need%20urgent%20site%20assistance.`} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className={styles.whatsappDirectBtn}
+                      >
+                        <HugeiconsIcon icon={Message01Icon} size={16} strokeWidth={2.2} />
+                        <span>WhatsApp Technician</span>
+                      </a>
+                      <a href="tel:+966138121100" className={styles.phoneDirectBtn}>
+                        <HugeiconsIcon icon={PhoneCallIcon} size={16} strokeWidth={2.2} />
+                        <span>Call Hotline Desk</span>
+                      </a>
+                    </div>
+                  </div>
+
+                  <button type="button" onClick={handleNewSurvey} className={styles.newSurveyBtn}>
+                    Submit Another Support Inquiry
+                  </button>
+                </div>
+              )}
+
+            </div>
+
+            {/* RIGHT COLUMN: Unboxed Clean Guidance & SLA Section */}
+            <aside className={styles.supportSideColumn}>
+              
+              {/* Under 2 Hours SLA Guarantee Card */}
+              <div className={styles.slaCardBox}>
+                <div className={styles.slaIconCircle}>
+                  <HugeiconsIcon icon={CheckmarkBadge01Icon} size={22} strokeWidth={2.2} />
+                </div>
+                <div className={styles.slaTextContent}>
+                  <span className={styles.slaTagBadge}>GUARANTEED RESPONSE SLA</span>
+                  <h3 className={styles.slaCardTitle}>Under 2 Hours SLA</h3>
+                  <p className={styles.slaCardDesc}>
+                    Average technical evaluation &amp; dispatch response time across KSA &amp; GCC industrial zones.
+                  </p>
+                </div>
+              </div>
+
+              {/* Unboxed Dynamic Category Guidance & FAQ Solutions */}
+              {activeGuidance && (
+                <div className={styles.unboxedGuidanceBlock}>
+                  <h4 className={styles.sideCardHeader}>{activeGuidance.title}</h4>
+
+                  <div className={styles.guidanceItemsList}>
+                    {activeGuidance.items.map((item, idx) => (
+                      <div key={idx} className={styles.guidanceItemBox}>
+                        <h5 className={styles.guidanceQuestion}>{item.question}</h5>
+                        <p className={styles.guidanceAnswer}>{item.answer}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {selectedTopic === "orders" && (
+                    <div className={styles.profileOrderTrackBox}>
+                      <p className={styles.profileOrderTrackText}>
+                        Have an existing order? View live dispatches and MTR certs in your profile.
+                      </p>
+                      <Link href="/profile" className={styles.profileOrderTrackBtn}>
+                        <HugeiconsIcon icon={DeliveryBox01Icon} size={15} strokeWidth={2.2} />
+                        <span>Track Orders in Profile</span>
+                        <HugeiconsIcon icon={ArrowRight01Icon} size={13} strokeWidth={2.2} />
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
+
+            </aside>
+
+          </div>
+        </div>
+      </section>
+      {/* Distinct Contact Page Footer Component (Includes Direct Offices & Legal Bar) */}
+      <Footer isContactPage={true} />
     </div>
   );
 }

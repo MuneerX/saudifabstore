@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import User from '@/lib/models/User';
@@ -15,12 +15,12 @@ export async function GET() {
       );
     }
     
-    if (session.user.id === 'admin-static-id' || session.user.email === 'admin@brooqalkhalij.com' || session.user.email === 'admin@example.com') {
+    if (session.user.id === 'admin-static-id' || session.user.email === 'admin@saudifabstore.com' || session.user.email === 'admin@example.com') {
       return NextResponse.json({
         message: 'Profile retrieved successfully',
         user: {
           _id: 'admin-static-id',
-          name: session.user.name || 'Brooq Admin',
+          name: session.user.name || 'Saudi Fab Admin',
           email: session.user.email,
           role: 'admin'
         }

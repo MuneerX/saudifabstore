@@ -1,0 +1,83 @@
+.sectionWrapper {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 40px 0 24px 0;
+  margin-top: 32px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.container {
+  max-width: 1520px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Informational SEO Text Block */
+.seoTextBlock {
+  display: flex;
+  flex-direction: column;
+  color: #333333;
+  font-family: inherit;
+}
+
+.introParagraph {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #475569;
+  margin: 0 0 24px 0;
+}
+
+.contentHeading {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 20px 0 12px 0;
+  letter-spacing: -0.01em;
+}
+
+.paragraph {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #475569;
+  margin: 0 0 12px 0;
+}
+
+.toggleBtn {
+  background: transparent;
+  border: none;
+  color: #0071dc;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  margin: 16px 0 36px 0;
+  align-self: flex-start;
+  transition: color 0.15s ease;
+}
+
+.toggleBtn:hover {
+  color: #005bb5;
+}
+
+/* Terms & Conditions Section */
+.termsSection {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.termsHeading {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.01em;
+}
+
+.termsDisclaimer {
+  font-size: 13.5px;
+  color: #475569;
+  margin: 0;
+  line-height: 1.5;
+}

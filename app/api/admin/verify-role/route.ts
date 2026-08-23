@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import User from '@/lib/models/User';
@@ -16,12 +16,12 @@ export async function GET() {
     }
 
     // Hardcoded bypass for demo admin roles
-    if (session.user.email === 'admin@brooqalkhalij.com' || session.user.email === 'admin@example.com') {
+    if (session.user.email === 'admin@saudifabstore.com' || session.user.email === 'admin@example.com') {
       return NextResponse.json({
         isAdmin: true,
         user: {
           id: 'admin-static-id',
-          name: 'Brooq Admin',
+          name: 'Saudi Fab Admin',
           email: session.user.email,
           role: 'admin'
         }

@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import mongoose from 'mongoose';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
           description: p.description,
           price: p.price,
           category: p.category,
-          brand: p.brand || 'Brooq Al Khalij',
+          brand: p.brand || 'Saudi Fab Store',
           images: p.images || [],
           stock: p.stock || 20,
           isFeatured: p.isFeatured !== undefined ? p.isFeatured : true,
@@ -161,7 +161,7 @@ export async function POST(request: NextRequest) {
       price: typeof body.price === 'number' ? body.price : parseFloat(body.price) || 0,
       discountPrice: body.discountPrice ? parseFloat(body.discountPrice) : undefined,
       category: body.category || 'Steel Fabrication',
-      brand: body.brand || 'Brooq Al Khalij',
+      brand: body.brand || 'Saudi Fab Store',
       stock: typeof body.stock === 'number' ? body.stock : parseInt(body.stock) || 0,
       images: Array.isArray(body.images) && body.images.length > 0
         ? body.images

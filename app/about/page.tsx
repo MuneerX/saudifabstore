@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useRef } from "react";
 import Image from "next/image";
@@ -55,7 +55,7 @@ const DIFFERENCE_FEATURES = [
   {
     num: "03",
     title: "Professional Works",
-    desc: "Brooq Al Khalij has professional workers and engineers who are qualified from correspondent academies."
+    desc: "Saudi Fab Store has professional workers and engineers who are qualified from correspondent academies."
   },
   {
     num: "04",
@@ -88,7 +88,7 @@ export default function AboutPage() {
         <ParallaxElement speed={-0.10} className={styles.bgWrapper}>
           <Image
             src="/images/about/about_hero2.jpeg"
-            alt="About Brooq Al Khalij"
+            alt="About Saudi Fab Store"
             fill
             className={styles.bgImage}
             sizes="100vw"
@@ -195,14 +195,14 @@ export default function AboutPage() {
         <div className={styles.topTransitionGlow} />
         <div className={styles.differenceContainer}>
           <h2 className={styles.differenceHeadline}>
-            The Brooq Al Khalij Difference
+            The Saudi Fab Store Difference
           </h2>
 
           <div className={styles.differenceFeaturedBox}>
             <ParallaxElement speed={-0.10} className={styles.differenceImageWrapper}>
               <Image
                 src="/images/about/about_container2.png"
-                alt="Brooq Al Khalij Featured Container"
+                alt="Saudi Fab Store Featured Container"
                 fill
                 className={styles.differenceImage}
                 sizes="(max-width: 900px) 100vw, 1000px"
@@ -430,7 +430,7 @@ export default function AboutPage() {
             <div className={styles.storyCard}>
               <span className={styles.quoteMark}>“</span>
               <p className={styles.storyText}>
-                &ldquo;Brooq Al Khalij&apos;s engineering team is top-notch. They responded quickly, providing incredibly helpful structural load calculations. Their prompt replies and support made our warehouse design process effortless.&rdquo;
+                &ldquo;Saudi Fab Store&apos;s engineering team is top-notch. They responded quickly, providing incredibly helpful structural load calculations. Their prompt replies and support made our warehouse design process effortless.&rdquo;
               </p>
               <span className={styles.storyAuthor}>Eng. Khalid A.</span>
             </div>
@@ -448,7 +448,7 @@ export default function AboutPage() {
             <div className={styles.storyCard}>
               <span className={styles.quoteMark}>“</span>
               <p className={styles.storyText}>
-                &ldquo;Brooq Al Khalij helped us deliver our logistics terminal project on schedule. Their execution team is extremely professional and their anti-corrosive blast coatings are durable. They really give you peace of mind.&rdquo;
+                &ldquo;Saudi Fab Store helped us deliver our logistics terminal project on schedule. Their execution team is extremely professional and their anti-corrosive blast coatings are durable. They really give you peace of mind.&rdquo;
               </p>
               <span className={styles.storyAuthor}>Sultan S.</span>
             </div>
@@ -506,3 +506,4 @@ export default function AboutPage() {
     </div>
   );
 }
+

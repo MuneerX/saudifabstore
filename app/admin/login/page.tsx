@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -79,7 +79,7 @@ export default function AdminLoginPage() {
         <div className={styles.heroBackground}>
           <Image
             src="/images/login_bg.jpeg"
-            alt="Brooq Al Khalij Executive Admin Background"
+            alt="Saudi Fab Store Executive Admin Background"
             fill
             className={styles.bgImage}
             sizes="100vw"
@@ -120,7 +120,7 @@ export default function AdminLoginPage() {
                     <input
                       type="email"
                       required
-                      placeholder="admin@brooqalkhalij.com"
+                      placeholder="admin@saudifabstore.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className={styles.inputField}
@@ -206,7 +206,7 @@ export default function AdminLoginPage() {
                   </div>
                   <div className={styles.demoRow}>
                     <span className={styles.demoLabel}>Admin Email:</span>
-                    <code className={styles.demoCode}>admin@brooqalkhalij.com</code>
+                    <code className={styles.demoCode}>admin@saudifabstore.com</code>
                   </div>
                   <div className={styles.demoRow}>
                     <span className={styles.demoLabel}>Password:</span>

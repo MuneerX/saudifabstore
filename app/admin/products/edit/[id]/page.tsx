@@ -937,7 +937,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                   </div>
                   <div className={styles.specsRightCol}>
                     <p className={styles.detailsParagraph}>
-                      Brooq Al Khalij Group certifies that all fabricated steel components and contracting equipment meet rigorous ISO 9001:2015 quality standards. Mill test reports and load compliance documentation are issued with factory dispatch.
+                      Saudi Fab Store Group certifies that all fabricated steel components and contracting equipment meet rigorous ISO 9001:2015 quality standards. Mill test reports and load compliance documentation are issued with factory dispatch.
                     </p>
                   </div>
                 </div>

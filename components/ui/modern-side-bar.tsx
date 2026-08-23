@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link'; // Added Link import
 import { useSession, signOut } from 'next-auth/react';
@@ -232,7 +232,7 @@ export function Sidebar({ className = "", children }: SidebarProps) {
                 <span className={styles.logoText}>B</span>
               </div>
               <div className={styles.brand}>
-                <span className={styles.brandName}>Brooq Al Khalij</span>
+                <span className={styles.brandName}>Saudi Fab Store</span>
                 <span className={styles.brandSubtitle}>Executive Admin Portal</span>
               </div>
             </div>
@@ -401,7 +401,7 @@ export function Sidebar({ className = "", children }: SidebarProps) {
                   <span className={styles.mobileLogoText}>B</span>
                 </div>
                 <div className={styles.mobileBrand}>
-                  <span className={styles.mobileBrandName}>Brooq Al Khalij</span>
+                  <span className={styles.mobileBrandName}>Saudi Fab Store</span>
                   <span className={styles.mobileBrandSubtitle}>Executive Admin Portal</span>
                 </div>
               </div>

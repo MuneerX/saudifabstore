@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
@@ -21,7 +21,7 @@ export const CORE_VALUES_DATA: { [key: string]: CoreValueItem } = {
     category: "Quality Assurance",
     image: "/images/about/iso2.png",
     paragraphs: [
-      "BROOQ AL KHALIJ operates under ISO 9001:2015 Quality Management System standards across all structural steel fabrication, surface sandblasting, and industrial painting workshops in Dammam and Eastern Province sites.",
+      "Saudi Fab Store operates under ISO 9001:2015 Quality Management System standards across all structural steel fabrication, surface sandblasting, and industrial painting workshops in Dammam and Eastern Province sites.",
       "Every raw carbon steel plate, I-beam, hollow section, and pipe received at our facility undergoes Mill Test Certificate (MTC 3.1) auditing to verify chemical heat compositions and mechanical yield strengths. Structural welding is performed strictly to AWS D1.1 standards by certified welders.",
       "Comprehensive quality dossiers—including dimensional inspection logs, NDT certificates (Visual, MPI, UT), and SASO conformity documents—accompany all dispatches to ensure seamless client sign-off and site erection."
     ]
@@ -32,7 +32,7 @@ export const CORE_VALUES_DATA: { [key: string]: CoreValueItem } = {
     category: "Occupational Health & Safety",
     image: "/images/about/safety3.png",
     paragraphs: [
-      "Safety is the foundational core of Brooq Al Khalij's operations. Our safety management policy mandates zero-tolerance for site hazards across all fabrication yards, crane lifting operations, and contracting job sites.",
+      "Safety is the foundational core of Saudi Fab Store's operations. Our safety management policy mandates zero-tolerance for site hazards across all fabrication yards, crane lifting operations, and contracting job sites.",
       "All custom lifting appliances, spreader beams, and forklift boom attachments are engineered with a minimum 2.5x dynamic safety factor and proof-tested at 1.5x Working Load Limit (WLL). Secondary safety retention pins and heavy-duty spring latches are mandatory on all hooks.",
       "Rigging teams maintain 6-month statutory third-party inspection certificates and perform pre-use checklists to guarantee zero-accident site environments matching Saudi Aramco and Ministry of Human Resources standards."
     ]
@@ -54,7 +54,7 @@ export const CORE_VALUES_DATA: { [key: string]: CoreValueItem } = {
     category: "Client Services & AMC",
     image: "/images/about/support2.png",
     paragraphs: [
-      "Brooq Al Khalij maintains a 24/7 dedicated customer response hotline to assist industrial facilities, logistics terminals, and contracting projects across the Kingdom.",
+      "Saudi Fab Store maintains a 24/7 dedicated customer response hotline to assist industrial facilities, logistics terminals, and contracting projects across the Kingdom.",
       "Our mobile technician response team guarantees under 2-hour dispatch for urgent site repairs, forklift attachments, or hydraulic torquing consultations in the Dammam, Jubail, and Khobar industrial zones.",
       "We offer tailored Annual Maintenance Contracts (AMC), preventative equipment inspections, and rapid component refabrication services to maximize equipment uptime for our partner clients."
     ]
@@ -151,3 +151,4 @@ export function CoreValueModal({ valueItem, isOpen, onClose, onContactClick }: P
     document.body
   );
 }
+

@@ -1,0 +1,387 @@
+.walmartRowSection {
+  width: 100%;
+  background: transparent;
+  padding: 12px 0;
+  margin-bottom: 12px;
+}
+
+.rowHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rowTitle {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.whiteRowTitle {
+  color: #ffffff !important;
+  text-shadow: 0 2px 8px rgba(0, 45, 88, 0.4);
+}
+
+.headerLink {
+  font-size: 14px;
+  font-weight: 800;
+  color: #0f172a;
+  text-decoration: underline;
+  transition: color 0.15s ease;
+}
+
+.headerLink:hover {
+  color: #0071dc;
+}
+
+.whiteHeaderLink {
+  color: #ffffff !important;
+  text-decoration: underline;
+  font-weight: 800;
+}
+
+.whiteHeaderLink:hover {
+  color: #fef08a !important;
+}
+
+.headerLink:hover {
+  color: #047857;
+}
+
+.trackWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.productTrack {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  padding: 4px 4px 16px 4px;
+}
+
+.productTrack::-webkit-scrollbar {
+  display: none;
+}
+
+/* Walmart Product Card Component */
+.walmartProductCard {
+  flex: 0 0 calc((100% - 48px) / 5);
+  min-width: 270px;
+  max-width: 290px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 12px;
+  border-radius: 14px;
+  transition: transform 0.15s ease;
+}
+
+.walmartProductCard:hover {
+  transform: translateY(-3px);
+}
+
+.cardHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 24px;
+  margin-bottom: 6px;
+}
+
+.clearanceBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+  background-color: #FEEC3C;
+  color: #0f172a;
+  font-size: 11.5px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.rollbackBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+  background-color: #d97706;
+  color: #ffffff;
+  font-size: 11.5px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.heartBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.15s ease;
+}
+
+.heartBtn:hover {
+  background-color: #ffffff;
+  transform: scale(1.08);
+}
+
+.heartOutline {
+  color: #475569;
+}
+
+.heartFilled {
+  color: #ef4444;
+  fill: #ef4444;
+}
+
+/* Product Image Box */
+.imgBox {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  transition: background 0.15s ease;
+}
+
+.imgAnchor {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.walmartProductCard:hover .imgBox {
+  background: #f1f5f9;
+}
+
+.productImg {
+  object-fit: contain;
+  max-height: 220px;
+  width: 95%;
+  height: 95%;
+  transform: scale(1.22);
+  transition: transform 0.2s ease;
+}
+
+.walmartProductCard:hover .productImg {
+  transform: scale(1.26);
+}
+
+/* Capsule Pill Action Buttons (+ Add / Options) */
+.actionBtnRow {
+  margin-bottom: 10px;
+}
+
+.addPillBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background-color: #ffffff;
+  color: #0f172a;
+  border: 1px solid #0f172a;
+  border-radius: 9999px;
+  padding: 5px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.addPillBtn:hover {
+  background-color: #0f172a;
+  color: #ffffff;
+}
+
+.optionsPillBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  padding: 5px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.optionsPillBtn:hover {
+  border-color: #059669;
+  color: #059669;
+}
+
+/* Price Container & Superscript Styling */
+.priceContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4px;
+}
+
+.priceRow {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.nowGreenLabel {
+  font-size: 14px;
+  font-weight: 800;
+  color: #007f00;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.superscriptPriceGroup {
+  display: inline-flex;
+  align-items: flex-start;
+  color: #0f172a;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.priceCurrencySymbol {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-right: 3px;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.priceWholeDigits {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.priceSupCents {
+  font-size: 12px;
+  font-weight: 800;
+  color: #0f172a;
+  position: relative;
+  top: 0.15em;
+  margin-left: 1px;
+  line-height: 1;
+}
+
+.originalPriceStrikethrough {
+  font-size: 13px;
+  color: #94a3b8;
+  text-decoration: line-through;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.optionsSubtext {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* Product Title */
+.productTitle {
+  font-size: 16.5px;
+  line-height: 1.35;
+  font-weight: 600;
+  margin: 6px 0 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.titleAnchor {
+  color: #1e293b;
+  text-decoration: none;
+}
+
+.titleAnchor:hover {
+  color: #059669;
+  text-decoration: underline;
+}
+
+/* Track Scroll Arrows */
+.scrollArrow {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  z-index: 15;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.scrollArrow:hover {
+  background: #059669;
+  color: #ffffff;
+  border-color: #059669;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.leftArrow {
+  left: -12px;
+}
+
+.rightArrow {
+  right: -12px;
+}
+
+@media (max-width: 768px) {
+  .scrollArrow {
+    display: none;
+  }
+}
+

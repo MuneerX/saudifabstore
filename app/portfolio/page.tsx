@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
@@ -33,7 +33,7 @@ const CATEGORIES = [
   { id: "steel", label: "Steel Fabrication" },
   { id: "blasting", label: "Sandblasting & Prep" },
   { id: "coating", label: "Industrial Coatings" },
-  { id: "stone", label: "Brooq Stone" },
+  { id: "stone", label: "Saudi Fab Stone" },
   { id: "protorc", label: "Protorc Bolting" }
 ];
 
@@ -72,7 +72,7 @@ const PROJECTS: ProjectItem[] = [
       "Polyurethane topcoat with high UV resistance",
       "Heavy-duty mixing blade hard-facing"
     ],
-    fullDesc: "Turnkey refurbishing of heavy-duty concrete transit mixer drums. Brooq Al Khalij restored structural integrity through precision welding, cleaned all hardened residue via high-pressure sandblasting, and applied industrial polyurethane topcoats."
+    fullDesc: "Turnkey refurbishing of heavy-duty concrete transit mixer drums. Saudi Fab Store restored structural integrity through precision welding, cleaned all hardened residue via high-pressure sandblasting, and applied industrial polyurethane topcoats."
   },
   {
     id: "fire-proof",
@@ -144,12 +144,12 @@ const PROJECTS: ProjectItem[] = [
       "Zero-damage delicate stone edge control",
       "Hydrophobic protective sealer finish"
     ],
-    fullDesc: "Architectural surface finishing for high-end commercial headquarters. Brooq Al Khalij utilized specialized micro-abrasive media to create a uniform textured finish across natural granite wall cladding panels."
+    fullDesc: "Architectural surface finishing for high-end commercial headquarters. Saudi Fab Store utilized specialized micro-abrasive media to create a uniform textured finish across natural granite wall cladding panels."
   },
   {
-    id: "brooq-stone-counter",
-    title: "Brooq Stone engineered quartz countertops & vanity slabs",
-    category: "Brooq Stone",
+    id: "saudifabstore-stone-counter",
+    title: "Saudi Fab Stone engineered quartz countertops & vanity slabs",
+    category: "Saudi Fab Stone",
     categoryKey: "stone",
     location: "Dammam Luxury Hotel & Resort, KSA",
     image: "/images/portfolio/portfolio7.png",
@@ -157,12 +157,12 @@ const PROJECTS: ProjectItem[] = [
     client: "Royal Khalij Hospitality Group",
     duration: "20 Days",
     specifications: [
-      "Engineered stain-resistant Brooq Quartz slabs",
+      "Engineered stain-resistant saudifabstore Quartz slabs",
       "CNC precision edge profiling and sink cutouts",
       "Seamless thermal joint bonding technology",
       "10-Year certified factory warranty"
     ],
-    fullDesc: "Turnkey solid surface design, CNC fabrication, and installation for a 5-star hotel project. Manufactured in our Dammam Brooq Stone factory, delivering non-porous quartz surfaces with seamless joint execution."
+    fullDesc: "Turnkey solid surface design, CNC fabrication, and installation for a 5-star hotel project. Manufactured in our Dammam Saudi Fab Stone factory, delivering non-porous quartz surfaces with seamless joint execution."
   },
   {
     id: "protorc-bolting",
@@ -234,7 +234,7 @@ export default function PortfolioPage() {
         <ParallaxElement speed={-0.10} className={styles.bgWrapper}>
           <Image
             src="/images/portfolio_bg.jpeg"
-            alt="Brooq Al Khalij Works Showcase"
+            alt="Saudi Fab Store Works Showcase"
             fill
             className={styles.bgImage}
             sizes="100vw"
@@ -275,7 +275,7 @@ export default function PortfolioPage() {
                 </div>
                 <div className={styles.featureCol}>
                   <p className={styles.featureText}>
-                    Brooq Stone solid surfaces &amp; Protorc hydraulic bolting
+                    Saudi Fab Stone solid surfaces &amp; Protorc hydraulic bolting
                   </p>
                 </div>
               </div>
@@ -386,7 +386,7 @@ export default function PortfolioPage() {
             <div className={styles.storyCard}>
               <span className={styles.quoteMark}>“</span>
               <p className={styles.storyText}>
-                &ldquo;Brooq Al Khalij&apos;s engineering team is top-notch. They responded quickly, providing incredibly helpful structural load calculations. Their prompt replies and support made our warehouse design process effortless.&rdquo;
+                &ldquo;Saudi Fab Store&apos;s engineering team is top-notch. They responded quickly, providing incredibly helpful structural load calculations. Their prompt replies and support made our warehouse design process effortless.&rdquo;
               </p>
               <span className={styles.storyAuthor}>Eng. Khalid A.</span>
             </div>
@@ -404,7 +404,7 @@ export default function PortfolioPage() {
             <div className={styles.storyCard}>
               <span className={styles.quoteMark}>“</span>
               <p className={styles.storyText}>
-                &ldquo;Brooq Al Khalij helped us deliver our logistics terminal project on schedule. Their execution team is extremely professional and their anti-corrosive blast coatings are durable. They really give you peace of mind.&rdquo;
+                &ldquo;Saudi Fab Store helped us deliver our logistics terminal project on schedule. Their execution team is extremely professional and their anti-corrosive blast coatings are durable. They really give you peace of mind.&rdquo;
               </p>
               <span className={styles.storyAuthor}>Sultan S.</span>
             </div>
@@ -515,3 +515,4 @@ export default function PortfolioPage() {
     </div>
   );
 }
+

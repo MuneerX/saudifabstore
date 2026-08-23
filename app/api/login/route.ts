@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import User from '@/lib/models/User';
 import connectToDatabase from '@/lib/db/connect';
 
 // Hardcoded Demo Credentials (active as instant fallback or DB match)
 const DEMO_USER = {
-  email: 'demo@brooqalkhalij.com',
+  email: 'demo@saudifabstore.com',
   passwordPlain: 'demo123',
   name: 'Demo User',
   role: 'user',

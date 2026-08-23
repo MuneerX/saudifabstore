@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -62,7 +62,7 @@ export default function LoginPage() {
         <div className={styles.heroBackground}>
           <Image
             src="/images/bg_4.jpeg"
-            alt="Brooq Al Khalij Login Background"
+            alt="Saudi Fab Store Login Background"
             fill
             className={styles.bgImage}
             sizes="100vw"

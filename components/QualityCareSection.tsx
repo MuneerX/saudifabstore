@@ -32,7 +32,7 @@ const FEATURES: FeatureItem[] = [
     icon: <Truck size={24} strokeWidth={1.4} />,
     title: "Professional Works",
     description:
-      "Brooq Al Khalij has professional workers and engineers who are qualified from correspondent academies."
+      "Saudi Fab Store has professional workers and engineers who are qualified from correspondent academies."
   },
   {
     id: "affordable",
@@ -46,14 +46,13 @@ const FEATURES: FeatureItem[] = [
 export function QualityCareSection() {
   return (
     <section className={styles.section}>
-      {/* Smooth transition glow from Company section (#F6EADF) into Why Choose (#FBF9F4) */}
       <div className={styles.topTransitionGlow} />
       <div className={styles.container}>
         {/* Headline */}
         <TextReveal animation="slide-up">
           <h2 className={styles.headline}>
             Why Industry Leaders Choose <br />
-            Brooq Al Khalij Group
+            Saudi Fab Store Group
           </h2>
         </TextReveal>
 

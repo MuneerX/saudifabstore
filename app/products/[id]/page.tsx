@@ -1,68 +1,89 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Factory, ShieldCheck, BadgeCheck, Star } from "lucide-react";
+import {
+  Share2,
+  Heart,
+  ZoomIn,
+  ChevronLeft,
+  ChevronRight,
+  Star,
+  ChevronDown,
+  Truck,
+  Store,
+  Clock,
+  RotateCcw,
+  Info,
+  MapPin,
+  ShieldCheck,
+  FileText,
+  Award,
+  Building2,
+  Lock,
+  CheckCircle2
+} from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import styles from "./page.module.css"; // Import CSS module
-import { ShopMarquee } from "@/components/ShopMarquee";
+import styles from "./page.module.css";
 import { useProducts } from "@/lib/hooks/useProducts";
 import { useCartContext } from "@/components/CartContext";
 import { useParams, useRouter } from "next/navigation";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-const FALLBACK_BADGES = ["BESTSELLER", "BESTSELLER", "BESTSELLER", "LIMITED", "NEW"];
-const SAMPLE_SWATCH_SETS = [
-  { label: "STEEL FABRICATION", colors: ["#78909c", "#b0bec5", "#37474f", "#eb5521"] },
-  { label: "INDUSTRIAL COATINGS", colors: ["#eb5521", "#ffb300", "#1e3a8a", "#212121"] },
-  { label: "SMART WOODWORKS", colors: ["#8d6e63", "#5d4037", "#a1887f"] },
-  { label: "SAFETY & TRADING", colors: ["#eb5521", "#ffd54f", "#263238"] },
-];
+import { HugeiconsIcon } from "@hugeicons/react";
+import { CheckmarkSquare01Icon, ShoppingCart01Icon, DeliveryBox01Icon, CheckmarkBadge01Icon, LicenseIcon, PackageIcon, DeliveryReturn02Icon, Award04Icon, SecurityCheckIcon, LockKeyholeIcon, AnvilIcon, Store01Icon, DeliveryTruck01Icon, Location01Icon, InformationSquareIcon, CouponPercentIcon, PercentSquareIcon, PercentIcon, SaudiRiyalIcon } from "@hugeicons/core-free-icons";
+import { WalmartPopularCarouselSection } from "@/components/WalmartPopularCarouselSection";
+import { AboutTermsFooterSection } from "@/components/AboutTermsFooterSection";
+import { INITIAL_PRODUCTS } from "@/lib/data/initialProducts";
 
 export default function ProductDetailsPage() {
   const router = useRouter();
-  const { id } = useParams(); // Get ID from URL using useParams
-  const { getProductById, products, fetchProducts } = useProducts() as any;
+  const { id } = useParams();
+  const { getProductById, fetchProducts, products } = useProducts() as any;
   const { addToCart } = useCartContext();
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const imageColumnRef = useRef<HTMLDivElement>(null);
-  const productTabsRef = useRef<HTMLDivElement>(null);
-  
-  const [product, setProduct] = useState<{
-    _id: string;
-    name: string;
-    description: string;
-    price: number;
-    discountPrice?: number;
-    rating: number;
-    numReviews: number;
-    stock: number;
-    images: string[];
-    specImage?: string;
-    category?: string;
-    material?: string;
-    dimensions?: string;
-    weight?: string;
-    fabricationDetails?: string;
-    surfacePreparation?: string;
-    testingCertifications?: string;
-  } | null>(null);
-  
+  const [product, setProduct] = useState<any>(null);
   const [pageLoading, setPageLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [openAccordion, setOpenAccordion] = useState<number | null>(null);
-  const [activeTab, setActiveTab] = useState<string>('general');
+
+  // Gallery state
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [isWishlisted, setIsWishlisted] = useState(false);
+
+  // Variant Swatch state
+  const [selectedSwatch, setSelectedSwatch] = useState<string>("single");
+
+  // Purchase Mode state ('one-time' | 'subscribe')
+  const [purchaseMode, setPurchaseMode] = useState<"one-time" | "subscribe">("one-time");
+
+  // Fulfillment state ('shipping' | 'pickup' | 'delivery')
+  const [fulfillmentMethod, setFulfillmentMethod] = useState<"shipping" | "pickup" | "delivery">("shipping");
+
+  // Expandable Accordions state
+  const [openAccordions, setOpenAccordions] = useState<{ [key: string]: boolean }>({
+    aboutDetails: true,
+    specs: false,
+    certs: false,
+    returnsPolicy: false,
+    shippingTerms: false,
+  });
+
+  const handleReadMoreClick = (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    setOpenAccordions(prev => ({ ...prev, aboutDetails: true }));
+    const target = document.getElementById("about-item-section");
+    if (target) {
+      const yOffset = -90;
+      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+    }
+  };
+
+  // Description Read More / Truncation state
+  const [isDescExpanded, setIsDescExpanded] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchProductData = async () => {
       setPageLoading(true);
       setError(null);
       if (id) {
@@ -73,565 +94,778 @@ export default function ProductDetailsPage() {
           } else {
             setError("Product not found.");
           }
-        } catch (error) {
-          console.error("Failed to fetch product:", error);
+        } catch (err) {
+          console.error("Failed to fetch product:", err);
           setError("Failed to load product details.");
-          setProduct(null);
         }
       }
       setPageLoading(false);
     };
 
-    fetchProduct();
+    fetchProductData();
   }, [id, getProductById]);
 
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
 
-  useEffect(() => {
-    if (pageLoading || !product) return;
-
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-
-      mm.add("(min-width: 901px)", () => {
-        if (imageColumnRef.current && productTabsRef.current) {
-          ScrollTrigger.create({
-            trigger: imageColumnRef.current,
-            start: "top top", // Pins flush at top 0 of viewport (no top navigation space left visible after scrolling)
-            endTrigger: productTabsRef.current,
-            end: "top bottom", // Stops sticky scrolling before specifications section
-            pin: true,
-            pinSpacing: false,
-            invalidateOnRefresh: true,
-            onEnter: () => {
-              if (imageColumnRef.current) {
-                gsap.to(imageColumnRef.current, { height: "100vh", duration: 0.3, ease: "power2.out" });
-              }
-            },
-            onLeaveBack: () => {
-              if (imageColumnRef.current) {
-                gsap.to(imageColumnRef.current, { height: "calc(100vh - 68px)", duration: 0.3, ease: "power2.out" });
-              }
-            }
-          });
-        }
-      });
-    }, containerRef);
-
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 250);
-
-    return () => {
-      clearTimeout(timer);
-      ctx.revert();
-    };
-  }, [pageLoading, product, activeTab, openAccordion]);
-
-  const handleAddToCart = () => {
-    if (product) {
-      // Default to quantity 1, Standard Spec, Industrial Finish
-      addToCart(product._id, 1, "Standard Spec", "Industrial Finish");
-    }
-  };
-
-  const handleInstantCheckout = () => {
-    if (product) {
-      addToCart(product._id, 1, "Standard Spec", "Industrial Finish");
-      router.push("/checkout");
-    }
-  };
-
-  const toggleAccordion = (index: number) => {
-    setOpenAccordion(prev => prev === index ? null : index);
-  };
-
-  // Skeleton component for product detail page matching split-screen layout
-  const ProductDetailSkeleton = () => (
-    <div className={styles.pageContainer}>
-      <Navbar isLight={true} hasBorder={true} />
-      <div className={styles.detailSplitLayout}>
-        <div className={styles.imageColumn}>
-          <div className={styles.imageCard}>
-            <div className={styles.skeletonImageWrapper}></div>
-          </div>
-        </div>
-        <div className={styles.infoColumn}>
-          <div className={styles.skeletonBadge}></div>
-          <div className={styles.skeletonTitle}></div>
-          <div className={styles.skeletonPrice}></div>
-          <div className={styles.skeletonButton}></div>
-          <div className={styles.skeletonParagraph}></div>
-          <div className={styles.skeletonBullets}></div>
-        </div>
-      </div>
-      <Footer />
-    </div>
-  );
-
   if (pageLoading) {
-    return <ProductDetailSkeleton />;
-  }
-
-  if (error || !product) {
     return (
       <div className={styles.pageContainer}>
         <Navbar isLight={true} hasBorder={true} />
-        <div className={styles.loadingContainer}>
-          <div>{error || "Product not found."}</div>
+        <div style={{ maxWidth: "1520px", margin: "40px auto", padding: "0 20px" }}>
+          <div style={{ display: "flex", gap: "24px" }}>
+            <div style={{ width: "500px", height: "500px", backgroundColor: "#f1f5f9", borderRadius: "12px" }} />
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "16px" }}>
+              <div style={{ width: "60%", height: "32px", backgroundColor: "#e2e8f0", borderRadius: "6px" }} />
+              <div style={{ width: "40%", height: "24px", backgroundColor: "#e2e8f0", borderRadius: "6px" }} />
+              <div style={{ width: "30%", height: "40px", backgroundColor: "#e2e8f0", borderRadius: "6px" }} />
+            </div>
+          </div>
         </div>
         <Footer />
       </div>
     );
   }
 
-  const accordionData = [
-    {
-      title: "What structural material grades & standards are used?",
-      content: "All steel components are fabricated from certified ASTM A36 / S275JR structural carbon steel or Grade 304/316 stainless steel. Every batch includes full Mill Test Certificates (MTR) traceable to heat numbers."
-    },
-    {
-      title: "Can this product be customized to specific project dimensions?",
-      content: "Yes, our Dammam manufacturing facility provides full custom structural engineering and drafting. We fabricate to exact client technical drawings and certified load requirements."
-    },
-    {
-      title: "What surface preparation & protective coatings are applied?",
-      content: "Surface preparation is executed via commercial abrasive grit blasting to SA 2.5 profile. Protective options include hot-dip galvanizing, inorganic zinc silicate, high-build epoxy primer, or marine-grade polyurethane topcoats."
-    },
-    {
-      title: "Are mill test certificates and QA documentation provided?",
-      content: "Yes. Every dispatch includes a complete Quality Assurance Dossier containing Mill Test Reports (MTR), Dry Film Thickness (DFT) inspection logs, and Non-Destructive Weld Testing (NDT) certificates."
-    },
-    {
-      title: "What is the dispatch & delivery timeline across KSA & GCC?",
-      content: "Standard stock items ship within 24 to 48 hours across KSA. Custom fabricated assemblies typically dispatch within 7 to 14 business days depending on engineering complexity."
-    },
-    {
-      title: "What load testing and safety compliance certifications apply?",
-      content: "All load-bearing structures and assemblies are proof-tested to 1.5x Safe Working Load (SWL) in full compliance with Saudi SASO, ISO 9001:2015, and international safety codes."
-    }
-  ];
+  if (error || !product) {
+    return (
+      <div className={styles.pageContainer}>
+        <Navbar isLight={true} hasBorder={true} />
+        <div style={{ minHeight: "400px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <h2>{error || "Product not found."}</h2>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  const galleryImages = product.images && product.images.length > 0
+    ? product.images
+    : ["/uploads/3ea54b4f-1709-49b3-be9c-1b4302dc01e9.jpg", "/uploads/1eecdedc-cd94-4183-ab5b-3010a00e0ef1.png", "/uploads/49dc8447-7b24-4eaf-b051-7700b2145207.png"];
+
+  const currentImage = galleryImages[activeImageIndex] || galleryImages[0];
+
+  const handlePrevImage = () => {
+    setActiveImageIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1));
+  };
+
+  const handleNextImage = () => {
+    setActiveImageIndex((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1));
+  };
+
+  const toggleAccordion = (key: string) => {
+    setOpenAccordions((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const handleAddToCart = () => {
+    addToCart(product._id, 1, selectedSwatch === "single" ? "Single Pack" : "Bulk 5-Pack", "SASO Industrial Finish");
+  };
+
+  const handleInstantCheckout = () => {
+    addToCart(product._id, 1, selectedSwatch === "single" ? "Single Pack" : "Bulk 5-Pack", "SASO Industrial Finish");
+    router.push("/checkout");
+  };
+
+  const basePrice = selectedSwatch === "single" ? product.price : product.price * 4.2;
+  const currentPrice = purchaseMode === "subscribe" ? basePrice * 0.9 : basePrice;
+  const isDiscounted = purchaseMode === "subscribe" || selectedSwatch === "bulk";
 
   return (
-    <div ref={containerRef} className={styles.pageContainer}>
-      <Navbar isLight={true} hasBorder={true} showMarquee={true} />
+    <div className={styles.pageContainer}>
+      <Navbar isLight={true} hasBorder={true} />
 
-      <div className={styles.detailSplitLayout}>
-        {/* Left Column - Large Centered Image Wrapped in Card */}
-        <div ref={imageColumnRef} className={styles.imageColumn}>
-          <div className={styles.imageCard}>
-            <Image
-              src={product.images?.[0] || '/images/home/services/steel2.jpeg'}
-              alt={product.name}
-              width={600}
-              height={600}
-              className={styles.mainProductImage}
-              priority
-            />
-          </div>
-        </div>
+      <main className={styles.pdpMainWrapper}>
+        
+        {/* Breadcrumb Navigation */}
+        <nav className={styles.breadcrumbNav}>
+          <Link href="/" className={styles.breadcrumbLink}>Home</Link>
+          <span>/</span>
+          <Link href="/products" className={styles.breadcrumbLink}>Products</Link>
+          <span>/</span>
+          <Link href={`/products?category=${encodeURIComponent(product.category || "Hardware & Piping")}`} className={styles.breadcrumbLink}>
+            {product.category || "Hardware & Piping"}
+          </Link>
+          <span>/</span>
+          <span className={styles.breadcrumbCurrent}>{product.name}</span>
+        </nav>
 
-        {/* Right Column - Product Info Area */}
-        <div className={styles.infoColumn}>
-          {/* Stock Tag */}
-          <div className={styles.badgeWrapper}>
-            <span className={styles.stockBadge}>IN STOCK</span>
-          </div>
-
-          {/* Product Name */}
-          <h1 className={styles.productTitle}>{product.name}</h1>
-
-          {/* Redesigned Integrated Buy Box & Industrial Supply Container */}
-          <div className={styles.promoBuyBox}>
-            <div className={styles.promoTopRow}>
-              <div className={styles.promoLeft}>
-                <span className={styles.promoGreenText}>FACTORY DIRECT</span>
-                <h4 className={styles.promoHeading}>Direct Manufacturer Rate</h4>
-              </div>
-              <div className={styles.promoRight}>
-                <Image
-                  src="/images/iso.svg"
-                  alt="ISO Certified Quality"
-                  width={52}
-                  height={52}
-                  className={styles.isoBadgeImage}
-                />
-              </div>
-            </div>
-
-            <div className={styles.promoPriceRow}>
-              <div className={styles.priceValue}>
-                €{product.price?.toFixed(2)}
-              </div>
-              <span className={styles.promoBottomText}>Direct factory dispatch & certified mill testing included</span>
-            </div>
-
-            <div className={styles.promoDottedLine} />
-
-            {/* Action Buttons inside the Box */}
-            <div className={styles.actionButtonsGroup}>
-              <button className={styles.buyNowBtn} onClick={handleInstantCheckout}>
-                <svg className={styles.buyNowArrow} width="10" height="19" viewBox="0 0 10 19" fill="none">
-                  <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14384 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
-                </svg>
-                <span>Buy now</span>
-              </button>
-              <button className={styles.addToCartBtn} onClick={handleAddToCart}>
-                <span>Add to cart</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Product Description */}
-          <p className={styles.descriptionText}>
-            {product.description || "Premium industrial product engineered to the highest standards. Fully compliant with modern structural requirements and load capacities."}
-          </p>
-
-          {/* Bullet List */}
-          <ul className={styles.bulletList}>
-            <li>Precision engineered for heavy-duty applications</li>
-            <li>Corrosion-resistant coating for long-lasting durability</li>
-            <li>Sustainably sourced premium materials</li>
-          </ul>
-
-          {/* Checklist Area */}
-          <div className={styles.checklistSection}>
-            <div className={styles.checkItem}>
-              <span className={styles.checkIcon}>✔</span>
-              <span className={styles.checkText}>Direct workshop dispatch & free expedited shipping across KSA</span>
-            </div>
-            <div className={styles.checkItem}>
-              <span className={styles.checkIcon}>✔</span>
-              <span className={styles.checkText}>100% Mill test certified & safety load validated</span>
-            </div>
-            <div className={styles.checkItem}>
-              <span className={styles.checkIcon}>✔</span>
-              <span className={styles.checkText}>Full in-house engineering support & warranty included</span>
-            </div>
-          </div>
-
-          {/* Accordion FAQ Area */}
-          <div className={styles.accordionsWrapper}>
-            {accordionData.map((item, idx) => {
-              const isOpen = openAccordion === idx;
-              return (
-                <div key={idx} className={styles.accordionItem}>
-                  <button
-                    className={styles.accordionHeader}
-                    onClick={() => toggleAccordion(idx)}
-                  >
-                    <span>{item.title}</span>
-                    <span className={`${styles.accordionChevron} ${isOpen ? styles.chevronOpen : ''}`}>
-                      ▼
-                    </span>
-                  </button>
-                  {isOpen && (
-                    <div className={styles.accordionContent}>
-                      <p>{item.content}</p>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Brand Product Tabs Section */}
-      <div ref={productTabsRef} className={styles.productTabsSection}>
-        <div className={styles.tabsHeaderContainer}>
-          <button
-            className={`${styles.tabHeaderButton} ${activeTab === 'general' ? styles.activeTabButton : styles.inactiveTabButton}`}
-            onClick={() => setActiveTab('general')}
-          >
-            General
-          </button>
-          <button
-            className={`${styles.tabHeaderButton} ${activeTab === 'specs' ? styles.activeTabButton : styles.inactiveTabButton}`}
-            onClick={() => setActiveTab('specs')}
-          >
-            Specifications
-          </button>
-          <button
-            className={`${styles.tabHeaderButton} ${activeTab === 'quality' ? styles.activeTabButton : styles.inactiveTabButton}`}
-            onClick={() => setActiveTab('quality')}
-          >
-            Quality & Safety
-          </button>
-        </div>
-
-        <div className={styles.tabContentContainer}>
-          {activeTab === 'general' && (
-            <div className={styles.tabContentBlock}>
-              <div className={styles.specsTabSectionLayout}>
-                <div className={styles.specsLeftCol}>
-                  <h3 className={styles.specsSectionTitle}>General</h3>
-                </div>
+        {/* Walmart PDP Main Container Grid */}
+        <div className={styles.walmartPdpGrid}>
+          
+          {/* LEFT MAIN CONTENT CONTAINER (Stage + Details + Bottom Accordions) */}
+          <div className={styles.mainLeftContent}>
+            
+            {/* Top Split Row: Gallery (Left) + Middle Product Details Column */}
+            <div className={styles.topSplitRow}>
+              
+              {/* 1. LEFT GALLERY COLUMN */}
+              <div className={styles.galleryCol}>
                 
-                <div className={styles.specsRightCol}>
-                  {/* Clean Industrial Specification Rail with Premium Icons */}
-                  <div className={styles.industrialFactStrip}>
-                    <div className={styles.factItem}>
-                      <Factory size={15} strokeWidth={1.8} className={styles.factIcon} />
-                      <span className={styles.factText}>Dammam Fabrication</span>
-                    </div>
-                    <div className={styles.factDivider} />
-                    <div className={styles.factItem}>
-                      <ShieldCheck size={15} strokeWidth={1.8} className={styles.factIcon} />
-                      <span className={styles.factText}>1-Year Warranty</span>
-                    </div>
-                    <div className={styles.factDivider} />
-                    <div className={styles.factItem}>
-                      <BadgeCheck size={15} strokeWidth={1.8} className={styles.factIcon} />
-                      <span className={styles.factText}>ISO 9001:2015</span>
-                    </div>
-                    <div className={styles.factDivider} />
-                    <div className={styles.factItem}>
-                      <Star size={15} strokeWidth={1.8} className={styles.factIcon} />
-                      <span className={styles.factText}>4.9/5.0 Client Rating</span>
-                    </div>
-                  </div>
-
-                  {/* Intro Large Paragraph Block */}
-                  <div className={styles.introDescriptionBlock}>
-                    <p className={styles.introLargeText}>
-                      Introducing {product.name}, a premium industrial asset that effortlessly marries structural integrity with custom contracting design. Engineered with high-strength raw materials and treated with protective coating solutions, {product.name} ensures both heavy-duty support and maximum long-term durability for demanding commercial environments. Elevate your operational project setup with Brooq Al Khalij Group.
-                    </p>
-                    <span className={styles.introDisclaimer}>
-                      * Please note that structural sizing and custom configurations are engineered to order requirements.
-                    </span>
-                  </div>
-
-                  {/* General Table */}
-                  <div className={styles.specsTable}>
-                    <div className={styles.specsTableRow}>
-                      <div className={styles.specsTableLabel}>DIVISION</div>
-                      <div className={styles.specsTableValue}>Industrial Engineering & Manufacturing</div>
-                    </div>
-                    <div className={styles.specsTableRow}>
-                      <div className={styles.specsTableLabel}>PRIMARY APPLICATION</div>
-                      <div className={styles.specsTableValue}>Commercial, Contracting, and Industrial Operations</div>
-                    </div>
-                    <div className={styles.specsTableRow}>
-                      <div className={styles.specsTableLabel}>DISPATCH &amp; LOGISTICS</div>
-                      <div className={styles.specsTableValue}>Direct workshop dispatch &amp; turnkey GCC delivery</div>
-                    </div>
-                    <div className={styles.specsTableRow}>
-                      <div className={styles.specsTableLabel}>QUALITY ASSURANCE</div>
-                      <div className={styles.specsTableValue}>100% Mill test certified &amp; traceable carbon grade</div>
-                    </div>
-                    <div className={styles.specsTableRow}>
-                      <div className={styles.specsTableLabel}>ENGINEERING SUPPORT</div>
-                      <div className={styles.specsTableValue}>Full in-house structural drafting &amp; consultation</div>
-                    </div>
-                  </div>
+                {/* Vertical Thumbnail Bar */}
+                <div className={styles.thumbnailList}>
+                  {galleryImages.map((img: string, idx: number) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      className={`${styles.thumbnailBtn} ${activeImageIndex === idx ? styles.activeThumbnailBtn : ""}`}
+                      onClick={() => setActiveImageIndex(idx)}
+                    >
+                      <Image src={img} alt={`Thumbnail ${idx + 1}`} fill className={styles.thumbnailImg} unoptimized />
+                    </button>
+                  ))}
                 </div>
-              </div>
-            </div>
-          )}
-          {activeTab === 'specs' && (
-            <div className={styles.tabContentBlock}>
-              <div className={styles.specsTabSectionLayout}>
-                <div className={styles.specsLeftCol}>
-                  <h3 className={styles.specsSectionTitle}>Specifications</h3>
-                </div>
-                
-                <div className={styles.specsRightCol}>
-                  {/* Stock Schematic / Technical Specification Diagram */}
-                  <div className={styles.schematicContainer}>
-                    <Image
-                      src={product.specImage || "/images/home/services/steel2.jpeg"}
-                      alt={`${product.name} Technical Specification Diagram`}
-                      width={600}
-                      height={350}
-                      unoptimized
-                      className={styles.schematicImage}
-                    />
-                  </div>
 
-                  {/* Specifications Table */}
-                  <div className={styles.specsTable}>
-                    <div className={styles.specsTableRow}>
-                      <div className={styles.specsTableLabel}>MATERIAL</div>
-                      <div className={styles.specsTableValue}>{product.material || "ASTM A36 Structural Carbon Steel / Grade A Solid Hardwood"}</div>
-                    </div>
-                    <div className={styles.specsTableRow}>
-                      <div className={styles.specsTableLabel}>DIMENSIONS</div>
-                      <div className={styles.specsTableValue}>{product.dimensions || "H: 120 cm x W: 85 cm x D: 60 cm (Customizable to order requirements)"}</div>
-                    </div>
-                    <div className={styles.specsTableRow}>
-                      <div className={styles.specsTableLabel}>WEIGHT</div>
-                      <div className={styles.specsTableValue}>{product.weight || "Approx. 28 kg"}</div>
-                    </div>
-                  </div>
-
-                  {/* Three-Column Information Grid */}
-                  <div className={styles.infoThreeColGrid}>
-                    <div className={styles.infoColItem}>
-                      <h4 className={styles.infoColHeader}>FABRICATION DETAILS</h4>
-                      <p className={styles.infoColText}>
-                        {product.fabricationDetails || "Precision welded and finished entirely in-house at our Dammam facilities. Employs advanced MIG/TIG welding processes to ensure high structural load capacity and structural endurance under extreme mechanical stress."}
-                      </p>
-                    </div>
-                    <div className={styles.infoColItem}>
-                      <h4 className={styles.infoColHeader}>SURFACE PREPARATION</h4>
-                      <p className={styles.infoColText}>
-                        {product.surfacePreparation || "Treated with commercial abrasive grit blasting (SA 2.5 profile) to remove all mill scale and oxides, followed immediately by an anti-corrosion epoxy primer and premium polyurethane top coat."}
-                      </p>
-                    </div>
-                    <div className={styles.infoColItem}>
-                      <h4 className={styles.infoColHeader}>TESTING &amp; CERTIFICATIONS</h4>
-                      <p className={styles.infoColText}>
-                        {product.testingCertifications || "Fully tested and certified for safety compliance. Weld connections are non-destructively inspected. DFT (Dry Film Thickness) coating profiles are verified to meet chemical and marine resistance criteria."}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Documents Area */}
-              <div className={styles.documentsSection}>
-                <div className={styles.documentsLeft}>
-                  <h3 className={styles.specsSectionTitle}>Documents</h3>
-                </div>
-                <div className={styles.documentsRight}>
-                  <a href="#" className={styles.documentDownloadCard} onClick={(e) => e.preventDefault()}>
-                    <span className={styles.documentName}>Technical datasheet & Assembly guide</span>
-                    <div className={styles.downloadIconWrapper}>
-                      <svg
-                        className={styles.downloadIcon}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                        <polyline points="14 2 14 8 20 8" />
-                        <line x1="12" y1="18" x2="12" y2="12" />
-                        <polyline points="9 15 12 18 15 15" />
-                      </svg>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-          )}
-          {activeTab === 'quality' && (
-            <div className={styles.tabContentBlock}>
-              <div className={styles.specsTabSectionLayout}>
-                <div className={styles.specsLeftCol}>
-                  <h3 className={styles.specsSectionTitle}>Quality & Safety</h3>
-                </div>
-                
-                <div className={styles.specsRightCol}>
-                  {/* Quality Table */}
-                  <div className={styles.specsTable}>
-                    <div className={styles.specsTableRow}>
-                      <div className={styles.specsTableLabel}>WARRANTY</div>
-                      <div className={styles.specsTableValue}>1-Year Structural Integrity and Coating adhesion guarantee</div>
-                    </div>
-                    <div className={styles.specsTableRow}>
-                      <div className={styles.specsTableLabel}>COMPLIANCE</div>
-                      <div className={styles.specsTableValue}>Fully compliant with Saudi Arabian construction standards and safety regulations</div>
-                    </div>
-                    <div className={styles.specsTableRow}>
-                      <div className={styles.specsTableLabel}>CERTIFICATION</div>
-                      <div className={styles.specsTableValue}>ISO 9001:2015 Quality Assurance Certified fabrication processes</div>
-                    </div>
-                  </div>
-
-                  {/* Three-Column Information Grid */}
-                  <div className={styles.infoThreeColGrid}>
-                    <div className={styles.infoColItem}>
-                      <h4 className={styles.infoColHeader}>WELD INSPECTION</h4>
-                      <p className={styles.infoColText}>
-                        All structural joins undergo Non-Destructive Testing (NDT) and visual weld verification to confirm maximum load stability.
-                      </p>
-                    </div>
-                    <div className={styles.infoColItem}>
-                      <h4 className={styles.infoColHeader}>DFT MONITORING</h4>
-                      <p className={styles.infoColText}>
-                        Coating layers are verified using digital Dry Film Thickness (DFT) gauges to guarantee specified protective barrier profiles.
-                      </p>
-                    </div>
-                    <div className={styles.infoColItem}>
-                      <h4 className={styles.infoColHeader}>RAW MATERIAL TRACE</h4>
-                      <p className={styles.infoColText}>
-                        All carbon steel mill certificates are fully documented and traceable to maintain material grade consistency.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Other Products Section */}
-      <div className={styles.otherProductsSection}>
-        <div className={styles.otherProductsHeader}>
-          <h2 className={styles.otherProductsTitle}>Other Products</h2>
-          <p className={styles.otherProductsSubText}>
-            Explore more premium fabrication and industrial trading assets from Brooq Al Khalij Group.
-          </p>
-        </div>
-
-        <div className={styles.otherProductsGrid}>
-          {products.filter((p: any) => p._id !== id).slice(0, 4).map((p: any, idx: number) => {
-            const badge = FALLBACK_BADGES[idx % FALLBACK_BADGES.length];
-            const swatchSet = SAMPLE_SWATCH_SETS[idx % SAMPLE_SWATCH_SETS.length];
-
-            return (
-              <Link key={p._id} href={`/products/${p._id}`} className={styles.otherProductCard}>
-                <div className={styles.otherProductImageWrapper}>
-                  {badge && (
-                    <div className={styles.badgePill}>
-                      {badge}
-                    </div>
-                  )}
+                {/* Main Stage Image Box */}
+                <div className={styles.mainStageBox}>
                   <Image
-                    src={p.images?.[0] || "/images/home/category_grid/container_3.jpeg"}
-                    alt={p.name}
+                    src={currentImage}
+                    alt={product.name}
                     fill
-                    className={styles.otherProductImage}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    className={styles.mainStageImg}
+                    priority
+                    unoptimized
                   />
+
+                  {/* Top Right Floating Action Icons */}
+                  <div className={styles.floatingActionIcons}>
+                    <button
+                      type="button"
+                      className={styles.circleActionBtn}
+                      title="Share"
+                      onClick={() => {
+                        if (navigator.share) {
+                          navigator.share({ title: product.name, url: window.location.href });
+                        }
+                      }}
+                    >
+                      <Share2 size={18} />
+                    </button>
+                    <button
+                      type="button"
+                      className={`${styles.circleActionBtn} ${isWishlisted ? styles.circleActionBtnActive : ""}`}
+                      title="Wishlist"
+                      onClick={() => setIsWishlisted(!isWishlisted)}
+                    >
+                      <Heart size={18} fill={isWishlisted ? "#e11d48" : "none"} color={isWishlisted ? "#e11d48" : "currentColor"} />
+                    </button>
+                    <button type="button" className={styles.circleActionBtn} title="Zoom">
+                      <ZoomIn size={18} />
+                    </button>
+                  </div>
+
+                  {/* Floating Stage Navigation Arrows */}
+                  {galleryImages.length > 1 && (
+                    <>
+                      <button type="button" className={`${styles.stageNavBtn} ${styles.stageNavBtnPrev}`} onClick={handlePrevImage}>
+                        <ChevronLeft size={20} />
+                      </button>
+                      <button type="button" className={`${styles.stageNavBtn} ${styles.stageNavBtnNext}`} onClick={handleNextImage}>
+                        <ChevronRight size={20} />
+                      </button>
+                    </>
+                  )}
                 </div>
-                <div className={styles.otherProductInfo}>
-                  <div className={styles.otherProductTitleRow}>
-                    <svg className={styles.otherProductArrowPrefix} width="10" height="19" viewBox="0 0 10 19" fill="none">
-                      <path d="M8.525 10.1329L5.79699 7.4043L4.82646 8.37483L6.41179 9.96016C6.61825 10.1666 6.84702 10.3496 7.09408 10.5058C7.21247 10.5807 7.14384 10.7643 7.00487 10.7431L6.35746 10.6425C6.15672 10.611 5.95427 10.5956 5.75067 10.5956L4.08355 10.6287C3.69408 10.6333 3.30575 10.6819 2.92772 10.7746L2.56798 10.8626C2.4353 10.8952 2.31577 10.7751 2.34837 10.643L2.43644 10.2833C2.52909 9.90469 2.57828 9.51693 2.58228 9.12746L2.61145 8.20268H1.93373H1.25602L1.21084 9.12232C1.20169 9.64333 1.26403 10.1626 1.39614 10.6665C1.54312 11.2287 1.98235 11.6673 2.54396 11.8143C3.04782 11.9458 3.56711 12.0082 4.08812 11.9996L5.75067 11.9659C5.95369 11.9659 6.15672 11.9504 6.35746 11.919L7.00487 11.8183C7.14384 11.7966 7.21247 11.9807 7.09408 12.0556C6.84702 12.2118 6.61825 12.3948 6.41179 12.6012L4.82646 14.1866L5.79699 15.1571L8.525 12.4285C9.15868 11.7949 9.15868 10.7671 8.525 10.1335V10.1329Z" fill="currentColor"></path>
-                    </svg>
-                    <h3 className={styles.otherProductName}>{p.name}</h3>
+
+              </div>
+
+              {/* 2. MIDDLE COLUMN: WALMART STYLE PRODUCT DETAILS & HIGHLIGHTS */}
+              <div className={styles.detailsCol}>
+                
+                {/* Walmart Top Badges Row */}
+                <div className={styles.topBadgesRow}>
+                  <span className={styles.darkBluePickBadge}>Popular pick</span>
+                </div>
+
+                {/* Brand Link */}
+                <div>
+                  <span className={styles.brandLinkText}>Visit the Saudi Fab Store</span>
+                </div>
+
+                {/* Product Title */}
+                <h1 className={styles.productTitle}>{product.name}</h1>
+
+                {/* Walmart Style Price Header Block */}
+                <div className={styles.priceHeaderBlock}>
+                  <div className={styles.priceOnlineNotice}>
+                    <span>Price when purchased online</span>
+                    <button type="button" className={styles.infoTooltipBtn} title="Direct online factory pricing">
+                      <Info size={13} />
+                    </button>
                   </div>
                   
-                  <div className={styles.otherProductPriceRow}>
-                    <span className={styles.otherProductPrice}>€{p.price?.toFixed(2)}</span>
+                  <div className={styles.priceNowRow} style={{ alignItems: "center", gap: "10px" }}>
+                    {/* -18% Savings Pill Badge BEFORE price text */}
+                    <span className={styles.savingsCallout}>
+                      -{purchaseMode === "subscribe" && selectedSwatch === "bulk" ? "23.5%" : purchaseMode === "subscribe" ? "10%" : selectedSwatch === "bulk" ? "15%" : "18%"}
+                    </span>
+
+                    {/* Superscript Current Price */}
+                    <div className={styles.priceSuperRow}>
+                      <span className={styles.priceSuperCurrency} style={{ display: "inline-flex", alignItems: "center" }}>
+                        <HugeiconsIcon icon={SaudiRiyalIcon} size={18} strokeWidth={2.2} />
+                      </span>
+                      <span className={styles.priceMainInteger}>{Math.floor(currentPrice).toLocaleString()}</span>
+                      <sup className={styles.priceSuperCents}>.{(currentPrice % 1).toFixed(2).substring(2) || "00"}</sup>
+                    </div>
+                    
+                    {/* Strikethrough MSRP Original List Price */}
+                    <span className={styles.priceOriginalCross} style={{ display: "inline-flex", alignItems: "center", gap: "2px" }}>
+                      List Price: <HugeiconsIcon icon={SaudiRiyalIcon} size={13} strokeWidth={2.0} /> {(basePrice * (purchaseMode === "subscribe" ? 1.111 : 1.22)).toFixed(2)}
+                    </span>
                   </div>
 
-                  <div className={styles.otherProductSwatchSection}>
-                    <div className={styles.otherProductSwatchLabel}>{swatchSet.label}</div>
-                    <div className={styles.otherProductSwatchesRow}>
-                      {swatchSet.colors.map((c: string, i: number) => (
-                        <span
-                          key={i}
-                          className={styles.otherProductSwatchDot}
-                          style={{ backgroundColor: c }}
-                        />
-                      ))}
+                  {/* Middle Column Tax Information Line - Exactly matching Price when purchased online style */}
+                  <div className={styles.priceOnlineNotice} style={{ marginTop: "3px" }}>
+                    <span>All prices include 15% KSA VAT. Commercial Tax Invoice provided upon dispatch.</span>
+                  </div>
+                </div>
+
+                {/* Variant Pack Size Swatches */}
+                <div className={styles.swatchSection}>
+                  <div className={styles.swatchLabel}>Pack Size / Spec Option:</div>
+                  <div className={styles.swatchesGrid}>
+                    
+                    {/* Option 1: Single */}
+                    <div
+                      className={`${styles.swatchCard} ${selectedSwatch === "single" ? styles.activeSwatchCard : ""}`}
+                      onClick={() => setSelectedSwatch("single")}
+                    >
+                      <div className={styles.swatchName}>Single Standard</div>
+                      <div className={styles.swatchPrice} style={{ display: "inline-flex", alignItems: "center", gap: "2px" }}>
+                        <HugeiconsIcon icon={SaudiRiyalIcon} size={13} strokeWidth={2.0} /> {product.price?.toFixed(2)}
+                      </div>
+                    </div>
+
+                    {/* Option 2: 5 Pack */}
+                    <div
+                      className={`${styles.swatchCard} ${selectedSwatch === "bulk" ? styles.activeSwatchCard : ""}`}
+                      onClick={() => setSelectedSwatch("bulk")}
+                    >
+                      <div className={styles.swatchName}>5-Pack Contractors</div>
+                      <div className={styles.swatchPrice} style={{ display: "inline-flex", alignItems: "center", gap: "2px" }}>
+                        <HugeiconsIcon icon={SaudiRiyalIcon} size={13} strokeWidth={2.0} /> {(product.price * 4.2).toFixed(2)}
+                      </div>
+                      <div className={styles.swatchSubtext}>Save 15%</div>
+                    </div>
+
+                  </div>
+                </div>
+
+                {/* Middle Column Product Details Description */}
+                <div style={{ marginTop: "8px" }}>
+                  <h4 style={{ fontSize: "15px", fontWeight: "800", color: "#0f172a", margin: "0 0 8px 0" }}>
+                    Product Details &amp; Highlights
+                  </h4>
+
+                  {/* Product Description with Read More Smooth Scroll to Bottom Product Details */}
+                  {(() => {
+                    const baseDesc = product?.description || `${product?.name} is engineered for professional industrial applications across Saudi Arabia, fully compliant with modern structural and safety standards.`;
+                    
+                    const highlightPoints = " Industrial grade manufacturing & SASO safety compliant. Commercial SA 2.5 protective abrasive grit blasted surface finish.";
+                    
+                    const fullDesc = baseDesc.length < 120 ? `${baseDesc}${highlightPoints}` : baseDesc;
+                    const shouldTruncate = fullDesc.length > 140;
+                    const displayedDesc = shouldTruncate ? `${fullDesc.slice(0, 140)}...` : fullDesc;
+
+                    return (
+                      <p style={{ fontSize: "13.5px", color: "#334155", lineHeight: "1.6", margin: "0" }}>
+                        {displayedDesc}{" "}
+                        <button
+                          type="button"
+                          onClick={handleReadMoreClick}
+                          style={{
+                            background: "none",
+                            border: "none",
+                            color: "#0058a3",
+                            fontWeight: "700",
+                            fontSize: "13px",
+                            cursor: "pointer",
+                            padding: 0,
+                            textDecoration: "underline",
+                            marginLeft: "4px"
+                          }}
+                        >
+                          Read more
+                        </button>
+                      </p>
+                    );
+                  })()}
+                </div>
+
+                {/* 2-Row x 2-Column Brand Guarantees Grid (Direct Child of detailsCol for bottom alignment) */}
+                <div className={styles.middleTrustGrid}>
+                  <div className={styles.middleTrustItem}>
+                    <HugeiconsIcon icon={SecurityCheckIcon} size={18} strokeWidth={2.2} className={styles.middleTrustIcon} />
+                    <span>2 Year Manufacturer Warranty</span>
+                  </div>
+                  <div className={styles.middleTrustItem}>
+                    <HugeiconsIcon icon={DeliveryReturn02Icon} size={18} strokeWidth={2.2} className={styles.middleTrustIcon} />
+                    <span>Easy &amp; Hassle-Free Site Returns</span>
+                  </div>
+                  <div className={styles.middleTrustItem}>
+                    <HugeiconsIcon icon={Award04Icon} size={18} strokeWidth={2.2} className={styles.middleTrustIcon} />
+                    <span>SASO &amp; ISO 9001 Certified Quality</span>
+                  </div>
+                  <div className={styles.middleTrustItem}>
+                    <HugeiconsIcon icon={LockKeyholeIcon} size={18} strokeWidth={2.2} className={styles.middleTrustIcon} />
+                    <span>Secure Commercial Payments</span>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* Bottom Span: "About this item" Policy & Technical Accordions Section */}
+            <div id="about-item-section" className={styles.aboutItemSection}>
+              <h2 className={styles.aboutItemTitle}>About this item</h2>
+
+              <div className={styles.policyAccordionList}>
+                
+                {/* Accordion 1: Product details & Overview (Restored) */}
+                <div className={styles.policyAccordionItem}>
+                  <button
+                    type="button"
+                    className={styles.policyAccordionHeader}
+                    onClick={() => toggleAccordion("aboutDetails")}
+                  >
+                    <span>Product details</span>
+                    <ChevronDown
+                      size={20}
+                      style={{ transform: openAccordions["aboutDetails"] !== false ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}
+                    />
+                  </button>
+                  {openAccordions["aboutDetails"] !== false && (
+                    <div className={styles.policyAccordionContent}>
+                      <p style={{ margin: "0 0 12px 0", lineHeight: "1.6" }}>
+                        {product.description || `${product.name} is manufactured to international ISO 9001:2015 and Saudi SASO structural standards at our Dammam manufacturing hub. Designed for severe operational environments, heavy load bearing, and long-term corrosion resistance.`}
+                      </p>
+                      <ul style={{ paddingLeft: "20px", margin: "0 0 14px 0", display: "flex", flexDirection: "column", gap: "6px" }}>
+                        <li>Industrial grade manufacturing &amp; SASO safety compliant.</li>
+                        <li>Commercial SA 2.5 protective abrasive grit blasted surface finish.</li>
+                        <li>100% Quality inspected &amp; certified traceable materials.</li>
+                        <li>Direct factory workshop dispatch across KSA &amp; GCC.</li>
+                        <li>Full technical documentation &amp; warranty support included.</li>
+                        <li>Full Mill Test Certificate (MTR) documentation traceable to heat numbers.</li>
+                        <li>High load capacity proof-tested to Safe Working Load (SWL) criteria.</li>
+                        <li>SASO &amp; ISO 9001:2015 registered manufacturing quality assurance.</li>
+                      </ul>
+
+                      <div className={styles.disclaimerNoticeBox}>
+                        <HugeiconsIcon icon={InformationSquareIcon} size={18} strokeWidth={2.2} style={{ flexShrink: 0, marginTop: "2px" }} />
+                        <span>
+                          <strong>Accurate product information:</strong> We aim to show you accurate product details and technical dimensions. Manufacturers and technical engineers provide what you see here. <span className={styles.disclaimerLink}>See compliance details &rsaquo;</span>
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Accordion 2: Technical Specifications & Product Table */}
+                <div className={styles.policyAccordionItem}>
+                  <button
+                    type="button"
+                    className={styles.policyAccordionHeader}
+                    onClick={() => toggleAccordion("specs")}
+                  >
+                    <span>Specifications &amp; Technical Data</span>
+                    <ChevronDown
+                      size={20}
+                      style={{ transform: openAccordions["specs"] ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}
+                    />
+                  </button>
+                  {openAccordions["specs"] && (
+                    <div className={styles.policyAccordionContent}>
+                      <table className={styles.amazonTechTable}>
+                        <tbody>
+                          <tr>
+                            <td>Manufacturer / Brand</td>
+                            <td>Saudi Fab Store Direct</td>
+                          </tr>
+                          <tr>
+                            <td>Item Model Number</td>
+                            <td>SF-B2B-{product._id.toUpperCase()}</td>
+                          </tr>
+                          <tr>
+                            <td>Structural Grade &amp; Material</td>
+                            <td>{product.material || "ASTM A36 Carbon Steel / S275JR"}</td>
+                          </tr>
+                          <tr>
+                            <td>Product Dimensions (H x W x D)</td>
+                            <td>{product.dimensions || "120cm x 85cm x 60cm"}</td>
+                          </tr>
+                          <tr>
+                            <td>Item Weight / Proof SWL</td>
+                            <td>{product.weight || "35.0 kg"} (Proof-tested SWL)</td>
+                          </tr>
+                          <tr>
+                            <td>Surface Preparation &amp; Coating</td>
+                            <td>SA 2.5 Abrasive Grit Blasting &amp; Polyurethane Finish</td>
+                          </tr>
+                          <tr>
+                            <td>Compliance &amp; Certifications</td>
+                            <td>SASO Certified, ISO 9001:2015 &amp; MTR Traceable</td>
+                          </tr>
+                          <tr>
+                            <td>Manufacturing Hub Origin</td>
+                            <td>Dammam Industrial City, Kingdom of Saudi Arabia</td>
+                          </tr>
+                          <tr>
+                            <td>Warranty Coverage</td>
+                            <td>2-Year Full Manufacturer Warranty</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+
+                {/* Accordion 3: Fabrication & Certifications */}
+                <div className={styles.policyAccordionItem}>
+                  <button
+                    type="button"
+                    className={styles.policyAccordionHeader}
+                    onClick={() => toggleAccordion("certs")}
+                  >
+                    <span>Fabrication, Weld Testing &amp; Certifications</span>
+                    <ChevronDown
+                      size={20}
+                      style={{ transform: openAccordions["certs"] ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}
+                    />
+                  </button>
+                  {openAccordions["certs"] && (
+                    <div className={styles.policyAccordionContent}>
+                      <p style={{ margin: "0 0 10px 0" }}>
+                        All structural welds undergo Non-Destructive Testing (NDT) and magnetic particle inspection to ensure maximum join strength. Dry Film Thickness (DFT) coating gauges verify protective layer profiles prior to dispatch.
+                      </p>
+                      <p style={{ margin: 0 }}>
+                        Every order includes a complete Quality Assurance Dossier with MTR mill test reports and compliance certificates.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Accordion 4: Returns, Refund & Guarantee Policy */}
+                <div className={styles.policyAccordionItem}>
+                  <button
+                    type="button"
+                    className={styles.policyAccordionHeader}
+                    onClick={() => toggleAccordion("returnsPolicy")}
+                  >
+                    <span>Returns, Refund &amp; Guarantee Policy</span>
+                    <ChevronDown
+                      size={20}
+                      style={{ transform: openAccordions["returnsPolicy"] ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}
+                    />
+                  </button>
+                  {openAccordions["returnsPolicy"] && (
+                    <div className={styles.policyAccordionContent}>
+                      <p style={{ margin: "0 0 10px 0" }}>
+                        <strong>Free 30-Day Returns &amp; Replacement:</strong> We stand behind all Saudi Fab Store products. If your order arrives damaged, incomplete, or fails technical verification, return it within 30 days for a 100% full refund or immediate replacement.
+                      </p>
+                      <p style={{ margin: 0 }}>
+                        All returns are inspected at our Dammam logistics hub. Refunds are processed back to your original payment method or B2B account credit within 3 to 5 business days.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Accordion 5: Shipping & Logistics Terms */}
+                <div className={styles.policyAccordionItem}>
+                  <button
+                    type="button"
+                    className={styles.policyAccordionHeader}
+                    onClick={() => toggleAccordion("shippingTerms")}
+                  >
+                    <span>Shipping &amp; Freight Logistics Terms</span>
+                    <ChevronDown
+                      size={20}
+                      style={{ transform: openAccordions["shippingTerms"] ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}
+                    />
+                  </button>
+                  {openAccordions["shippingTerms"] && (
+                    <div className={styles.policyAccordionContent}>
+                      <p style={{ margin: "0 0 10px 0" }}>
+                        <strong>Same-Day Dispatch &amp; GCC Freight:</strong> In-stock catalog items ship within 24 to 48 hours directly to job sites across Riyadh, Dammam, Jeddah, and Jubail.
+                      </p>
+                      <p style={{ margin: 0 }}>
+                        Heavy freight containers and custom structural assemblies ship with dedicated crane offloading options. Free pickup is available at our Dammam Industrial City factory yard.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Accordion 6: About Saudi Fab Store */}
+                <div className={styles.policyAccordionItem}>
+                  <button
+                    type="button"
+                    className={styles.policyAccordionHeader}
+                    onClick={() => toggleAccordion("aboutCompany")}
+                  >
+                    <span>About Saudi Fab Store &amp; Manufacturing Hub</span>
+                    <ChevronDown
+                      size={20}
+                      style={{ transform: openAccordions["aboutCompany"] ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}
+                    />
+                  </button>
+                  {openAccordions["aboutCompany"] && (
+                    <div className={styles.policyAccordionContent}>
+                      <p style={{ margin: "0 0 10px 0" }}>
+                        <strong>Saudi Fab Store</strong> is Saudi Arabia&apos;s premier industrial B2B fabrication platform, operating state-of-the-art manufacturing facilities in Dammam Industrial City. We specialize in SASO-certified steel fabrication, forklift attachments, safety enclosures, warehouse storage equipment, and heavy site hardware.
+                      </p>
+                      <p style={{ margin: 0 }}>
+                        Our engineering team provides custom shop drawings, mill test certificates (MTR), and rapid turnarounds for mega-projects across KSA and the GCC.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Accordion 7: Terms & Conditions */}
+                <div className={styles.policyAccordionItem}>
+                  <button
+                    type="button"
+                    className={styles.policyAccordionHeader}
+                    onClick={() => toggleAccordion("termsConditions")}
+                  >
+                    <span>Terms &amp; Conditions &amp; Commercial Compliance</span>
+                    <ChevronDown
+                      size={20}
+                      style={{ transform: openAccordions["termsConditions"] ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}
+                    />
+                  </button>
+                  {openAccordions["termsConditions"] && (
+                    <div className={styles.policyAccordionContent}>
+                      <p style={{ margin: "0 0 10px 0" }}>
+                        <strong>Commercial Terms:</strong> All sales are subject to Saudi Fab Store standard commercial terms. Prices are quoted in SAR and include 15% KSA VAT where applicable. Official tax invoices are issued upon dispatch.
+                      </p>
+                      <p style={{ margin: 0 }}>
+                        <strong>Warranty &amp; Compliance:</strong> Structural items carry a 1-year manufacturer warranty covering welds and materials. Bulk B2B orders can be billed via corporate credit or site PO terms.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+            {/* 3. RIGHT WALMART BUY BOX COLUMN */}
+            <div className={styles.buyBoxCol}>
+              
+              <div className={styles.buyBoxCard}>
+                
+                {/* Price Header */}
+                <div className={styles.priceHeaderBlock}>
+                  <div className={styles.priceOnlineNotice}>
+                    <span>Price when purchased online</span>
+                    <button type="button" className={styles.infoTooltipBtn} title="Direct online factory pricing">
+                      <HugeiconsIcon icon={InformationSquareIcon} size={14} strokeWidth={2.2} />
+                    </button>
+                  </div>
+                  {/* Price Row with Discount Savings Badge container on the right */}
+                  <div className={styles.priceNowRow} style={{ alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "8px" }}>
+                    <div className={styles.priceSuperRow}>
+                      <span className={styles.priceSuperCurrency} style={{ display: "inline-flex", alignItems: "center" }}>
+                        <HugeiconsIcon icon={SaudiRiyalIcon} size={18} strokeWidth={2.2} />
+                      </span>
+                      <span className={styles.priceMainInteger}>{Math.floor(currentPrice).toLocaleString()}</span>
+                      <sup className={styles.priceSuperCents}>.{(currentPrice % 1).toFixed(2).substring(2) || "00"}</sup>
+                    </div>
+
+                    {/* Dynamic Zero-Padding Left-Aligned Discount Savings Badge */}
+                    {isDiscounted && (
+                      <div style={{
+                        display: "inline-flex",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                        gap: "2px",
+                        padding: 0,
+                        margin: 0
+                      }}>
+                        <span style={{
+                          backgroundColor: "#166534",
+                          color: "#ffffff",
+                          padding: "4px 7px 2px 7px",
+                          borderRadius: "4px",
+                          fontSize: "10.5px",
+                          fontWeight: "900",
+                          lineHeight: "1",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          textAlign: "center"
+                        }}>
+                          {purchaseMode === "subscribe" && selectedSwatch === "bulk" ? "SAVE 23.5%" : purchaseMode === "subscribe" ? "SAVE 10%" : "SAVE 15%"}
+                        </span>
+                        <span style={{ fontSize: "11px", fontWeight: "800", color: "#166534", lineHeight: "1.1" }}>
+                          {purchaseMode === "subscribe" ? "Contract Savings" : "Bulk Pack Savings"}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Buy Box Tax Information Line - Exactly matching Price when purchased online style */}
+                  <div className={styles.priceOnlineNotice} style={{ marginTop: "3px" }}>
+                    <span>KSA VAT Included &amp; Tax Invoice Eligible</span>
+                  </div>
+                </div>
+
+                {/* Primary Action Button: Full-Width Add to Cart Pill (Walmart Blue) */}
+                <button
+                  type="button"
+                  className={styles.fullWidthAddToCartBtn}
+                  onClick={handleAddToCart}
+                >
+                  <HugeiconsIcon icon={ShoppingCart01Icon} size={18} strokeWidth={2.2} />
+                  <span>Add to cart</span>
+                </button>
+
+                {/* Secondary Action Button: Full-Width Instant Order Pill (Saudi Fab Yellow) */}
+                <button
+                  type="button"
+                  className={styles.secondaryBuyNowBtn}
+                  onClick={handleInstantCheckout}
+                >
+                  <HugeiconsIcon icon={DeliveryBox01Icon} size={18} strokeWidth={2.2} />
+                  <span>Buy Now</span>
+                </button>
+
+                {/* Purchase Mode Radio Boxes */}
+                <div className={styles.purchaseOptionsContainer}>
+                  
+                  {/* Option 1: Subscribe & Save */}
+                  <div
+                    className={`${styles.optionRadioBox} ${purchaseMode === "subscribe" ? styles.selectedRadioBox : ""}`}
+                    onClick={() => setPurchaseMode("subscribe")}
+                  >
+                    <input
+                      type="radio"
+                      name="pMode"
+                      checked={purchaseMode === "subscribe"}
+                      onChange={() => setPurchaseMode("subscribe")}
+                      className={styles.radioInputDot}
+                    />
+                    <div className={styles.optionTextGroup}>
+                      <div className={styles.optionTitleRow}>
+                        <span className={styles.optionTitleText}>Contract Monthly Auto-Restock</span>
+                        <span className={styles.optionPriceText} style={{ display: "inline-flex", alignItems: "center", gap: "2px" }}>
+                          <HugeiconsIcon icon={SaudiRiyalIcon} size={12} strokeWidth={2.0} />{(basePrice * 0.9).toFixed(2)}
+                        </span>
+                      </div>
+                      <span className={styles.optionSubText}>Save 10% on recurring site supplies</span>
+                    </div>
+                  </div>
+
+                  {/* Option 2: One-time purchase */}
+                  <div
+                    className={`${styles.optionRadioBox} ${purchaseMode === "one-time" ? styles.selectedRadioBox : ""}`}
+                    onClick={() => setPurchaseMode("one-time")}
+                  >
+                    <input
+                      type="radio"
+                      name="pMode"
+                      checked={purchaseMode === "one-time"}
+                      onChange={() => setPurchaseMode("one-time")}
+                      className={styles.radioInputDot}
+                    />
+                    <div className={styles.optionTextGroup}>
+                      <div className={styles.optionTitleRow}>
+                        <span className={styles.optionTitleText}>One-time purchase</span>
+                        <span className={styles.optionPriceText} style={{ display: "inline-flex", alignItems: "center", gap: "2px" }}>
+                          <HugeiconsIcon icon={SaudiRiyalIcon} size={12} strokeWidth={2.0} />{basePrice.toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* Fulfillment Method Selector Cards */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  <span style={{ fontSize: "13px", fontWeight: "700", color: "#111111" }}>How you&apos;ll get this item:</span>
+                  
+                  <div className={styles.fulfillmentGrid}>
+                    
+                    {/* Shipping */}
+                    <div
+                      className={`${styles.fulfillmentCard} ${fulfillmentMethod === "shipping" ? styles.selectedFulfillmentCard : ""}`}
+                      onClick={() => setFulfillmentMethod("shipping")}
+                    >
+                      <HugeiconsIcon icon={DeliveryTruck01Icon} size={20} strokeWidth={2.2} color={fulfillmentMethod === "shipping" ? "#111111" : "#475569"} />
+                      <span className={styles.fulfillmentTitle}>Shipping</span>
+                      <span className={styles.fulfillmentSub}>Arrives in 1-2 days</span>
+                    </div>
+
+                    {/* Pickup */}
+                    <div
+                      className={`${styles.fulfillmentCard} ${fulfillmentMethod === "pickup" ? styles.selectedFulfillmentCard : ""}`}
+                      onClick={() => setFulfillmentMethod("pickup")}
+                    >
+                      <HugeiconsIcon icon={Store01Icon} size={20} strokeWidth={2.2} color={fulfillmentMethod === "pickup" ? "#111111" : "#475569"} />
+                      <span className={styles.fulfillmentTitle}>Pickup</span>
+                      <span className={styles.fulfillmentSub}>Dammam Yard</span>
+                    </div>
+
+                  </div>
+                </div>
+
+                {/* Enhanced Fulfillment & Delivery Information Block */}
+                <div className={styles.fulfillmentDetailsBox}>
+                  <div className={styles.fulfillmentDetailRow}>
+                    <HugeiconsIcon icon={Location01Icon} size={16} strokeWidth={2.2} className={styles.fulfillmentDetailIcon} />
+                    <div>
+                      <span>Ships to <span className={styles.shipsToLocation}>Dammam Industrial City, KSA</span></span>
+                    </div>
+                  </div>
+
+                  <div style={{ height: "1px", backgroundColor: "#e2e8f0", margin: "2px 0" }} />
+
+                  <div className={styles.fulfillmentDetailRow}>
+                    <HugeiconsIcon icon={AnvilIcon} size={16} strokeWidth={2.2} className={styles.fulfillmentDetailIcon} />
+                    <div>
+                      <span>Sold and shipped by <strong>Saudi Fab Store Direct</strong></span>
+                      <br />
+                      <span className={styles.fulfillmentDetailLink}>Report an issue with seller or item</span>
+                    </div>
+                  </div>
+
+                  <div className={styles.fulfillmentDetailRow}>
+                    <HugeiconsIcon icon={DeliveryReturn02Icon} size={16} strokeWidth={2.2} className={styles.fulfillmentDetailIcon} />
+                    <div>
+                      <span><strong>Free 30-day site returns</strong></span>
+                      <span className={styles.fulfillmentDetailLink}>Details</span>
+                    </div>
+                  </div>
+
+                  <div className={styles.fulfillmentDetailRow}>
+                    <HugeiconsIcon icon={CheckmarkSquare01Icon} size={16} strokeWidth={2.2} className={styles.fulfillmentDetailIcon} />
+                    <div>
+                      <span>This item is <strong>B2B VAT Invoice &amp; MTR Certificate eligible</strong></span>
+                      <span className={styles.fulfillmentDetailLink}>Learn more</span>
                     </div>
                   </div>
                 </div>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </main>
+
+      {/* Walmart "Popular items in this category" Carousel Section */}
+      <WalmartPopularCarouselSection
+        title="Popular items in this category"
+        subhead="Best selling items that customers love"
+        products={products && products.length > 0 ? products : INITIAL_PRODUCTS}
+      />
+
+      {/* Navigating industrial categories on Saudi Fab Store & Terms & Conditions Section */}
+      <AboutTermsFooterSection />
 
       <Footer />
     </div>

@@ -1,168 +1,233 @@
-.heroSection {
+.heroViewport {
   position: relative;
   width: 100%;
-  height: 100vh; /* Full viewport height */
+  min-height: 82vh;
+  border-radius: 28px;
   overflow: hidden;
-  background-color: #0a0e12;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-/* 1. Cinematic Background */
-.heroBackground {
-  position: absolute;
-  top: -12.5%;
-  left: 0;
-  width: 100%;
-  height: 125%;
-  z-index: 1;
-}
-
-.heroImage {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  opacity: 0.6; /* Darkened for cinematic feel */
-}
-
-.heroVideo {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  opacity: 0.6; /* Darkened for cinematic feel */
-}
-
-/* 2. Floating Channel Widget */
-.channelWidget {
-  position: absolute;
-  top: 90px; /* Below navbar */
-  right: 48px;
-  z-index: 15;
-  width: 320px;
-  background: rgba(20, 24, 28, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.widgetHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.channelInfo {
-  display: flex;
-  flex-direction: column;
-}
-
-.channelLabel {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.channelNumber {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.playbackControls {
-  display: flex;
-  gap: 2px;
-}
-
-.controlBtn {
-  background: rgba(255, 255, 255, 0.05);
-  border: none;
-  color: #ffffff;
-  width: 24px;
-  height: 24px;
+  margin-top: 16px;
+  margin-bottom: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: background 0.2s ease;
+  background: #070a12;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
 }
 
-.controlBtn:hover {
+.heroBackgroundMedia {
+  position: absolute;
+  inset: 0;
+}
+
+.heroImg {
+  object-fit: cover;
+  opacity: 0.55;
+  transform: scale(1.02);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vignetteOverlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(7, 10, 18, 0.3) 0%, rgba(7, 10, 18, 0.95) 90%);
+}
+
+.ambientBeamGlow {
+  position: absolute;
+  top: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(235, 85, 33, 0.25) 0%, rgba(235, 85, 33, 0) 70%);
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+.heroContentContainer {
+  position: relative;
+  z-index: 10;
+  max-width: 900px;
+  padding: 60px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.proofPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(235, 85, 33, 0.12);
+  border: 1px solid rgba(235, 85, 33, 0.4);
+  color: #ff8c5a;
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin-bottom: 24px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 16px rgba(235, 85, 33, 0.2);
+}
+
+.shieldIcon {
+  color: #EB5521;
+}
+
+.editorialHeadline {
+  font-size: clamp(34px, 5.5vw, 62px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.serifAccentWord {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #EB5521;
+  text-transform: none;
+}
+
+.editorialSubtext {
+  font-size: clamp(14px, 1.8vw, 17px);
+  line-height: 1.6;
+  color: #cbd5e1;
+  max-width: 720px;
+  margin-bottom: 36px;
+  font-weight: 400;
+}
+
+.ctaCluster {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.primaryGlassBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #EB5521;
+  color: #ffffff;
+  padding: 16px 36px;
+  border-radius: 40px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 10px 30px rgba(235, 85, 33, 0.45);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.primaryGlassBtn:hover {
+  background: #d94614;
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(235, 85, 33, 0.6);
+}
+
+.btnArrow {
+  transition: transform 0.2s ease;
+}
+
+.primaryGlassBtn:hover .btnArrow {
+  transform: translateX(4px);
+}
+
+.secondaryGlassBtn {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 16px 32px;
+  border-radius: 40px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.secondaryGlassBtn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-3px);
+}
+
+/* Floating Glass Metrics Strip */
+.metricsGlassStrip {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  padding: 20px 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.metricItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.metricIcon {
+  color: #EB5521;
+}
+
+.metricTextGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.metricValue {
+  font-size: 20px;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.metricLabel {
+  font-size: 11.5px;
+  color: #94a3b8;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.metricDivider {
+  width: 1px;
+  height: 36px;
   background: rgba(255, 255, 255, 0.15);
 }
 
-.thumbnailRow {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 4px;
-  padding: 12px;
-}
-
-.thumbnail {
-  width: 100%;
-  aspect-ratio: 16/9;
-  background-color: #1a1a1a;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.thumbImg {
-  object-fit: cover;
-}
-
-/* 3. Massive Marquee Text */
-.marqueeContainer {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  padding-bottom: 1vh; /* Slight spacing from bottom */
-}
-
-.marqueeTrack {
-  display: flex;
-  width: max-content;
-  animation: marqueeScroll 25s linear infinite;
-}
-
-.marqueeText {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 15vw; /* Extremely large, responsive to viewport width */
-  line-height: 0.85;
-  font-weight: 300;
-  color: #ffffff;
-  letter-spacing: -0.04em;
-  display: inline-block;
-  flex-shrink: 0;
-  padding-right: 4vw; /* Spacing between segments */
-}
-
-@keyframes marqueeScroll {
-  0% {
-    transform: translate3d(0, 0, 0);
+@media (max-width: 860px) {
+  .heroViewport {
+    min-height: 70vh;
   }
-  100% {
-    transform: translate3d(-50%, 0, 0);
+  .ctaCluster {
+    flex-direction: column;
+    width: 100%;
   }
-}
-
-@media (max-width: 1024px) {
-  .channelWidget {
-    display: none; /* Hide widget on mobile to save space */
+  .primaryGlassBtn, .secondaryGlassBtn {
+    width: 100%;
+    justify-content: center;
   }
-  
-  .marqueeText {
-    font-size: 25vw;
+  .metricsGlassStrip {
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    width: 100%;
+  }
+  .metricDivider {
+    display: none;
   }
 }

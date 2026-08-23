@@ -25,7 +25,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
         wrapper: wrapperRef.current,
         content: contentRef.current,
         smooth: 1.5, // Smooth duration in seconds for fluid mouse scrolling
-        effects: true, // Enables data-speed and data-lag attributes for parallax and fixed elements
+        effects: false, // Disabled parallax effects for crisp stationary layout
         smoothTouch: 0.1, // Touch device scroll smoothing
       });
     });

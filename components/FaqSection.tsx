@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Image from "next/image";
@@ -15,7 +15,7 @@ interface FaqItem {
 const FAQ_ITEMS: FaqItem[] = [
   {
     id: "faq-1",
-    question: "Can Brooq Al Khalij handle emergency fabrication and repair requests?",
+    question: "Can Saudi Fab Store handle emergency fabrication and repair requests?",
     answer: "Yes, we are highly regarded for our rapid turnaround times. Our clients trust us to deliver fast, professional work during emergency situations to ensure minimal downtime for their critical operations."
   },
   {
@@ -55,7 +55,7 @@ export function FaqSection() {
         <ParallaxElement speed={-0.10} style={{ position: "relative", width: "100%", height: "125%", top: "-12.5%" }}>
           <Image
             src="/images/home/faq/bolt.png"
-            alt="Brooq Al Khalij Industrial Bolt background"
+            alt="Saudi Fab Store Industrial Bolt background"
             fill
             className={styles.bgImage}
             sizes="(max-width: 1024px) 100vw, 50vw"
@@ -75,7 +75,7 @@ export function FaqSection() {
             </TextReveal>
             <TextReveal animation="blur" delay={0.2}>
               <p className={styles.subText}>
-                Find answers to common questions about Brooq Al Khalij Group and our services.
+                Find answers to common questions about Saudi Fab Store Group and our services.
               </p>
             </TextReveal>
           </div>
@@ -124,3 +124,4 @@ export function FaqSection() {
     </section>
   );
 }
+

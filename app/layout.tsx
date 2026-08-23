@@ -1,13 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat, Geist_Mono, Sacramento, Great_Vibes, Herr_Von_Muellerhoff } from "next/font/google";
+import { Archivo, Archivo_Narrow, Geist_Mono, Sacramento, Great_Vibes, Herr_Von_Muellerhoff } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./Providers";
 import { SmoothScroll } from "@/components/SmoothScroll";
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+});
+
+const archivoNarrow = Archivo_Narrow({
+  variable: "--font-archivo-narrow",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -48,21 +55,21 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Brooq Al Khalij Co. LLC | Steel Fabrication & Industrial Equipment KSA",
-    template: "%s | Brooq Al Khalij Co. LLC",
+    default: "Saudi Fab Store Co. LLC | Steel Fabrication & Industrial Equipment KSA",
+    template: "%s | Saudi Fab Store Co. LLC",
   },
   description: "Leading structural steel fabrication, industrial equipment, surface sandblasting, and SASO & ISO certified engineering solutions in Dammam and Eastern Province, Saudi Arabia.",
   keywords: [
-    "Brooq Al Khalij",
+    "Saudi Fab Store",
+    "Saudi Fab",
     "Steel Fabrication Saudi Arabia",
     "Industrial Equipment Dammam",
     "SASO Certified Steel",
     "ISO 9001 Quality Control",
     "Abrasive Sandblasting KSA",
     "Material Handling Skips",
-    "Saudi Aramco Approved Vendor",
   ],
-  authors: [{ name: "Brooq Al Khalij Co. LLC" }],
+  authors: [{ name: "Saudi Fab Store Co. LLC" }],
   icons: {
     icon: [
       { url: "/favicon/favicon.ico" },
@@ -86,16 +93,16 @@ export const metadata: Metadata = {
   },
   manifest: "/favicon/site.webmanifest",
   openGraph: {
-    title: "Brooq Al Khalij Co. LLC | Steel Fabrication & Industrial Solutions",
+    title: "Saudi Fab Store Co. LLC | Steel Fabrication & Industrial Solutions",
     description: "Leading structural steel fabrication, industrial equipment, and SASO & ISO certified solutions in KSA.",
-    url: "https://brooqalkhalij.com",
-    siteName: "Brooq Al Khalij",
+    url: "https://saudifabstore.com",
+    siteName: "Saudi Fab Store",
     images: [
       {
         url: "/images/logo.png",
         width: 800,
         height: 600,
-        alt: "Brooq Al Khalij Co. LLC",
+        alt: "Saudi Fab Store Co. LLC",
       },
     ],
     locale: "en_US",
@@ -111,9 +118,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${montserrat.variable} ${geistMono.variable} ${sacramento.variable} ${greatVibes.variable} ${herrVonMuellerhoff.variable} antialiased`}
+        className={`${archivo.variable} ${archivoNarrow.variable} ${geistMono.variable} ${sacramento.variable} ${greatVibes.variable} ${herrVonMuellerhoff.variable} antialiased`}
         style={{
-          fontFamily: 'var(--font-montserrat), sans-serif',
+          fontFamily: 'var(--font-archivo), "Archivo", sans-serif',
         }}
       >
         <SmoothScroll>

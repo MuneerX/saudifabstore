@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
@@ -264,7 +264,7 @@ export function DailyWellnessSection() {
             <ParallaxElement speed={-0.10} className={styles.imageTarget} style={{ height: "128%", top: "-15%", width: "100%", position: "absolute" }}>
               <Image
                 src="/images/home/services/service_bg_3.png"
-                alt="Brooq Al Khalij Services background"
+                alt="Saudi Fab Store Services background"
                 fill
                 className={styles.imageFull}
                 priority
@@ -331,3 +331,4 @@ export function DailyWellnessSection() {
     </>
   );
 }
+

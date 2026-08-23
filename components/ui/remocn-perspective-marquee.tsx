@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState } from "react";
 import { useCurrentFrame } from "remotion";
@@ -26,7 +26,7 @@ const DEFAULT_ITEMS = [
   "Safety Trading",
   "Protorc Bolting",
   "Forklift Repair",
-  "Brooq Stone",
+  "Saudi Fab Stone",
   "Chemical Solutions",
   "Packaging & Woodworks",
 ];
@@ -158,3 +158,4 @@ export function PerspectiveMarquee({
     </div>
   );
 }
+

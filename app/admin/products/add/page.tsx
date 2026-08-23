@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
@@ -854,7 +854,7 @@ export default function AddProductPage() {
                   </div>
                   <div className={styles.specsRightCol}>
                     <p className={styles.detailsParagraph}>
-                      Brooq Al Khalij Group certifies that all fabricated steel components and contracting equipment meet rigorous ISO 9001:2015 quality standards. Mill test reports and load compliance documentation are issued with factory dispatch.
+                      Saudi Fab Store Group certifies that all fabricated steel components and contracting equipment meet rigorous ISO 9001:2015 quality standards. Mill test reports and load compliance documentation are issued with factory dispatch.
                     </p>
                   </div>
                 </div>

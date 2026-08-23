@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 import Product from '@/lib/models/Product';
@@ -18,12 +18,12 @@ export async function GET(request: NextRequest) {
     await Product.deleteMany({});
     
     // Seed clean admin user if missing
-    const existingAdmin = await User.findOne({ email: 'admin@brooqalkhalij.com' });
+    const existingAdmin = await User.findOne({ email: 'admin@saudifabstore.com' });
     if (!existingAdmin) {
       const adminPassword = await bcrypt.hash('admin123', 10);
       const adminUser = new User({
-        name: 'Brooq Admin',
-        email: 'admin@brooqalkhalij.com',
+        name: 'Saudi Fab Admin',
+        email: 'admin@saudifabstore.com',
         password: adminPassword,
         role: 'admin'
       });
@@ -47,3 +47,4 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+

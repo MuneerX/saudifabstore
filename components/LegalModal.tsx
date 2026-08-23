@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState, useId } from "react";
 import { createPortal } from "react-dom";
@@ -122,7 +122,7 @@ export function LegalModal({ isOpen, onClose, defaultTab = "privacy" }: Props) {
                   {activeTab === "saso-iso" && "SASO & ISO Compliance Dossier"}
                 </h2>
                 <p id={descriptionId} className={styles.modalSubHeading}>
-                  Brooq Al Khalij Co. LLC • Official Legal & Technical Framework (KSA Standards)
+                  Saudi Fab Store Co. LLC • Official Legal & Technical Framework (KSA Standards)
                 </p>
               </div>
             </div>
@@ -445,7 +445,7 @@ export function LegalModal({ isOpen, onClose, defaultTab = "privacy" }: Props) {
                       <span>1. Saudi PDPL &amp; Regulatory Framework</span>
                     </h3>
                     <p className={styles.paragraph}>
-                      Brooq Al Khalij Co. LLC (&quot;Company&quot;, &quot;we&quot;, &quot;our&quot;, &quot;us&quot;) strictly respects and protects the personal and commercial privacy of all corporate clients, contracting partners, supply chain procurement officers, and digital visitors. This policy is framed in full alignment with the <strong>Saudi Arabia Personal Data Protection Law (PDPL)</strong> enacted under Royal Decree No. M/19 and its Executive Regulations, alongside international standards (GDPR) for cross-border industrial inquiries.
+                      Saudi Fab Store Co. LLC (&quot;Company&quot;, &quot;we&quot;, &quot;our&quot;, &quot;us&quot;) strictly respects and protects the personal and commercial privacy of all corporate clients, contracting partners, supply chain procurement officers, and digital visitors. This policy is framed in full alignment with the <strong>Saudi Arabia Personal Data Protection Law (PDPL)</strong> enacted under Royal Decree No. M/19 and its Executive Regulations, alongside international standards (GDPR) for cross-border industrial inquiries.
                     </p>
                   </div>
                 )}
@@ -543,7 +543,7 @@ export function LegalModal({ isOpen, onClose, defaultTab = "privacy" }: Props) {
                     <div className={styles.featureList}>
                       <div className={styles.featureCard}>
                         <div className={styles.featureCardTitle}>Right to Access &amp; Request</div>
-                        <p className={styles.featureCardText}>Request a complete digital record of all corporate and contact data maintained by Brooq Al Khalij.</p>
+                        <p className={styles.featureCardText}>Request a complete digital record of all corporate and contact data maintained by Saudi Fab Store.</p>
                       </div>
                       <div className={styles.featureCard}>
                         <div className={styles.featureCardTitle}>Right to Rectification</div>
@@ -617,14 +617,14 @@ export function LegalModal({ isOpen, onClose, defaultTab = "privacy" }: Props) {
             {/* TAB 2: TERMS & CONDITIONS */}
             {activeTab === "terms" && (
               <>
-                {matchesSearch("terms scope agreement conditions supply contract brooq") && (
+                {matchesSearch("terms scope agreement conditions supply contract saudifabstore") && (
                   <div id="sec-scope" className={styles.sectionBlock}>
                     <h3 className={styles.sectionHeading}>
                       <FileText className={styles.sectionHeadingIcon} size={20} />
                       <span>1. Scope of Agreement &amp; Portal Terms</span>
                     </h3>
                     <p className={styles.paragraph}>
-                      These Terms and Conditions govern all commercial quotations, purchase orders, structural steel fabrication contracts, sandblasting services, industrial equipment rentals, and digital portal usage provided by <strong>Brooq Al Khalij Co. LLC</strong>. By issuing a Purchase Order (PO) or utilizing our procurement portal, the Client accepts these terms in full without reservation.
+                      These Terms and Conditions govern all commercial quotations, purchase orders, structural steel fabrication contracts, sandblasting services, industrial equipment rentals, and digital portal usage provided by <strong>Saudi Fab Store Co. LLC</strong>. By issuing a Purchase Order (PO) or utilizing our procurement portal, the Client accepts these terms in full without reservation.
                     </p>
                   </div>
                 )}
@@ -636,7 +636,7 @@ export function LegalModal({ isOpen, onClose, defaultTab = "privacy" }: Props) {
                       <span>2. Quotations &amp; Price Validity Period</span>
                     </h3>
                     <p className={styles.paragraph}>
-                      Due to international steel price fluctuations (LME &amp; local mill indices), written quotations issued by Brooq Al Khalij remain valid for exactly <strong>fifteen (15) calendar days</strong> from issuance date unless specified otherwise in writing. Order confirmation is subject to final inventory availability and written acceptance by our commercial department.
+                      Due to international steel price fluctuations (LME &amp; local mill indices), written quotations issued by Saudi Fab Store remain valid for exactly <strong>fifteen (15) calendar days</strong> from issuance date unless specified otherwise in writing. Order confirmation is subject to final inventory availability and written acceptance by our commercial department.
                     </p>
                   </div>
                 )}
@@ -672,7 +672,7 @@ export function LegalModal({ isOpen, onClose, defaultTab = "privacy" }: Props) {
                       <span>5. Logistics, Delivery &amp; Site Offloading</span>
                     </h3>
                     <p className={styles.paragraph}>
-                      Delivery timelines are calculated from the receipt of approved shop drawings and deposit clearance. Unless agreed otherwise under Ex-Works (EXW) terms, Brooq Al Khalij coordinates transport to client job sites across Saudi Arabia. Clients are responsible for ensuring clear crane/forklift access and prompt offloading within 2 hours of trailer arrival at site.
+                      Delivery timelines are calculated from the receipt of approved shop drawings and deposit clearance. Unless agreed otherwise under Ex-Works (EXW) terms, Saudi Fab Store coordinates transport to client job sites across Saudi Arabia. Clients are responsible for ensuring clear crane/forklift access and prompt offloading within 2 hours of trailer arrival at site.
                     </p>
                   </div>
                 )}
@@ -713,7 +713,7 @@ export function LegalModal({ isOpen, onClose, defaultTab = "privacy" }: Props) {
                       <span>1. SASO &amp; SABER SALEEM Conformity</span>
                     </h3>
                     <p className={styles.paragraph}>
-                      Brooq Al Khalij operations strictly adhere to the regulatory requirements of the <strong>Saudi Standards, Metrology and Quality Organization (SASO)</strong> under the <strong>SALEEM Product Safety Program</strong>. All manufactured machinery, heavy skips, lifting attachments, and safety equipment are registered on the official <strong>SABER digital platform</strong> with verified Certificates of Conformity (CoC).
+                      Saudi Fab Store operations strictly adhere to the regulatory requirements of the <strong>Saudi Standards, Metrology and Quality Organization (SASO)</strong> under the <strong>SALEEM Product Safety Program</strong>. All manufactured machinery, heavy skips, lifting attachments, and safety equipment are registered on the official <strong>SABER digital platform</strong> with verified Certificates of Conformity (CoC).
                     </p>
                   </div>
                 )}
@@ -787,7 +787,7 @@ export function LegalModal({ isOpen, onClose, defaultTab = "privacy" }: Props) {
                       <span>6. Saudi Aramco &amp; MHRSD Vendor Prequalification</span>
                     </h3>
                     <p className={styles.paragraph}>
-                      Brooq Al Khalij holds active vendor prequalification credentials for major Saudi energy and infrastructure entities, including Saudi Aramco safety instructions, SABIC technical specs, and Ministry of Human Resources occupational safety requirements. Complete quality dossiers (QAP) accompany every major project shipment.
+                      Saudi Fab Store holds active vendor prequalification credentials for major Saudi energy and infrastructure entities, including Saudi Aramco safety instructions, SABIC technical specs, and Ministry of Human Resources occupational safety requirements. Complete quality dossiers (QAP) accompany every major project shipment.
                     </p>
                   </div>
                 )}
@@ -800,7 +800,7 @@ export function LegalModal({ isOpen, onClose, defaultTab = "privacy" }: Props) {
         <div className={styles.modalFooter}>
           <div className={styles.footerNotes}>
             <CheckCircle2 size={16} style={{ color: "#10B981" }} />
-            <span>Document verified by Brooq Al Khalij Legal &amp; Compliance Department.</span>
+            <span>Document verified by Saudi Fab Store Legal &amp; Compliance Department.</span>
           </div>
 
           <div className={styles.footerActions}>
@@ -828,3 +828,4 @@ export function LegalModal({ isOpen, onClose, defaultTab = "privacy" }: Props) {
     document.body
   );
 }
+

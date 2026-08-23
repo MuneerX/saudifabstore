@@ -1,39 +1,19 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
-import styles from './Footer.module.css';
-import Image from 'next/image';
 import Link from 'next/link';
+import Image from 'next/image';
+import styles from './Footer.module.css';
 import { LegalModal, LegalTab } from './LegalModal';
-
-const ArrowIcon = ({ color = "#ffffff" }: { color?: string }) => (
-  <svg
-    className={styles.arrowIcon}
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 8 5"
-    fill="none"
-    width="10"
-    height="7"
-  >
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M4.32517 0.0354578L5.42397 1.6028e-07L8 2.51064L5.4458 5L4.3052 4.96635L5.57012 3.73355C5.878 3.43348 6.15998 3.16461 6.41658 2.92694L0.205982 2.9077L0.244359 2.0731L6.45486 2.09244C6.20397 1.86046 5.92658 1.59621 5.62262 1.29997L4.32517 0.0354578Z"
-      fill={color}
-    />
-    <path
-      d="M0.82393 2.00287e-07L0.82393 2.90815H0L2.64111e-07 1.65186e-07L0.82393 2.00287e-07Z"
-      fill={color}
-    />
-  </svg>
-);
+import { HugeiconsIcon } from '@hugeicons/react';
+import { InformationSquareIcon, Mail01Icon, UserIcon, UserAddIcon, DeliveryBox01Icon, PhoneCallIcon, Message01Icon, Location01Icon } from '@hugeicons/core-free-icons';
 
 interface FooterProps {
   noGradient?: boolean;
+  isContactPage?: boolean;
 }
 
-const Footer: React.FC<FooterProps> = ({ noGradient = false }) => {
-  const [email, setEmail] = useState('');
+export function Footer({ noGradient, isContactPage }: FooterProps = {}) {
   const [legalModalOpen, setLegalModalOpen] = useState(false);
   const [legalModalTab, setLegalModalTab] = useState<LegalTab>('privacy');
 
@@ -42,191 +22,330 @@ const Footer: React.FC<FooterProps> = ({ noGradient = false }) => {
     setLegalModalOpen(true);
   };
 
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    setEmail('');
-  };
-
   return (
-    <footer className={`${styles.footer} ${noGradient ? styles.noGradient : ''}`}>
-      <div className={styles.footerCard}>
-        {/* Top bar: Centered pedestal° Logo + Social Icons on right */}
-        <div className={styles.topBar}>
-          <div className={styles.topBarInner}>
-            <Link href="/" className={styles.logoWrapper}>
-              <Image
-                src="/images/logo.png"
-                alt="Brooq Al Khalij Logo"
-                width={150}
-                height={48}
-                className={styles.logoImg}
-                priority
-              />
-            </Link>
-            <div className={styles.socialIcons}>
-              <a href="#" className={styles.socialIcon} aria-label="Instagram">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                  <circle cx="12" cy="12" r="4"/>
-                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-                </svg>
-              </a>
-              <a href="#" className={styles.socialIcon} aria-label="Facebook">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                </svg>
-              </a>
+    <footer className={`${styles.noonFooterContainer} ${isContactPage ? styles.contactFooterContainer : ''}`}>
+      
+      {/* DIRECT CONTACT OFFICES & DETAILS INCLUDED IN CONTACT PAGE FOOTER */}
+      {isContactPage && (
+        <div className={styles.contactFooterOfficesSection}>
+          <div className={styles.detailsHeaderBlock}>
+            <h2 className={styles.detailsMainTitle}>Direct Contact Details &amp; Offices</h2>
+            <p className={styles.detailsSubText}>
+              Reach out directly to our commercial desk, regional logistics hubs, or headquarters in Saudi Arabia.
+            </p>
+          </div>
+
+          <div className={styles.unboxedDetailsRow}>
+            
+            {/* Detail Item 1: Email Support */}
+            <div className={styles.unboxedDetailItem}>
+              <div className={styles.detailIconCircle}>
+                <HugeiconsIcon icon={Mail01Icon} size={20} strokeWidth={2.2} />
+              </div>
+              <div className={styles.detailTextGroup}>
+                <span className={styles.detailLabelTag}>EMAIL SUPPORT</span>
+                <a href="mailto:care@saudifab.com" className={styles.detailPrimaryLink}>
+                  care@saudifab.com
+                </a>
+                <p className={styles.detailSubTextDesc}>General inquiries, sales &amp; quotations</p>
+              </div>
             </div>
+
+            {/* Detail Item 2: Phone Hotline */}
+            <div className={styles.unboxedDetailItem}>
+              <div className={styles.detailIconCircle}>
+                <HugeiconsIcon icon={PhoneCallIcon} size={20} strokeWidth={2.2} />
+              </div>
+              <div className={styles.detailTextGroup}>
+                <span className={styles.detailLabelTag}>HOTLINE DESK</span>
+                <a href="tel:+966138121100" className={styles.detailPrimaryLink}>
+                  +966 13 812 1100
+                </a>
+                <p className={styles.detailSubTextDesc}>Dammam commercial desk &amp; WhatsApp</p>
+              </div>
+            </div>
+
+            {/* Detail Item 3: Dammam HQ Address */}
+            <div className={styles.unboxedDetailItem}>
+              <div className={styles.detailIconCircle}>
+                <HugeiconsIcon icon={Location01Icon} size={20} strokeWidth={2.2} />
+              </div>
+              <div className={styles.detailTextGroup}>
+                <span className={styles.detailLabelTag}>DAMMAM HEADQUARTERS</span>
+                <h4 className={styles.detailPrimaryText}>2nd Industrial City, Street 68</h4>
+                <p className={styles.detailSubTextDesc}>Dammam, Eastern Province, KSA</p>
+              </div>
+            </div>
+
+            {/* Detail Item 4: Riyadh Branch Address */}
+            <div className={styles.unboxedDetailItem}>
+              <div className={styles.detailIconCircle}>
+                <HugeiconsIcon icon={Location01Icon} size={20} strokeWidth={2.2} />
+              </div>
+              <div className={styles.detailTextGroup}>
+                <span className={styles.detailLabelTag}>RIYADH BRANCH HUB</span>
+                <h4 className={styles.detailPrimaryText}>Al-Sulay Industrial District</h4>
+                <p className={styles.detailSubTextDesc}>Riyadh, Central Region, KSA</p>
+              </div>
+            </div>
+
           </div>
         </div>
+      )}
 
-        {/* Hero Headline */}
-        <div className={styles.heroHeadline}>
-          <h2 className={styles.heroText}>
-            Best Solution for your<br />company needs.
-          </h2>
-        </div>
+      {!isContactPage && (
+        <>
+          {/* 1. TOP HELP & SUPPORT BANNER */}
+          <div className={styles.helpBannerWrapper}>
+            <div className={styles.helpBannerContainer}>
+              <div className={styles.helpTextGroup}>
+                <h3 className={styles.helpTitle}>We&apos;re Always Here To Help</h3>
+                <p className={styles.helpSubtitle}>Reach out to us through any of these support channels</p>
+              </div>
 
-        {/* Main Footer Grid: Links + CTA Column */}
-        <div className={styles.mainGrid}>
-          {/* Left: 3 link columns + 2 support blocks + subscribe form */}
-          <div className={styles.linkColumns}>
-            <div className={styles.colDivider} />
+              <div className={styles.supportChannelsGroup}>
+                
+                {/* Channel 1: Help Center */}
+                <Link href="/contact" className={styles.channelBadgeCard}>
+                  <div className={styles.channelIconCircle}>
+                    <HugeiconsIcon icon={InformationSquareIcon} size={18} strokeWidth={2.2} />
+                  </div>
+                  <div className={styles.channelLabelGroup}>
+                    <span className={styles.channelLabelTag}>HELP CENTER</span>
+                    <span className={styles.channelValueText}>help.saudifab.com</span>
+                  </div>
+                </Link>
 
-            {/* 3-column link grid */}
-            <div className={styles.colsRow}>
-              {/* Company */}
-              <div className={styles.col}>
-                <h4 className={styles.colHeading}>COMPANY</h4>
-                <ul className={styles.colList}>
-                  <li><Link href="/about">About Us</Link></li>
-                  <li><Link href="/services">Our Services</Link></li>
-                  <li><Link href="/products">Products Catalog</Link></li>
-                  <li><Link href="/contact">Contact Support</Link></li>
+                {/* Channel 2: Email Support */}
+                <a href="mailto:care@saudifab.com" className={styles.channelBadgeCard}>
+                  <div className={styles.channelIconCircle}>
+                    <HugeiconsIcon icon={Mail01Icon} size={18} strokeWidth={2.2} />
+                  </div>
+                  <div className={styles.channelLabelGroup}>
+                    <span className={styles.channelLabelTag}>EMAIL SUPPORT</span>
+                    <span className={styles.channelValueText}>care@saudifab.com</span>
+                  </div>
+                </a>
+
+              </div>
+            </div>
+          </div>
+
+          {/* 2. MULTI-COLUMN CATEGORY & BRAND NAVIGATION LINKS */}
+          <div className={styles.navLinksSection}>
+            <div className={styles.navLinksContainer}>
+              
+              {/* Column 1 */}
+              <div className={styles.navColumn}>
+                <h4 className={styles.columnTitle}>Steel &amp; Metals</h4>
+                <ul className={styles.columnList}>
+                  <li><Link href="/products?category=Structural+Steel">Structural Beams</Link></li>
+                  <li><Link href="/products?category=Structural+Steel">High-Tensile Plates</Link></li>
+                  <li><Link href="/products?category=Structural+Steel">Hollow Tubing</Link></li>
+                  <li><Link href="/products?category=Structural+Steel">Expanded Metal Mesh</Link></li>
+                  <li><Link href="/products?category=Structural+Steel">Rebar &amp; Round Bars</Link></li>
+                  <li><Link href="/products?category=Structural+Steel">Grating &amp; Catwalks</Link></li>
+                  <li><Link href="/products?category=Structural+Steel">Angles &amp; Flat Bars</Link></li>
+                  <li><Link href="/products?category=Structural+Steel">Pipe &amp; Flanges</Link></li>
                 </ul>
               </div>
 
-              {/* Services */}
-              <div className={styles.col}>
-                <h4 className={styles.colHeading}>SERVICES</h4>
-                <ul className={styles.colList}>
+              {/* Column 2 */}
+              <div className={styles.navColumn}>
+                <h4 className={styles.columnTitle}>Services</h4>
+                <ul className={styles.columnList}>
                   <li><Link href="/services/steel-fabrication">Steel Fabrication</Link></li>
-                  <li><Link href="/services/blasting-sandblasting">Blasting &amp; Sandblasting</Link></li>
-                  <li><Link href="/services/industrial-painting-coatings">Painting &amp; Coatings</Link></li>
-                  <li><Link href="/services/forklift-repair">Forklift Servicing</Link></li>
-                  <li><Link href="/services/general-safety-trading">Safety Gear Trading</Link></li>
+                  <li><Link href="/services/blasting-sandblasting">SA 2.5 Sandblasting</Link></li>
+                  <li><Link href="/services/industrial-painting-coatings">Industrial Coating</Link></li>
+                  <li><Link href="/services/protorc-torquing-bolting">Hydraulic Torquing</Link></li>
+                  <li><Link href="/services/steel-fabrication">CNC Laser Cutting</Link></li>
+                  <li><Link href="/services/steel-fabrication">Sheet Metal Bending</Link></li>
+                  <li><Link href="/services/forklift-repair">Workshop Repair</Link></li>
+                  <li><Link href="/services/smart-woodworks">Crating &amp; Pallets</Link></li>
                 </ul>
               </div>
 
-              {/* Resources */}
-              <div className={styles.col}>
-                <h4 className={styles.colHeading}>RESOURCES</h4>
-                <ul className={styles.colList}>
-                  <li><Link href="/about">Company Profile</Link></li>
-                  <li><Link href="/services/protorc-torquing-bolting">ProTorc Bolting</Link></li>
-                  <li><Link href="/services/paper-plastic-packaging">Packaging Factory</Link></li>
-                  <li><Link href="/services/smart-woodworks">Smart Woodworks</Link></li>
-                  <li><Link href="/contact">Request Quote</Link></li>
+              {/* Column 3 */}
+              <div className={styles.navColumn}>
+                <h4 className={styles.columnTitle}>Warehouse</h4>
+                <ul className={styles.columnList}>
+                  <li><Link href="/products?category=Warehouse+%26+Logistics">Self-Dumping Skips</Link></li>
+                  <li><Link href="/products?category=Warehouse+%26+Logistics">Pallet Racks</Link></li>
+                  <li><Link href="/products?category=Warehouse+%26+Logistics">Pallet Trucks</Link></li>
+                  <li><Link href="/products?category=Warehouse+%26+Logistics">Forklift Attachments</Link></li>
+                  <li><Link href="/products?category=Warehouse+%26+Logistics">Cargo Containers</Link></li>
+                  <li><Link href="/products?category=Warehouse+%26+Logistics">Storage Bins</Link></li>
+                  <li><Link href="/products?category=Warehouse+%26+Logistics">Material Carts</Link></li>
+                  <li><Link href="/products?category=Warehouse+%26+Logistics">Site Enclosures</Link></li>
                 </ul>
               </div>
+
+              {/* Column 4 */}
+              <div className={styles.navColumn}>
+                <h4 className={styles.columnTitle}>SASO Safety</h4>
+                <ul className={styles.columnList}>
+                  <li><Link href="/services/general-safety-trading">SASO Safety Helmets</Link></li>
+                  <li><Link href="/services/general-safety-trading">Safety Harnesses</Link></li>
+                  <li><Link href="/services/general-safety-trading">Protective Eyewear</Link></li>
+                  <li><Link href="/services/general-safety-trading">High-Vis Vests</Link></li>
+                  <li><Link href="/services/general-safety-trading">Welding Shields</Link></li>
+                  <li><Link href="/services/general-safety-trading">Steel-Toe Boots</Link></li>
+                  <li><Link href="/services/general-safety-trading">Mask Filters</Link></li>
+                </ul>
+              </div>
+
+              {/* Column 5 */}
+              <div className={styles.navColumn}>
+                <h4 className={styles.columnTitle}>Certifications</h4>
+                <ul className={styles.columnList}>
+                  <li><button type="button" onClick={() => openLegalModal('saso-iso')} className={styles.linkBtn}>SASO Compliance</button></li>
+                  <li><button type="button" onClick={() => openLegalModal('saso-iso')} className={styles.linkBtn}>ISO 9001:2015 Quality</button></li>
+                  <li><button type="button" onClick={() => openLegalModal('saso-iso')} className={styles.linkBtn}>MTR Heat Traceable</button></li>
+                  <li><button type="button" onClick={() => openLegalModal('saso-iso')} className={styles.linkBtn}>SWL Proof Tested</button></li>
+                  <li><button type="button" onClick={() => openLegalModal('saso-iso')} className={styles.linkBtn}>Aramco Vendor</button></li>
+                  <li><button type="button" onClick={() => openLegalModal('saso-iso')} className={styles.linkBtn}>SABIC Compliant</button></li>
+                  <li><button type="button" onClick={() => openLegalModal('saso-iso')} className={styles.linkBtn}>Ma&apos;aden Approved</button></li>
+                </ul>
+              </div>
+
+              {/* Column 6 */}
+              <div className={styles.navColumn}>
+                <h4 className={styles.columnTitle}>Top Brands</h4>
+                <ul className={styles.columnList}>
+                  <li><Link href="/products">Saudi Fab Store</Link></li>
+                  <li><Link href="/services/protorc-torquing-bolting">ProTorc Torquing</Link></li>
+                  <li><Link href="/products">DeWalt Heavy Duty</Link></li>
+                  <li><Link href="/products">Makita Industrial</Link></li>
+                  <li><Link href="/products">Lincoln Electric</Link></li>
+                  <li><Link href="/products">ESAB Welding</Link></li>
+                  <li><Link href="/products">Bosch Professional</Link></li>
+                </ul>
+              </div>
+
+              {/* Column 7 */}
+              <div className={styles.navColumn}>
+                <h4 className={styles.columnTitle}>Discover Now</h4>
+                <ul className={styles.columnList}>
+                  <li><Link href="/about">Saudi Fab Portal</Link></li>
+                  <li><Link href="/contact">Steel Calculator</Link></li>
+                  <li><Link href="/contact">Custom Quote Tool</Link></li>
+                  <li><Link href="/portfolio">Catalog 2026</Link></li>
+                  <li><Link href="/products">Wholesale Rates</Link></li>
+                  <li><Link href="/contact">B2B Credit Line</Link></li>
+                  <li><Link href="/services/steel-fabrication">Express Delivery</Link></li>
+                </ul>
+              </div>
+
+              {/* Column 8 */}
+              <div className={styles.navColumn}>
+                <h4 className={styles.columnTitle}>Popular</h4>
+                <ul className={styles.columnList}>
+                  <li><Link href="/products">ASTM Steel Plates</Link></li>
+                  <li><Link href="/services/blasting-sandblasting">SA 2.5 Sandblast</Link></li>
+                  <li><Link href="/products">Self-Dumping Skips</Link></li>
+                  <li><Link href="/products">SWL Shackles</Link></li>
+                  <li><Link href="/products">Heavy Flanges</Link></li>
+                  <li><Link href="/products">Forklift Skips</Link></li>
+                </ul>
+              </div>
+
+              {/* Column 9 */}
+              <div className={styles.navColumn}>
+                <h4 className={styles.columnTitle}>GCC Regions</h4>
+                <ul className={styles.columnList}>
+                  <li><span className={styles.regionText}>Saudi Arabia (KSA)</span></li>
+                  <li><span className={styles.regionText}>Bahrain</span></li>
+                  <li><span className={styles.regionText}>Kuwait</span></li>
+                  <li><span className={styles.regionText}>Oman</span></li>
+                  <li><span className={styles.regionText}>Qatar</span></li>
+                  <li><span className={styles.regionText}>United Arab Emirates</span></li>
+                </ul>
+              </div>
+
             </div>
 
-            <div className={styles.colDivider} />
+            {/* 3. SHOP ON THE GO & CONNECT WITH US */}
+            <div className={styles.appSocialRow}>
+              <div className={styles.appSocialContainer}>
+                
+                {/* Left: B2B CLIENT ACCESS */}
+                <div className={styles.shopOnGoBlock}>
+                  <span className={styles.sectionHeaderTitle}>B2B CLIENT PORTAL &amp; QUICK ACCESS</span>
+                  <div className={styles.appStoreBadgesGroup}>
+                    <Link href="/login" className={styles.appBadgePill}>
+                      <HugeiconsIcon icon={UserIcon} size={16} strokeWidth={2.2} />
+                      <span>Client Login</span>
+                    </Link>
 
-            {/* Support Emails Row */}
-            <div className={styles.supportRow}>
-              <div className={styles.supportBlock}>
-                <p className={styles.supportLabel}>FOR B2B SALES &amp; PROJECT INQUIRIES:</p>
-                <a href="mailto:sales@brooqalkhalij.com" className={styles.supportEmail}>sales@brooqalkhalij.com</a>
-              </div>
-              <div className={styles.supportBlock}>
-                <p className={styles.supportLabel}>GENERAL SUPPORT &amp; HELP:</p>
-                <a href="mailto:info@brooqalkhalij.com" className={styles.supportEmail}>info@brooqalkhalij.com</a>
-              </div>
-            </div>
+                    <Link href="/signup" className={styles.appBadgePill}>
+                      <HugeiconsIcon icon={UserAddIcon} size={16} strokeWidth={2.2} />
+                      <span>Register B2B Account</span>
+                    </Link>
 
-            <div className={styles.colDivider} />
-
-            {/* Subscribe Row */}
-            <div className={styles.subscribeRow}>
-              <div className={styles.legitBadge}>
-                <Image
-                  src="/images/certified2.png"
-                  alt="Brooq Al Khalij Certified"
-                  width={64}
-                  height={64}
-                />
-              </div>
-              <form className={styles.subscribeForm} onSubmit={handleSubscribe}>
-                <input
-                  type="email"
-                  placeholder="Your email..."
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className={styles.emailInput}
-                  required
-                />
-                <button type="submit" className={styles.subscribeBtn}>
-                  <ArrowIcon color="#ffffff" />
-                  <span>Subscribe</span>
-                </button>
-              </form>
-            </div>
-          </div>
-
-          {/* Right Column: Green CTA Card + Separate Member Login Button Below */}
-          <div className={styles.rightCtaCol}>
-            <Link href="/contact" className={styles.ctaCard}>
-              <p className={styles.ctaLabel}>READY TO WORK WITH US?</p>
-              <div className={styles.ctaScrollText}>
-                <div className={styles.ctaScrollTrack}>
-                  <span>Request a Quote</span>
-                  <span aria-hidden>Request a Quote</span>
+                    <Link href="/admin/orders" className={styles.appBadgePill}>
+                      <HugeiconsIcon icon={DeliveryBox01Icon} size={16} strokeWidth={2.2} />
+                      <span>Track PO Order</span>
+                    </Link>
+                  </div>
                 </div>
+
+                {/* Right: CONNECT WITH US */}
+                <div className={styles.connectWithUsBlock}>
+                  <span className={styles.sectionHeaderTitle}>CONNECT WITH US</span>
+                  <div className={styles.yellowSocialGroup}>
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className={styles.yellowSocialCircle} aria-label="Facebook">
+                      f
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className={styles.yellowSocialCircle} aria-label="X">
+                      X
+                    </a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className={styles.yellowSocialCircle} aria-label="Instagram">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className={styles.yellowSocialCircle} aria-label="LinkedIn">
+                      in
+                    </a>
+                  </div>
+                </div>
+
               </div>
-            </Link>
+            </div>
 
-            {/* Member Login as a wider left-aligned button with exact arrow icon */}
-            <Link href="/login" className={styles.memberLoginBtn}>
-              <ArrowIcon color="#2b2b29" />
-              <span>Client Portal</span>
-            </Link>
           </div>
-        </div>
-      </div>
+        </>
+      )}
 
-      {/* Sub-Footer Bar below footerCard matching reference design */}
-      <div className={styles.subFooterBar}>
-        <div className={styles.subFooterLeft}>
-          <span>© 2026 Brooq Al Khalij Co. LLC. All rights reserved.</span>
-          <span className={styles.brandDivider}>•</span>
-          <div className={styles.mubarakBranding}>
-            <span className={styles.mubarakLabel}>Engineered by</span>
-            <a
-              href="https://mubaraktech.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.mubarakLink}
-            >
-              Mubarak
-            </a>
+      {/* 4. BOTTOM LEGAL BAR */}
+      <div className={styles.bottomLegalSection}>
+        <div className={styles.bottomLegalContainer}>
+          
+          <div className={styles.legalTopFlexRow}>
+            <div className={styles.copyrightText}>
+              &copy; 2026 Saudi Fab Store. All Rights Reserved
+            </div>
+
+            {/* Payment Method Badges (Hidden on Contact Page Footer) */}
+            {!isContactPage && (
+              <div className={styles.paymentBadgesRow}>
+                <Image src="/images/visa.svg" alt="Visa" width={44} height={26} className={styles.paymentBadgeImg} unoptimized />
+                <Image src="/images/mastercard.png" alt="Mastercard" width={44} height={26} className={styles.paymentBadgeImg} unoptimized />
+                <Image src="/images/applepay.png" alt="Apple Pay" width={44} height={26} className={styles.paymentBadgeImg} unoptimized />
+                <Image src="/images/gpay.png" alt="Google Pay" width={44} height={26} className={styles.paymentBadgeImg} unoptimized />
+                <Image src="/images/Amazon_Pay_logo.svg" alt="Amazon Pay" width={44} height={26} className={styles.paymentBadgeImg} unoptimized />
+              </div>
+            )}
+
+            {/* Policy Footer Links */}
+            <div className={styles.policyLinksRow}>
+              <Link href="/about">Careers</Link>
+              <button type="button" onClick={() => openLegalModal('privacy')} className={styles.policyBtn}>Warranty Policy</button>
+              <Link href="/signup">Sell with us</Link>
+              <button type="button" onClick={() => openLegalModal('terms')} className={styles.policyBtn}>Terms of Use</button>
+              <button type="button" onClick={() => openLegalModal('terms')} className={styles.policyBtn}>Terms of Sale</button>
+              <button type="button" onClick={() => openLegalModal('privacy')} className={styles.policyBtn}>Privacy Policy</button>
+            </div>
           </div>
-        </div>
-        <div className={styles.subFooterCenter}>
-          <button onClick={() => openLegalModal('privacy')} className={styles.subFooterLink}>Privacy Policy</button>
-          <button onClick={() => openLegalModal('terms')} className={styles.subFooterLink}>Terms &amp; Conditions</button>
-          <button onClick={() => openLegalModal('saso-iso')} className={styles.subFooterLink}>SASO &amp; ISO Compliance</button>
-        </div>
-        <div className={styles.subFooterRight}>
-          <button onClick={() => openLegalModal('privacy')} className={styles.privacyChoicesBtn}>
-            <svg width="30" height="14" viewBox="0 0 30 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="0.5" y="0.5" width="29" height="13" rx="6.5" fill="#0066CC" stroke="#0066CC"/>
-              <path d="M7 1H14L11.5 13H7C3.68629 13 1 10.3137 1 7C1 3.68629 3.68629 1 7 1Z" fill="#FFFFFF"/>
-              <path d="M4.5 7L6.5 9L9.5 4.5" stroke="#0066CC" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M19 4.5L24 9.5M24 4.5L19 9.5" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-            <span>Your Privacy Choices</span>
-          </button>
+
         </div>
       </div>
 
@@ -237,6 +356,6 @@ const Footer: React.FC<FooterProps> = ({ noGradient = false }) => {
       />
     </footer>
   );
-};
+}
 
 export default Footer;

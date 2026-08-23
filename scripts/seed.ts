@@ -25,8 +25,8 @@ async function seedDatabase() {
     const adminPassword = await bcrypt.hash('admin123', saltRounds);
     
     const adminUser = new User({
-      name: 'Brooq Admin',
-      email: 'admin@brooqalkhalij.com',
+      name: 'Saudi Fab Admin',
+      email: 'admin@saudifabstore.com',
       password: adminPassword,
       role: 'admin'
     });
@@ -34,14 +34,14 @@ async function seedDatabase() {
     await adminUser.save();
     console.log('Admin user created');
     
-    // Seed BR Products
+    // Seed Products
     for (const productData of INITIAL_PRODUCTS) {
       const { _id, ...rest } = productData;
       const product = new Product(rest);
       await product.save();
     }
     
-    console.log(`Successfully seeded ${INITIAL_PRODUCTS.length} Brooq Al Khalij products from BR products.md`);
+    console.log(`Successfully seeded ${INITIAL_PRODUCTS.length} Saudi Fab Store products.`);
     console.log('Database seeding completed successfully');
     
     await mongoose.connection.close();

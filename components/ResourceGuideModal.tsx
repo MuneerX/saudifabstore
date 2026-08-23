@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
@@ -66,7 +66,7 @@ export const GUIDE_ARTICLES_DATA: { [key: string]: ResourceArticle } = {
     readTime: "8 min read",
     paragraphs: [
       "Integrating ISO 9001:2015 Quality Management Systems into heavy structural steel fabrication facilities provides the structured operational framework needed to meet rigorous Saudi Arabian project standards, Aramco specifications, and international construction codes.",
-      "Quality assurance begins at raw material procurement. Every steel plate, structural section, and pipe received at Brooq Al Khalij is verified against original Mill Test Certificates (MTC 3.1) to confirm chemical heat composition (carbon, manganese, silicon, sulfur, phosphorus) and mechanical properties including yield strength, tensile strength, and elongation.",
+      "Quality assurance begins at raw material procurement. Every steel plate, structural section, and pipe received at Saudi Fab Store is verified against original Mill Test Certificates (MTC 3.1) to confirm chemical heat composition (carbon, manganese, silicon, sulfur, phosphorus) and mechanical properties including yield strength, tensile strength, and elongation.",
       "Complete material traceability is enforced across all workshop operations. Heat numbers are hard-stamped onto raw plates and tracked through computerized shop management systems. Color-coded end painting identifies steel grades across cutting, fitting, welding, and surface treatment stages.",
       "Welding operations follow qualified Welding Procedure Specifications (WPS) supported by Procedure Qualification Records (PQR). All welders maintain AWS D1.1 and EN 287-1 certifications, undergoing regular requalification testing to ensure zero-defect seam welds.",
       "In-process inspection checkpoints enforce strict dimensional tolerance verification matching ISO 13920 Class B standards. Dimensional logs, weld NDT reports, DFT coating records, and SASO conformity certificates accompany finished dispatches to guarantee seamless client handover."
@@ -217,18 +217,18 @@ export function ResourceGuideModal({ article, isOpen, onClose, onContactClick }:
     "@type": "TechArticle",
     "headline": article.title,
     "description": article.paragraphs[0],
-    "image": `https://brooqalkhalij.com${article.image}`,
+    "image": `https://saudifabstore.com${article.image}`,
     "author": {
       "@type": "Organization",
-      "name": "Brooq Al Khalij Heavy Engineering Division",
-      "url": "https://brooqalkhalij.com"
+      "name": "Saudi Fab Store Heavy Engineering Division",
+      "url": "https://saudifabstore.com"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Brooq Al Khalij Commercial & Contracting Co.",
+      "name": "Saudi Fab Store Commercial & Contracting Co.",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://brooqalkhalij.com/images/logo.png"
+        "url": "https://saudifabstore.com/images/logo.png"
       }
     },
     "datePublished": "2026-08-01",
@@ -264,7 +264,7 @@ export function ResourceGuideModal({ article, isOpen, onClose, onContactClick }:
           <div className={styles.heroImageContainer}>
             <Image
               src={article.image}
-              alt={`${article.title} - Brooq Al Khalij Saudi Industrial Guide`}
+              alt={`${article.title} - Saudi Fab Store Saudi Industrial Guide`}
               fill
               className={styles.heroImage}
               priority
@@ -275,7 +275,7 @@ export function ResourceGuideModal({ article, isOpen, onClose, onContactClick }:
           <h1 className={styles.articleTitle} itemProp="headline">{article.title}</h1>
 
           <div className={styles.metaRow}>
-            <span itemProp="author">By Brooq Al Khalij Engineering</span>
+            <span itemProp="author">By Saudi Fab Store Engineering</span>
             <span>•</span>
             <span>{article.readTime}</span>
             <span>•</span>
@@ -312,3 +312,4 @@ export function ResourceGuideModal({ article, isOpen, onClose, onContactClick }:
     document.body
   );
 }
+

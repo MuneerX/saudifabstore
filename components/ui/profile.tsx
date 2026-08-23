@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -153,9 +153,9 @@ const Profile = () => {
 
         const activeUser = user || session?.user || {};
         setUserData({
-          name: activeUser.name || session?.user?.name || "Brooq Client",
+          name: activeUser.name || session?.user?.name || "Saudi Fab Client",
           email: activeUser.email || session?.user?.email || "",
-          company: activeUser.company || "Brooq Industrial Partner",
+          company: activeUser.company || "saudifabstore Industrial Partner",
           address: activeUser.address 
             ? `${activeUser.address.street || ""}, ${activeUser.address.city || ""}, ${activeUser.address.state || ""} ${activeUser.address.zip || ""}`.replace(/^, |, $/, "")
             : ""
@@ -251,13 +251,13 @@ const Profile = () => {
           </div>
           <div className={styles.userMeta}>
             <div className={styles.userNameRow}>
-              <h1 className={styles.userName}>{userData.name || "Brooq Client"}</h1>
+              <h1 className={styles.userName}>{userData.name || "Saudi Fab Client"}</h1>
               <span className={styles.clientBadge}>
                 <ShieldCheck size={12} style={{ display: 'inline', marginRight: '3px' }} />
                 Verified Account
               </span>
             </div>
-            <p className={styles.userEmail}>{userData.email || session?.user?.email || "client@brooqalkhalij.com"}</p>
+            <p className={styles.userEmail}>{userData.email || session?.user?.email || "client@saudifabstore.com"}</p>
           </div>
         </div>
 

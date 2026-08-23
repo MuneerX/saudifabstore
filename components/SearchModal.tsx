@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
@@ -47,7 +47,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
             description: p.description || "",
             price: p.price || 0,
             category: p.category || "Industrial Product",
-            brand: p.brand || "Brooq Al Khalij",
+            brand: p.brand || "Saudi Fab Store",
             images: p.images && p.images.length > 0 ? p.images : ["/images/home/category_grid/container_3.jpeg"],
             stock: p.stock || 10,
             isFeatured: true,
@@ -234,7 +234,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
         {/* Modal Footer */}
         <div className={styles.searchFooter}>
           <span className={styles.footerText}>
-            Showing results for Brooq Al Khalij Products &amp; Equipment
+            Showing results for Saudi Fab Store Products &amp; Equipment
           </span>
           <Link
             href={`/products${query.trim() ? `?search=${encodeURIComponent(query.trim())}` : ""}`}
@@ -250,3 +250,4 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
     document.body
   );
 }
+
