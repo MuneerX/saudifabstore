@@ -475,5 +475,135 @@
 @media (max-width: 1024px) {
   .dualGrid {
     grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .bannerMainTitle,
+  .landscapeTitle {
+    font-size: 26px;
+    max-width: 90%;
+    margin-bottom: 14px;
+  }
+
+  .topRightBannerCard,
+  .bottomLeftBannerCard {
+    padding: 28px 24px;
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 640px) {
+  .dualSection {
+    margin: 20px 0;
+  }
+
+  .dualGrid {
+    gap: 14px;
+  }
+
+  .quadrantBox {
+    padding: 12px;
+    border-radius: 14px;
+  }
+
+  .rowHeader {
+    margin-bottom: 12px;
+  }
+
+  .mainTitle {
+    font-size: 17px;
+    line-height: 1.25;
+  }
+
+  .subTitle {
+    font-size: 11.5px;
+  }
+
+  .viewAllLink {
+    font-size: 12px;
+  }
+
+  .topRightBannerCard,
+  .bottomLeftBannerCard {
+    padding: 20px 18px;
+    min-height: 200px;
+    border-radius: 14px;
+  }
+
+  .eyebrowBlue {
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+
+  .bannerMainTitle {
+    font-size: 20px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    max-width: 90%;
+  }
+
+  .landscapeTitle {
+    font-size: 20px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    max-width: 90%;
+  }
+
+  .shopNowWhiteBtn {
+    font-size: 12px;
+    padding: 6px 18px;
+  }
+
+  .walmartProductCard {
+    min-width: 175px;
+    max-width: 195px;
+    padding: 10px;
+    border-radius: 12px;
+    gap: 4px;
+  }
+
+  .imgBox {
+    height: 155px;
+    margin-bottom: 4px;
+  }
+
+  .productTitle {
+    font-size: 12.5px;
+    line-height: 1.25;
+  }
+
+  .subDescriptionText {
+    font-size: 11px;
+  }
+
+  .priceWholeDigits {
+    font-size: 18px;
+  }
+
+  .addPillBtn,
+  .optionsPillBtn {
+    padding: 7px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+  }
+
+  .scrollNavBtn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .leftNavBtn {
+    left: -8px;
+  }
+
+  .rightNavBtn {
+    right: -8px;
+  }
+}
+
+@media (max-width: 380px) {
+  .bannerMainTitle,
+  .landscapeTitle {
+    font-size: 18px;
   }
 }
