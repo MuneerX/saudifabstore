@@ -368,9 +368,172 @@
 }
 
 /* RESPONSIVE MEDIA QUERIES */
-@media (max-width: 1200px) {
+@media (max-width: 1024px) {
   .walmartGridContainer {
     grid-template-columns: 1fr;
     height: auto;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .leftCol,
+  .centerCol,
+  .rightCol {
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .centerHeroCard {
+    grid-column: span 2;
+    height: 230px;
+  }
+
+  .leftTopCard,
+  .leftBottomCard,
+  .centerBottomCardA,
+  .centerBottomCardB,
+  .rightCardTop,
+  .rightCardMiddle,
+  .rightCardBottom {
+    height: 190px;
+  }
+
+  .centerBottomRow {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    height: auto;
+  }
+
+  .heroContentLeftWalmart {
+    padding: 24px 28px;
+    max-width: 75%;
+  }
+
+  .heroTitleWalmart {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .walmartCardTitleDark {
+    font-size: 17px;
+  }
+
+  .cardTextWrapper,
+  .cardTextWrapperTop {
+    padding: 18px 16px;
+    max-width: 80%;
+  }
+}
+
+@media (max-width: 640px) {
+  .walmartGridContainer {
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .leftCol,
+  .centerCol,
+  .rightCol {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .centerHeroCard {
+    grid-column: span 2;
+    height: 180px;
+    border-radius: 14px;
+  }
+
+  .centerBottomRow {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    height: auto;
+  }
+
+  .leftTopCard,
+  .leftBottomCard,
+  .centerBottomCardA,
+  .centerBottomCardB,
+  .rightCardTop,
+  .rightCardMiddle,
+  .rightCardBottom {
+    height: 165px;
+    border-radius: 14px;
+  }
+
+  .heroContentLeftWalmart {
+    padding: 16px 18px;
+    max-width: 85%;
+  }
+
+  .heroEyebrowWalmart {
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+
+  .heroTitleWalmart {
+    font-size: 19px;
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+
+  .heroShopPillBtnWalmart {
+    font-size: 11.5px;
+    padding: 5px 14px;
+  }
+
+  .walmartCardTitleDark {
+    font-size: 14.5px;
+    line-height: 1.25;
+    margin-bottom: 4px;
+  }
+
+  .walmartCardLinkDark {
+    font-size: 12px;
+  }
+
+  .walmartPriceValueDark {
+    font-size: 22px;
+  }
+
+  .cardTextWrapper,
+  .cardTextWrapperTop {
+    padding: 12px 12px;
+    max-width: 88%;
+  }
+
+  .flashDealsLogoWalmart {
+    font-size: 18px;
+  }
+
+  .badgeCircleGreen {
+    width: 36px;
+    height: 36px;
+    font-size: 8.5px;
+    bottom: 10px;
+    right: 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .leftCol,
+  .centerCol,
+  .rightCol,
+  .centerBottomRow {
+    grid-template-columns: 1fr;
+  }
+
+  .centerHeroCard {
+    grid-column: span 1;
+  }
+
+  .centerBottomRow {
+    grid-column: span 1;
   }
 }

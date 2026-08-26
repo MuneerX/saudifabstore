@@ -459,20 +459,97 @@
   text-decoration: underline;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1024px) {
   .gridOverlayContainer {
     grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .skyBlueHeroBanner {
+    height: auto;
+    min-height: 230px;
+    padding: 24px 28px;
+  }
+
+  .walmartMainTitle {
+    font-size: 26px;
+  }
+
+  .walmartSubTitle {
+    font-size: 13px;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .gridOverlayContainer {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .walmartGridCard {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .cardHeaderTitle {
+    font-size: 14.5px;
+    margin-bottom: 8px;
+  }
+
+  .subImgBoxProduct {
+    height: 85px;
+    padding: 6px;
+    margin-bottom: 4px;
+  }
+
+  .subItemTextName {
+    font-size: 10.5px;
+  }
+
+  .cardFooterLink {
+    margin-top: 8px;
+    font-size: 12px;
+  }
+
+  .skyBlueHeroBanner {
+    padding: 20px 20px;
+    border-radius: 16px;
+  }
+
+  .bannerGridContent {
     grid-template-columns: 1fr;
   }
-  .bannerTextContent {
-    margin-left: 20px;
+
+  .walmartMainTitle {
+    font-size: 20px;
+    margin-bottom: 8px;
   }
-  .promoTitle {
-    font-size: 24px;
+
+  .walmartSubTitle {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+
+  .shopNowPillBtn {
+    font-size: 12px;
+    padding: 6px 18px;
+  }
+
+  .topRightControls {
+    top: 14px;
+    right: 14px;
+    gap: 4px;
+  }
+
+  .controlCircleBtn {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 420px) {
+  .gridOverlayContainer {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 }
