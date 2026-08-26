@@ -707,36 +707,117 @@
 }
 
 /* RESPONSIVE BREAKPOINTS */
-@media (max-width: 1100px) {
+@media (max-width: 1200px) {
   .locationPillWrapper {
-    display: none;
+    display: none !important;
   }
 }
 
 @media (max-width: 900px) {
   .topHeaderBar {
-    padding: 8px 14px;
+    padding: 10px 14px 8px 14px;
+    flex-wrap: wrap;
+    gap: 8px 12px;
   }
-  
+
   .mobileHamburgerBtn {
     display: flex;
+    order: 1;
+  }
+
+  .logoBox {
+    order: 2;
+  }
+
+  .rightNavControls {
+    order: 3;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 
   .navActionBox {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 4px;
+  }
+
+  .actionTextStack {
     display: none;
   }
-  
+
+  .cartActionBtn {
+    padding: 4px 6px;
+  }
+
+  .cartPriceStack {
+    display: none;
+  }
+
+  .pillSearchBarForm {
+    order: 4;
+    width: 100%;
+    flex: 0 0 100%;
+    margin: 2px 0 0 0;
+  }
+
   .subHeaderNav {
-    padding: 6px 14px;
+    padding: 6px 10px;
+    overflow: hidden;
+  }
+
+  .subHeaderInner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .subHeaderInner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dropdownPillWrapper,
+  .whitePillBtn,
+  .subBarDivider,
+  .categoryChipsTrack {
+    flex-shrink: 0;
+  }
+
+  .categoryChipsTrack {
+    overflow-x: visible;
+  }
+}
+
+@media (min-width: 580px) and (max-width: 900px) {
+  .actionTextStack {
+    display: flex;
+  }
+
+  .actionSubText {
+    display: none;
+  }
+
+  .actionMainText {
+    font-size: 11.5px;
   }
 }
 
 @media (max-width: 600px) {
-  .subBarDivider {
-    display: none;
-  }
-  
   .cartPriceStack {
     display: none;
+  }
+
+  .subBarDivider {
+    opacity: 0.5;
   }
 }

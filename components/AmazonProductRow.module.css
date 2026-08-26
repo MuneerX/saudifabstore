@@ -497,5 +497,23 @@
   .scrollArrow {
     display: none;
   }
+
+  .rowTitle {
+    font-size: 17.5px;
+    max-width: 230px;
+    line-height: 1.25;
+  }
+
+  .headerLink {
+    font-size: 13px;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .rowTitle {
+    font-size: 16px;
+    max-width: 200px;
+  }
 }
 

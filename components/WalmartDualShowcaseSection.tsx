@@ -140,7 +140,7 @@ export function WalmartDualShowcaseSection() {
       <div className={styles.dualGrid}>
         
         {/* QUADRANT 1: Top-Left Product Row (Hardware & Rigging) */}
-        <div className={styles.quadrantBox}>
+        <div className={`${styles.quadrantBox} ${styles.quadrantBoxOne}`}>
           <div className={styles.rowHeader}>
             <div className={styles.rowTitleGroup}>
               <h2 className={styles.mainTitle}>Precision Heavy Rigging &amp; Pipe Clamps</h2>
@@ -223,7 +223,7 @@ export function WalmartDualShowcaseSection() {
         </div>
 
         {/* QUADRANT 4: Bottom-Right Product Row (Chemical Safety & Spill Control) */}
-        <div className={styles.quadrantBox}>
+        <div className={`${styles.quadrantBox} ${styles.quadrantBoxTwo}`}>
           <div className={styles.rowHeader}>
             <div className={styles.rowTitleGroup}>
               <h2 className={styles.mainTitle}>Emergency Chemical Safety &amp; Spill Sumps</h2>

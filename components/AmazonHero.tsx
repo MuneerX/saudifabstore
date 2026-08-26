@@ -152,81 +152,33 @@ export function AmazonHero({ children }: AmazonHeroProps) {
   );
 }
 
-/* Standalone 4-Card Category Grid Component */
+/* Standalone 4-Category Department Grid Component (All In One Place) */
 export function AmazonCategoryGrid() {
-  // Dynamically filter products from catalog based on product features & badges
-  const newArrivals = INITIAL_PRODUCTS.filter(
-    (p) => p.badge === 'NEW' || p.badge === 'CERTIFIED' || p.badge === 'LIMITED' || p.isFeatured
+  // Dynamically filter 4 items for each core store category
+  const forkliftCategory = INITIAL_PRODUCTS.filter(
+    (p) => p.category === 'Forklift Attachments' || p.name.includes('Forklift') || p.name.includes('Jib') || p.name.includes('Manbasket')
   ).slice(0, 4);
 
-  const popularBestsellers = INITIAL_PRODUCTS.filter(
-    (p) => p.badge === 'BESTSELLER' || p.badge === 'POPULAR' || p.rating >= 4.8
+  const warehouseCategory = INITIAL_PRODUCTS.filter(
+    (p) => p.category === 'Warehouse & Logistics' || p.name.includes('Skip') || p.name.includes('Pallet') || p.name.includes('Container')
   ).slice(0, 4);
 
-  const jibsLiftingCombo = INITIAL_PRODUCTS.filter(
-    (p) =>
-      p.category === 'Forklift Attachments' ||
-      p.name.includes('Jib') ||
-      p.name.includes('Hook') ||
-      p.name.includes('Hoisting') ||
-      p.name.includes('Platform')
+  const steelCategory = INITIAL_PRODUCTS.filter(
+    (p) => p.category === 'Structural Steel' || p.name.includes('Steel') || p.name.includes('Beam') || p.name.includes('Plate')
   ).slice(0, 4);
 
-  const skipsSpillsCombo = INITIAL_PRODUCTS.filter(
-    (p) =>
-      p.category === 'Warehouse & Logistics' ||
-      p.category === 'Safety Equipment' ||
-      p.category === 'Safety & Chemical' ||
-      p.name.includes('Skip') ||
-      p.name.includes('Spill') ||
-      p.name.includes('GRP') ||
-      p.name.includes('Bollard')
+  const safetyCategory = INITIAL_PRODUCTS.filter(
+    (p) => p.category === 'Safety Equipment' || p.category === 'Safety & Chemical' || p.name.includes('Safety') || p.name.includes('Spill') || p.name.includes('Helmet')
   ).slice(0, 4);
 
   return (
     <div className={styles.gridOverlayContainer}>
       
-      {/* CARD 1: New Arrivals & Latest Products */}
+      {/* CARD 1: Forklift Attachments */}
       <div className={styles.walmartGridCard}>
-        <h3 className={styles.cardHeaderTitle}>New Arrivals &amp; Latest Products</h3>
+        <h3 className={styles.cardHeaderTitle}>Forklift Attachments</h3>
         <div className={styles.subGrid2x2}>
-          {newArrivals.map((item) => (
-            <Link key={item._id} href={`/products/${item._id}`} className={styles.subGridItem}>
-              <div className={styles.subImgBoxProduct}>
-                <Image src={item.images[0]} alt={item.name} fill sizes="160px" className={styles.productContainImg} />
-              </div>
-              <span className={styles.subItemTextName}>{item.name}</span>
-            </Link>
-          ))}
-        </div>
-        <Link href="/products?sort=newest" className={styles.cardFooterLink}>
-          Explore new arrivals
-        </Link>
-      </div>
-
-      {/* CARD 2: Popular Bestsellers */}
-      <div className={styles.walmartGridCard}>
-        <h3 className={styles.cardHeaderTitle}>Popular Bestsellers</h3>
-        <div className={styles.subGrid2x2}>
-          {popularBestsellers.map((item) => (
-            <Link key={item._id} href={`/products/${item._id}`} className={styles.subGridItem}>
-              <div className={styles.subImgBoxProduct}>
-                <Image src={item.images[0]} alt={item.name} fill sizes="160px" className={styles.productContainImg} />
-              </div>
-              <span className={styles.subItemTextName}>{item.name}</span>
-            </Link>
-          ))}
-        </div>
-        <Link href="/products?badge=BESTSELLER" className={styles.cardFooterLink}>
-          Shop bestsellers
-        </Link>
-      </div>
-
-      {/* CARD 3: Telescopic Jib Cranes & Lifting Combo */}
-      <div className={styles.walmartGridCard}>
-        <h3 className={styles.cardHeaderTitle}>Jibs &amp; Heavy Lifting Combo</h3>
-        <div className={styles.subGrid2x2}>
-          {jibsLiftingCombo.map((item) => (
+          {forkliftCategory.map((item) => (
             <Link key={item._id} href={`/products/${item._id}`} className={styles.subGridItem}>
               <div className={styles.subImgBoxProduct}>
                 <Image src={item.images[0]} alt={item.name} fill sizes="160px" className={styles.productContainImg} />
@@ -236,15 +188,15 @@ export function AmazonCategoryGrid() {
           ))}
         </div>
         <Link href="/products?category=Forklift+Attachments" className={styles.cardFooterLink}>
-          Shop Jibs &amp; Lifting Gear
+          Shop Forklift Attachments &rarr;
         </Link>
       </div>
 
-      {/* CARD 4: Skips, GRP & Spill Containment Combo */}
+      {/* CARD 2: Warehouse & Logistics */}
       <div className={styles.walmartGridCard}>
-        <h3 className={styles.cardHeaderTitle}>Skips &amp; Spill Containment Combo</h3>
+        <h3 className={styles.cardHeaderTitle}>Warehouse &amp; Logistics</h3>
         <div className={styles.subGrid2x2}>
-          {skipsSpillsCombo.map((item) => (
+          {warehouseCategory.map((item) => (
             <Link key={item._id} href={`/products/${item._id}`} className={styles.subGridItem}>
               <div className={styles.subImgBoxProduct}>
                 <Image src={item.images[0]} alt={item.name} fill sizes="160px" className={styles.productContainImg} />
@@ -253,8 +205,44 @@ export function AmazonCategoryGrid() {
             </Link>
           ))}
         </div>
-        <Link href="/products?category=Safety+%26+Chemical" className={styles.cardFooterLink}>
-          Explore Skips &amp; Safety Sumps
+        <Link href="/products?category=Warehouse+%26+Logistics" className={styles.cardFooterLink}>
+          Shop Warehouse Equipment &rarr;
+        </Link>
+      </div>
+
+      {/* CARD 3: Structural Steel & Metals */}
+      <div className={styles.walmartGridCard}>
+        <h3 className={styles.cardHeaderTitle}>Structural Steel &amp; Metals</h3>
+        <div className={styles.subGrid2x2}>
+          {steelCategory.map((item) => (
+            <Link key={item._id} href={`/products/${item._id}`} className={styles.subGridItem}>
+              <div className={styles.subImgBoxProduct}>
+                <Image src={item.images[0]} alt={item.name} fill sizes="160px" className={styles.productContainImg} />
+              </div>
+              <span className={styles.subItemTextName}>{item.name}</span>
+            </Link>
+          ))}
+        </div>
+        <Link href="/products?category=Structural+Steel" className={styles.cardFooterLink}>
+          Shop Structural Steel &rarr;
+        </Link>
+      </div>
+
+      {/* CARD 4: SASO Safety & PPE */}
+      <div className={styles.walmartGridCard}>
+        <h3 className={styles.cardHeaderTitle}>Safety &amp; PPE Equipment</h3>
+        <div className={styles.subGrid2x2}>
+          {safetyCategory.map((item) => (
+            <Link key={item._id} href={`/products/${item._id}`} className={styles.subGridItem}>
+              <div className={styles.subImgBoxProduct}>
+                <Image src={item.images[0]} alt={item.name} fill sizes="160px" className={styles.productContainImg} />
+              </div>
+              <span className={styles.subItemTextName}>{item.name}</span>
+            </Link>
+          ))}
+        </div>
+        <Link href="/products?category=Safety+Equipment" className={styles.cardFooterLink}>
+          Shop Safety Equipment &rarr;
         </Link>
       </div>
 

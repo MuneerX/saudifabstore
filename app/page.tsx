@@ -40,7 +40,7 @@ export default function Home() {
         <div style={{ maxWidth: '1520px', margin: '0 auto', padding: '0 16px' }}>
           
           {/* 4-Card Category Grid */}
-          <div style={{ margin: '24px 0' }}>
+          <div style={{ margin: '8px 0 24px 0' }}>
             <AmazonCategoryGrid />
           </div>
 

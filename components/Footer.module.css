@@ -178,7 +178,9 @@
 
 /* 3. SHOP ON THE GO & CONNECT WITH US */
 .appSocialRow {
-  padding: 20px 24px 28px 24px;
+  padding: 24px 0 0 0;
+  margin-top: 28px;
+  border-top: 1px solid #f1f5f9;
   background-color: #ffffff;
 }
 
@@ -475,15 +477,43 @@
   }
 }
 
+@media (min-width: 769px) and (max-width: 1024px) {
+  .helpBannerWrapper {
+    padding: 18px 20px;
+  }
+
+  .navLinksSection {
+    padding: 28px 20px;
+  }
+
+  .bottomLegalSection {
+    padding: 18px 20px;
+  }
+}
+
 @media (max-width: 768px) {
+  .helpBannerWrapper {
+    padding: 16px 16px;
+  }
+
+  .navLinksSection {
+    padding: 24px 16px;
+  }
+
   .navLinksContainer {
     grid-template-columns: repeat(2, 1fr);
   }
-  .legalTopFlexRow {
+
+  .appSocialContainer {
     flex-direction: column;
     align-items: flex-start;
   }
-  .appSocialContainer {
+
+  .bottomLegalSection {
+    padding: 16px 16px;
+  }
+
+  .legalTopFlexRow {
     flex-direction: column;
     align-items: flex-start;
   }

@@ -213,6 +213,8 @@ function ProductsPage() {
   const [comparedProducts, setComparedProducts] = useState<string[]>([]);
   const [wishlist, setWishlist] = useState<string[]>([]);
 
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+
   // Accordion Expand/Collapse States
   const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({
     sort: true,
@@ -227,6 +229,8 @@ function ProductsPage() {
   const [isMounted, setIsMounted] = useState(false);
   const savingsTrackRef = useRef<HTMLDivElement>(null);
 
+  const activeFiltersCount = selectedTypes.length + selectedColors.length + selectedMaterials.length + (onlyTopSellers ? 1 : 0) + (onlyPriceOffers ? 1 : 0) + (selectedSizeChip ? 1 : 0);
+
   const scrollSavingsTrack = (direction: 'left' | 'right') => {
     if (savingsTrackRef.current) {
       const scrollAmount = direction === 'left' ? -260 : 260;
@@ -237,6 +241,326 @@ function ProductsPage() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  const toggleAccordion = (section: string) => {
+    setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
+  };
+
+  const baseProductsList = (products && products.length > 0) ? products : (INITIAL_PRODUCTS as any);
+  const searchQuery = searchParams.get('search') || searchParams.get('q') || '';
+
+  // Dynamically extract real categories from catalog
+  const catalogCategories = Array.from(new Set(baseProductsList.map((p: any) => p.category).filter(Boolean))) as string[];
+
+  const REAL_MATERIAL_OPTIONS = [
+    "ASTM Carbon Steel",
+    "High-Tensile Alloy",
+    "Polyurethane & Mesh",
+    "Galvanized Steel"
+  ];
+
+  const REAL_FINISH_OPTIONS = [
+    { label: "Safety Yellow Powder Coat", query: "yellow" },
+    { label: "Hot-Dip Galvanized Silver", query: "galvanized" },
+    { label: "Industrial Safety Orange / Red", query: "orange" },
+    { label: "Zinc-Rich Epoxy Primer", query: "epoxy" }
+  ];
+
+  const topSellersCount = baseProductsList.filter((p: any) => p.badge === "BESTSELLER" || (p.rating || 0) >= 4.8).length;
+  const priceOffersCount = baseProductsList.filter((p: any) => p.discountPrice || p.badge === "CLEARANCE").length;
+
+  // Filter & Sort Logic
+  const filteredProducts = baseProductsList.filter((product: any) => {
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase().trim();
+      const matchName = product.name?.toLowerCase().includes(q);
+      const matchCat = product.category?.toLowerCase().includes(q);
+      if (!matchName && !matchCat) return false;
+    }
+    if (selectedTypes.length > 0) {
+      const matchCat = selectedTypes.some(t => product.category.toLowerCase().includes(t.toLowerCase()));
+      if (!matchCat) return false;
+    }
+    if (selectedMaterials.length > 0) {
+      const matText = ((product.material || '') + ' ' + (product.description || '')).toLowerCase();
+      const matchMat = selectedMaterials.some(m => matText.includes(m.toLowerCase().split(' ')[0]));
+      if (!matchMat) return false;
+    }
+    if (selectedColors.length > 0) {
+      const certText = ((product.surfacePreparation || '') + ' ' + (product.material || '') + ' ' + (product.description || '')).toLowerCase();
+      const matchFinish = selectedColors.some(c => certText.includes(c.toLowerCase().split(' ')[0]));
+      if (!matchFinish) return false;
+    }
+    if (product.price < priceRange.min || product.price > priceRange.max) {
+      return false;
+    }
+    if (onlyTopSellers && product.badge !== "BESTSELLER" && (product.rating || 0) < 4.8) {
+      return false;
+    }
+    if (onlyPriceOffers && !product.discountPrice && product.badge !== "CLEARANCE") {
+      return false;
+    }
+    return true;
+  });
+
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    if (selectedSort === "Price: Low to High") return a.price - b.price;
+    if (selectedSort === "Price: High to Low") return b.price - a.price;
+    if (selectedSort === "Rating") return (b.rating || 5) - (a.rating || 5);
+    return 0;
+  });
+
+  const renderSidebarFilterContent = () => (
+    <>
+      {/* Sort Accordion */}
+      <div className={styles.accordionItem}>
+        <button 
+          type="button"
+          className={styles.accordionHeader} 
+          onClick={() => toggleAccordion('sort')}
+        >
+          <span>Sort</span>
+          {expandedSections.sort ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        </button>
+        
+        {expandedSections.sort && (
+          <div className={styles.accordionContent}>
+            {["Featured", "Price: Low to High", "Price: High to Low", "Rating"].map(option => (
+              <div 
+                key={option}
+                className={`${styles.filterOptionRow} ${selectedSort === option ? styles.selectedFilterRow : ''}`}
+                onClick={() => setSelectedSort(option)}
+              >
+                <span>{option}</span>
+                {selectedSort === option && <Check size={14} />}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Category Accordion */}
+      <div className={styles.accordionItem}>
+        <button 
+          type="button"
+          className={styles.accordionHeader} 
+          onClick={() => toggleAccordion('category')}
+        >
+          <span>Category</span>
+          {expandedSections.category ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        </button>
+        
+        {expandedSections.category && (
+          <div className={styles.accordionContent}>
+            {catalogCategories.map(cat => {
+              const isSelected = selectedTypes.includes(cat);
+              const count = baseProductsList.filter((p: any) => p.category === cat).length;
+              return (
+                <div 
+                  key={cat}
+                  className={`${styles.filterOptionRow} ${isSelected ? styles.selectedFilterRow : ''}`}
+                  onClick={() => {
+                    setSelectedTypes(prev =>
+                      prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
+                    );
+                  }}
+                >
+                  <div className={styles.headerLeftGroup}>
+                    <input 
+                      type="checkbox" 
+                      checked={isSelected} 
+                      onChange={() => {}} 
+                      className={styles.checkboxInput} 
+                    />
+                    <span>{cat}</span>
+                  </div>
+                  <span className={styles.headerCountBadge}>{count}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Price Accordion */}
+      <div className={styles.accordionItem}>
+        <button 
+          type="button"
+          className={styles.accordionHeader} 
+          onClick={() => toggleAccordion('price')}
+        >
+          <span>Price</span>
+          {expandedSections.price ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        </button>
+        
+        {expandedSections.price && (
+          <div className={styles.accordionContent}>
+            <div className={styles.priceInputsRow}>
+              <input 
+                type="number" 
+                placeholder="Min SAR" 
+                value={priceRange.min || ''} 
+                onChange={(e) => setPriceRange(prev => ({ ...prev, min: Number(e.target.value) || 0 }))}
+                className={styles.priceInputField} 
+              />
+              <span>-</span>
+              <input 
+                type="number" 
+                placeholder="Max SAR" 
+                value={priceRange.max < 10000 ? priceRange.max : ''} 
+                onChange={(e) => setPriceRange(prev => ({ ...prev, max: Number(e.target.value) || 10000 }))}
+                className={styles.priceInputField} 
+              />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Surface Coating & Finish Accordion */}
+      <div className={styles.accordionItem}>
+        <button 
+          type="button"
+          className={styles.accordionHeader} 
+          onClick={() => toggleAccordion('colour')}
+        >
+          <span>Surface Coating &amp; Finish</span>
+          {expandedSections.colour ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        </button>
+        
+        {expandedSections.colour && (
+          <div className={styles.accordionContent}>
+            {REAL_FINISH_OPTIONS.map(finish => {
+              const isSelected = selectedColors.includes(finish.label);
+              const count = baseProductsList.filter((p: any) => 
+                ((p.surfacePreparation || '') + ' ' + (p.material || '') + ' ' + (p.description || '')).toLowerCase().includes(finish.query)
+              ).length;
+              return (
+                <div 
+                  key={finish.label} 
+                  className={`${styles.filterOptionRow} ${isSelected ? styles.selectedFilterRow : ''}`}
+                  onClick={() => {
+                    setSelectedColors(prev =>
+                      prev.includes(finish.label) ? prev.filter(c => c !== finish.label) : [...prev, finish.label]
+                    );
+                  }}
+                >
+                  <div className={styles.headerLeftGroup}>
+                    <input 
+                      type="checkbox" 
+                      checked={isSelected} 
+                      onChange={() => {}} 
+                      className={styles.checkboxInput} 
+                    />
+                    <span>{finish.label}</span>
+                  </div>
+                  <span className={styles.headerCountBadge}>{count}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Material Accordion */}
+      <div className={styles.accordionItem}>
+        <button 
+          type="button"
+          className={styles.accordionHeader} 
+          onClick={() => toggleAccordion('material')}
+        >
+          <span>Material &amp; Construction</span>
+          {expandedSections.material ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        </button>
+        
+        {expandedSections.material && (
+          <div className={styles.accordionContent}>
+            {REAL_MATERIAL_OPTIONS.map(mat => {
+              const isSelected = selectedMaterials.includes(mat);
+              const count = baseProductsList.filter((p: any) => 
+                ((p.material || '') + ' ' + (p.description || '')).toLowerCase().includes(mat.toLowerCase().split(' ')[0])
+              ).length;
+              return (
+                <div 
+                  key={mat} 
+                  className={`${styles.filterOptionRow} ${isSelected ? styles.selectedFilterRow : ''}`}
+                  onClick={() => {
+                    setSelectedMaterials(prev =>
+                      prev.includes(mat) ? prev.filter(m => m !== mat) : [...prev, mat]
+                    );
+                  }}
+                >
+                  <div className={styles.headerLeftGroup}>
+                    <input 
+                      type="checkbox" 
+                      checked={isSelected} 
+                      onChange={() => {}} 
+                      className={styles.checkboxInput} 
+                    />
+                    <span>{mat}</span>
+                  </div>
+                  <span className={styles.headerCountBadge}>{count}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Top Seller Checkbox Filter */}
+      <div className={styles.accordionItem}>
+        <div className={styles.accordionHeader} onClick={() => setOnlyTopSellers(!onlyTopSellers)}>
+          <div className={styles.headerLeftGroup}>
+            <span>Top seller &amp; Bestsellers</span>
+          </div>
+          <div className={styles.headerLeftGroup}>
+            <span className={styles.headerCountBadge}>{topSellersCount}</span>
+            <input 
+              type="checkbox" 
+              checked={onlyTopSellers} 
+              onChange={() => {}} 
+              className={styles.checkboxInput} 
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Price Offers Checkbox Filter */}
+      <div className={styles.accordionItem}>
+        <div className={styles.accordionHeader} onClick={() => setOnlyPriceOffers(!onlyPriceOffers)}>
+          <div className={styles.headerLeftGroup}>
+            <span>Price offers &amp; Clearance</span>
+          </div>
+          <div className={styles.headerLeftGroup}>
+            <span className={styles.headerCountBadge}>{priceOffersCount}</span>
+            <input 
+              type="checkbox" 
+              checked={onlyPriceOffers} 
+              onChange={() => {}} 
+              className={styles.checkboxInput} 
+            />
+          </div>
+        </div>
+      </div>
+
+      {(selectedTypes.length > 0 || selectedColors.length > 0 || selectedMaterials.length > 0 || onlyTopSellers || onlyPriceOffers || priceRange.min > 0) && (
+        <button 
+          type="button" 
+          className={styles.clearFiltersBtn}
+          onClick={() => {
+            setSelectedTypes([]);
+            setSelectedColors([]);
+            setSelectedMaterials([]);
+            setOnlyTopSellers(false);
+            setOnlyPriceOffers(false);
+            setPriceRange({ min: 0, max: 10000 });
+            setSelectedSizeChip(null);
+          }}
+        >
+          Clear all filters
+        </button>
+      )}
+    </>
+  );
 
   useEffect(() => {
     const categoryParam = searchParams.get('category');
@@ -262,10 +586,6 @@ function ProductsPage() {
     }
   }, [searchParams]);
 
-  const toggleAccordion = (section: string) => {
-    setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
-  };
-
   const toggleCompare = (id: string) => {
     setComparedProducts(prev => 
       prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
@@ -281,41 +601,6 @@ function ProductsPage() {
       console.error(err);
     }
   };
-
-  // Base Products List
-  const baseProductsList = (products && products.length > 0) ? products : (INITIAL_PRODUCTS as any);
-  const searchQuery = searchParams.get('search') || searchParams.get('q') || '';
-
-  // Filter & Sort Logic
-  const filteredProducts = baseProductsList.filter((product: any) => {
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase().trim();
-      const matchName = product.name?.toLowerCase().includes(q);
-      const matchCat = product.category?.toLowerCase().includes(q);
-      if (!matchName && !matchCat) return false;
-    }
-    if (selectedTypes.length > 0) {
-      const matchCat = selectedTypes.some(t => product.category.toLowerCase().includes(t.toLowerCase()));
-      if (!matchCat) return false;
-    }
-    if (product.price < priceRange.min || product.price > priceRange.max) {
-      return false;
-    }
-    if (onlyTopSellers && product.badge !== "BESTSELLER" && product.badge !== "Top seller") {
-      return false;
-    }
-    if (onlyPriceOffers && !product.discountPrice) {
-      return false;
-    }
-    return true;
-  });
-
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    if (selectedSort === "Price: Low to High") return a.price - b.price;
-    if (selectedSort === "Price: High to Low") return b.price - a.price;
-    if (selectedSort === "Rating") return (b.rating || 5) - (a.rating || 5);
-    return 0;
-  });
 
   const ProductSkeleton = () => (
     <div className={styles.ikeaProductCard}>
@@ -382,29 +667,6 @@ function ProductsPage() {
           </ol>
         </nav>
         
-        {/* PROMO HERO BANNER */}
-        <div className={styles.rollbackBannerContainer}>
-          <div className={styles.rollbackBannerLeft}>
-            <div className={styles.textPillBadge}>
-              Saudi Fab Contract Supply
-            </div>
-          </div>
-          <div className={styles.rollbackBannerCenter}>
-            <h2 className={styles.rollbackHeadline}>1,000s of Heavy Industrial Fabrication Deals, SASO Certified Structural Steel &amp; Site Equipment.</h2>
-          </div>
-          <div className={styles.rollbackBannerRight}>
-            <div className={styles.isoEnlargedBadgeFrame}>
-              <Image 
-                src="/images/iso.svg" 
-                alt="ISO 9001 Certified" 
-                width={85} 
-                height={85} 
-                className={styles.isoEnlargedImg}
-              />
-            </div>
-          </div>
-        </div>
-
         {/* OUR PRODUCT CATEGORIES SHOWCASE TILES */}
         <div className={styles.topCategoryShowcaseSection}>
           <div className={styles.categoryCarouselWrapper}>
@@ -467,38 +729,23 @@ function ProductsPage() {
           </div>
         </div>
 
-        {/* SHOP PAGE HEADLINE (Positioned Below Categories) */}
-        <div className={styles.savingsTitleSection}>
-          <h1 className={styles.savingsMainTitle}>
-            Saudi Fab Store Products ({isMounted ? sortedProducts.length : INITIAL_PRODUCTS.length}+)
-          </h1>
-          <span className={styles.savingsSubtitle}>
-            Certified SASO &amp; ISO 9001 industrial equipment with verified site specs <Info size={13} style={{ display: 'inline', verticalAlign: 'middle' }} />
-          </span>
-        </div>
-
-        {/* 1. TOP SIZE / WIDTH CHIPS FILTER BAR */}
-        <div className={styles.topSizeFilterSection}>
-          <div className={styles.sizeFilterHeader}>Size (Width)</div>
-          <div className={styles.sizeChipsRow}>
-            {SIZE_CHIPS.map((chip) => {
-              const isActive = selectedSizeChip === chip.label;
-              return (
-                <button
-                  key={chip.label}
-                  type="button"
-                  className={`${styles.sizeChipBtn} ${isActive ? styles.sizeChipActive : ''}`}
-                  onClick={() => setSelectedSizeChip(isActive ? null : chip.label)}
-                >
-                  <span>{chip.label}</span>
-                  <span className={styles.chipCount}>({chip.count})</span>
-                </button>
-              );
-            })}
-          </div>
+        {/* TOP CATALOG HEADER BAR */}
+        <div className={styles.catalogTopHeaderBar}>
           <div className={styles.itemCountLabel}>
-            {isMounted ? sortedProducts.length : INITIAL_PRODUCTS.length} items
+            Showing {isMounted ? sortedProducts.length : INITIAL_PRODUCTS.length} products
           </div>
+
+          <button
+            type="button"
+            className={styles.mobileFilterToggleBtn}
+            onClick={() => setIsMobileFilterOpen(true)}
+          >
+            <SlidersHorizontal size={15} />
+            <span>Filters &amp; Sort</span>
+            {activeFiltersCount > 0 && (
+              <span className={styles.filterBadgeCount}>{activeFiltersCount}</span>
+            )}
+          </button>
         </div>
 
         {/* 2. MAIN CATALOG TWO-COLUMN LAYOUT */}
@@ -506,208 +753,7 @@ function ProductsPage() {
           
           {/* LEFT SIDEBAR ACCORDION FILTERS */}
           <aside className={styles.leftSidebarFilters}>
-            
-            {/* Sort Accordion */}
-            <div className={styles.accordionItem}>
-              <button 
-                type="button"
-                className={styles.accordionHeader} 
-                onClick={() => toggleAccordion('sort')}
-              >
-                <span>Sort</span>
-                {expandedSections.sort ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-              </button>
-              
-              {expandedSections.sort && (
-                <div className={styles.accordionContent}>
-                  {["Featured", "Price: Low to High", "Price: High to Low", "Rating"].map(option => (
-                    <div 
-                      key={option}
-                      className={`${styles.filterOptionRow} ${selectedSort === option ? styles.selectedFilterRow : ''}`}
-                      onClick={() => setSelectedSort(option)}
-                    >
-                      <span>{option}</span>
-                      {selectedSort === option && <Check size={14} />}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Category Accordion */}
-            <div className={styles.accordionItem}>
-              <button 
-                type="button"
-                className={styles.accordionHeader} 
-                onClick={() => toggleAccordion('category')}
-              >
-                <span>Category</span>
-                {expandedSections.category ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-              </button>
-              
-              {expandedSections.category && (
-                <div className={styles.accordionContent}>
-                  {CATEGORY_OPTIONS.map(cat => {
-                    const isSelected = selectedTypes.includes(cat);
-                    return (
-                      <div 
-                        key={cat}
-                        className={`${styles.filterOptionRow} ${isSelected ? styles.selectedFilterRow : ''}`}
-                        onClick={() => {
-                          setSelectedTypes(prev =>
-                            prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
-                          );
-                        }}
-                      >
-                        <div className={styles.headerLeftGroup}>
-                          <input 
-                            type="checkbox" 
-                            checked={isSelected} 
-                            onChange={() => {}} 
-                            className={styles.checkboxInput} 
-                          />
-                          <span>{cat}</span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-
-            {/* Price Accordion */}
-            <div className={styles.accordionItem}>
-              <button 
-                type="button"
-                className={styles.accordionHeader} 
-                onClick={() => toggleAccordion('price')}
-              >
-                <span>Price</span>
-                {expandedSections.price ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-              </button>
-              
-              {expandedSections.price && (
-                <div className={styles.accordionContent}>
-                  <div className={styles.priceInputsRow}>
-                    <input 
-                      type="number" 
-                      placeholder="Min SAR" 
-                      value={priceRange.min || ''} 
-                      onChange={(e) => setPriceRange(prev => ({ ...prev, min: Number(e.target.value) || 0 }))}
-                      className={styles.priceInputField} 
-                    />
-                    <span>-</span>
-                    <input 
-                      type="number" 
-                      placeholder="Max SAR" 
-                      value={priceRange.max < 10000 ? priceRange.max : ''} 
-                      onChange={(e) => setPriceRange(prev => ({ ...prev, max: Number(e.target.value) || 10000 }))}
-                      className={styles.priceInputField} 
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Colour Accordion */}
-            <div className={styles.accordionItem}>
-              <button 
-                type="button"
-                className={styles.accordionHeader} 
-                onClick={() => toggleAccordion('colour')}
-              >
-                <span>Colour</span>
-                {expandedSections.colour ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-              </button>
-              
-              {expandedSections.colour && (
-                <div className={styles.accordionContent}>
-                  <div className={styles.colorSwatchesGrid}>
-                    {COLOR_OPTIONS.map(c => (
-                      <div key={c.name} className={styles.colorSwatchBox} title={c.name}>
-                        <div className={styles.colorSwatchDot} style={{ backgroundColor: c.hex }} />
-                        <span className={styles.colorSwatchName}>{c.name.split(' ')[0]}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Material Accordion */}
-            <div className={styles.accordionItem}>
-              <button 
-                type="button"
-                className={styles.accordionHeader} 
-                onClick={() => toggleAccordion('material')}
-              >
-                <span>Material</span>
-                {expandedSections.material ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-              </button>
-              
-              {expandedSections.material && (
-                <div className={styles.accordionContent}>
-                  {MATERIAL_OPTIONS.map(mat => (
-                    <div key={mat} className={styles.filterOptionRow}>
-                      <span>{mat}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Top Seller Checkbox Filter */}
-            <div className={styles.accordionItem}>
-              <div className={styles.accordionHeader} onClick={() => setOnlyTopSellers(!onlyTopSellers)}>
-                <div className={styles.headerLeftGroup}>
-                  <span>Top seller</span>
-                </div>
-                <div className={styles.headerLeftGroup}>
-                  <span className={styles.headerCountBadge}>23</span>
-                  <input 
-                    type="checkbox" 
-                    checked={onlyTopSellers} 
-                    onChange={() => {}} 
-                    className={styles.checkboxInput} 
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Price Offers Checkbox Filter */}
-            <div className={styles.accordionItem}>
-              <div className={styles.accordionHeader} onClick={() => setOnlyPriceOffers(!onlyPriceOffers)}>
-                <div className={styles.headerLeftGroup}>
-                  <span>Price offers</span>
-                </div>
-                <div className={styles.headerLeftGroup}>
-                  <span className={styles.headerCountBadge}>61</span>
-                  <input 
-                    type="checkbox" 
-                    checked={onlyPriceOffers} 
-                    onChange={() => {}} 
-                    className={styles.checkboxInput} 
-                  />
-                </div>
-              </div>
-            </div>
-
-            {(selectedTypes.length > 0 || onlyTopSellers || onlyPriceOffers || priceRange.min > 0) && (
-              <button 
-                type="button" 
-                className={styles.clearFiltersBtn}
-                onClick={() => {
-                  setSelectedTypes([]);
-                  setOnlyTopSellers(false);
-                  setOnlyPriceOffers(false);
-                  setPriceRange({ min: 0, max: 10000 });
-                  setSelectedSizeChip(null);
-                }}
-              >
-                Clear all filters
-              </button>
-            )}
-
+            {renderSidebarFilterContent()}
           </aside>
 
           {/* RIGHT PRODUCT GRID SECTION */}
@@ -842,6 +888,59 @@ function ProductsPage() {
         </div>
 
       </div>
+
+      {/* MOBILE FILTER DRAWER MODAL */}
+      {isMobileFilterOpen && (
+        <div className={styles.mobileFilterDrawerOverlay} onClick={() => setIsMobileFilterOpen(false)}>
+          <div className={styles.mobileFilterDrawerContent} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.mobileFilterDrawerHeader}>
+              <div className={styles.drawerTitleGroup}>
+                <SlidersHorizontal size={18} />
+                <h3>Filters &amp; Sort</h3>
+                {activeFiltersCount > 0 && (
+                  <span className={styles.filterBadgeCount}>{activeFiltersCount}</span>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsMobileFilterOpen(false)}
+                className={styles.closeFilterDrawerBtn}
+              >
+                &times;
+              </button>
+            </div>
+
+            <div className={styles.mobileFilterDrawerBody}>
+              {renderSidebarFilterContent()}
+            </div>
+
+            <div className={styles.mobileFilterDrawerFooter}>
+              <button
+                type="button"
+                className={styles.clearFiltersBtn}
+                onClick={() => {
+                  setSelectedTypes([]);
+                  setSelectedColors([]);
+                  setSelectedMaterials([]);
+                  setOnlyTopSellers(false);
+                  setOnlyPriceOffers(false);
+                  setPriceRange({ min: 0, max: 10000 });
+                  setSelectedSizeChip(null);
+                }}
+              >
+                Reset
+              </button>
+              <button
+                type="button"
+                className={styles.applyFiltersBtn}
+                onClick={() => setIsMobileFilterOpen(false)}
+              >
+                Show ({isMounted ? sortedProducts.length : INITIAL_PRODUCTS.length}) Products
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Bottom About & Terms Section */}
       <AboutTermsFooterSection />

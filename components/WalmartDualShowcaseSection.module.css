@@ -474,21 +474,42 @@
 /* RESPONSIVE */
 @media (max-width: 1024px) {
   .dualGrid {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 18px;
+  }
+
+  /* Showcase 1: Image Banner ABOVE Product Cards on Mobile */
+  .topRightBannerCard {
+    order: 1;
+    padding: 28px 24px;
+    min-height: 240px;
+  }
+
+  .quadrantBoxOne {
+    order: 2;
+  }
+
+  /* Showcase 2: Image Banner ABOVE Product Cards, Product Cards UNDER Image Banner on Mobile */
+  .bottomLeftBannerCard {
+    order: 3;
+    padding: 28px 24px;
+    min-height: 240px;
+  }
+
+  .quadrantBoxTwo {
+    order: 4;
+  }
+
+  .bannerContent > div {
+    max-width: 72%;
   }
 
   .bannerMainTitle,
   .landscapeTitle {
-    font-size: 26px;
-    max-width: 90%;
+    font-size: 24px;
+    max-width: 82%;
     margin-bottom: 14px;
-  }
-
-  .topRightBannerCard,
-  .bottomLeftBannerCard {
-    padding: 28px 24px;
-    min-height: 250px;
   }
 }
 
@@ -510,13 +531,18 @@
     margin-bottom: 12px;
   }
 
+  .rowTitleGroup {
+    max-width: 72%;
+  }
+
   .mainTitle {
-    font-size: 17px;
+    font-size: 16.5px;
     line-height: 1.25;
   }
 
   .subTitle {
-    font-size: 11.5px;
+    font-size: 11px;
+    line-height: 1.3;
   }
 
   .viewAllLink {
@@ -525,9 +551,13 @@
 
   .topRightBannerCard,
   .bottomLeftBannerCard {
-    padding: 20px 18px;
-    min-height: 200px;
+    padding: 20px 16px;
+    min-height: 195px;
     border-radius: 14px;
+  }
+
+  .bannerContent > div {
+    max-width: 62%;
   }
 
   .eyebrowBlue {
@@ -536,22 +566,22 @@
   }
 
   .bannerMainTitle {
-    font-size: 20px;
+    font-size: 18.5px;
     line-height: 1.2;
-    margin-bottom: 12px;
-    max-width: 90%;
+    margin-bottom: 10px;
+    max-width: 100%;
   }
 
   .landscapeTitle {
-    font-size: 20px;
+    font-size: 18.5px;
     line-height: 1.2;
-    margin-bottom: 12px;
-    max-width: 90%;
+    margin-bottom: 10px;
+    max-width: 100%;
   }
 
   .shopNowWhiteBtn {
-    font-size: 12px;
-    padding: 6px 18px;
+    font-size: 11.5px;
+    padding: 6px 16px;
   }
 
   .walmartProductCard {
@@ -602,8 +632,12 @@
 }
 
 @media (max-width: 380px) {
+  .bannerContent > div {
+    max-width: 65%;
+  }
+
   .bannerMainTitle,
   .landscapeTitle {
-    font-size: 18px;
+    font-size: 17px;
   }
 }

@@ -259,57 +259,6 @@ export function Navbar({}: NavbarProps) {
       <div className={styles.subHeaderNav}>
         <div className={styles.subHeaderInner}>
           
-          {/* Departments Dropdown Pill */}
-          <div className={styles.dropdownPillWrapper} ref={deptsRef}>
-            <button 
-              type="button" 
-              className={styles.whitePillBtn}
-              onClick={() => {
-                setIsDepartmentsOpen(!isDepartmentsOpen);
-                setIsServicesOpen(false);
-              }}
-            >
-              <Icon icon={Grid02Icon} size={16} />
-              <span>Departments</span>
-              <Icon icon={ArrowDown01Icon} size={14} className={`${styles.pillChevron} ${isDepartmentsOpen ? styles.chevronRotate : ""}`} />
-            </button>
-
-            {isDepartmentsOpen && (
-              <div className={styles.megaMenuDropdown}>
-                <div className={styles.megaMenuGrid}>
-                  <Link href="/products?category=Forklift+Attachments" onClick={() => setIsDepartmentsOpen(false)} className={styles.megaMenuItem}>
-                    <Icon icon={PackageIcon} size={18} />
-                    <div>
-                      <strong>Forklift Attachments</strong>
-                      <p>Skip buckets, tippers &amp; clamps</p>
-                    </div>
-                  </Link>
-                  <Link href="/products?category=Warehouse+%26+Logistics" onClick={() => setIsDepartmentsOpen(false)} className={styles.megaMenuItem}>
-                    <Icon icon={CubeIcon} size={18} />
-                    <div>
-                      <strong>Warehouse &amp; Logistics</strong>
-                      <p>Bins, skips &amp; storage racks</p>
-                    </div>
-                  </Link>
-                  <Link href="/products?category=Safety+Equipment" onClick={() => setIsDepartmentsOpen(false)} className={styles.megaMenuItem}>
-                    <Icon icon={ShieldCheckIcon} size={18} />
-                    <div>
-                      <strong>Safety Equipment</strong>
-                      <p>PPE, harnesses &amp; barrier nets</p>
-                    </div>
-                  </Link>
-                  <Link href="/products?category=Lifting+Equipment" onClick={() => setIsDepartmentsOpen(false)} className={styles.megaMenuItem}>
-                    <Icon icon={Wrench01Icon} size={18} />
-                    <div>
-                      <strong>Lifting Equipment</strong>
-                      <p>Slings, hoists &amp; steel shackles</p>
-                    </div>
-                  </Link>
-                </div>
-              </div>
-            )}
-          </div>
-
           {/* Shop All Link Pill */}
           <Link href="/products" className={styles.whitePillBtn}>
             <Icon icon={Store01Icon} size={16} />
@@ -355,14 +304,6 @@ export function Navbar({}: NavbarProps) {
             </div>
 
             <div className={styles.mobileDrawerBody}>
-              <div className={styles.mobileNavSection}>
-                <h4>Departments</h4>
-                <Link href="/products?category=Forklift+Attachments" onClick={() => setIsMobileMenuOpen(false)}>Forklift Attachments</Link>
-                <Link href="/products?category=Warehouse+%26+Logistics" onClick={() => setIsMobileMenuOpen(false)}>Warehouse &amp; Logistics</Link>
-                <Link href="/products?category=Safety+Equipment" onClick={() => setIsMobileMenuOpen(false)}>Safety Equipment</Link>
-                <Link href="/products?category=Lifting+Equipment" onClick={() => setIsMobileMenuOpen(false)}>Lifting &amp; Cranes</Link>
-              </div>
-
               <div className={styles.mobileNavSection}>
                 <h4>Shop &amp; Catalog</h4>
                 <Link href="/products" onClick={() => setIsMobileMenuOpen(false)}>Shop All Products</Link>

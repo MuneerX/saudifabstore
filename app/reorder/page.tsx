@@ -152,64 +152,18 @@ export default function ReorderPage() {
 
       <main className={styles.mainContent}>
         <div className={styles.container}>
-          {/* Breadcrumb */}
-          <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-            <Link href="/" className={styles.breadcrumbLink}>Home</Link>
-            <ChevronRight size={14} />
-            <span>Reorder My Items</span>
-          </nav>
-
-          {/* Page Header */}
-          <div className={styles.headerBlock}>
-            <div className={styles.headerTopRow}>
-              <div className={styles.titleGroup}>
-                <div className={styles.titleRow}>
-                  <h1 className={styles.title}>Reorder My Items</h1>
-                  <span className={styles.badgeCount}>{pastItems.length} Past Items</span>
-                </div>
-                <p className={styles.subtitle}>
-                  Easily reorder certified structural fabrications, site equipment, and commercial supplies from past purchase orders.
-                </p>
-              </div>
+          {/* Minimal Header */}
+          <div className={styles.reorderHeader}>
+            <div>
+              <h1 className={styles.reorderTitle}>
+                Reorder My Items
+                <span className={styles.reorderItemCount}>({pastItems.length})</span>
+              </h1>
             </div>
 
-            {/* Filter Tabs & Search Controls */}
-            <div className={styles.controlsBar}>
-              <div className={styles.tabGroup}>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("all")}
-                  className={`${styles.tabBtn} ${activeTab === "all" ? styles.activeTabBtn : ""}`}
-                >
-                  All Past Items ({pastItems.length})
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("frequent")}
-                  className={`${styles.tabBtn} ${activeTab === "frequent" ? styles.activeTabBtn : ""}`}
-                >
-                  Frequently Ordered
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("quick")}
-                  className={`${styles.tabBtn} ${activeTab === "quick" ? styles.activeTabBtn : ""}`}
-                >
-                  Quick Supplies
-                </button>
-              </div>
-
-              <div className={styles.searchBox}>
-                <Search size={16} color="#64748b" />
-                <input
-                  type="text"
-                  placeholder="Search past ordered items..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className={styles.searchInput}
-                />
-              </div>
-            </div>
+            <Link href="/products" className={styles.continueShoppingBtn}>
+              Continue Shopping &rarr;
+            </Link>
           </div>
 
           {/* Grid Content */}

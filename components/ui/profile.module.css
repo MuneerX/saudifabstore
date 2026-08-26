@@ -4,7 +4,7 @@
   width: 100%;
   max-width: 1240px;
   margin: 0 auto;
-  padding: 120px 24px 100px;
+  padding: 40px 24px 32px;
   font-family: var(--font-archivo), 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
   color: #111111;
 }
@@ -542,16 +542,70 @@
   background-color: #ebd700;
 }
 
+@media (min-width: 769px) and (max-width: 1024px) {
+  .profileContainer {
+    padding: 32px 20px 28px;
+  }
+}
+
 @media (max-width: 768px) {
   .profileContainer {
-    padding: 100px 16px 60px;
+    padding: 24px 16px 24px;
   }
+
+  .headerCard {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 18px;
+    margin-bottom: 20px;
+    gap: 12px;
+  }
+
+  .userName {
+    font-size: 20px;
+  }
+
+  .userEmail {
+    font-size: 12.5px;
+  }
+
+  .signOutBtn {
+    padding: 7px 12px;
+    font-size: 12.5px;
+    flex-shrink: 0;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
   .headerCard {
     flex-direction: column;
     align-items: flex-start;
-    padding: 24px;
+    gap: 14px;
   }
-  .formRow {
-    grid-template-columns: 1fr;
+
+  .signOutBtn {
+    width: 100%;
+    justify-content: center;
+    padding: 9px 16px;
+  }
+
+  .tabsBar {
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+
+  .tabsBar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabBtn {
+    padding: 10px 14px;
+    font-size: 13.5px;
   }
 }

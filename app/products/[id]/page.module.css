@@ -11,7 +11,8 @@
 .pdpMainWrapper {
   max-width: 1520px;
   margin: 0 auto;
-  padding: 24px 20px 60px 20px;
+  padding: 16px 24px 80px 24px;
+  width: 100%;
 }
 
 /* BREADCRUMB */
@@ -1395,17 +1396,351 @@
 }
 
 /* RESPONSIVE MEDIA QUERIES */
-@media (max-width: 1200px) {
+
+/* TABLET VIEW (769px to 1200px): 2-Column Row for Image on Left & Buy Box on Right */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .pdpMainWrapper {
+    padding: 16px 20px 60px 20px;
+  }
+
   .walmartPdpGrid {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 375px;
+    grid-template-areas:
+      "gallery buybox"
+      "details buybox"
+      "accordions buybox";
+    gap: 24px 24px;
+    align-items: start;
   }
+
+  .mainLeftContent {
+    display: contents;
+  }
+
   .topSplitRow {
-    grid-template-columns: 1fr;
+    display: contents;
   }
+
   .galleryCol {
+    grid-area: gallery;
+    width: 100%;
     position: static;
   }
+
   .buyBoxCol {
+    grid-area: buybox;
+    width: 100%;
+    position: sticky;
+    top: 130px;
+    z-index: 10;
+  }
+
+  .buyBoxCard {
+    padding: 16px 18px;
+    gap: 14px;
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+
+  .detailsCol {
+    grid-area: details;
+    width: 100%;
+  }
+
+  .aboutItemSection {
+    grid-area: accordions;
+    width: 100%;
+  }
+
+  .mainStageBox {
+    width: 100%;
+    max-height: 420px;
+    aspect-ratio: 1 / 1;
+  }
+
+  .middleTrustGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+/* MOBILE VIEW (<= 768px): Buy Box directly after Image container */
+@media (max-width: 768px) {
+  .pdpMainWrapper {
+    padding: 14px 16px 60px 16px;
+  }
+
+  .walmartPdpGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .mainLeftContent {
+    display: contents;
+  }
+
+  .topSplitRow {
+    display: contents;
+  }
+
+  /* 1. Image Container FIRST on mobile */
+  .galleryCol {
+    order: 1;
+    width: 100%;
     position: static;
+  }
+
+  /* 2. Order Now / Buy Now Container SECOND (directly after image container) */
+  .buyBoxCol {
+    order: 2;
+    width: 100%;
+    position: static;
+  }
+
+  /* 3. Product Title, Description & Highlights THIRD */
+  .detailsCol {
+    order: 3;
+    width: 100%;
+  }
+
+  /* 4. Technical Specifications & Accordions FOURTH */
+  .aboutItemSection {
+    order: 4;
+    width: 100%;
+  }
+
+  .breadcrumbNav {
+    font-size: 12px;
+    gap: 6px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    margin-bottom: 14px;
+  }
+
+  .breadcrumbNav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .galleryCol {
+    flex-direction: column-reverse;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .thumbnailList {
+    flex-direction: row;
+    overflow-x: auto;
+    width: 100%;
+    gap: 10px;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .thumbnailList::-webkit-scrollbar {
+    display: none;
+  }
+
+  .thumbnailBtn {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+  }
+
+  .mainStageBox {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    min-height: 260px;
+    max-height: 380px;
+    border-radius: 10px;
+  }
+
+  .productTitle {
+    font-size: 19px;
+    line-height: 1.25;
+  }
+
+  .priceMainInteger {
+    font-size: 26px;
+  }
+
+  .swatchesGrid {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .swatchCard {
+    flex: 1;
+    min-width: 130px;
+    padding: 8px 12px;
+  }
+
+  .middleTrustGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 10px;
+  }
+
+  .middleTrustItem {
+    font-size: 11.5px;
+  }
+
+  .buyBoxCard {
+    padding: 16px;
+    border-radius: 12px;
+    gap: 14px;
+  }
+
+  .fullWidthAddToCartBtn,
+  .secondaryBuyNowBtn {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .aboutItemTitle {
+    font-size: 20px;
+    margin-bottom: 14px;
+  }
+
+  .policyAccordionHeader {
+    font-size: 15px;
+    padding: 14px 0;
+  }
+
+  .policyAccordionContent {
+    font-size: 13px;
+  }
+
+  .amazonTechTable td {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .amazonTechTable td:first-child {
+    width: 45%;
+  }
+}
+
+@media (max-width: 480px) {
+  .productTitle {
+    font-size: 17.5px;
+  }
+
+  .mainStageBox {
+    max-height: 320px;
+  }
+
+  .priceMainInteger {
+    font-size: 24px;
+  }
+
+  .middleTrustGrid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+/* STICKY MOBILE PURCHASE BAR */
+.stickyMobileBar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+  z-index: 1000;
+  padding: 8px 14px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.stickyMobileBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.stickyMobileThumbBox {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.stickyMobileThumbImg {
+  object-fit: contain !important;
+}
+
+.stickyMobileInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.stickyMobileTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.stickyMobilePrice {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.stickyVatLabel {
+  font-size: 10px;
+  font-weight: 600;
+  color: #166534;
+  margin-left: 4px;
+}
+
+.stickyMobileRightBtns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.stickyMobileAddBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #0071dc;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 113, 220, 0.3);
+}
+
+@media (max-width: 768px) {
+  .stickyMobileBar {
+    display: flex;
   }
 }

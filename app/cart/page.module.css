@@ -5,14 +5,14 @@
   background-color: #ffffff;
   color: #111111;
   font-family: var(--font-archivo), 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
-  padding-bottom: 100px;
+  padding-bottom: 24px;
 }
 
 .container {
   width: 100%;
   max-width: 1240px;
   margin: 0 auto;
-  padding: 120px 24px 100px;
+  padding: 40px 24px 40px;
 }
 
 /* Minimal Page Header */
@@ -477,4 +477,16 @@
 
 .browseBtn:hover {
   background-color: #222222;
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    padding: 32px 20px 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 24px 16px 28px;
+  }
 }
