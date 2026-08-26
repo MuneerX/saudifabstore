@@ -16,43 +16,41 @@ export interface ICart extends Document {
 }
 
 const CartItemSchema: Schema = new Schema({
-product: {
-  type: Schema.Types.ObjectId,
-  ref: 'Product',
-  required: true,
-},
-quantity: {
-  type: Number,
-  required: true,
-  min: 1,
-},
-price: {
-  type: Number,
-  required: true,
-  min: 0,
-},
-size: {
-  type: String,
-  required: true,
-},
-color: {
-  type: String,
-  required: true,
-},
+  product: {
+    type: Schema.Types.Mixed,
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+    min: 1,
+  },
+  price: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+  size: {
+    type: String,
+    default: 'Regular',
+  },
+  color: {
+    type: String,
+    default: 'Default Color',
+  },
 });
 
 const CartSchema: Schema = new Schema(
   {
     user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
+      type: Schema.Types.Mixed,
       required: true,
-      unique: true,
     },
     items: [CartItemSchema],
   },
   {
     timestamps: true,
+    strict: false
   }
 );
 

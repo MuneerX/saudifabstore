@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Heart, ChevronLeft, ChevronRight } from 'lucide-react';
 import { INITIAL_PRODUCTS, ProductData } from '@/lib/data/initialProducts';
+import { sortProductsByNewAndLatest } from '@/lib/utils/badgeHelper';
 import styles from './LatestProductsSection.module.css';
 
 interface ProductShowcaseProps {
@@ -16,8 +17,9 @@ interface ProductShowcaseProps {
 export function LatestProductsSection({ 
   title = "Latest products", 
   subtitle = "Newly dispatched industrial equipment & certified fabricated assets",
-  products = INITIAL_PRODUCTS.slice(0, 4)
+  products = INITIAL_PRODUCTS
 }: ProductShowcaseProps) {
+  const sortedProducts = sortProductsByNewAndLatest(products).slice(0, 4);
   const [wishlist, setWishlist] = useState<Record<string, boolean>>({});
   const [compareList, setCompareList] = useState<Record<string, boolean>>({});
 
@@ -48,7 +50,7 @@ export function LatestProductsSection({
       </div>
 
       <div className={styles.productGrid}>
-        {products.map((product) => {
+        {sortedProducts.map((product) => {
           const isWishlisted = wishlist[product._id];
           const isCompared = compareList[product._id];
 
@@ -58,7 +60,7 @@ export function LatestProductsSection({
               {/* Product Image Frame with Wishlist Heart */}
               <div className={styles.imageFrame}>
                 <Image 
-                  src={product.images[0] || '/images/home/category_grid/container_3.jpeg'} 
+                  src={product.images[0] || '/images/home/category_grid/warehouse.jpeg'} 
                   alt={product.name} 
                   fill 
                   className={styles.productImg}

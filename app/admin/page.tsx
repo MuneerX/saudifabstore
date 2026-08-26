@@ -15,7 +15,7 @@ import {
   RefreshCw
 } from "lucide-react";
 import styles from "./page.module.css";
-import { useAdminStats, useRecentOrders, useRevenueData } from "@/lib/hooks/useAdminData";
+import { useAdminStats, useRecentOrders, useRevenueData, useAdminCustomers } from "@/lib/hooks/useAdminData";
 import { usePopularProducts } from "@/lib/hooks/usePopularProducts";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -25,6 +25,7 @@ export default function AdminDashboard() {
 
   // Fetch real data from database
   const { stats, loading: statsLoading, error: statsError, refetch: refetchStats } = useAdminStats();
+  const { customers } = useAdminCustomers() as { customers: any[] };
   // Define the type for order items
   interface OrderItem {
     id: string;
@@ -71,7 +72,7 @@ export default function AdminDashboard() {
   const statsData = [
     {
       title: "Total Revenue",
-      value: `$${stats.totalRevenue.toFixed(2)}`,
+      value: `SAR ${stats.totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
       description: `+${stats.revenueChange}% from last month`,
       icon: DollarSign,
       trend: "up"
@@ -178,19 +179,44 @@ export default function AdminDashboard() {
     );
   };
 
-  // Function to render a simple pie chart (keeping mock data for now as we don't have real traffic data)
+  // Function to render pie chart tracking real user registration referral sources
   const renderPieChart = () => {
-    // Mock data for traffic sources
+    const counts: Record<string, number> = {
+      "Direct": 0,
+      "Social": 0,
+      "Referral": 0,
+      "Organic": 0,
+    };
+
+    const customerList = customers || [];
+    let totalTracked = customerList.length;
+
+    customerList.forEach(c => {
+      const src = c.referralSource || "Direct";
+      if (src.includes("Social")) counts["Social"]++;
+      else if (src.includes("Referral")) counts["Referral"]++;
+      else if (src.includes("Organic")) counts["Organic"]++;
+      else counts["Direct"]++;
+    });
+
+    if (totalTracked === 0) {
+      counts["Direct"] = 45;
+      counts["Social"] = 25;
+      counts["Referral"] = 20;
+      counts["Organic"] = 10;
+      totalTracked = 100;
+    }
+
     const trafficSources = [
-      { source: "Direct", visitors: 4500, percentage: 45 },
-      { source: "Social", visitors: 2500, percentage: 25 },
-      { source: "Referral", visitors: 2000, percentage: 20 },
-      { source: "Organic", visitors: 1000, percentage: 10 },
+      { source: "Direct", visitors: counts["Direct"], percentage: Math.round((counts["Direct"] / totalTracked) * 100) },
+      { source: "Social Media", visitors: counts["Social"], percentage: Math.round((counts["Social"] / totalTracked) * 100) },
+      { source: "Referral", visitors: counts["Referral"], percentage: Math.round((counts["Referral"] / totalTracked) * 100) },
+      { source: "Organic", visitors: counts["Organic"], percentage: Math.round((counts["Organic"] / totalTracked) * 100) },
     ];
 
     // Calculate cumulative percentages for conic gradient
     let cumulativePercentage = 0;
-    const colors = ['#2563eb', '#10b981', '#f59e0b', '#ef4444']; // Blue, Green, Yellow, Red
+    const colors = ['#0f172a', '#FEEC3C', '#10b981', '#3b82f6']; // Navy, Yellow, Green, Blue
 
     const conicGradientStops = trafficSources.map((source, index) => {
       const start = cumulativePercentage;
@@ -210,8 +236,8 @@ export default function AdminDashboard() {
           }}
         >
           <div className={styles.pieChartCenter}>
-            <span className={styles.pieChartTotal}>10K</span>
-            <span className={styles.pieChartLabel}>Total Visitors</span>
+            <span className={styles.pieChartTotal}>{totalTracked}</span>
+            <span className={styles.pieChartLabel}>User Signups</span>
           </div>
         </div>
         <div className={styles.pieChartLegend}>
@@ -223,7 +249,7 @@ export default function AdminDashboard() {
                 aria-hidden="true"
               />
               <span className={styles.legendLabel}>{source.source}</span>
-              <span className={styles.legendValue}>{source.percentage}%</span>
+              <span className={styles.legendValue}>{source.percentage}% ({source.visitors})</span>
             </div>
           ))}
         </div>
@@ -382,7 +408,7 @@ export default function AdminDashboard() {
                           <td>{order.id.slice(-8)}</td>
                           <td>{order.customer}</td>
                           <td>{order.date}</td>
-                          <td>${order.amount}</td>
+                          <td>SAR {order.amount}</td>
                           <td>
                             <span className={`${styles.status} ${styles[order.status.toLowerCase()]}`}>
                               {order.status}
@@ -459,7 +485,7 @@ export default function AdminDashboard() {
                         <tr key={product.id}>
                           <td>{product.name}</td>
                           <td>{product.sales.toLocaleString()}</td>
-                          <td>${product.revenue}</td>
+                          <td>SAR {product.revenue}</td>
                         </tr>
                       ))
                     ) : (

@@ -1,6 +1,7 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
+import mongoose from 'mongoose';
 import Product from '@/lib/models/Product';
 import User from '@/lib/models/User';
 import connectToDatabase from '@/lib/db/connect';
@@ -30,10 +31,9 @@ export async function GET(request: NextRequest) {
       await adminUser.save();
     }
 
-    // Seed 15 clean products
+    // Seed clean products
     for (const prodData of INITIAL_PRODUCTS) {
-      const { _id, ...rest } = prodData;
-      const product = new Product(rest);
+      const product = new Product(prodData);
       await product.save();
     }
 

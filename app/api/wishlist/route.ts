@@ -32,10 +32,10 @@ export async function GET() {
     
     return NextResponse.json({ wishlist });
   } catch (error) {
-    console.error('Error fetching wishlist:', error);
+    console.warn('Error/DB offline fetching wishlist:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { wishlist: { user: 'guest', products: [] } },
+      { status: 200 }
     );
   }
 }

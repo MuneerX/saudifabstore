@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -12,7 +12,7 @@ import styles from "./page.module.css";
 export default function SignupPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [company, setCompany] = useState("");
+  const [referralSource, setReferralSource] = useState("Direct");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -51,7 +51,7 @@ export default function SignupPage() {
       const response = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, company, password }),
+        body: JSON.stringify({ name, email, referralSource, password }),
       });
 
       const data = await response.json();
@@ -70,191 +70,159 @@ export default function SignupPage() {
 
   return (
     <div className={styles.pageWrapper}>
-      {/* Dark overlay navbar matching contact page style */}
-      <Navbar isLight={false} hasBorder={false} />
-
-      {/* Main Glass Sign Up Section */}
-      <section className={styles.contactSection}>
-        {/* Background Stock Image with Gradient Overlay */}
-        <div className={styles.heroBackground}>
-          <Image
-            src="/images/bg_4.jpeg"
-            alt="Saudi Fab Store Register Background"
-            fill
-            className={styles.bgImage}
-            sizes="100vw"
-            priority
-            unoptimized
-          />
-          <div className={styles.bgOverlay} />
+      <div className={styles.authContainer}>
+        {/* Logo Right Above Card */}
+        <div className={styles.logoRow}>
+          <Link href="/" aria-label="Saudi Fab Store Home">
+            <Image
+              src="/images/logo.png"
+              alt="Saudi Fab Store Logo"
+              width={140}
+              height={42}
+              className={styles.authLogo}
+              priority
+              unoptimized
+            />
+          </Link>
         </div>
 
-        <div className={styles.contactSectionContainer}>
-          <div className={styles.contactGrid}>
-            {/* Left Column: Glassmorphic Register Form */}
-            <div className={styles.formGlassCard}>
-              <div className={styles.cardHeader}>
-                <h1 className={styles.title}>Create Account</h1>
-                <p className={styles.description}>
-                  Register for secure access to the Saudi Fab Client portal to request B2B quotes and track structural fabrications.
-                </p>
-              </div>
+        {/* Create Account Form Card */}
+        <div className={styles.formCard}>
+          <h1 className={styles.title}>Create account</h1>
 
-              {/* Error Alert */}
-              {error && (
-                <div className={styles.errorBanner} role="alert">
-                  <AlertCircle size={16} />
-                  <span>{error}</span>
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className={styles.formGrid}>
-                {/* Form Row 1 */}
-                <div className={styles.formRow}>
-                  <div className={styles.fieldGroup}>
-                    <div className={styles.labelRow}>
-                      <span className={styles.labelText}>Full Name</span>
-                      <span className={styles.dashedConnector} />
-                    </div>
-                    <input
-                      type="text"
-                      required
-                      placeholder="John Doe"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className={styles.inputField}
-                    />
-                  </div>
-
-                  <div className={styles.fieldGroup}>
-                    <div className={styles.labelRow}>
-                      <span className={styles.labelText}>Company (Optional)</span>
-                      <span className={styles.dashedConnector} />
-                    </div>
-                    <input
-                      type="text"
-                      placeholder="Saudi Fab Partner Ltd"
-                      value={company}
-                      onChange={(e) => setCompany(e.target.value)}
-                      className={styles.inputField}
-                    />
-                  </div>
-                </div>
-
-                {/* Email Field Group */}
-                <div className={styles.fieldGroup}>
-                  <div className={styles.labelRow}>
-                    <span className={styles.labelText}>Work Email Address</span>
-                    <span className={styles.dashedConnector} />
-                  </div>
-                  <input
-                    type="email"
-                    required
-                    placeholder="name@company.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className={styles.inputField}
-                  />
-                </div>
-
-                {/* Form Row 2 */}
-                <div className={styles.formRow}>
-                  <div className={styles.fieldGroup}>
-                    <div className={styles.labelRow}>
-                      <span className={styles.labelText}>Password</span>
-                      <span className={styles.dashedConnector} />
-                    </div>
-                    <div style={{ position: "relative", width: "100%" }}>
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        required
-                        placeholder="••••••••"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className={styles.inputField}
-                        style={{ paddingRight: "45px" }}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className={styles.togglePasswordBtn}
-                        aria-label={showPassword ? "Hide password" : "Show password"}
-                      >
-                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className={styles.fieldGroup}>
-                    <div className={styles.labelRow}>
-                      <span className={styles.labelText}>Confirm Password</span>
-                      <span className={styles.dashedConnector} />
-                    </div>
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      required
-                      placeholder="••••••••"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      className={styles.inputField}
-                    />
-                  </div>
-                </div>
-
-                {/* Terms & Conditions */}
-                <div className={styles.termsRow}>
-                  <input
-                    type="checkbox"
-                    id="signupTerms"
-                    checked={agreedTerms}
-                    onChange={(e) => setAgreedTerms(e.target.checked)}
-                    className={styles.checkbox}
-                  />
-                  <label htmlFor="signupTerms" className={styles.termsText}>
-                    I agree to the Saudi Fab Store <Link href="/contact" className={styles.termsLink}>Terms of Service</Link> and Portal Privacy Policy.
-                  </label>
-                </div>
-
-                {/* Submit Action Button */}
-                <button type="submit" disabled={isLoading} className={styles.submitBtn}>
-                  {isLoading ? (
-                    <>
-                      <Loader2 size={18} className="animate-spin" style={{ marginRight: "8px" }} />
-                      Registering Account...
-                    </>
-                  ) : (
-                    <>
-                      Create Portal Account
-                    </>
-                  )}
-                </button>
-
-                {/* Divider */}
-                <div className={styles.divider}>
-                  <div className={styles.dividerLine} />
-                  <span className={styles.dividerText}>Already Registered?</span>
-                  <div className={styles.dividerLine} />
-                </div>
-
-                {/* Bottom Actions */}
-                <div className={styles.footerActions}>
-                  <p className={styles.signupText}>
-                    Already have an account?
-                    <Link href="/login" className={styles.signupLink}>
-                      Sign in to Client Portal
-                    </Link>
-                  </p>
-                </div>
-              </form>
+          {/* Error Alert */}
+          {error && (
+            <div className={styles.errorBanner} role="alert">
+              <AlertCircle size={15} />
+              <span>{error}</span>
             </div>
-          </div>
+          )}
+
+          <form onSubmit={handleSubmit} className={styles.formGrid}>
+            <div className={styles.fieldGroup}>
+              <label className={styles.labelText}>Your name</label>
+              <input
+                type="text"
+                required
+                placeholder="First and last name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className={styles.inputField}
+              />
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.labelText}>Mobile number or email</label>
+              <input
+                type="email"
+                required
+                placeholder="name@company.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={styles.inputField}
+              />
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.labelText}>How did you hear about us?</label>
+              <select
+                value={referralSource}
+                onChange={(e) => setReferralSource(e.target.value)}
+                className={styles.inputField}
+                style={{ appearance: "auto", cursor: "pointer" }}
+              >
+                <option value="Direct">Direct / Search Engine</option>
+                <option value="Social">Social Media (LinkedIn, X, Instagram)</option>
+                <option value="Referral">Referral / Colleague / Partner</option>
+                <option value="Organic">Industry Fair / Trade News</option>
+              </select>
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.labelText}>Password</label>
+              <div style={{ position: "relative", width: "100%" }}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  placeholder="At least 6 characters"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={styles.inputField}
+                  style={{ paddingRight: "38px" }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className={styles.togglePasswordBtn}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.labelText}>Re-enter password</label>
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className={styles.inputField}
+              />
+            </div>
+
+            {/* Terms & Conditions */}
+            <div className={styles.termsRow}>
+              <input
+                type="checkbox"
+                id="signupTerms"
+                checked={agreedTerms}
+                onChange={(e) => setAgreedTerms(e.target.checked)}
+                className={styles.checkbox}
+              />
+              <label htmlFor="signupTerms" className={styles.termsText}>
+                I agree to the Saudi Fab Store <Link href="/contact" className={styles.termsLink}>Terms of Service</Link> and Privacy Policy.
+              </label>
+            </div>
+
+            {/* Submit Action Button */}
+            <button type="submit" disabled={isLoading} className={styles.submitBtn}>
+              {isLoading ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" style={{ marginRight: "6px" }} />
+                  Creating account...
+                </>
+              ) : (
+                <span>Create account</span>
+              )}
+            </button>
+          </form>
         </div>
 
-        {/* Hero-Style Brand Title on Bottom */}
-        <div className={styles.heroBrandBottom}>
-          <h2 className={styles.heroBrandText}>Client Partnership</h2>
+        {/* Already Have an Account Button Below Card */}
+        <div className={styles.createAccountWrapper}>
+          <div className={styles.divider}>
+            <span className={styles.dividerText}>Already have an account?</span>
+          </div>
+          <Link href="/login" className={styles.createAccountBtn}>
+            Sign in to your account
+          </Link>
         </div>
-      </section>
+
+        {/* Auth Footer Right Below Container */}
+        <footer className={styles.authFooter}>
+          <div className={styles.authFooterLinks}>
+            <Link href="/contact">Conditions of Use</Link>
+            <Link href="/contact">Privacy Notice</Link>
+            <Link href="/contact">Help Center</Link>
+          </div>
+          <p className={styles.authFooterCopy}>
+            &copy; 2026, Saudi Fab Store, Inc. or its affiliates
+          </p>
+        </footer>
+      </div>
     </div>
   );
 }

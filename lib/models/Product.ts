@@ -23,6 +23,14 @@ export interface IProduct extends Document {
   tags?: string[];
   sizes?: string[];
   colors?: string[];
+  hasMultipleOptions?: boolean;
+  swatchSingleName?: string;
+  swatchBulkName?: string;
+  swatchBulkPrice?: number;
+  enableSubscription?: boolean;
+  subscriptionDiscountPercent?: number;
+  promoBadge?: string;
+  orderCount?: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -31,6 +39,7 @@ const ProductSchema: Schema = new Schema(
   {
     _id: {
       type: Schema.Types.Mixed,
+      default: () => `prod_${Date.now()}_${Math.floor(Math.random() * 10000)}`,
     },
     name: {
       type: String,
@@ -78,12 +87,41 @@ const ProductSchema: Schema = new Schema(
       type: Boolean,
       default: false,
     },
+    orderCount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
     sku: {
       type: String,
     },
     discountPrice: {
       type: Number,
       min: 0,
+    },
+    swatchSingleName: {
+      type: String,
+      default: 'Single Standard',
+    },
+    swatchBulkName: {
+      type: String,
+      default: '5-Pack Contractors',
+    },
+    swatchBulkPrice: {
+      type: Number,
+      min: 0,
+    },
+    enableSubscription: {
+      type: Boolean,
+      default: true,
+    },
+    subscriptionDiscountPercent: {
+      type: Number,
+      default: 10,
+    },
+    promoBadge: {
+      type: String,
+      default: 'FACTORY DIRECT',
     },
     specImage: {
       type: String,
@@ -128,12 +166,23 @@ const ProductSchema: Schema = new Schema(
         type: String,
       },
     ],
+    hasMultipleOptions: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
     strict: false,
   }
 );
+
+ProductSchema.pre('validate', function(next) {
+  if (!this._id) {
+    this._id = `prod_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
+  }
+  next();
+});
 
 if (mongoose.models && mongoose.models.Product) {
   delete mongoose.models.Product;

@@ -61,7 +61,7 @@
   display: flex;
   gap: 16px;
   position: sticky;
-  top: 80px;
+  top: 130px;
 }
 
 .thumbnailList {
@@ -455,7 +455,7 @@
 /* ------------------ 3. RIGHT BUY BOX COLUMN ------------------ */
 .buyBoxCol {
   position: sticky;
-  top: 80px;
+  top: 130px;
 }
 
 .buyBoxCard {
@@ -975,6 +975,21 @@
   cursor: pointer;
   font-weight: 600;
   margin-left: 6px;
+}
+
+/* Simple Left-Aligned Scaled Down Spec Image with Natural Image Height */
+.specDiagramImageWrapper {
+  width: 100%;
+  max-width: 320px;
+  margin: 0 0 16px 0;
+}
+
+.specDiagramImg {
+  width: 100% !important;
+  max-width: 320px !important;
+  height: auto !important;
+  display: block !important;
+  border-radius: 6px;
 }
 
 .priceOnlineNotice {

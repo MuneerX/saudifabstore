@@ -3,10 +3,13 @@
 import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight, Heart, Plus } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Heart, Plus, Star } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { SaudiRiyalIcon } from '@hugeicons/core-free-icons';
 import { INITIAL_PRODUCTS, ProductData } from '@/lib/data/initialProducts';
 import styles from './AmazonProductRow.module.css';
 import { useCartContext } from './CartContext';
+import { getDynamicBadge, calculateCatalogStats } from '@/lib/utils/badgeHelper';
 
 interface AmazonProductRowProps {
   title?: string;
@@ -14,6 +17,7 @@ interface AmazonProductRowProps {
   linkHref?: string;
   products?: ProductData[];
   whiteText?: boolean;
+  loading?: boolean;
 }
 
 export function AmazonProductRow({
@@ -21,11 +25,13 @@ export function AmazonProductRow({
   linkText = "See all",
   linkHref = "/products",
   products = INITIAL_PRODUCTS,
-  whiteText = false
+  whiteText = false,
+  loading = false
 }: AmazonProductRowProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useCartContext();
   const [likedMap, setLikedMap] = useState<Record<string, boolean>>({});
+  const catalogStats = calculateCatalogStats(products);
 
   const toggleLike = (productId: string, e: React.MouseEvent) => {
     e.preventDefault();
@@ -70,78 +76,41 @@ export function AmazonProductRow({
         </button>
 
         <div ref={trackRef} className={styles.productTrack}>
-          {products.map((product, idx) => {
-            const calculatedPrice = product.price > 0 ? product.price * 4 : 85.68;
-            const originalPrice = calculatedPrice * 1.25;
-            const isLiked = likedMap[product._id];
-            const hasOptions = idx % 2 === 0;
+          {loading ? (
+            Array.from({ length: 5 }).map((_, idx) => (
+              <div key={`skel-${idx}`} className={styles.skeletonCard}>
+                <div className={styles.skeletonImgFrame} />
+                <div className={styles.skeletonLineTitle} />
+                <div className={styles.skeletonLineSub} />
+                <div className={styles.skeletonLinePrice} />
+              </div>
+            ))
+          ) : (
+            products.map((product, idx) => {
+              const isLiked = likedMap[product._id];
+              const badgeConfig = getDynamicBadge(product, styles, catalogStats);
+              const hasMultipleOptions = Boolean(product.hasMultipleOptions);
 
             return (
               <div key={product._id} className={styles.walmartProductCard}>
                 
-                {/* Product Image Box with Floating Badges & Wishlist */}
+                {/* Product Image Box Frame (Container & Image style unchanged) */}
                 <div className={styles.imgBox}>
-                  {idx % 3 === 0 ? (
-                    <span className={styles.clearanceBadge}>Clearance</span>
-                  ) : idx % 4 === 1 ? (
-                    <span className={styles.rollbackBadge}>Rollback</span>
-                  ) : null}
-
-                  <button 
-                    type="button" 
-                    onClick={(e) => toggleLike(product._id, e)} 
-                    className={styles.heartBtn}
-                    aria-label="Add to Wishlist"
-                  >
-                    <Heart 
-                      size={18} 
-                      className={isLiked ? styles.heartFilled : styles.heartOutline} 
-                    />
-                  </button>
+                  {badgeConfig && (
+                    <span className={`${styles.clearanceBadge} ${badgeConfig.styleClass}`}>
+                      {badgeConfig.text}
+                    </span>
+                  )}
 
                   <Link href={`/products/${product._id}`} className={styles.imgAnchor}>
                     <Image
-                      src={product.images[0] || '/images/home/category_grid/container_3.jpeg'}
+                      src={product.images[0] || '/images/home/category_grid/warehouse.jpeg'}
                       alt={product.name}
                       width={180}
                       height={170}
                       className={styles.productImg}
                     />
                   </Link>
-                </div>
-
-                {/* Walmart Action Button (+ Add or Options) */}
-                <div className={styles.actionBtnRow}>
-                  {hasOptions ? (
-                    <Link href={`/products/${product._id}`} className={styles.optionsPillBtn}>
-                      Options
-                    </Link>
-                  ) : (
-                    <button 
-                      type="button" 
-                      onClick={(e) => handleAddToCart(product._id, e)}
-                      className={styles.addPillBtn}
-                    >
-                      <Plus size={15} />
-                      <span>Add</span>
-                    </button>
-                  )}
-                </div>
-
-                {/* Price Display (Single Black Price) */}
-                <div className={styles.priceContainer}>
-                  <div className={styles.priceRow}>
-                    {(() => {
-                      const [whole, cents] = calculatedPrice.toFixed(2).split('.');
-                      return (
-                        <span className={styles.superscriptPriceGroup}>
-                          <span className={styles.priceCurrencySymbol}>{'\u20C1'}</span>
-                          <span className={styles.priceWholeDigits}>{whole}</span>
-                          <sup className={styles.priceSupCents}>{cents}</sup>
-                        </span>
-                      );
-                    })()}
-                  </div>
                 </div>
 
                 {/* Product Title */}
@@ -151,9 +120,47 @@ export function AmazonProductRow({
                   </Link>
                 </h3>
 
+                {/* Category Subtext */}
+                <p className={styles.subDescriptionText}>
+                  {product.category}
+                </p>
+
+                {/* Price Display */}
+                <div className={styles.priceContainer}>
+                  <div className={styles.priceRow}>
+                    <span className={styles.superscriptPriceGroup}>
+                      <sup className={styles.priceCurrencySymbol}>
+                        <HugeiconsIcon icon={SaudiRiyalIcon} size={18} strokeWidth={2.4} />
+                      </sup>
+                      <span className={styles.priceWholeDigits}>
+                        {product.price.toLocaleString()}
+                      </span>
+                      <sup className={styles.priceSupCents}>.00</sup>
+                    </span>
+                  </div>
+                </div>
+
+                {/* Action Buttons Row */}
+                <div className={styles.cardActionButtonsRow} style={{ width: '100%', marginTop: '12px' }}>
+                  {!hasMultipleOptions ? (
+                    <button 
+                      type="button" 
+                      onClick={(e) => handleAddToCart(product._id, e)}
+                      className={styles.addPillBtn}
+                    >
+                      <Plus size={14} />
+                      <span>Add to Cart</span>
+                    </button>
+                  ) : (
+                    <Link href={`/products/${product._id}`} className={styles.optionsPillBtn}>
+                      Options
+                    </Link>
+                  )}
+                </div>
+
               </div>
             );
-          })}
+          }))}
         </div>
 
         <button 

@@ -1,8 +1,7 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
-import User from '@/lib/models/User';
-import connectToDatabase from '@/lib/db/connect';
+import { findUserByEmail } from '@/lib/userStore';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -17,35 +16,33 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Missing credentials');
         }
 
-        // Hardcoded admin fallback for demo/testing convenience
+        const normalizedEmail = credentials.email.toLowerCase().trim();
+
+        // 1. Look up user in Database & Runtime User Registry
+        const user = await findUserByEmail(normalizedEmail);
+        if (user) {
+          const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
+          if (isPasswordValid) {
+            return {
+              id: user.id,
+              name: user.name,
+              email: user.email,
+              role: user.role,
+            };
+          }
+        }
+
+        // 2. Hardcoded admin fallback for demo/testing convenience
         if (
-          (credentials.email === 'admin@saudifabstore.com' || credentials.email === 'admin@example.com') && 
+          (normalizedEmail === 'admin@saudifabstore.com' || normalizedEmail === 'admin@example.com') && 
           credentials.password === 'admin123'
         ) {
           return {
             id: 'admin-static-id',
             name: 'Saudi Fab Admin',
-            email: credentials.email,
+            email: normalizedEmail,
             role: 'admin',
           };
-        }
-
-        try {
-          await connectToDatabase();
-          const user = await User.findOne({ email: credentials.email });
-          if (user) {
-            const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
-            if (isPasswordValid) {
-              return {
-                id: user._id.toString(),
-                name: user.name,
-                email: user.email,
-                role: user.role,
-              };
-            }
-          }
-        } catch (dbErr) {
-          console.warn("Auth database connection failed, checking static credentials only:", dbErr);
         }
 
         throw new Error('Invalid email or password');

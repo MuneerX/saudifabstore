@@ -1,48 +1,48 @@
-﻿/* Premium Checkout Page Styles - Saudi Fab Store Design Token System */
+/* Minimal, High-End Checkout Page Styling - Saudi Fab Store Brand */
 
 .pageWrapper {
   min-height: 100vh;
-  background-color: #FAF9F5;
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #ffffff;
   color: #111111;
+  font-family: var(--font-archivo), 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
   display: flex;
   flex-direction: column;
 }
 
 .checkoutSection {
   width: 100%;
-  padding: 135px 0 100px 0;
   position: relative;
 }
 
 .checkoutContainer {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 24px;
   width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 120px 24px 100px;
 }
 
 .headerSection {
-  margin-bottom: 40px;
+  margin-bottom: 32px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .breadcrumb {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 13px;
-  color: #8C887E;
+  font-size: 13.5px;
+  color: #64748b;
   margin-bottom: 4px;
 }
 
 .breadcrumbLink {
-  color: #111111;
+  color: #0058a3;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .breadcrumbLink:hover {
@@ -50,23 +50,22 @@
 }
 
 .pageTitle {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(28px, 4vw, 44px);
-  font-weight: 500;
-  color: #111111;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f172a;
   margin: 0;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .pageSubtitle {
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 15px;
-  color: #6E6B64;
+  font-size: 14.5px;
+  color: #64748b;
   margin: 0;
-  letter-spacing: -0.015em;
 }
 
+/* 2-Column Main Grid */
 .mainGrid {
   display: grid;
   grid-template-columns: 1fr;
@@ -74,23 +73,22 @@
   align-items: start;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 960px) {
   .mainGrid {
-    grid-template-columns: 1.4fr 1fr;
+    grid-template-columns: 1fr 380px;
     gap: 48px;
   }
 }
 
-/* Left Form Container */
+/* Left Form Column */
 .checkoutCard {
   background: #ffffff;
-  border: 1px solid #EBE7DF;
+  border: 1px solid #e2e8f0;
   border-radius: 12px;
-  padding: 24px clamp(16px, 2.5vw, 28px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.04);
+  padding: 32px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
 }
 
 .sectionBlock {
@@ -103,29 +101,30 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .sectionBadge {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  background-color: #111111;
+  background-color: #0f172a;
   color: #ffffff;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .sectionTitle {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 20px;
-  font-weight: 600;
-  color: #111111;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
   margin: 0;
-  letter-spacing: -0.02em;
 }
 
 .formGrid {
@@ -149,76 +148,64 @@
 .fieldGroup {
   display: flex;
   flex-direction: column;
+  gap: 6px;
 }
 
 .labelRow {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
-  width: 100%;
 }
 
 .labelText {
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
-  color: #222222;
-  white-space: nowrap;
-}
-
-.dashedConnector {
-  flex-grow: 1;
-  border-bottom: 1px dashed #EBE7DF;
-  height: 1px;
+  color: #334155;
 }
 
 .inputField {
-  background: #FAFAF8;
-  border: 1px solid #EBE7DF;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
   border-radius: 6px;
-  padding: 13px 16px;
-  font-family: 'Host Grotesk', sans-serif;
+  padding: 12px 14px;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 14px;
-  color: #111111;
+  color: #0f172a;
   outline: none;
-  transition: all 0.2s ease;
+  transition: border-color 0.15s ease;
   width: 100%;
 }
 
 .inputField::placeholder {
-  color: #A09C94;
+  color: #94a3b8;
 }
 
 .inputField:focus {
-  background: #ffffff;
-  border-color: #111111;
-  box-shadow: 0 0 0 1px #111111;
+  border-color: #0058a3;
 }
 
 /* Shipping Options Pill Selection */
 .shippingOptions {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .shippingOption {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
-  border: 1px solid #EBE7DF;
+  padding: 14px 18px;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
-  background-color: #FAFAF8;
+  background-color: #ffffff;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: border-color 0.15s ease;
 }
 
 .shippingOptionSelected {
-  border-color: #111111;
-  background-color: #ffffff;
-  box-shadow: 0 0 0 1px #111111;
+  border-color: #0f172a;
+  background-color: #f8fafc;
 }
 
 .shippingInfo {
@@ -228,32 +215,29 @@
 }
 
 .radioInput {
-  accent-color: #EA532B;
-  width: 18px;
-  height: 18px;
+  accent-color: #0f172a;
+  width: 16px;
+  height: 16px;
   cursor: pointer;
 }
 
 .shippingTitle {
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 14px;
   font-weight: 600;
-  color: #111111;
+  color: #0f172a;
   margin: 0;
 }
 
 .shippingSub {
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 12.5px;
-  color: #6E6B64;
+  color: #64748b;
   margin: 2px 0 0 0;
 }
 
 .shippingPrice {
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 14px;
-  font-weight: 600;
-  color: #111111;
+  font-weight: 700;
+  color: #0f172a;
 }
 
 /* Payment Tabs */
@@ -261,57 +245,54 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .paymentTab {
-  padding: 14px 16px;
-  border: 1px solid #EBE7DF;
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
-  background-color: #FAFAF8;
-  font-family: 'Host Grotesk', sans-serif;
+  background-color: #ffffff;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 13.5px;
-  font-weight: 500;
-  color: #54514A;
+  font-weight: 600;
+  color: #64748b;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
 
 .paymentTabActive {
-  border-color: #111111;
-  background-color: #ffffff;
-  color: #111111;
-  font-weight: 600;
-  box-shadow: 0 0 0 1px #111111;
+  border-color: #0f172a;
+  background-color: #f8fafc;
+  color: #0f172a;
 }
 
+/* Primary Saudi Fab Yellow Submit Button */
 .submitBtn {
-  background-color: #EA532B;
-  color: #ffffff;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  padding: 16px 24px;
+  background-color: #FEEC3C;
+  color: #111111;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 15px 24px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
   width: 100%;
-  transition: all 0.2s ease;
+  transition: background-color 0.15s ease;
   margin-top: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .submitBtn:hover:not(:disabled) {
-  background-color: #d04722;
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(234, 83, 43, 0.25);
+  background-color: #ebd700;
 }
 
 .submitBtn:disabled {
@@ -319,72 +300,59 @@
   cursor: not-allowed;
 }
 
-/* Right Order Summary Card */
+/* Right Order Summary Column */
 .orderSummaryCard {
   background: #ffffff;
-  border: 1px solid #EBE7DF;
+  border: 1px solid #e2e8f0;
   border-radius: 12px;
-  padding: 22px clamp(16px, 2vw, 24px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.04);
+  padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 18px;
   position: sticky;
-  top: 120px;
+  top: 100px;
 }
 
 .summaryTitle {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 20px;
-  font-weight: 600;
-  color: #111111;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
   margin: 0;
-  letter-spacing: -0.02em;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .itemsCount {
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 12.5px;
-  font-weight: 500;
-  color: #8C887E;
-  background-color: #FAF9F5;
-  padding: 4px 10px;
-  border-radius: 20px;
-  border: 1px solid #EBE7DF;
+  font-weight: 600;
+  color: #64748b;
 }
 
 .itemList {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  max-height: 380px;
+  gap: 14px;
+  max-height: 320px;
   overflow-y: auto;
-  padding-right: 4px;
 }
 
 .itemRow {
   display: flex;
-  gap: 16px;
+  gap: 14px;
   align-items: center;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #FAF9F5;
-}
-
-.itemRow:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
 }
 
 .itemThumb {
-  width: 64px;
-  height: 64px;
-  border-radius: 8px;
+  width: 56px;
+  height: 56px;
+  border-radius: 6px;
   object-fit: cover;
-  background-color: #FAFAF8;
-  border: 1px solid #EBE7DF;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
   flex-shrink: 0;
 }
 
@@ -392,72 +360,70 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
+  min-width: 0;
 }
 
 .itemName {
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 600;
-  color: #111111;
+  color: #0f172a;
   margin: 0;
-  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .itemSpecs {
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 12px;
-  color: #6E6B64;
+  color: #64748b;
   margin: 0;
 }
 
 .itemQty {
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 12px;
-  color: #8C887E;
+  color: #64748b;
   margin: 0;
 }
 
 .itemPrice {
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 14.5px;
-  font-weight: 600;
-  color: #111111;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
 }
 
 .promoBlock {
   display: flex;
   gap: 8px;
-  margin-top: 4px;
 }
 
 .promoInput {
   flex: 1;
   height: 38px;
-  background: #FAFAF8;
-  border: 1px solid #EBE7DF;
+  border: 1px solid #cbd5e1;
   border-radius: 6px;
   padding: 0 12px;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 13px;
-  color: #111111;
+  color: #0f172a;
   outline: none;
 }
 
 .promoInput:focus {
-  border-color: #111111;
+  border-color: #0058a3;
 }
 
 .promoBtn {
   height: 38px;
   padding: 0 16px;
-  background-color: #111111;
+  background-color: #0f172a;
   color: #ffffff;
   border: none;
   border-radius: 6px;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: opacity 0.15s ease;
 }
@@ -469,72 +435,68 @@
 .calculationRows {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding-top: 16px;
-  border-top: 1px solid #EBE7DF;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid #f1f5f9;
 }
 
 .calcRow {
   display: flex;
   justify-content: space-between;
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 13.5px;
-  color: #6E6B64;
+  color: #64748b;
 }
 
 .calcRowValue {
-  font-weight: 500;
-  color: #111111;
+  font-weight: 600;
+  color: #0f172a;
 }
 
 .totalRow {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding-top: 16px;
-  border-top: 1px solid #EBE7DF;
+  align-items: baseline;
+  padding-top: 14px;
+  border-top: 1px solid #e2e8f0;
 }
 
 .totalLabel {
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 16px;
-  font-weight: 600;
-  color: #111111;
+  font-weight: 700;
+  color: #0f172a;
 }
 
 .totalValue {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: 24px;
-  font-weight: 600;
-  color: #EA532B;
-  letter-spacing: -0.02em;
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
 }
 
 .trustBadges {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   padding-top: 12px;
+  border-top: 1px solid #f1f5f9;
 }
 
 .trustBadgeItem {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 12.5px;
-  color: #6E6B64;
+  font-size: 12px;
+  color: #64748b;
 }
 
 .trustIcon {
-  color: #10B981;
+  color: #16a34a;
+  flex-shrink: 0;
 }
 
 .errorBanner {
-  background-color: #FEF2F2;
-  border: 1px solid #FECACA;
-  color: #DC2626;
-  font-family: 'Host Grotesk', sans-serif;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
   font-size: 13px;
   font-weight: 500;
   padding: 12px 16px;
@@ -545,16 +507,7 @@
 }
 
 @media (max-width: 768px) {
-  .checkoutSection {
-    padding: 100px 0 60px 0;
-  }
-  
-  .checkoutCard,
-  .orderSummaryCard {
-    padding: 24px 16px;
-  }
-
-  .orderSummaryCard {
-    position: static;
+  .checkoutContainer {
+    padding: 100px 16px 60px;
   }
 }

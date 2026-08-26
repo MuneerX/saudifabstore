@@ -11,6 +11,7 @@ import { AboutTermsFooterSection } from "@/components/AboutTermsFooterSection";
 import styles from "./page.module.css";
 import { useProducts } from "@/lib/hooks/useProducts";
 import { INITIAL_PRODUCTS } from "@/lib/data/initialProducts";
+import { getDynamicBadge, calculateCatalogStats } from "@/lib/utils/badgeHelper";
 import { 
   ChevronDown, 
   ChevronUp, 
@@ -28,6 +29,8 @@ import {
   Plus
 } from "lucide-react";
 import { useCartContext } from "@/components/CartContext";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { SaudiRiyalIcon } from "@hugeicons/core-free-icons";
 
 const QUICK_SAVINGS_ITEMS = [
   { id: "clearance", label: "Clearance", text: "Can't-Miss Clearance", bg: "#FFEA00", color: "#111111" },
@@ -191,7 +194,7 @@ const MATERIAL_OPTIONS = [
 ];
 
 function ProductsPage() {
-  const { products, loading, fetchProducts } = useProducts() as {
+  const { products, loading, fetchProducts } = useProducts(true) as {
     products: ProductItem[];
     loading: boolean;
     fetchProducts: (params: any) => Promise<any>;
@@ -269,14 +272,6 @@ function ProductsPage() {
     );
   };
 
-  const toggleWishlist = (id: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setWishlist(prev => 
-      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
-    );
-  };
-
   const handleAddToCart = async (id: string, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -349,6 +344,8 @@ function ProductsPage() {
       categoryScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
+
+  const catalogStats = calculateCatalogStats(sortedProducts);
 
   return (
     <div className={styles.pageContainer}>
@@ -722,19 +719,9 @@ function ProductsPage() {
                 ))
               ) : (
                 sortedProducts.map((product, idx) => {
-                  const isWishlisted = wishlist.includes(product._id);
-                  
-                  // Strictly curated ALL-CAPS badges with distinct color styles
-                  let badgeConfig: { text: string; styleClass: string } | null = null;
-                  const rawBadge = (product.badge || "").toUpperCase().trim();
-                  
-                  if (rawBadge === "BESTSELLER" || rawBadge === "TOP SELLER" || rawBadge === "POPULAR") {
-                    badgeConfig = { text: "BEST SELLER", styleClass: styles.badgeBestSeller };
-                  } else if (rawBadge === "NEW" || rawBadge === "NEW ARRIVAL") {
-                    badgeConfig = { text: "NEW", styleClass: styles.badgeNew };
-                  } else if (rawBadge === "LIMITED" || rawBadge === "LIMITED STOCK") {
-                    badgeConfig = { text: "LIMITED STOCK", styleClass: styles.badgeLimited };
-                  }
+                  const badgeConfig = getDynamicBadge(product, styles, catalogStats);
+
+                  const hasMultipleOptions = Boolean((product as any).hasMultipleOptions);
 
                   // Extract clean uppercase brand / model name
                   const brandModelName = product.name.split(' ')[0] || 'SAUDI FAB';
@@ -755,7 +742,7 @@ function ProductsPage() {
                       {/* Image Box Frame */}
                       <Link href={`/products/${product._id}`} className={styles.imageFrameBox}>
                         <Image
-                          src={product.images?.[0] || '/images/home/category_grid/container_3.jpeg'}
+                          src={product.images?.[0] || '/images/home/category_grid/warehouse.jpeg'}
                           alt={product.name}
                           fill
                           className={styles.productImg}
@@ -766,90 +753,40 @@ function ProductsPage() {
                       {/* Card Body Area */}
                       <div className={styles.cardBodyArea}>
                         
-                        {/* Bold Model / Brand Name */}
+                        {/* Full Product Title */}
                         <h3 className={styles.modelBrandName}>
                           <Link href={`/products/${product._id}`} className={styles.modelAnchor}>
-                            {brandModelName}
+                            {product.name}
                           </Link>
                         </h3>
 
-                        {/* Description Subtext */}
+                        {/* Category Subtext */}
                         <p className={styles.subDescriptionText}>
-                          {subDesc}
+                          {product.category}
                         </p>
 
                         {/* Price Section */}
                         <div className={styles.priceSection}>
                           <div className={styles.mainPriceRow}>
-                            <span className={styles.currencyPrefix}>SAR</span>
+                            <sup className={styles.currencyPrefix}>
+                              <HugeiconsIcon icon={SaudiRiyalIcon} size={18} strokeWidth={2.4} />
+                            </sup>
                             <span className={styles.bigPriceDigits}>
                               {product.price.toLocaleString()}
                             </span>
+                            <sup className={styles.priceSupCents}>.00</sup>
                           </div>
 
                           {product.discountPrice && (
                             <>
-                              <div className={styles.discountSavingsTag}>
-                                15% off, save SAR {(product.price * 0.15).toFixed(0)}
+                              <div className={styles.discountSavingsTag} style={{ display: 'inline-flex', alignItems: 'center', gap: '2px' }}>
+                                15% off, save <HugeiconsIcon icon={SaudiRiyalIcon} size={11} strokeWidth={2.0} /> {(product.price * 0.15).toFixed(0)}
                               </div>
-                              <div className={styles.strikethroughPriceNote}>
-                                Regular price SAR {(product.price * 1.15).toFixed(0)}
+                              <div className={styles.strikethroughPriceNote} style={{ display: 'inline-flex', alignItems: 'center', gap: '2px' }}>
+                                Regular price <HugeiconsIcon icon={SaudiRiyalIcon} size={10} strokeWidth={2.0} /> {(product.price * 1.15).toFixed(0)}
                               </div>
                             </>
                           )}
-                        </div>
-
-                        {/* Star Rating Row */}
-                        <div className={styles.starRatingRow}>
-                          <div className={styles.starGroup}>
-                            {Array.from({ length: 5 }).map((_, sIdx) => (
-                              <Star 
-                                key={sIdx} 
-                                size={12} 
-                                fill={sIdx < (product.rating || 5) ? "#111111" : "#e0e0e0"} 
-                                color={sIdx < (product.rating || 5) ? "#111111" : "#e0e0e0"} 
-                              />
-                            ))}
-                          </div>
-                          <span className={styles.reviewCountLink}>
-                            ({Math.floor((product.price % 300) * 12 + 40)})
-                          </span>
-                        </div>
-
-                        {/* Add / Options Pill Button & Wishlist Row */}
-                        <div className={styles.cardActionButtonsRow}>
-                          {idx % 2 === 0 ? (
-                            <button
-                              type="button"
-                              className={styles.addPillBtn}
-                              onClick={(e) => handleAddToCart(product._id, e)}
-                              title="Add to cart"
-                            >
-                              <Plus size={15} />
-                              <span>Add</span>
-                            </button>
-                          ) : (
-                            <Link 
-                              href={`/products/${product._id}`} 
-                              className={styles.optionsPillBtn}
-                            >
-                              <span>Options</span>
-                            </Link>
-                          )}
-
-                          <button
-                            type="button"
-                            className={styles.heartIconButton}
-                            onClick={(e) => toggleWishlist(product._id, e)}
-                            title="Add to wishlist"
-                            aria-label="Add to wishlist"
-                          >
-                            <Heart 
-                              size={18} 
-                              fill={isWishlisted ? "#cc0052" : "none"} 
-                              color={isWishlisted ? "#cc0052" : "#111111"} 
-                            />
-                          </button>
                         </div>
 
                         {/* Feature Bullets & Swatch Thumbnails */}
@@ -862,6 +799,29 @@ function ProductsPage() {
                             <Check size={13} className={styles.checkIcon} />
                             <span>Heavy duty industrial load</span>
                           </div>
+                        </div>
+
+                        {/* Add / Options Pill Button Row */}
+                        <div className={styles.cardActionButtonsRow}>
+                          {!hasMultipleOptions ? (
+                            <button
+                              type="button"
+                              className={styles.addPillBtn}
+                              onClick={(e) => handleAddToCart(product._id, e)}
+                              title="Add to cart"
+                            >
+                              <Plus size={15} />
+                              <span>Add to Cart</span>
+                            </button>
+                          ) : (
+                            <Link 
+                              href={`/products/${product._id}`} 
+                              className={styles.optionsPillBtn}
+                              style={{ textDecoration: "none" }}
+                            >
+                              <span>Options</span>
+                            </Link>
+                          )}
                         </div>
 
                       </div>

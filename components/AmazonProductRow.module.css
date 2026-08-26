@@ -85,6 +85,7 @@
   background: #ffffff;
   display: flex;
   flex-direction: column;
+  gap: 6px;
   position: relative;
   padding: 12px;
   border-radius: 14px;
@@ -108,27 +109,30 @@
   top: 10px;
   left: 10px;
   z-index: 5;
-  background-color: #FEEC3C;
-  color: #0f172a;
-  font-size: 11.5px;
+  background-color: #CC0052;
+  color: #ffffff;
+  font-size: 10px;
   font-weight: 800;
-  padding: 3px 9px;
-  border-radius: 6px;
+  padding: 3px 8px;
+  border-radius: 2px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.rollbackBadge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 5;
-  background-color: #d97706;
-  color: #ffffff;
-  font-size: 11.5px;
-  font-weight: 800;
-  padding: 3px 9px;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+.badgeBestSeller {
+  background-color: #CC0052 !important;
+  color: #ffffff !important;
+}
+
+.badgeNew {
+  background-color: #0058A3 !important;
+  color: #ffffff !important;
+}
+
+.badgeLimited {
+  background-color: #E65100 !important;
+  color: #ffffff !important;
 }
 
 .heartBtn {
@@ -214,41 +218,49 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  background-color: #ffffff;
-  color: #0f172a;
-  border: 1px solid #0f172a;
-  border-radius: 9999px;
-  padding: 5px 18px;
-  font-size: 14px;
+  gap: 5px;
+  background-color: #0058a3;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 16px;
+  width: 100%;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 13.5px;
   font-weight: 700;
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 88, 163, 0.2);
   transition: all 0.15s ease;
 }
 
 .addPillBtn:hover {
-  background-color: #0f172a;
-  color: #ffffff;
+  background-color: #004f93;
+  box-shadow: 0 4px 12px rgba(0, 88, 163, 0.3);
+  transform: translateY(-1px);
 }
 
 .optionsPillBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: #ffffff;
+  background-color: transparent;
   color: #0f172a;
   border: 1px solid #cbd5e1;
-  border-radius: 9999px;
-  padding: 5px 18px;
-  font-size: 14px;
+  border-radius: 8px;
+  padding: 9px 16px;
+  width: 100%;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 13.5px;
   font-weight: 700;
   text-decoration: none;
   transition: all 0.15s ease;
 }
 
 .optionsPillBtn:hover {
-  border-color: #059669;
-  color: #059669;
+  background-color: #f8fafc;
+  border-color: #0f172a;
+  color: #0f172a;
+  transform: translateY(-1px);
 }
 
 /* Price Container & Superscript Styling */
@@ -276,34 +288,35 @@
 .superscriptPriceGroup {
   display: inline-flex;
   align-items: flex-start;
-  color: #0f172a;
+  color: #111111;
   line-height: 1;
   font-weight: 800;
+  gap: 2px;
 }
 
 .priceCurrencySymbol {
-  font-size: 15px;
-  font-weight: 800;
-  color: #0f172a;
-  margin-right: 3px;
-  align-self: flex-start;
-  margin-top: 2px;
+  display: inline-flex;
+  align-items: center;
+  color: #111111;
+  position: relative;
+  top: 2px;
+  margin-right: 1px;
 }
 
 .priceWholeDigits {
   font-size: 22px;
   font-weight: 800;
-  color: #0f172a;
+  color: #111111;
   line-height: 1;
   letter-spacing: -0.02em;
 }
 
 .priceSupCents {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
-  color: #0f172a;
+  color: #111111;
   position: relative;
-  top: 0.15em;
+  top: 2px;
   margin-left: 1px;
   line-height: 1;
 }
@@ -324,10 +337,13 @@
 
 /* Product Title */
 .productTitle {
-  font-size: 16.5px;
-  line-height: 1.35;
-  font-weight: 600;
-  margin: 6px 0 0 0;
+  font-size: 14px;
+  line-height: 1.25;
+  font-weight: 800;
+  color: #111111;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 4px 0 0 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -335,48 +351,146 @@
 }
 
 .titleAnchor {
-  color: #1e293b;
+  color: #111111;
   text-decoration: none;
 }
 
 .titleAnchor:hover {
-  color: #059669;
   text-decoration: underline;
+}
+
+.subDescriptionText {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.3;
+  margin: 3px 0 6px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.starRatingRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 6px 0 10px 0;
+}
+
+.starGroup {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.reviewCountLink {
+  font-size: 11.5px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.cardActionButtonsRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 4px;
 }
 
 /* Track Scroll Arrows */
 .scrollArrow {
   position: absolute;
-  top: 45%;
+  top: 50%;
   transform: translateY(-50%);
-  z-index: 15;
-  width: 36px;
-  height: 36px;
+  z-index: 20;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   background: #ffffff;
-  border: 1px solid #cbd5e1;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  border: 1.5px solid #cbd5e1;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
   color: #0f172a;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .scrollArrow:hover {
-  background: #059669;
+  background: #0071dc;
   color: #ffffff;
-  border-color: #059669;
-  transform: translateY(-50%) scale(1.08);
+  border-color: #0071dc;
+  transform: translateY(-50%) scale(1.12);
+  box-shadow: 0 6px 18px rgba(0, 113, 220, 0.35);
 }
 
 .leftArrow {
-  left: -12px;
+  left: -18px;
 }
 
 .rightArrow {
-  right: -12px;
+  right: -18px;
+}
+
+/* Amazon-Style Shimmer Skeleton Loading */
+.skeletonCard {
+  flex: 0 0 calc((100% - 48px) / 5);
+  min-width: 270px;
+  max-width: 290px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid #f1f5f9;
+}
+
+.skeletonImgFrame {
+  width: 100%;
+  height: 250px;
+  background: linear-gradient(90deg, #f8fafc 25%, #f1f5f9 50%, #f8fafc 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite;
+  border-radius: 12px;
+}
+
+.skeletonLineTitle {
+  width: 80%;
+  height: 16px;
+  background: linear-gradient(90deg, #f8fafc 25%, #e2e8f0 50%, #f8fafc 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeletonLineSub {
+  width: 50%;
+  height: 12px;
+  background: linear-gradient(90deg, #f8fafc 25%, #e2e8f0 50%, #f8fafc 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeletonLinePrice {
+  width: 40%;
+  height: 20px;
+  background: linear-gradient(90deg, #f8fafc 25%, #e2e8f0 50%, #f8fafc 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes skeletonShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 @media (max-width: 768px) {

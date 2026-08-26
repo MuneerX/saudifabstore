@@ -10,20 +10,68 @@
   width: 100%;
 }
 
-/* CARD 1: Left Large Banner */
-.cardLeftLarge {
-  background: linear-gradient(135deg, #fff9a6 0%, #feec3c 100%);
-  border-radius: 18px;
-  padding: 44px 36px;
-  min-height: 540px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+/* SHARED CARD BASE STYLES */
+.cardLeftLarge,
+.cardMiddleTop,
+.cardPeach,
+.cardWhite,
+.cardRightLarge {
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(212, 195, 20, 0.12);
-  border: 1px solid #e5d430;
+  border-radius: 18px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cardLeftLarge:hover,
+.cardMiddleTop:hover,
+.cardPeach:hover,
+.cardWhite:hover,
+.cardRightLarge:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.bgImage {
+  object-fit: cover !important;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+.cardLeftLarge:hover .bgImage,
+.cardMiddleTop:hover .bgImage,
+.cardPeach:hover .bgImage,
+.cardWhite:hover .bgImage,
+.cardRightLarge:hover .bgImage {
+  transform: scale(1.05);
+}
+
+.cardContent {
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+/* 1. CARD LEFT LARGE (Custom Steel Fabrication - Yellow Theme) */
+.cardLeftLarge {
+  min-height: 540px;
+}
+
+.overlayLeft {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(180deg, #ECD2B4 0%, rgba(236, 210, 180, 0.82) 30%, rgba(236, 210, 180, 0.4) 48%, transparent 65%);
+  pointer-events: none;
+}
+
+.cardLeftLarge .cardContent {
+  padding: 44px 36px;
+  max-width: 95%;
 }
 
 .eyebrowLeft {
@@ -40,7 +88,7 @@
   color: #78350f;
   line-height: 1.1;
   margin: 0 0 28px 0;
-  max-width: 260px;
+  max-width: 360px;
   letter-spacing: -0.02em;
 }
 
@@ -72,17 +120,22 @@
   gap: 16px;
 }
 
-/* CARD 2: Middle Top Wide Banner */
+/* 2. CARD MIDDLE TOP (GRP Grating - Green Theme) */
 .cardMiddleTop {
-  background: linear-gradient(135deg, #d1fae5 0%, #e0f2fe 100%);
-  border-radius: 18px;
+  min-height: 220px;
+}
+
+.overlayTop {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(90deg, rgba(209, 250, 229, 0.75) 0%, rgba(209, 250, 229, 0.38) 32%, transparent 65%);
+  pointer-events: none;
+}
+
+.cardMiddleTop .cardContent {
   padding: 28px 32px;
-  min-height: 212px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  position: relative;
-  overflow: hidden;
+  max-width: 52%;
 }
 
 .eyebrowTop {
@@ -93,12 +146,12 @@
 }
 
 .titleTop {
-  font-size: 24px;
+  font-size: 23px;
   font-weight: 800;
   color: #064e3b;
   line-height: 1.25;
   margin: 0 0 12px 0;
-  max-width: 300px;
+  max-width: 250px;
   letter-spacing: -0.01em;
 }
 
@@ -129,17 +182,22 @@
   flex: 1;
 }
 
-/* CARD 3: Middle Bottom-Left Peach Card */
+/* 3. CARD PEACH (Secondary Oil Spill Containment) */
 .cardPeach {
-  background: #ffedd5;
-  border-radius: 18px;
-  padding: 24px;
-  min-height: 212px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  position: relative;
-  overflow: hidden;
+  min-height: 220px;
+}
+
+.overlayPeach {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(90deg, rgba(255, 237, 213, 0.75) 0%, rgba(255, 237, 213, 0.38) 32%, transparent 65%);
+  pointer-events: none;
+}
+
+.cardPeach .cardContent {
+  padding: 24px 20px;
+  max-width: 95%;
 }
 
 .titlePeach {
@@ -156,25 +214,29 @@
   font-weight: 700;
   color: #7c2d12;
   text-decoration: underline;
+  margin-top: auto;
 }
 
 .underlineLinkPeach:hover {
   color: #9a3412;
 }
 
-/* CARD 4: Middle Bottom-Right White Card */
+/* 4. CARD WHITE (Saudi Fab Business B2B Rates) */
 .cardWhite {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 18px;
-  padding: 24px;
-  min-height: 212px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  min-height: 220px;
+}
+
+.overlayWhite {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.38) 32%, transparent 65%);
+  pointer-events: none;
+}
+
+.cardWhite .cardContent {
+  padding: 24px 20px;
+  max-width: 95%;
 }
 
 .titleWhite {
@@ -191,26 +253,52 @@
   font-weight: 700;
   color: #0071dc;
   text-decoration: underline;
+  margin-top: auto;
 }
 
 .underlineLinkBlue:hover {
   color: #005bb5;
 }
 
-/* CARD 5: Right Large Banner */
+.capsuleBtnBlue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0071dc;
+  color: #ffffff;
+  border-radius: 9999px;
+  padding: 8px 22px;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 6px rgba(0, 113, 220, 0.25);
+  margin-top: auto;
+}
+
+.capsuleBtnBlue:hover {
+  background-color: #005bb5;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* 5. CARD RIGHT LARGE (High-Reach Boom Jibs) */
 .cardRightLarge {
-  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
-  border-radius: 18px;
-  padding: 44px 34px;
   min-height: 540px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 16px rgba(153, 27, 27, 0.06);
-  border: 1px solid #fecdd3;
+}
+
+.overlayRight {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(180deg, #FFF1F2 0%, rgba(254, 226, 226, 0.82) 30%, rgba(254, 226, 226, 0.4) 48%, transparent 65%);
+  pointer-events: none;
+}
+
+
+.cardRightLarge .cardContent {
+  padding: 44px 34px;
+  max-width: 95%;
 }
 
 .eyebrowRight {
@@ -226,7 +314,7 @@
   color: #881337;
   line-height: 1.2;
   margin: 0 0 16px 0;
-  max-width: 230px;
+  max-width: 320px;
   letter-spacing: -0.02em;
 }
 
@@ -256,3 +344,7 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+
+

@@ -105,16 +105,16 @@ export function Footer({ noGradient, isContactPage }: FooterProps = {}) {
 
               <div className={styles.supportChannelsGroup}>
                 
-                {/* Channel 1: Help Center */}
-                <Link href="/contact" className={styles.channelBadgeCard}>
+                {/* Channel 1: Customer Care Hotline */}
+                <a href="tel:+966138121100" className={styles.channelBadgeCard}>
                   <div className={styles.channelIconCircle}>
-                    <HugeiconsIcon icon={InformationSquareIcon} size={18} strokeWidth={2.2} />
+                    <HugeiconsIcon icon={PhoneCallIcon} size={18} strokeWidth={2.2} />
                   </div>
                   <div className={styles.channelLabelGroup}>
-                    <span className={styles.channelLabelTag}>HELP CENTER</span>
-                    <span className={styles.channelValueText}>help.saudifab.com</span>
+                    <span className={styles.channelLabelTag}>CUSTOMER CARE HOTLINE</span>
+                    <span className={styles.channelValueText}>+966 13 812 1100</span>
                   </div>
-                </Link>
+                </a>
 
                 {/* Channel 2: Email Support */}
                 <a href="mailto:care@saudifab.com" className={styles.channelBadgeCard}>
@@ -282,9 +282,9 @@ export function Footer({ noGradient, isContactPage }: FooterProps = {}) {
                       <span>Register B2B Account</span>
                     </Link>
 
-                    <Link href="/admin/orders" className={styles.appBadgePill}>
-                      <HugeiconsIcon icon={DeliveryBox01Icon} size={16} strokeWidth={2.2} />
-                      <span>Track PO Order</span>
+                    <Link href="/contact" className={styles.appBadgePill}>
+                      <HugeiconsIcon icon={InformationSquareIcon} size={16} strokeWidth={2.2} />
+                      <span>Help Center</span>
                     </Link>
                   </div>
                 </div>

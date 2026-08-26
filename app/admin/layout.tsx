@@ -3,8 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Sidebar } from "@/components/ui/modern-side-bar";
+import dynamic from "next/dynamic";
 import styles from "./layout.module.css";
+
+const Sidebar = dynamic(() => import("@/components/ui/modern-side-bar").then(m => m.Sidebar), {
+  ssr: false,
+});
 
 export default function AdminLayout({
   children,

@@ -34,9 +34,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("open-cart-drawer", handleOpenEvent);
   }, []);
 
-  const addToCartAndOpen = async (productId: string, quantity: number, size?: string, color?: string) => {
+  const addToCartDirect = async (productId: string, quantity: number, size?: string, color?: string) => {
     const result = await cartHook.addToCart(productId, quantity, size, color);
-    setIsCartOpen(true);
     return result;
   };
 
@@ -44,7 +43,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     <CartContext.Provider
       value={{
         ...cartHook,
-        addToCart: addToCartAndOpen,
+        addToCart: addToCartDirect,
         isCartOpen,
         openCart,
         closeCart,

@@ -2,204 +2,108 @@
 
 .pageWrapper {
   min-height: 100vh;
-  background-color: #FAF9F5;
-  position: relative;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px 16px 40px 16px;
+}
+
+.authContainer {
   display: flex;
   flex-direction: column;
-}
-
-.heroBackground {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-}
-
-.bgImage {
-  object-fit: cover;
-  object-position: center;
-}
-
-.bgOverlay {
-  position: absolute;
-  inset: 0;
-  background: none;
-  z-index: 2;
-}
-
-.contactSection {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  padding: 140px 0 80px 0;
-}
-
-.contactSectionContainer {
-  position: relative;
-  z-index: 3;
-  width: 100%;
-  max-width: 1468px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-.contactGrid {
-  display: flex;
-  justify-content: flex-start;
   align-items: center;
   width: 100%;
+  max-width: 360px;
 }
 
-/* Left Form White Card */
-.formGlassCard {
+.logoRow {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.authLogo {
+  object-fit: contain;
+  transition: opacity 0.15s ease;
+}
+
+.authLogo:hover {
+  opacity: 0.85;
+}
+
+/* Amazon-Style Sign Up Form Card */
+.formCard {
   background: #ffffff;
-  border: 1px solid #EBE7DF;
-  border-radius: 12px;
-  padding: 40px 36px;
+  border: 1px solid #d5d9d9;
+  border-radius: 8px;
+  padding: 24px 26px;
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.06);
-  max-width: 580px;
+  gap: 16px;
   width: 100%;
-  margin-left: 0;
-  position: relative;
-  z-index: 10;
-}
-
-.cardHeader {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.portalBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #EA532B;
-  background: none;
-  padding: 0;
-}
-
-.badgeDot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background-color: #EA532B;
 }
 
 .title {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(26px, 3vw, 36px);
+  font-size: 28px;
   font-weight: 500;
-  color: #111111;
-  margin: 0;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-}
-
-.description {
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 14px;
-  line-height: 1.45;
-  color: #6E6B64;
-  margin: 0;
-  letter-spacing: -0.16px;
+  color: #0f1111;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
 }
 
 .formGrid {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-}
-
-.formRow {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-}
-
-@media (min-width: 640px) {
-  .formRow {
-    grid-template-columns: 1fr 1fr;
-  }
+  gap: 14px;
 }
 
 .fieldGroup {
   display: flex;
   flex-direction: column;
-}
-
-.labelRow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  width: 100%;
+  gap: 4px;
 }
 
 .labelText {
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 12.5px;
-  font-weight: 500;
-  color: #222222;
-  white-space: nowrap;
-}
-
-.dashedConnector {
-  flex-grow: 1;
-  border-bottom: 1px dashed #EBE7DF;
-  height: 1px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f1111;
 }
 
 .inputField {
-  background: #FAFAF8;
-  border: 1px solid #EBE7DF;
-  border-radius: 6px;
-  padding: 13px 16px;
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 14px;
-  color: #111111;
+  background: #ffffff;
+  border: 1px solid #888c8c;
+  border-radius: 3px;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: #0f1111;
   outline: none;
-  transition: all 0.2s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
   width: 100%;
-}
-
-.inputField::placeholder {
-  color: #A09C94;
+  box-shadow: 0 1px 2px rgba(15, 17, 17, 0.15) inset;
 }
 
 .inputField:focus {
-  background: #ffffff;
-  border-color: #111111;
-  box-shadow: 0 0 0 1px #111111;
+  border-color: #0071dc;
+  box-shadow: 0 0 0 3px rgba(0, 113, 220, 0.2);
 }
 
 .togglePasswordBtn {
   position: absolute;
-  right: 12px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #8C887E;
+  color: #565959;
   cursor: pointer;
   padding: 4px;
   display: flex;
   align-items: center;
-  transition: color 0.15s ease;
 }
 
 .togglePasswordBtn:hover {
-  color: #111111;
+  color: #0f1111;
 }
 
 .termsRow {
@@ -210,150 +114,152 @@
 }
 
 .checkbox {
-  width: 15px;
-  height: 15px;
-  accent-color: #111111;
+  width: 14px;
+  height: 14px;
+  accent-color: #0071dc;
   cursor: pointer;
   margin-top: 2px;
 }
 
 .termsText {
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 12.5px;
-  color: #54514A;
+  font-size: 12px;
+  color: #565959;
   line-height: 1.35;
 }
 
 .termsLink {
-  color: #111111;
-  font-weight: 600;
+  color: #007185;
   text-decoration: underline;
-  text-underline-offset: 2px;
 }
 
 .submitBtn {
-  background-color: #EA532B;
-  color: #ffffff;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 14.5px;
-  font-weight: 600;
-  padding: 15px 24px;
-  border-radius: 6px;
+  background-color: #0058a3;
   border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 9px 16px;
   cursor: pointer;
   width: 100%;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  margin-top: 8px;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 8px rgba(0, 88, 163, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .submitBtn:hover:not(:disabled) {
-  background-color: #d04722;
-  transform: translateY(-1px);
+  background-color: #004f93;
+  box-shadow: 0 4px 12px rgba(0, 88, 163, 0.35);
 }
 
 .submitBtn:disabled {
-  opacity: 0.65;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
-.divider {
+/* Create Account Divider & Button Below Card */
+.createAccountWrapper {
+  max-width: 360px;
+  width: 100%;
+  margin-top: 20px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 12px;
-  margin: 10px 0;
 }
 
-.dividerLine {
-  flex: 1;
+.divider {
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+.divider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
   height: 1px;
-  background-color: #EBE7DF;
+  background-color: #e7e7e7;
+  z-index: 1;
 }
 
 .dividerText {
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 10.5px;
-  font-weight: 600;
-  color: #8C887E;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  position: relative;
+  z-index: 2;
+  background-color: #ffffff;
+  padding: 0 8px;
+  font-size: 12px;
+  color: #767676;
 }
 
-.footerActions {
+.createAccountBtn {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #d5d9d9;
+  border-radius: 8px;
+  color: #0f1111;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(213, 217, 217, 0.5);
+  transition: all 0.15s ease;
 }
 
-.signupText {
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 13.5px;
-  color: #6E6B64;
-}
-
-.signupLink {
-  color: #111111;
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  margin-left: 6px;
+.createAccountBtn:hover {
+  background-color: #f7fafa;
+  border-color: #d5d9d9;
 }
 
 .errorBanner {
-  background-color: #FEF2F2;
-  border: 1px solid #FECACA;
-  color: #DC2626;
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 10px 14px;
-  border-radius: 6px;
+  background-color: #fff8f8;
+  border: 1px solid #d0021b;
+  border-radius: 4px;
+  color: #c40000;
+  font-size: 12px;
+  padding: 8px 12px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-/* Hero-Style Brand Title on Bottom */
-.heroBrandBottom {
-  position: absolute;
-  bottom: 28px;
-  right: 36px;
-  z-index: 5;
-  pointer-events: none;
-  overflow: visible;
-  user-select: none;
-  line-height: 1.1;
-  padding-bottom: 12px;
+.authFooter {
+  width: 100%;
+  padding-top: 24px;
+  margin-top: 24px;
+  border-top: 1px solid #e7e7e7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
-.heroBrandText {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(36px, 6.5vw, 100px);
-  font-weight: 600;
-  color: #ffffff;
-  letter-spacing: -0.03em;
+.authFooterLinks {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.authFooterLinks a {
+  font-size: 11.5px;
+  color: #007185;
+  text-decoration: none;
+}
+
+.authFooterLinks a:hover {
+  color: #c45500;
+  text-decoration: underline;
+}
+
+.authFooterCopy {
+  font-size: 11px;
+  color: #555555;
   margin: 0;
-  white-space: nowrap;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  display: block;
-}
-
-@media (max-width: 1024px) {
-  .heroBrandBottom {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .contactSection {
-    padding: 100px 16px 60px 16px;
-  }
-  .formGlassCard {
-    padding: 28px 20px;
-    max-width: 100%;
-    margin-left: 0;
-  }
 }

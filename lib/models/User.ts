@@ -4,6 +4,8 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
+  company?: string;
+  referralSource?: string;
   role: 'user' | 'admin';
   createdAt: Date;
   updatedAt: Date;
@@ -23,6 +25,14 @@ const UserSchema: Schema = new Schema(
     password: {
       type: String,
       required: true,
+    },
+    company: {
+      type: String,
+      default: '',
+    },
+    referralSource: {
+      type: String,
+      default: 'Direct',
     },
     role: {
       type: String,

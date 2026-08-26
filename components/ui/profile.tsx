@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -162,40 +162,38 @@ const Profile = () => {
         });
 
         // Fetch user orders safely
-        if (session?.user) {
-          try {
-            const queryParam = session.user.id ? `?userId=${session.user.id}` : '';
-            const ordersResponse: GetOrdersResponse = await apiClient.request(`/orders${queryParam}`);
-            if (ordersResponse && Array.isArray(ordersResponse.orders)) {
-              const formattedOrders = ordersResponse.orders.map((order: Order) => {
-                let status = 'pending';
-                if (order.shippingStatus) {
-                  status = order.shippingStatus;
-                } else if (order.isPaid) {
-                  status = order.isDelivered ? 'delivered' : 'shipped';
-                }
+        try {
+          const queryParam = session?.user?.id ? `?userId=${session.user.id}` : '';
+          const ordersResponse: GetOrdersResponse = await apiClient.request(`/orders${queryParam}`);
+          if (ordersResponse && Array.isArray(ordersResponse.orders)) {
+            const formattedOrders = ordersResponse.orders.map((order: Order) => {
+              let status = 'pending';
+              if (order.shippingStatus) {
+                status = order.shippingStatus;
+              } else if (order.isPaid) {
+                status = order.isDelivered ? 'delivered' : 'shipped';
+              }
 
-                return {
-                  id: `#${(order._id || '').slice(-6)}`,
-                  date: order.createdAt ? new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : new Date().toLocaleDateString(),
-                  status: status,
-                  shippedAt: order.shippedAt ? new Date(order.shippedAt).toLocaleString() : undefined,
-                  deliveredAt: order.deliveredAt ? new Date(order.deliveredAt).toLocaleString() : undefined,
-                  items: (order.orderItems || []).map((item: OrderItem) => ({
-                    name: item.product?.name || "Industrial Attachment",
-                    price: `$${(item.price || 0).toFixed(2)}`,
-                    image: item.product?.images?.[0] || "/images/home/category_grid/container_3.jpeg"
-                  })),
-                  total: `$${(order.totalPrice || 0).toFixed(2)}`
-                };
-              });
+              return {
+                id: `#${(order._id || '').slice(-6)}`,
+                date: order.createdAt ? new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : new Date().toLocaleDateString(),
+                status: status,
+                shippedAt: order.shippedAt ? new Date(order.shippedAt).toLocaleString() : undefined,
+                deliveredAt: order.deliveredAt ? new Date(order.deliveredAt).toLocaleString() : undefined,
+                items: (order.orderItems || []).map((item: OrderItem) => ({
+                  name: item.product?.name || "Structural Steel Component",
+                  price: `SAR ${(item.price || 0).toFixed(2)}`,
+                  image: item.product?.images?.[0] || "/images/home/category_grid/warehouse.jpeg"
+                })),
+                total: `SAR ${(order.totalPrice || 0).toFixed(2)}`
+              };
+            });
 
-              setOrders(formattedOrders);
-            }
-          } catch (ordersErr) {
-            console.warn("Could not fetch orders:", ordersErr);
-            setOrders([]);
+            setOrders(formattedOrders);
           }
+        } catch (ordersErr) {
+          console.warn("Could not fetch orders:", ordersErr);
+          setOrders([]);
         }
       } catch (err) {
         console.error("Failed to load profile:", err);
@@ -205,11 +203,7 @@ const Profile = () => {
       }
     };
 
-    if (session?.user) {
-      fetchProfileData();
-    } else {
-      setLoading(false);
-    }
+    fetchProfileData();
   }, [session]);
 
   const handleSaveSettings = async (e: React.FormEvent) => {
@@ -241,36 +235,26 @@ const Profile = () => {
 
   return (
     <div className={styles.profileContainer}>
-      {/* Header Banner Card */}
+      {/* Minimal Header with Avatar */}
       <div className={styles.headerCard}>
-        <div className={styles.headerGlow} />
-
         <div className={styles.userInfoGroup}>
           <div className={styles.avatarBox}>
             {initialLetter}
           </div>
           <div className={styles.userMeta}>
-            <div className={styles.userNameRow}>
-              <h1 className={styles.userName}>{userData.name || "Saudi Fab Client"}</h1>
-              <span className={styles.clientBadge}>
-                <ShieldCheck size={12} style={{ display: 'inline', marginRight: '3px' }} />
-                Verified Account
-              </span>
-            </div>
+            <h1 className={styles.userName}>{userData.name || "Saudi Fab Client"}</h1>
             <p className={styles.userEmail}>{userData.email || session?.user?.email || "client@saudifabstore.com"}</p>
           </div>
         </div>
 
-        <div className={styles.headerActions}>
-          <button 
-            type="button"
-            className={styles.signOutBtn}
-            onClick={() => signOut({ callbackUrl: "/login" })}
-          >
-            <LogOut size={16} />
-            Sign Out
-          </button>
-        </div>
+        <button 
+          type="button"
+          className={styles.signOutBtn}
+          onClick={() => signOut({ callbackUrl: "/login" })}
+        >
+          <LogOut size={15} />
+          Sign Out
+        </button>
       </div>
 
       {/* Navigation Tabs */}
@@ -355,7 +339,9 @@ const Profile = () => {
                           </div>
                           <div className={styles.stepMeta}>
                             <span className={styles.stepTitle}>Dispatched</span>
-                            <span className={styles.stepTime}>{order.shippedAt || (order.status === 'shipped' || order.status === 'delivered' ? 'In Transit' : 'In Preparation')}</span>
+                            <span className={styles.stepTime}>
+                              {order.shippedAt ? new Date(order.shippedAt).toLocaleDateString() : (order.status === 'shipped' || order.status === 'delivered' ? 'In Transit' : 'In Preparation')}
+                            </span>
                           </div>
                         </div>
 
@@ -365,7 +351,9 @@ const Profile = () => {
                           </div>
                           <div className={styles.stepMeta}>
                             <span className={styles.stepTitle}>Delivered</span>
-                            <span className={styles.stepTime}>{order.deliveredAt || (order.status === 'delivered' ? 'Completed' : 'Pending Delivery')}</span>
+                            <span className={styles.stepTime}>
+                              {order.deliveredAt ? new Date(order.deliveredAt).toLocaleDateString() : (order.status === 'delivered' ? 'Completed' : 'Pending Delivery')}
+                            </span>
                           </div>
                         </div>
                       </div>

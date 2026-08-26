@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -53,149 +53,129 @@ export default function LoginPage() {
 
   return (
     <div className={styles.pageWrapper}>
-      {/* Dark overlay navbar matching contact page style */}
-      <Navbar isLight={false} hasBorder={false} />
-
-      {/* Main Glass Login Section */}
-      <section className={styles.contactSection}>
-        {/* Background Stock Image with Gradient Overlay */}
-        <div className={styles.heroBackground}>
-          <Image
-            src="/images/bg_4.jpeg"
-            alt="Saudi Fab Store Login Background"
-            fill
-            className={styles.bgImage}
-            sizes="100vw"
-            priority
-            unoptimized
-          />
-          <div className={styles.bgOverlay} />
+      <div className={styles.authContainer}>
+        {/* Logo Right Above Card */}
+        <div className={styles.logoRow}>
+          <Link href="/" aria-label="Saudi Fab Store Home">
+            <Image
+              src="/images/logo.png"
+              alt="Saudi Fab Store Logo"
+              width={140}
+              height={42}
+              className={styles.authLogo}
+              priority
+              unoptimized
+            />
+          </Link>
         </div>
 
-        <div className={styles.contactSectionContainer}>
-          <div className={styles.contactGrid}>
-            {/* Left Column: Glassmorphic Login Form */}
-            <div className={styles.formGlassCard}>
-              <div className={styles.cardHeader}>
-                <h1 className={styles.title}>Client Sign In</h1>
-                <p className={styles.description}>
-                  Access your commercial quotes, track active fabrications, and manage your B2B industrial orders.
-                </p>
-              </div>
+        {/* Sign In Form Card */}
+        <div className={styles.formCard}>
+          <h1 className={styles.title}>Sign in</h1>
 
-              {/* Error Alert */}
-              {error && (
-                <div className={styles.errorBanner} role="alert">
-                  <AlertCircle size={16} />
-                  <span>{error}</span>
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className={styles.formGrid}>
-                {/* Email Field Group */}
-                <div className={styles.fieldGroup}>
-                  <div className={styles.labelRow}>
-                    <span className={styles.labelText}>Email Address</span>
-                    <span className={styles.dashedConnector} />
-                  </div>
-                  <input
-                    type="email"
-                    required
-                    placeholder="name@company.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className={styles.inputField}
-                  />
-                </div>
-
-                {/* Password Field Group */}
-                <div className={styles.fieldGroup}>
-                  <div className={styles.labelRow}>
-                    <span className={styles.labelText}>Password</span>
-                    <span className={styles.dashedConnector} />
-                  </div>
-                  <div style={{ position: "relative", width: "100%" }}>
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      required
-                      placeholder="••••••••"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className={styles.inputField}
-                      style={{ paddingRight: "45px" }}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className={styles.togglePasswordBtn}
-                      aria-label={showPassword ? "Hide password" : "Show password"}
-                    >
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Remember Me & Forgot Password */}
-                <div className={styles.formOptions}>
-                  <label className={styles.rememberMe}>
-                    <input
-                      type="checkbox"
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
-                      className={styles.checkbox}
-                    />
-                    <span className={styles.rememberText}>Remember me</span>
-                  </label>
-
-                  <Link href="/contact" className={styles.forgotLink}>
-                    Forgot password?
-                  </Link>
-                </div>
-
-                {/* Submit Action Button */}
-                <button type="submit" disabled={isLoading} className={styles.submitBtn}>
-                  {isLoading ? (
-                    <>
-                      <Loader2 size={18} className="animate-spin" style={{ marginRight: "8px" }} />
-                      Authenticating...
-                    </>
-                  ) : (
-                    <>
-                      Sign In &amp; Access Portal
-                    </>
-                  )}
-                </button>
-
-                {/* Divider */}
-                <div className={styles.divider}>
-                  <div className={styles.dividerLine} />
-                  <span className={styles.dividerText}>Account Access</span>
-                  <div className={styles.dividerLine} />
-                </div>
-
-                {/* Bottom Actions */}
-                <div className={styles.footerActions}>
-                  <p className={styles.signupText}>
-                    Don't have a portal account?
-                    <Link href="/signup" className={styles.signupLink}>
-                      Create an account
-                    </Link>
-                  </p>
-
-                  <Link href="/admin/login" className={styles.adminLink}>
-                    Looking for Admin Portal Login? →
-                  </Link>
-                </div>
-              </form>
+          {/* Error Alert */}
+          {error && (
+            <div className={styles.errorBanner} role="alert">
+              <AlertCircle size={15} />
+              <span>{error}</span>
             </div>
+          )}
+
+          <form onSubmit={handleSubmit} className={styles.formGrid}>
+            {/* Email Field Group */}
+            <div className={styles.fieldGroup}>
+              <label className={styles.labelText}>Email or mobile phone number</label>
+              <input
+                type="email"
+                required
+                placeholder="name@company.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={styles.inputField}
+              />
+            </div>
+
+            {/* Password Field Group */}
+            <div className={styles.fieldGroup}>
+              <div className={styles.labelRow}>
+                <label className={styles.labelText}>Password</label>
+                <Link href="/contact" className={styles.forgotLink}>
+                  Forgot password?
+                </Link>
+              </div>
+              <div style={{ position: "relative", width: "100%" }}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={styles.inputField}
+                  style={{ paddingRight: "38px" }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className={styles.togglePasswordBtn}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
+            </div>
+
+            {/* Submit Action Button */}
+            <button type="submit" disabled={isLoading} className={styles.submitBtn}>
+              {isLoading ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" style={{ marginRight: "6px" }} />
+                  Signing in...
+                </>
+              ) : (
+                <span>Sign in</span>
+              )}
+            </button>
+
+            {/* Remember Me Checkbox */}
+            <label className={styles.rememberMe}>
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className={styles.checkbox}
+              />
+              <span className={styles.rememberText}>Keep me signed in</span>
+            </label>
+          </form>
+        </div>
+
+        {/* Create Account Divider & Button Directly Below Card */}
+        <div className={styles.createAccountWrapper}>
+          <div className={styles.divider}>
+            <span className={styles.dividerText}>New to Saudi Fab Store?</span>
+          </div>
+          <Link href="/signup" className={styles.createAccountBtn}>
+            Create your Saudi Fab account
+          </Link>
+          <div className={styles.adminPortalLinkRow}>
+            <Link href="/admin/login" className={styles.adminPortalLink}>
+              Looking for Admin Portal Login? →
+            </Link>
           </div>
         </div>
 
-        {/* Hero-Style Brand Title on Bottom */}
-        <div className={styles.heroBrandBottom}>
-          <h2 className={styles.heroBrandText}>Quality Excellence</h2>
-        </div>
-      </section>
+        {/* Auth Footer Right Below Container */}
+        <footer className={styles.authFooter}>
+          <div className={styles.authFooterLinks}>
+            <Link href="/contact">Conditions of Use</Link>
+            <Link href="/contact">Privacy Notice</Link>
+            <Link href="/contact">Help Center</Link>
+          </div>
+          <p className={styles.authFooterCopy}>
+            &copy; 2026, Saudi Fab Store, Inc. or its affiliates
+          </p>
+        </footer>
+      </div>
     </div>
   );
 }

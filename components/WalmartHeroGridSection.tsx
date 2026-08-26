@@ -14,43 +14,43 @@ export function WalmartHeroGridSection() {
         
         {/* Top Landscape Category Card: Forklift Attachments */}
         <div className={styles.leftTopCard}>
-          <div>
-            <h3 className={styles.cardTitleLight}>Forklift &amp; Material Handling</h3>
-            <Link href="/products?category=Forklift+Attachments" className={styles.cardSubLinkLight}>
-              Shop forklift gear &rsaquo;
+          <Image
+            src="/images/home/category_grid/forklift6.jpeg"
+            alt="Forklift Attachments"
+            fill
+            sizes="310px"
+            className={styles.cardBgImg}
+          />
+          <div className={styles.leftTopOverlay} />
+          <div className={styles.cardTextWrapperTop}>
+            <h3 className={styles.walmartCardTitleDark}>Forklift &amp; Material Handling</h3>
+            <Link href="/products?category=Forklift+Attachments" className={styles.walmartCardLinkDark}>
+              Shop forklift gear
             </Link>
           </div>
-          <Image
-            src="/uploads/3ea54b4f-1709-49b3-be9c-1b4302dc01e9.jpg"
-            alt="Forklift Attachments"
-            width={95}
-            height={95}
-            className={styles.leftTopImg}
-          />
         </div>
 
-        {/* Bottom Feature Category Card: Safety & PPE */}
+        {/* Bottom Feature Category Card: Safety Cabinets & Chemical Storage */}
         <div className={styles.leftBottomCard}>
-          <div>
-            <h3 className={styles.cardTitleDark}>Site Safety &amp; Crash Protection</h3>
-            <Link href="/products?category=Safety+Equipment" className={styles.cardSubLinkDark}>
-              Shop safety equipment &rsaquo;
-            </Link>
-          </div>
-
-          <div className={styles.leftBottomImgContainer}>
-            <Image
-              src="/uploads/5ae305c6-2e82-4e4d-9293-6231391b1f2b.png"
-              alt="Safety Equipment"
-              fill
-              className={styles.leftBottomImg}
-              sizes="200px"
-            />
-          </div>
-
-          <div>
-            <span className={styles.priceTagSub}>From</span>
-            <p className={styles.priceTagText}>150 SAR</p>
+          <Image
+            src="/images/home/category_grid/cabinet6.jpeg"
+            alt="Safety Cabinets"
+            fill
+            sizes="310px"
+            className={styles.cardBgImg}
+          />
+          <div className={styles.leftBottomOverlay} />
+          <div className={styles.cardTextWrapper}>
+            <div>
+              <h3 className={styles.walmartCardTitleDark}>Safety Cabinets &amp; Chemical Storage</h3>
+              <Link href="/products?category=Safety+%26+Chemical" className={styles.walmartCardLinkDark}>
+                Learn more
+              </Link>
+            </div>
+            <div className={styles.walmartPriceTag}>
+              <span className={styles.walmartPriceSubDark}>From</span>
+              <p className={styles.walmartPriceValueDark}>150 SAR</p>
+            </div>
           </div>
         </div>
 
@@ -61,26 +61,21 @@ export function WalmartHeroGridSection() {
         
         {/* Main Center Featured Category Hero Card: Warehouse & Logistics */}
         <div className={styles.centerHeroCard}>
-          <div className={styles.heroContentLeft}>
-            <span className={styles.heroEyebrow}>Featured Industrial Category</span>
-            <h2 className={styles.heroTitle}>Warehouse &amp; Heavy Logistics Systems</h2>
-            <Link href="/products?category=Warehouse+%26+Logistics" className={styles.heroShopPillBtn}>
+          <Image
+            src="/images/home/category_grid/warehouse6.jpeg"
+            alt="Warehouse Systems"
+            fill
+            sizes="900px"
+            className={styles.cardBgImg}
+          />
+          <div className={styles.centerHeroOverlay} />
+
+          <div className={styles.heroContentLeftWalmart}>
+            <span className={styles.heroEyebrowWalmart}>Featured Industrial Category</span>
+            <h2 className={styles.heroTitleWalmart}>Warehouse &amp; Heavy Logistics Systems</h2>
+            <Link href="/products?category=Warehouse+%26+Logistics" className={styles.heroShopPillBtnWalmart}>
               Explore Category
             </Link>
-          </div>
-
-          <div className={styles.heroRightImgContainer}>
-            <Image
-              src="/uploads/49dc8447-7b24-4eaf-b051-7700b2145207.png"
-              alt="Warehouse Systems"
-              fill
-              className={styles.heroRightImg}
-              sizes="220px"
-            />
-          </div>
-
-          <div className={styles.heroBadgeBottom}>
-            Top B2B Category
           </div>
         </div>
 
@@ -89,45 +84,51 @@ export function WalmartHeroGridSection() {
           
           {/* Card A: Hoisting & Lifting Equipment */}
           <div className={styles.centerBottomCardA}>
-            <div>
-              <h3 className={styles.cardTitleDark}>Hoisting &amp; Lifting Equipment</h3>
-              <Link href="/products?category=Lifting+Equipment" className={styles.cardSubLinkDark}>
-                Shop lifting gear &rsaquo;
-              </Link>
-            </div>
-
-            <div>
-              <span className={styles.priceTagSub}>From</span>
-              <p className={styles.priceTagText}>450 SAR</p>
-            </div>
-
             <Image
-              src="/uploads/1f68fdc3-06f4-4406-9001-92e3112c0a69.png"
+              src="/images/home/category_grid/hoisting6.jpeg"
               alt="Lifting Equipment"
-              width={110}
-              height={110}
-              className={styles.splitImgBox}
+              fill
+              sizes="450px"
+              className={styles.cardBgImg}
             />
+            <div className={styles.centerBottomAOverlay} />
+            <div className={styles.cardTextWrapper}>
+              <div>
+                <h3 className={styles.walmartCardTitleDark}>Hoisting &amp; Lifting Equipment</h3>
+                <Link href="/products?category=Lifting+Equipment" className={styles.walmartCardLinkDark}>
+                  Shop lifting gear
+                </Link>
+              </div>
+
+              <div className={styles.walmartPriceTag}>
+                <span className={styles.walmartPriceSubDark}>From</span>
+                <p className={styles.walmartPriceValueDark}>450 SAR</p>
+              </div>
+            </div>
           </div>
 
           {/* Card B: Hardware & Structural Steel */}
           <div className={styles.centerBottomCardB}>
-            <div>
-              <h3 className={styles.cardTitleDark}>Hardware &amp; Structural Steel</h3>
-              <Link href="/products?category=Hardware+%26+Piping" className={styles.cardSubLinkDark} style={{ color: '#111111' }}>
-                Shop hardware &rsaquo;
-              </Link>
-            </div>
-
-            <span className={styles.flashDealsPill}>Bestsellers</span>
-
             <Image
-              src="/uploads/1eecdedc-cd94-4183-ab5b-3010a00e0ef1.png"
+              src="/images/home/category_grid/hardware7.jpeg"
               alt="Hardware & Steel"
-              width={110}
-              height={110}
-              className={styles.splitImgBox}
+              fill
+              sizes="450px"
+              className={styles.cardBgImg}
             />
+            <div className={styles.centerBottomBOverlay} />
+            <div className={styles.cardTextWrapper}>
+              <div>
+                <h3 className={styles.walmartCardTitleDark}>Hardware &amp; Structural Steel</h3>
+                <Link href="/products?category=Hardware+%26+Piping" className={styles.walmartCardLinkDark}>
+                  Shop now
+                </Link>
+              </div>
+
+              <div className={styles.flashDealsLogoWalmart}>
+                Flash<br />Deals
+              </div>
+            </div>
           </div>
 
         </div>
@@ -137,62 +138,65 @@ export function WalmartHeroGridSection() {
       {/* 3. RIGHT COLUMN */}
       <div className={styles.rightCol}>
         
-        {/* Top Category Card: Safety Cabinets & Chemical */}
+        {/* Top Category Card: Site Safety & Crash Protection */}
         <div className={styles.rightCardTop}>
-          <div>
-            <h3 className={styles.cardTitleDark} style={{ fontSize: '18px' }}>Safety Cabinets &amp; Chemical Storage</h3>
-            <Link href="/products?category=Safety+%26+Chemical" className={styles.cardSubLinkDark}>
-              Browse cabinets &rsaquo;
+          <Image
+            src="/images/home/category_grid/safety6.jpeg"
+            alt="Site Safety Equipment"
+            fill
+            sizes="310px"
+            className={styles.cardBgImg}
+          />
+          <div className={styles.rightTopOverlay} />
+          <div className={styles.cardTextWrapperTop}>
+            <h3 className={styles.walmartCardTitleDark} style={{ fontSize: '18px' }}>Site Safety &amp; Crash Protection</h3>
+            <Link href="/products?category=Safety+Equipment" className={styles.walmartCardLinkDark}>
+              Shop now
             </Link>
           </div>
-          <Image
-            src="/uploads/3ea54b4f-1709-49b3-be9c-1b4302dc01e9.jpg"
-            alt="Safety Cabinets"
-            width={90}
-            height={90}
-            className={styles.miniRightImg}
-          />
         </div>
 
         {/* Middle Category Card: Euroboxes & Plastic Crates */}
         <div className={styles.rightCardMiddle}>
-          <div>
-            <h3 className={styles.cardTitleDark} style={{ fontSize: '18px', color: '#1e3a8a' }}>
+          <Image
+            src="/images/home/category_grid/eurocrate6.jpeg"
+            alt="Euroboxes"
+            fill
+            sizes="310px"
+            className={styles.cardBgImg}
+          />
+          <div className={styles.rightMiddleOverlay} />
+          <div className={styles.cardTextWrapperTop}>
+            <h3 className={styles.walmartCardTitleDark} style={{ fontSize: '18px' }}>
               Euroboxes &amp; Plastic Crates
             </h3>
-            <Link href="/products?category=Plastic+Crates" className={styles.cardSubLinkDark}>
-              Browse crates &rsaquo;
+            <Link href="/products?category=Plastic+Crates" className={styles.walmartCardLinkDark}>
+              Shop now
             </Link>
           </div>
           <div className={styles.badgeCircleGreen}>
             ISO 9001
           </div>
-          <Image
-            src="/uploads/5ae305c6-2e82-4e4d-9293-6231391b1f2b.png"
-            alt="Euroboxes"
-            width={90}
-            height={90}
-            className={styles.miniRightImg}
-          />
         </div>
 
         {/* Bottom Category Card: Industrial Workbenches */}
         <div className={styles.rightCardBottom}>
-          <div>
-            <h3 className={styles.cardTitleDark} style={{ fontSize: '18px' }}>
+          <Image
+            src="/images/home/category_grid/workbench6.jpeg"
+            alt="Workbenches"
+            fill
+            sizes="310px"
+            className={styles.cardBgImg}
+          />
+          <div className={styles.rightBottomOverlay} />
+          <div className={styles.cardTextWrapperTop}>
+            <h3 className={styles.walmartCardTitleDark} style={{ fontSize: '18px' }}>
               Industrial Workbenches &amp; Stations
             </h3>
-            <Link href="/products?category=Workbenches" className={styles.cardSubLinkDark}>
-              Browse workbenches &rsaquo;
+            <Link href="/products?category=Workbenches" className={styles.walmartCardLinkDark}>
+              Shop now
             </Link>
           </div>
-          <Image
-            src="/uploads/1f68fdc3-06f4-4406-9001-92e3112c0a69.png"
-            alt="Workbenches"
-            width={90}
-            height={90}
-            className={styles.miniRightImg}
-          />
         </div>
 
       </div>

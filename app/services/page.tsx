@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useRef } from "react";
 import Image from "next/image";
@@ -343,7 +343,7 @@ export default function ServicesPage() {
             <div className={styles.testingGraphics}>
               <div className={`${styles.tiltedPhoto} ${styles.photo1}`}>
                 <Image
-                  src="/images/home/category_grid/safety_3.jpeg"
+                  src="/images/home/category_grid/safety.jpeg"
                   alt="Industrial Testing 1"
                   fill
                   className={styles.benefitImg}
@@ -352,16 +352,15 @@ export default function ServicesPage() {
               </div>
               <div className={`${styles.tiltedPhoto} ${styles.photo2}`}>
                 <Image
-                  src="/images/home/category_grid/container_3.jpeg"
+                  src="/images/home/category_grid/warehouse.jpeg"
                   alt="Industrial Testing 2"
                   fill
                   className={styles.benefitImg}
-                  sizes="100px"
                 />
               </div>
               <div className={`${styles.tiltedPhoto} ${styles.photo3}`}>
                 <Image
-                  src="/images/home/category_grid/lifting_3.jpeg"
+                  src="/images/home/category_grid/industrial.jpeg"
                   alt="Industrial Testing 3"
                   fill
                   className={styles.benefitImg}

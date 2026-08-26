@@ -218,7 +218,7 @@ export function Navbar({}: NavbarProps) {
         <div className={styles.rightNavControls}>
           
           {/* Reorder / My Items */}
-          <Link href="/products?sort=popular" className={styles.navActionBox}>
+          <Link href="/reorder" className={styles.navActionBox} title="Reorder My Items">
             <Icon icon={ShoppingBagFavoriteIcon} size={20} className={styles.navActionIcon} />
             <div className={styles.actionTextStack}>
               <span className={styles.actionSubText}>Reorder</span>
@@ -238,7 +238,7 @@ export function Navbar({}: NavbarProps) {
           </Link>
 
           {/* Cart Icon & Total Price */}
-          <button type="button" onClick={openCart} className={styles.cartActionBtn} aria-label="Shopping Cart">
+          <Link href="/cart" className={styles.cartActionBtn} aria-label="Shopping Cart">
             <div className={styles.cartIconBadgeWrapper}>
               <Icon icon={ShoppingCart01Icon} size={24} className={styles.walmartCartIcon} />
               {cartItemCount > 0 && (
@@ -250,7 +250,7 @@ export function Navbar({}: NavbarProps) {
                 SAR {cartTotalPrice.toFixed(2)}
               </span>
             </div>
-          </button>
+          </Link>
 
         </div>
       </div>

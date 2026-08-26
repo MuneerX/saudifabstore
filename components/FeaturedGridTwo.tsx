@@ -17,14 +17,14 @@ const ITEMS: GridItem[] = [
   {
     id: "hardware-piping",
     title: "Hardware & Piping",
-    imageSrc: "/images/home/category_grid/pipe4.jpeg",
+    imageSrc: "/images/home/category_grid/hardware.jpeg",
     alt: "Hardware & Piping",
     href: "/products?category=Hardware%20%26%20Piping"
   },
   {
     id: "safety-chemical",
     title: "Safety & Chemical",
-    imageSrc: "/images/home/category_grid/chemical3.jpeg",
+    imageSrc: "/images/home/category_grid/safety.jpeg",
     alt: "Safety & Chemical",
     href: "/products?category=Safety%20%26%20Chemical"
   }

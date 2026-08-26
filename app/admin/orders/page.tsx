@@ -285,7 +285,7 @@ export default function OrdersPage() {
                       </div>
                     </td>
                     <td>{order.date}</td>
-                    <td>₹{order.amount.toFixed(2)}</td>
+                    <td>SAR {order.amount.toFixed(2)}</td>
                     <td>
                       <span className={`${styles.status} ${styles[order.status.toLowerCase()]}`}>
                           {order.status.charAt(0).toUpperCase() + order.status.slice(1)}

@@ -1,9 +1,9 @@
 .adminLayout {
   display: flex;
   min-height: 100vh;
-  background-color: #FAF9F5;
+  background-color: #FBF9F4;
   color: #111111;
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-archivo), 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .mainContent {
@@ -24,7 +24,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: #FAF9F5;
+  background: #FBF9F4;
 }
 
 .loadingSpinner {
@@ -38,7 +38,7 @@
   width: 36px;
   height: 36px;
   border: 3px solid #EBE7DF;
-  border-top: 3px solid #EA532B;
+  border-top: 3px solid #FEEC3C;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -52,5 +52,5 @@
   color: #6E6B64;
   font-size: 14px;
   font-weight: 500;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
 }

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { ChevronLeft, ChevronRight, Pause, Play, Zap, ShieldCheck, Truck } from 'lucide-react';
 import styles from './AmazonHero.module.css';
 import { ShaderGradient } from './ShaderGradient';
+import { INITIAL_PRODUCTS } from '@/lib/data/initialProducts';
 
 const HERO_SLIDES = [
   {
@@ -13,7 +14,8 @@ const HERO_SLIDES = [
     eyebrow: 'Get it in as fast as 1 hour*',
     title: 'Industrial & Steel Fabrication Essentials ASAP',
     sub: 'Certified ASTM A36 steel manufacturing, forklift attachments, self-dumping skips & SASO safety gear.',
-    slideImage: '/uploads/3ea54b4f-1709-49b3-be9c-1b4302dc01e9.jpg',
+    slideImage: '/images/home/category_grid/industrial8.jpeg',
+    objectPosition: 'center 82%',
     ctaText: 'Shop now',
     link: '/products',
   },
@@ -22,7 +24,8 @@ const HERO_SLIDES = [
     eyebrow: 'Same-Day KSA Dispatch*',
     title: 'Precision Heavy Equipment & Surface Prep Solutions',
     sub: 'SA 2.5 abrasive sandblasting, epoxy coatings & ProTorc bolt torquing equipment in Dammam.',
-    slideImage: '/uploads/1eecdedc-cd94-4183-ab5b-3010a00e0ef1.png',
+    slideImage: '/images/home/category_grid/precision8.jpeg',
+    objectPosition: 'center 80%',
     ctaText: 'Explore deals',
     link: '/products?sort=popular',
   },
@@ -31,7 +34,8 @@ const HERO_SLIDES = [
     eyebrow: 'Bulk Wholesale Discounts*',
     title: 'Warehouse Storage & Heavy Duty Skip Containers',
     sub: 'Engineered for high load durability & heavy industrial site logistics in Saudi Arabia.',
-    slideImage: '/uploads/49dc8447-7b24-4eaf-b051-7700b2145207.png',
+    slideImage: '/images/home/category_grid/logistics8.jpeg',
+    objectPosition: 'center 82%',
     ctaText: 'View catalog',
     link: '/products?category=Warehouse+%26+Logistics',
   },
@@ -76,9 +80,19 @@ export function AmazonHero({ children }: AmazonHeroProps) {
         
         {/* Walmart Light Sky-Blue Banner Slider */}
         <div className={styles.skyBlueHeroBanner}>
+          <Image
+            src={activeSlide.slideImage}
+            alt={activeSlide.title}
+            fill
+            priority
+            sizes="1200px"
+            className={styles.bannerBgImg}
+            style={{ objectPosition: activeSlide.objectPosition || 'center 100%' }}
+          />
+          <div className={styles.bannerBgOverlay} />
         
-        {/* Top Right Control Buttons: < || > */}
-        <div className={styles.topRightControls}>
+          {/* Top Right Control Buttons: < || > */}
+          <div className={styles.topRightControls}>
           <button 
             type="button" 
             onClick={prevSlide} 
@@ -120,34 +134,7 @@ export function AmazonHero({ children }: AmazonHeroProps) {
             </Link>
           </div>
 
-          {/* Right Column: Featured Slide Image Showcase Card */}
-          <div className={styles.rightPromoCol}>
-            
-            {/* Featured Product Image Showcase Card */}
-            <div className={styles.slideImageShowcaseCard}>
-              <Image 
-                src={activeSlide.slideImage} 
-                alt={activeSlide.title} 
-                width={200} 
-                height={160} 
-                className={styles.slideProductImg}
-              />
-            </div>
-
-            {/* Express Delivery Badge Pill - Commented out for later use */}
-            {/*
-            <div className={styles.expressDeliveryPill}>
-              <div className={styles.lightningIconBadge}>
-                <Zap size={18} fill="#0071dc" color="#0071dc" />
-              </div>
-              <div className={styles.expressTextGroup}>
-                <span className={styles.expressTitle}>Express Delivery</span>
-                <span className={styles.expressSub}>Direct to job site</span>
-              </div>
-            </div>
-            */}
-
-          </div>
+          {/* Right Column: Featured Slide Image Showcase Card (Hidden to show full background image) */}
 
         </div>
 
@@ -167,131 +154,107 @@ export function AmazonHero({ children }: AmazonHeroProps) {
 
 /* Standalone 4-Card Category Grid Component */
 export function AmazonCategoryGrid() {
+  // Dynamically filter products from catalog based on product features & badges
+  const newArrivals = INITIAL_PRODUCTS.filter(
+    (p) => p.badge === 'NEW' || p.badge === 'CERTIFIED' || p.badge === 'LIMITED' || p.isFeatured
+  ).slice(0, 4);
+
+  const popularBestsellers = INITIAL_PRODUCTS.filter(
+    (p) => p.badge === 'BESTSELLER' || p.badge === 'POPULAR' || p.rating >= 4.8
+  ).slice(0, 4);
+
+  const jibsLiftingCombo = INITIAL_PRODUCTS.filter(
+    (p) =>
+      p.category === 'Forklift Attachments' ||
+      p.name.includes('Jib') ||
+      p.name.includes('Hook') ||
+      p.name.includes('Hoisting') ||
+      p.name.includes('Platform')
+  ).slice(0, 4);
+
+  const skipsSpillsCombo = INITIAL_PRODUCTS.filter(
+    (p) =>
+      p.category === 'Warehouse & Logistics' ||
+      p.category === 'Safety Equipment' ||
+      p.category === 'Safety & Chemical' ||
+      p.name.includes('Skip') ||
+      p.name.includes('Spill') ||
+      p.name.includes('GRP') ||
+      p.name.includes('Bollard')
+  ).slice(0, 4);
+
   return (
     <div className={styles.gridOverlayContainer}>
       
-      {/* CARD 1: 2x2 Subgrid */}
+      {/* CARD 1: New Arrivals & Latest Products */}
       <div className={styles.walmartGridCard}>
-        <h3 className={styles.cardHeaderTitle}>Equipment for your facility | Up to 45% off</h3>
+        <h3 className={styles.cardHeaderTitle}>New Arrivals &amp; Latest Products</h3>
         <div className={styles.subGrid2x2}>
-          <Link href="/products/prod-1" className={styles.subGridItem}>
-            <div className={styles.subImgBox}>
-              <Image src="/uploads/3ea54b4f-1709-49b3-be9c-1b4302dc01e9.jpg" alt="Forklift Hooks" width={110} height={100} className={styles.subImg} />
-            </div>
-            <span className={styles.subItemLabel}>Forklift Hooks</span>
-          </Link>
+          {newArrivals.map((item) => (
+            <Link key={item._id} href={`/products/${item._id}`} className={styles.subGridItem}>
+              <div className={styles.subImgBoxProduct}>
+                <Image src={item.images[0]} alt={item.name} fill sizes="160px" className={styles.productContainImg} />
+              </div>
+              <span className={styles.subItemTextName}>{item.name}</span>
+            </Link>
+          ))}
+        </div>
+        <Link href="/products?sort=newest" className={styles.cardFooterLink}>
+          Explore new arrivals
+        </Link>
+      </div>
 
-          <Link href="/products/prod-2" className={styles.subGridItem}>
-            <div className={styles.subImgBox}>
-              <Image src="/uploads/e8ee6716-6e69-452c-be8e-3144204da037.png" alt="Double Hoists" width={110} height={100} className={styles.subImg} />
-            </div>
-            <span className={styles.subItemLabel}>Double Hoists</span>
-          </Link>
+      {/* CARD 2: Popular Bestsellers */}
+      <div className={styles.walmartGridCard}>
+        <h3 className={styles.cardHeaderTitle}>Popular Bestsellers</h3>
+        <div className={styles.subGrid2x2}>
+          {popularBestsellers.map((item) => (
+            <Link key={item._id} href={`/products/${item._id}`} className={styles.subGridItem}>
+              <div className={styles.subImgBoxProduct}>
+                <Image src={item.images[0]} alt={item.name} fill sizes="160px" className={styles.productContainImg} />
+              </div>
+              <span className={styles.subItemTextName}>{item.name}</span>
+            </Link>
+          ))}
+        </div>
+        <Link href="/products?badge=BESTSELLER" className={styles.cardFooterLink}>
+          Shop bestsellers
+        </Link>
+      </div>
 
-          <Link href="/products/prod-3" className={styles.subGridItem}>
-            <div className={styles.subImgBox}>
-              <Image src="/uploads/24cb699e-8ef3-42ad-bad6-fd80de609556.png" alt="Work Platforms" width={110} height={100} className={styles.subImg} />
-            </div>
-            <span className={styles.subItemLabel}>Work Platforms</span>
-          </Link>
-
-          <Link href="/products/prod-4" className={styles.subGridItem}>
-            <div className={styles.subImgBox}>
-              <Image src="/uploads/948c5187-5f11-4c45-9803-693baa5c22f2.png" alt="Telescopic Jibs" width={110} height={100} className={styles.subImg} />
-            </div>
-            <span className={styles.subItemLabel}>Telescopic Jibs</span>
-          </Link>
+      {/* CARD 3: Telescopic Jib Cranes & Lifting Combo */}
+      <div className={styles.walmartGridCard}>
+        <h3 className={styles.cardHeaderTitle}>Jibs &amp; Heavy Lifting Combo</h3>
+        <div className={styles.subGrid2x2}>
+          {jibsLiftingCombo.map((item) => (
+            <Link key={item._id} href={`/products/${item._id}`} className={styles.subGridItem}>
+              <div className={styles.subImgBoxProduct}>
+                <Image src={item.images[0]} alt={item.name} fill sizes="160px" className={styles.productContainImg} />
+              </div>
+              <span className={styles.subItemTextName}>{item.name}</span>
+            </Link>
+          ))}
         </div>
         <Link href="/products?category=Forklift+Attachments" className={styles.cardFooterLink}>
-          Shop all
+          Shop Jibs &amp; Lifting Gear
         </Link>
       </div>
 
-      {/* CARD 2: 2x2 Subgrid */}
+      {/* CARD 4: Skips, GRP & Spill Containment Combo */}
       <div className={styles.walmartGridCard}>
-        <h3 className={styles.cardHeaderTitle}>Deals on safety essentials | From SAR 89</h3>
+        <h3 className={styles.cardHeaderTitle}>Skips &amp; Spill Containment Combo</h3>
         <div className={styles.subGrid2x2}>
-          <Link href="/products/prod-7" className={styles.subGridItem}>
-            <div className={styles.subImgBox}>
-              <Image src="/images/home/category_grid/safety_3.jpeg" alt="Safety Bollards" width={110} height={100} className={styles.subImg} />
-            </div>
-            <span className={styles.subItemLabel}>Safety Bollards</span>
-          </Link>
-
-          <Link href="/products/prod-14" className={styles.subGridItem}>
-            <div className={styles.subImgBox}>
-              <Image src="/uploads/49dc8447-7b24-4eaf-b051-7700b2145207.png" alt="Spill Pallets" width={110} height={100} className={styles.subImg} />
-            </div>
-            <span className={styles.subItemLabel}>Spill Pallets</span>
-          </Link>
-
-          <Link href="/products/prod-11" className={styles.subGridItem}>
-            <div className={styles.subImgBox}>
-              <Image src="/uploads/058abd83-17f8-4fa1-950f-1681b2535ed3.png" alt="Eyewash Stations" width={110} height={100} className={styles.subImg} />
-            </div>
-            <span className={styles.subItemLabel}>Eyewash Stations</span>
-          </Link>
-
-          <Link href="/products/prod-13" className={styles.subGridItem}>
-            <div className={styles.subImgBox}>
-              <Image src="/uploads/0789f391-5211-4cca-a005-68636b78f3aa.jpeg" alt="Stair Nosing" width={110} height={100} className={styles.subImg} />
-            </div>
-            <span className={styles.subItemLabel}>Stair Nosing</span>
-          </Link>
+          {skipsSpillsCombo.map((item) => (
+            <Link key={item._id} href={`/products/${item._id}`} className={styles.subGridItem}>
+              <div className={styles.subImgBoxProduct}>
+                <Image src={item.images[0]} alt={item.name} fill sizes="160px" className={styles.productContainImg} />
+              </div>
+              <span className={styles.subItemTextName}>{item.name}</span>
+            </Link>
+          ))}
         </div>
-        <Link href="/products?category=Safety+Equipment" className={styles.cardFooterLink}>
-          Explore all
-        </Link>
-      </div>
-
-      {/* CARD 3: Single Feature Card */}
-      <div className={styles.walmartGridCard}>
-        <h3 className={styles.cardHeaderTitle}>Up to 60% off | Self-Dumping Skips &amp; Hoppers</h3>
-        <div className={styles.singleHeroCardContent}>
-          <div className={styles.singleImgFrame}>
-            <Image src="/uploads/1eecdedc-cd94-4183-ab5b-3010a00e0ef1.png" alt="Self Dumping Skip" width={220} height={180} className={styles.singleImg} />
-          </div>
-          <p className={styles.singleDescText}>Automatic self-dumping steel waste skip hopper for forklift material handling.</p>
-        </div>
-        <Link href="/products/prod-8" className={styles.cardFooterLink}>
-          Shop now
-        </Link>
-      </div>
-
-      {/* CARD 4: B2B Saudi Fab Business 2x2 */}
-      <div className={styles.walmartGridCard}>
-        <h3 className={styles.cardHeaderTitle}>Bulk order discounts + 10% Guaranteed cashback</h3>
-        <div className={styles.subGrid2x2}>
-          <Link href="/products/prod-6" className={styles.subGridItem}>
-            <div className={styles.subImgBox}>
-              <Image src="/uploads/b3030289-577c-47e1-aadc-3b49d74266c4.png" alt="Steel Pallets" width={110} height={100} className={styles.subImg} />
-            </div>
-            <span className={styles.subItemLabel}>Steel Pallets</span>
-          </Link>
-
-          <Link href="/products/prod-9" className={styles.subGridItem}>
-            <div className={styles.subImgBox}>
-              <Image src="/uploads/9e04c6cb-0f40-4191-b51d-ac83348863e4.png" alt="Workshop Trolleys" width={110} height={100} className={styles.subImg} />
-            </div>
-            <span className={styles.subItemLabel}>Workshop Trolleys</span>
-          </Link>
-
-          <Link href="/products/prod-12" className={styles.subGridItem}>
-            <div className={styles.subImgBox}>
-              <Image src="/uploads/ebf4945d-a426-4772-bd50-f897ed90ac8b.png" alt="Rig Clamps" width={110} height={100} className={styles.subImg} />
-            </div>
-            <span className={styles.subItemLabel}>Industrial Supplies</span>
-          </Link>
-
-          <Link href="/signup" className={styles.subGridItem}>
-            <div className={styles.subImgBox}>
-              <Image src="/images/logo.png" alt="Saudi Fab Business" width={110} height={100} className={styles.subImg} style={{ objectFit: 'contain' }} />
-            </div>
-            <span className={styles.subItemLabel}>Register B2B Account</span>
-          </Link>
-        </div>
-        <Link href="/signup" className={styles.cardFooterLink}>
-          Create a free account
+        <Link href="/products?category=Safety+%26+Chemical" className={styles.cardFooterLink}>
+          Explore Skips &amp; Safety Sumps
         </Link>
       </div>
 

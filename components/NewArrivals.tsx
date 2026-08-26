@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./NewArrivals.module.css"; // Import CSS module
 import { useProducts } from "@/lib/hooks/useProducts";
+import { sortProductsByNewAndLatest } from "@/lib/utils/badgeHelper";
 
 interface NewArrivalsProps {
   title?: string;
@@ -23,7 +24,8 @@ export function NewArrivals({ title }: NewArrivalsProps) {
 
   useEffect(() => {
     if (allProducts) {
-      setProducts(allProducts.slice(0, 4));
+      const newAndLatest = sortProductsByNewAndLatest(allProducts as any);
+      setProducts(newAndLatest.slice(0, 4) as any);
     }
   }, [allProducts]);
 

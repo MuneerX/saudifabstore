@@ -24,21 +24,33 @@ async function connectToDatabase() {
     return null;
   }
 
-  if (cached.conn) {
+  if (cached.conn && mongoose.connection.readyState === 1) {
     return cached.conn;
   }
 
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      serverSelectionTimeoutMS: 5000,
     };
 
     cached.promise = mongoose.connect(uri, opts).then((m) => {
+      console.log('Successfully connected to MongoDB Atlas database:', m.connection.name);
       return m;
+    }).catch((err) => {
+      console.warn('MongoDB Atlas connection failed (IP Whitelist check required in Atlas):', err.message);
+      cached.promise = null;
+      throw err;
     });
   }
-  cached.conn = await cached.promise;
-  return cached.conn;
+
+  try {
+    cached.conn = await cached.promise;
+    return cached.conn;
+  } catch (err) {
+    cached.promise = null;
+    return null;
+  }
 }
 
 export default connectToDatabase;

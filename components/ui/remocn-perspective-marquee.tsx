@@ -19,7 +19,7 @@ export interface PerspectiveMarqueeProps {
 }
 
 const FONT_FAMILY =
-  "var(--font-geist-sans), 'Host Grotesk', -apple-system, BlinkMacSystemFont, sans-serif";
+  "var(--font-geist-sans), 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif";
 
 const DEFAULT_ITEMS = [
   "Contracting Est.",

@@ -43,11 +43,11 @@ export async function GET(
     const fallbackProd = INITIAL_PRODUCTS.find(ip => ip._id === pObj._id || ip.name?.toLowerCase() === (pObj.name || '').toLowerCase());
     
     if (!pObj.images || pObj.images.length === 0) {
-      pObj.images = (fallbackProd && fallbackProd.images) ? fallbackProd.images : ["/images/home/category_grid/container_3.jpeg"];
+      pObj.images = (fallbackProd && fallbackProd.images) ? fallbackProd.images : ["/images/home/category_grid/warehouse.jpeg"];
     }
 
     if (!pObj.specImage) {
-      pObj.specImage = pObj.images[0] || "/images/home/services/steel2.jpeg";
+      pObj.specImage = "";
     }
 
     if (pObj.material === undefined || pObj.material === null) pObj.material = fallbackProd?.material || "";

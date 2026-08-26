@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Heart, ChevronLeft, ChevronRight, Star, Plus } from 'lucide-react';
 import styles from './WalmartPopularCarouselSection.module.css';
 import { useCartContext } from '@/components/CartContext';
+import { getDynamicBadge, calculateCatalogStats } from '@/lib/utils/badgeHelper';
 
 interface ProductItem {
   _id: string;
@@ -33,6 +34,7 @@ export function WalmartPopularCarouselSection({
   const trackRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useCartContext();
   const [wishlist, setWishlist] = useState<string[]>([]);
+  const catalogStats = calculateCatalogStats(products);
 
   const handleScrollLeft = () => {
     if (trackRef.current) {
@@ -71,46 +73,24 @@ export function WalmartPopularCarouselSection({
           <h2 className={styles.sectionTitle}>{title}</h2>
           <p className={styles.sectionSubhead}>{subhead}</p>
         </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <button
-            type="button"
-            className={styles.scrollNavBtn}
-            onClick={handleScrollLeft}
-            title="Previous Items"
-            aria-label="Previous Items"
-          >
-            <ChevronLeft size={20} />
-          </button>
-
-          <button
-            type="button"
-            className={styles.scrollNavBtn}
-            onClick={handleScrollRight}
-            title="Next Items"
-            aria-label="Next Items"
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
       </div>
 
-      {/* Carousel Track */}
-      <div ref={trackRef} className={styles.carouselTrack}>
+      {/* Carousel Track & Centered Side Scroll Arrows */}
+      <div className={styles.trackWrapper}>
+        <button
+          type="button"
+          className={`${styles.scrollNavBtn} ${styles.leftNavBtn}`}
+          onClick={handleScrollLeft}
+          title="Previous Items"
+          aria-label="Previous Items"
+        >
+          <ChevronLeft size={20} />
+        </button>
+
+        <div ref={trackRef} className={styles.carouselTrack}>
         {products.map((product, idx) => {
           const isWishlisted = wishlist.includes(product._id);
-          
-          // Curated ALL-CAPS badges
-          let badgeConfig: { text: string; styleClass: string } | null = null;
-          const rawBadge = (product.badge || "").toUpperCase().trim();
-          
-          if (rawBadge === "BESTSELLER" || rawBadge === "TOP SELLER" || rawBadge === "POPULAR" || idx % 3 === 0) {
-            badgeConfig = { text: "BEST SELLER", styleClass: styles.badgeBestSeller };
-          } else if (rawBadge === "NEW" || rawBadge === "NEW ARRIVAL" || idx % 4 === 0) {
-            badgeConfig = { text: "NEW", styleClass: styles.badgeNew };
-          } else if (rawBadge === "LIMITED" || rawBadge === "LIMITED STOCK" || idx % 5 === 0) {
-            badgeConfig = { text: "LIMITED STOCK", styleClass: styles.badgeLimited };
-          }
+          const badgeConfig = getDynamicBadge(product, styles, catalogStats);
 
           // Extract clean uppercase brand / model name
           const brandModelName = product.name.split(' ')[0] || 'SAUDI FAB';
@@ -163,10 +143,11 @@ export function WalmartPopularCarouselSection({
                     <span className={styles.bigPriceDigits}>
                       {product.price.toLocaleString()}
                     </span>
+                    <sup style={{ fontSize: "14px", fontWeight: "800", color: "#111111", top: "-0.4em" }}>.00</sup>
                   </div>
                 </div>
 
-                {/* Add / Options Pill Button & Wishlist Row */}
+                {/* Add / Options Button Row */}
                 <div className={styles.cardActionButtonsRow}>
                   {idx % 2 === 0 ? (
                     <button
@@ -176,37 +157,34 @@ export function WalmartPopularCarouselSection({
                       title="Add to cart"
                     >
                       <Plus size={15} />
-                      <span>Add</span>
+                      <span>Add to Cart</span>
                     </button>
                   ) : (
                     <Link 
                       href={`/products/${product._id}`} 
                       className={styles.optionsPillBtn}
+                      style={{ textDecoration: 'none' }}
                     >
                       <span>Options</span>
                     </Link>
                   )}
-
-                  <button
-                    type="button"
-                    className={styles.heartIconButton}
-                    onClick={(e) => toggleWishlist(product._id, e)}
-                    title="Add to wishlist"
-                    aria-label="Add to wishlist"
-                  >
-                    <Heart 
-                      size={18} 
-                      fill={isWishlisted ? "#cc0052" : "none"} 
-                      color={isWishlisted ? "#cc0052" : "#111111"} 
-                    />
-                  </button>
                 </div>
 
               </div>
-
             </div>
           );
         })}
+        </div>
+
+        <button
+          type="button"
+          className={`${styles.scrollNavBtn} ${styles.rightNavBtn}`}
+          onClick={handleScrollRight}
+          title="Next Items"
+          aria-label="Next Items"
+        >
+          <ChevronRight size={20} />
+        </button>
       </div>
 
     </section>

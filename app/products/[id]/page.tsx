@@ -22,7 +22,8 @@ import {
   Award,
   Building2,
   Lock,
-  CheckCircle2
+  CheckCircle2,
+  Check
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -35,6 +36,7 @@ import { CheckmarkSquare01Icon, ShoppingCart01Icon, DeliveryBox01Icon, Checkmark
 import { WalmartPopularCarouselSection } from "@/components/WalmartPopularCarouselSection";
 import { AboutTermsFooterSection } from "@/components/AboutTermsFooterSection";
 import { INITIAL_PRODUCTS } from "@/lib/data/initialProducts";
+import { getDynamicBadge, calculateCatalogStats } from "@/lib/utils/badgeHelper";
 
 export default function ProductDetailsPage() {
   const router = useRouter();
@@ -48,7 +50,6 @@ export default function ProductDetailsPage() {
 
   // Gallery state
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [isWishlisted, setIsWishlisted] = useState(false);
 
   // Variant Swatch state
   const [selectedSwatch, setSelectedSwatch] = useState<string>("single");
@@ -163,8 +164,9 @@ export default function ProductDetailsPage() {
   };
 
   const handleInstantCheckout = () => {
-    addToCart(product._id, 1, selectedSwatch === "single" ? "Single Pack" : "Bulk 5-Pack", "SASO Industrial Finish");
-    router.push("/checkout");
+    if (!product) return;
+    const swatch = selectedSwatch === "single" ? "Single Pack" : "Bulk 5-Pack";
+    router.push(`/checkout?instant=true&productId=${encodeURIComponent(product._id)}&qty=1&swatch=${encodeURIComponent(swatch)}&price=${currentPrice}`);
   };
 
   const basePrice = selectedSwatch === "single" ? product.price : product.price * 4.2;
@@ -241,14 +243,6 @@ export default function ProductDetailsPage() {
                     >
                       <Share2 size={18} />
                     </button>
-                    <button
-                      type="button"
-                      className={`${styles.circleActionBtn} ${isWishlisted ? styles.circleActionBtnActive : ""}`}
-                      title="Wishlist"
-                      onClick={() => setIsWishlisted(!isWishlisted)}
-                    >
-                      <Heart size={18} fill={isWishlisted ? "#e11d48" : "none"} color={isWishlisted ? "#e11d48" : "currentColor"} />
-                    </button>
                     <button type="button" className={styles.circleActionBtn} title="Zoom">
                       <ZoomIn size={18} />
                     </button>
@@ -272,10 +266,40 @@ export default function ProductDetailsPage() {
               {/* 2. MIDDLE COLUMN: WALMART STYLE PRODUCT DETAILS & HIGHLIGHTS */}
               <div className={styles.detailsCol}>
                 
-                {/* Walmart Top Badges Row */}
-                <div className={styles.topBadgesRow}>
-                  <span className={styles.darkBluePickBadge}>Popular pick</span>
-                </div>
+                {/* Walmart Top Badges Row (Displays official dynamic badge + custom admin promo badge side-by-side) */}
+                {(() => {
+                  const catalogStats = calculateCatalogStats(products || []);
+                  const dynamicBadge = getDynamicBadge(product, styles, catalogStats);
+                  const customBadgeText = (product.promoBadge || "").trim();
+
+                  const badgesToDisplay: string[] = [];
+
+                  if (dynamicBadge) {
+                    badgesToDisplay.push(dynamicBadge.text);
+                  }
+
+                  if (customBadgeText && (!dynamicBadge || customBadgeText.toUpperCase() !== dynamicBadge.text.toUpperCase())) {
+                    badgesToDisplay.push(customBadgeText.toUpperCase());
+                  }
+
+                  if (badgesToDisplay.length === 0) {
+                    badgesToDisplay.push("FACTORY DIRECT");
+                  }
+
+                  return (
+                    <div className={styles.topBadgesRow} style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                      {badgesToDisplay.map((txt, index) => (
+                        <span
+                          key={index}
+                          className={styles.darkBluePickBadge}
+                          style={index > 0 ? { backgroundColor: "#0284c7", color: "#ffffff" } : undefined}
+                        >
+                          {txt}
+                        </span>
+                      ))}
+                    </div>
+                  );
+                })()}
 
                 {/* Brand Link */}
                 <div>
@@ -321,76 +345,98 @@ export default function ProductDetailsPage() {
                   </div>
                 </div>
 
-                {/* Variant Pack Size Swatches */}
-                <div className={styles.swatchSection}>
-                  <div className={styles.swatchLabel}>Pack Size / Spec Option:</div>
-                  <div className={styles.swatchesGrid}>
-                    
-                    {/* Option 1: Single */}
-                    <div
-                      className={`${styles.swatchCard} ${selectedSwatch === "single" ? styles.activeSwatchCard : ""}`}
-                      onClick={() => setSelectedSwatch("single")}
-                    >
-                      <div className={styles.swatchName}>Single Standard</div>
-                      <div className={styles.swatchPrice} style={{ display: "inline-flex", alignItems: "center", gap: "2px" }}>
-                        <HugeiconsIcon icon={SaudiRiyalIcon} size={13} strokeWidth={2.0} /> {product.price?.toFixed(2)}
+                {/* Variant Pack Size Swatches (Only displayed for Multiple Option products) */}
+                {Boolean(product.hasMultipleOptions) && (
+                  <div className={styles.swatchSection}>
+                    <div className={styles.swatchLabel}>Pack Size / Spec Option:</div>
+                    <div className={styles.swatchesGrid}>
+                      
+                      {/* Option 1: Single */}
+                      <div
+                        className={`${styles.swatchCard} ${selectedSwatch === "single" ? styles.activeSwatchCard : ""}`}
+                        onClick={() => setSelectedSwatch("single")}
+                      >
+                        <div className={styles.swatchName}>{product.swatchSingleName || "Single Standard"}</div>
+                        <div className={styles.swatchPrice} style={{ display: "inline-flex", alignItems: "center", gap: "2px" }}>
+                          <HugeiconsIcon icon={SaudiRiyalIcon} size={13} strokeWidth={2.0} /> {product.price?.toFixed(2)}
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Option 2: 5 Pack */}
-                    <div
-                      className={`${styles.swatchCard} ${selectedSwatch === "bulk" ? styles.activeSwatchCard : ""}`}
-                      onClick={() => setSelectedSwatch("bulk")}
-                    >
-                      <div className={styles.swatchName}>5-Pack Contractors</div>
-                      <div className={styles.swatchPrice} style={{ display: "inline-flex", alignItems: "center", gap: "2px" }}>
-                        <HugeiconsIcon icon={SaudiRiyalIcon} size={13} strokeWidth={2.0} /> {(product.price * 4.2).toFixed(2)}
+                      {/* Option 2: 5 Pack */}
+                      <div
+                        className={`${styles.swatchCard} ${selectedSwatch === "bulk" ? styles.activeSwatchCard : ""}`}
+                        onClick={() => setSelectedSwatch("bulk")}
+                      >
+                        <div className={styles.swatchName}>{product.swatchBulkName || "5-Pack Contractors"}</div>
+                        <div className={styles.swatchPrice} style={{ display: "inline-flex", alignItems: "center", gap: "2px" }}>
+                          <HugeiconsIcon icon={SaudiRiyalIcon} size={13} strokeWidth={2.0} /> {(product.swatchBulkPrice || product.price * 4.2).toFixed(2)}
+                        </div>
+                        <div className={styles.swatchSubtext}>Save 15%</div>
                       </div>
-                      <div className={styles.swatchSubtext}>Save 15%</div>
-                    </div>
 
+                    </div>
                   </div>
-                </div>
+                )}
 
-                {/* Middle Column Product Details Description */}
+                {/* Middle Column Product Details Description & Feature Bullets */}
                 <div style={{ marginTop: "8px" }}>
                   <h4 style={{ fontSize: "15px", fontWeight: "800", color: "#0f172a", margin: "0 0 8px 0" }}>
                     Product Details &amp; Highlights
                   </h4>
 
-                  {/* Product Description with Read More Smooth Scroll to Bottom Product Details */}
-                  {(() => {
-                    const baseDesc = product?.description || `${product?.name} is engineered for professional industrial applications across Saudi Arabia, fully compliant with modern structural and safety standards.`;
-                    
-                    const highlightPoints = " Industrial grade manufacturing & SASO safety compliant. Commercial SA 2.5 protective abrasive grit blasted surface finish.";
-                    
-                    const fullDesc = baseDesc.length < 120 ? `${baseDesc}${highlightPoints}` : baseDesc;
-                    const shouldTruncate = fullDesc.length > 140;
-                    const displayedDesc = shouldTruncate ? `${fullDesc.slice(0, 140)}...` : fullDesc;
+                  {/* Description Paragraph */}
+                  <p style={{ fontSize: "13.5px", color: "#334155", lineHeight: "1.5", margin: "0 0 10px 0" }}>
+                    {product?.description || `${product?.name} is engineered for professional industrial applications across Saudi Arabia, fully compliant with modern structural and safety standards.`}
+                  </p>
 
-                    return (
-                      <p style={{ fontSize: "13.5px", color: "#334155", lineHeight: "1.6", margin: "0" }}>
-                        {displayedDesc}{" "}
-                        <button
-                          type="button"
-                          onClick={handleReadMoreClick}
-                          style={{
-                            background: "none",
-                            border: "none",
-                            color: "#0058a3",
-                            fontWeight: "700",
-                            fontSize: "13px",
-                            cursor: "pointer",
-                            padding: 0,
-                            textDecoration: "underline",
-                            marginLeft: "4px"
-                          }}
-                        >
-                          Read more
-                        </button>
-                      </p>
-                    );
-                  })()}
+                  {/* Bullet Points List (fills space left by options on Single Option products) */}
+                  {!product.hasMultipleOptions && (
+                    <ul style={{
+                      listStyle: "none",
+                      padding: 0,
+                      margin: "0 0 12px 0",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "7px"
+                    }}>
+                      <li style={{ display: "flex", alignItems: "flex-start", gap: "8px", fontSize: "13px", color: "#1e293b", fontWeight: "600", lineHeight: "1.3" }}>
+                        <Check size={15} style={{ color: "#0058a3", flexShrink: 0, marginTop: "1px" }} />
+                        <span>Industrial grade manufacturing &amp; SASO safety compliant</span>
+                      </li>
+                      <li style={{ display: "flex", alignItems: "flex-start", gap: "8px", fontSize: "13px", color: "#1e293b", fontWeight: "600", lineHeight: "1.3" }}>
+                        <Check size={15} style={{ color: "#0058a3", flexShrink: 0, marginTop: "1px" }} />
+                        <span>SA 2.5 protective abrasive grit blasted surface coating</span>
+                      </li>
+                      <li style={{ display: "flex", alignItems: "flex-start", gap: "8px", fontSize: "13px", color: "#1e293b", fontWeight: "600", lineHeight: "1.3" }}>
+                        <Check size={15} style={{ color: "#0058a3", flexShrink: 0, marginTop: "1px" }} />
+                        <span>100% Quality inspected with MTR mill test certificates</span>
+                      </li>
+                      <li style={{ display: "flex", alignItems: "flex-start", gap: "8px", fontSize: "13px", color: "#1e293b", fontWeight: "600", lineHeight: "1.3" }}>
+                        <Check size={15} style={{ color: "#0058a3", flexShrink: 0, marginTop: "1px" }} />
+                        <span>Direct factory workshop dispatch across KSA &amp; GCC</span>
+                      </li>
+                    </ul>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={handleReadMoreClick}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: "#0058a3",
+                      fontWeight: "700",
+                      fontSize: "13px",
+                      cursor: "pointer",
+                      padding: 0,
+                      textDecoration: "underline",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "2px"
+                    }}
+                  >
+                    <span>Read full technical specifications &rsaquo;</span>
+                  </button>
                 </div>
 
                 {/* 2-Row x 2-Column Brand Guarantees Grid (Direct Child of detailsCol for bottom alignment) */}
@@ -477,6 +523,18 @@ export default function ProductDetailsPage() {
                   </button>
                   {openAccordions["specs"] && (
                     <div className={styles.policyAccordionContent}>
+                      {/* Simple Left-Aligned Technical Diagram with Natural Image Height */}
+                      {Boolean(product.specImage && product.specImage.trim() !== '') && (
+                        <div className={styles.specDiagramImageWrapper}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={product.specImage}
+                            alt={`${product.name} Technical Specification Diagram`}
+                            className={styles.specDiagramImg}
+                          />
+                        </div>
+                      )}
+
                       <table className={styles.amazonTechTable}>
                         <tbody>
                           <tr>
@@ -733,55 +791,57 @@ export default function ProductDetailsPage() {
                   <span>Buy Now</span>
                 </button>
 
-                {/* Purchase Mode Radio Boxes */}
-                <div className={styles.purchaseOptionsContainer}>
-                  
-                  {/* Option 1: Subscribe & Save */}
-                  <div
-                    className={`${styles.optionRadioBox} ${purchaseMode === "subscribe" ? styles.selectedRadioBox : ""}`}
-                    onClick={() => setPurchaseMode("subscribe")}
-                  >
-                    <input
-                      type="radio"
-                      name="pMode"
-                      checked={purchaseMode === "subscribe"}
-                      onChange={() => setPurchaseMode("subscribe")}
-                      className={styles.radioInputDot}
-                    />
-                    <div className={styles.optionTextGroup}>
-                      <div className={styles.optionTitleRow}>
-                        <span className={styles.optionTitleText}>Contract Monthly Auto-Restock</span>
-                        <span className={styles.optionPriceText} style={{ display: "inline-flex", alignItems: "center", gap: "2px" }}>
-                          <HugeiconsIcon icon={SaudiRiyalIcon} size={12} strokeWidth={2.0} />{(basePrice * 0.9).toFixed(2)}
-                        </span>
-                      </div>
-                      <span className={styles.optionSubText}>Save 10% on recurring site supplies</span>
-                    </div>
-                  </div>
-
-                  {/* Option 2: One-time purchase */}
-                  <div
-                    className={`${styles.optionRadioBox} ${purchaseMode === "one-time" ? styles.selectedRadioBox : ""}`}
-                    onClick={() => setPurchaseMode("one-time")}
-                  >
-                    <input
-                      type="radio"
-                      name="pMode"
-                      checked={purchaseMode === "one-time"}
-                      onChange={() => setPurchaseMode("one-time")}
-                      className={styles.radioInputDot}
-                    />
-                    <div className={styles.optionTextGroup}>
-                      <div className={styles.optionTitleRow}>
-                        <span className={styles.optionTitleText}>One-time purchase</span>
-                        <span className={styles.optionPriceText} style={{ display: "inline-flex", alignItems: "center", gap: "2px" }}>
-                          <HugeiconsIcon icon={SaudiRiyalIcon} size={12} strokeWidth={2.0} />{basePrice.toFixed(2)}
-                        </span>
+                {/* Purchase Mode Radio Boxes (Only shown if subscription is enabled in product admin) */}
+                {product.enableSubscription !== false && (
+                  <div className={styles.purchaseOptionsContainer}>
+                    
+                    {/* Option 1: Subscribe & Save */}
+                    <div
+                      className={`${styles.optionRadioBox} ${purchaseMode === "subscribe" ? styles.selectedRadioBox : ""}`}
+                      onClick={() => setPurchaseMode("subscribe")}
+                    >
+                      <input
+                        type="radio"
+                        name="pMode"
+                        checked={purchaseMode === "subscribe"}
+                        onChange={() => setPurchaseMode("subscribe")}
+                        className={styles.radioInputDot}
+                      />
+                      <div className={styles.optionTextGroup}>
+                        <div className={styles.optionTitleRow}>
+                          <span className={styles.optionTitleText}>Contract Monthly Auto-Restock</span>
+                          <span className={styles.optionPriceText} style={{ display: "inline-flex", alignItems: "center", gap: "2px" }}>
+                            <HugeiconsIcon icon={SaudiRiyalIcon} size={12} strokeWidth={2.0} />{(basePrice * 0.9).toFixed(2)}
+                          </span>
+                        </div>
+                        <span className={styles.optionSubText}>Save {product.subscriptionDiscountPercent || 10}% on recurring site supplies</span>
                       </div>
                     </div>
-                  </div>
 
-                </div>
+                    {/* Option 2: One-time purchase */}
+                    <div
+                      className={`${styles.optionRadioBox} ${purchaseMode === "one-time" ? styles.selectedRadioBox : ""}`}
+                      onClick={() => setPurchaseMode("one-time")}
+                    >
+                      <input
+                        type="radio"
+                        name="pMode"
+                        checked={purchaseMode === "one-time"}
+                        onChange={() => setPurchaseMode("one-time")}
+                        className={styles.radioInputDot}
+                      />
+                      <div className={styles.optionTextGroup}>
+                        <div className={styles.optionTitleRow}>
+                          <span className={styles.optionTitleText}>One-time purchase</span>
+                          <span className={styles.optionPriceText} style={{ display: "inline-flex", alignItems: "center", gap: "2px" }}>
+                            <HugeiconsIcon icon={SaudiRiyalIcon} size={12} strokeWidth={2.0} />{basePrice.toFixed(2)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                )}
 
                 {/* Fulfillment Method Selector Cards */}
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>

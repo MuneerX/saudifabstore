@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
@@ -62,13 +62,13 @@ function PurchaseCompleteContent() {
         setLoading(true);
         const response = await fetch(`/api/orders/${orderId}`);
         if (!response.ok) {
-          throw new Error("Failed to load commercial order record.");
+          throw new Error("Failed to load order record.");
         }
         const orderData = await response.json();
         setOrder(orderData.order);
       } catch (err) {
         console.error("Failed to fetch order:", err);
-        setError("Failed to load commercial order details.");
+        setError("Failed to load order details.");
       } finally {
         setLoading(false);
       }
@@ -80,18 +80,18 @@ function PurchaseCompleteContent() {
   if (loading) {
     return (
       <div className={styles.pageWrapper}>
-        <Navbar hasBorder={true} isLight={true} />
+        <Navbar />
         <main className={styles.successSection}>
           <div className={styles.container}>
             <div className={styles.card}>
               <div className={styles.loadingBox}>
-                <Loader2 size={40} className="animate-spin" style={{ color: "#EA532B" }} />
-                <h2 className={styles.title}>Loading Order Settlement...</h2>
+                <Loader2 size={36} className="animate-spin" style={{ color: "#0058a3" }} />
+                <h2 className={styles.title}>Loading Order Confirmation...</h2>
               </div>
             </div>
           </div>
         </main>
-        <Footer noGradient={true} />
+        <Footer />
       </div>
     );
   }
@@ -99,17 +99,17 @@ function PurchaseCompleteContent() {
   if (error || !order) {
     return (
       <div className={styles.pageWrapper}>
-        <Navbar hasBorder={true} isLight={true} />
+        <Navbar />
         <main className={styles.successSection}>
           <div className={styles.container}>
             <div className={styles.card}>
               <div className={styles.errorIconWrapper}>
-                <AlertCircle size={40} />
+                <AlertCircle size={36} />
               </div>
               <div className={styles.headerBlock}>
                 <h1 className={styles.title}>Order Record Not Available</h1>
                 <p className={styles.subtitle}>
-                  {error || "We couldn't retrieve the specified order details. Please check your account history."}
+                  {error || "We couldn't retrieve the specified order details. Please check your profile order history."}
                 </p>
               </div>
               <div className={styles.actionsGroup}>
@@ -120,7 +120,7 @@ function PurchaseCompleteContent() {
             </div>
           </div>
         </main>
-        <Footer noGradient={true} />
+        <Footer />
       </div>
     );
   }
@@ -136,15 +136,15 @@ function PurchaseCompleteContent() {
 
   return (
     <div className={styles.pageWrapper}>
-      <Navbar hasBorder={true} isLight={true} />
+      <Navbar />
 
       <main className={styles.successSection}>
         <div className={styles.container}>
           {/* Breadcrumbs */}
-          <nav className={styles.breadcrumb}>
+          <nav className={styles.breadcrumb} aria-label="Breadcrumb">
             <Link href="/" className={styles.breadcrumbLink}>Home</Link>
             <ChevronRight size={14} />
-            <Link href="/checkout" className={styles.breadcrumbLink}>Checkout</Link>
+            <Link href="/cart" className={styles.breadcrumbLink}>Cart</Link>
             <ChevronRight size={14} />
             <span>Order Confirmed</span>
           </nav>
@@ -152,20 +152,20 @@ function PurchaseCompleteContent() {
           {/* Main Success Card */}
           <div className={styles.card}>
             <div className={styles.iconWrapper}>
-              <CheckCircle2 size={44} />
+              <CheckCircle2 size={36} />
             </div>
 
             <div className={styles.headerBlock}>
-              <h1 className={styles.title}>Order Confirmed &amp; Settlement Received!</h1>
+              <h1 className={styles.title}>Order Confirmed &amp; Received!</h1>
               <p className={styles.subtitle}>
-                Thank you for your commercial order with Saudi Fab Store. Your order has been registered in our dispatch network, and a copy of your commercial receipt has been generated.
+                Thank you for your order with Saudi Fab Store. Your order has been registered in our system and is being processed for dispatch.
               </p>
             </div>
 
             {/* Commercial Details Box */}
             <div className={styles.detailsBox}>
               <div className={styles.detailsHeader}>
-                <span>Order Reference Summary</span>
+                <span>Order Summary</span>
                 <span className={styles.statusBadge}>
                   {order.shippingStatus ? order.shippingStatus.toUpperCase() : "CONFIRMED"}
                 </span>
@@ -184,7 +184,7 @@ function PurchaseCompleteContent() {
 
                 <div className={styles.detailRow}>
                   <span className={styles.detailLabel}>Payment Method</span>
-                  <span className={styles.detailValue}>{order.paymentMethod || "Credit Card"}</span>
+                  <span className={styles.detailValue}>{order.paymentMethod || "Credit Card (Mada / Visa)"}</span>
                 </div>
 
                 <div className={styles.detailRow}>
@@ -205,32 +205,38 @@ function PurchaseCompleteContent() {
                 <div className={styles.itemsSection}>
                   <p className={styles.itemsSectionTitle}>Purchased Line Items ({itemsList.length})</p>
                   <div className={styles.itemsList}>
-                    {itemsList.map((item, idx) => (
-                      <div key={idx} className={styles.itemRow}>
-                        <div className={styles.itemLeft}>
-                          <Image
-                            src={item.product?.images?.[0] || "/images/login_bg.jpeg"}
-                            alt={item.product?.name || "Product"}
-                            width={44}
-                            height={44}
-                            className={styles.itemThumb}
-                            unoptimized
-                          />
-                          <div>
-                            <p className={styles.itemName}>{item.product?.name || "Industrial Item"}</p>
-                            <p className={styles.itemQty}>Qty: {item.quantity || 1} • Spec: {item.size || "Standard"}</p>
+                    {itemsList.map((item, idx) => {
+                      const itemName = item.product?.name || "Structural Steel Component";
+                      const itemImg = item.product?.images?.[0] || "/images/home/category_grid/warehouse.jpeg";
+                      const itemPriceVal = item.price || item.product?.price || 150;
+
+                      return (
+                        <div key={idx} className={styles.itemRow}>
+                          <div className={styles.itemLeft}>
+                            <Image
+                              src={itemImg}
+                              alt={itemName}
+                              width={48}
+                              height={48}
+                              className={styles.itemThumb}
+                              unoptimized
+                            />
+                            <div>
+                              <p className={styles.itemName}>{itemName}</p>
+                              <p className={styles.itemQty}>Qty: {item.quantity || 1} &bull; Spec: {item.size || "Standard Spec"}</p>
+                            </div>
                           </div>
+                          <span className={styles.itemPrice}>
+                            SAR {(itemPriceVal * (item.quantity || 1)).toFixed(2)}
+                          </span>
                         </div>
-                        <span className={styles.itemPrice}>
-                          ${((item.price || item.product?.price || 0) * (item.quantity || 1)).toFixed(2)}
-                        </span>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
 
                   <div className={styles.totalSummaryBar}>
-                    <span className={styles.totalSummaryLabel}>Total Settlement Paid</span>
-                    <span className={styles.totalSummaryValue}>${(order.totalPrice || 0).toFixed(2)}</span>
+                    <span className={styles.totalSummaryLabel}>Total Amount Paid</span>
+                    <span className={styles.totalSummaryValue}>SAR {(order.totalPrice || 0).toFixed(2)}</span>
                   </div>
                 </div>
               )}
@@ -238,26 +244,20 @@ function PurchaseCompleteContent() {
 
             {/* CTAs */}
             <div className={styles.actionsGroup}>
-              <button 
-                className={styles.primaryBtn} 
-                onClick={() => router.push("/products")}
-              >
+              <Link href="/products" className={styles.primaryBtn}>
                 <ShoppingBag size={18} />
-                Continue Shopping
-              </button>
+                <span>Continue Shopping</span>
+              </Link>
               
-              <button 
-                className={styles.secondaryBtn}
-                onClick={() => router.push("/profile")}
-              >
+              <Link href="/profile" className={styles.secondaryBtn}>
                 <FileText size={18} />
-                View Order History
-              </button>
+                <span>View Order History</span>
+              </Link>
             </div>
 
             {/* Direct Support Info */}
             <div className={styles.supportBox}>
-              <p className={styles.supportTitle}>Need dispatch assistance or drawing modifications for your order?</p>
+              <p className={styles.supportTitle}>Need assistance or drawing modifications for your order?</p>
               <div className={styles.supportChannels}>
                 <a href="mailto:info@saudifabstore.com" className={styles.supportChannel}>
                   <Mail size={15} />
@@ -277,7 +277,7 @@ function PurchaseCompleteContent() {
         </div>
       </main>
 
-      <Footer noGradient={true} />
+      <Footer />
     </div>
   );
 }
@@ -287,18 +287,18 @@ export default function PurchaseCompletePage() {
     <Suspense
       fallback={
         <div className={styles.pageWrapper}>
-          <Navbar hasBorder={true} isLight={true} />
+          <Navbar />
           <main className={styles.successSection}>
             <div className={styles.container}>
               <div className={styles.card}>
                 <div className={styles.loadingBox}>
-                  <Loader2 size={40} className="animate-spin" style={{ color: "#EA532B" }} />
+                  <Loader2 size={36} className="animate-spin" style={{ color: "#0058a3" }} />
                   <h2 className={styles.title}>Loading...</h2>
                 </div>
               </div>
             </div>
           </main>
-          <Footer noGradient={true} />
+          <Footer />
         </div>
       }
     >

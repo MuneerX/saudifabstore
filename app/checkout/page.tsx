@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { ShieldCheck, Truck, CreditCard, Lock, ArrowRight, AlertCircle, Loader2, CheckCircle2, ChevronRight } from "lucide-react";
+import { ShieldCheck, Truck, CreditCard, Lock, ArrowRight, AlertCircle, Loader2, CheckCircle2, ChevronRight, ArrowLeft } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ShopMarquee } from "@/components/ShopMarquee";
 import { useCart } from "@/lib/hooks/useCart";
+import { INITIAL_PRODUCTS } from "@/lib/data/initialProducts";
 import styles from "./page.module.css";
 
 interface CartItemProduct {
@@ -30,7 +30,7 @@ interface Cart {
   items: CartItem[];
 }
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const { cart, loading, clearCart } = useCart() as {
     cart: Cart | null;
     loading: boolean;
@@ -86,38 +86,71 @@ export default function CheckoutPage() {
     setPromoError("");
     const cleanCode = promoCode.trim().toUpperCase();
 
-    if (cleanCode === "saudifabstore10" || cleanCode === "WELCOME10") {
+    if (cleanCode === "FAB10" || cleanCode === "WELCOME10") {
       setDiscountAmount(0.1); // 10% off
       setPromoApplied(true);
-    } else if (cleanCode === "saudifabstore20") {
+    } else if (cleanCode === "FAB20") {
       setDiscountAmount(0.2); // 20% off
       setPromoApplied(true);
     } else {
-      setPromoError("Invalid promo code. Try 'saudifabstore10'.");
+      setPromoError("Invalid promo code. Try 'FAB10'.");
     }
   };
 
-  const handleSubmitOrder = async (e: React.FormEvent) => {
+  const searchParams = useSearchParams();
+  const isInstant = searchParams.get("instant") === "true";
+  const instantProductId = searchParams.get("productId");
+  const instantQty = parseInt(searchParams.get("qty") || "1", 10);
+  const instantSwatch = searchParams.get("swatch") || "Single Pack";
+  const instantPriceParam = parseFloat(searchParams.get("price") || "0");
+
+  const [instantProduct, setInstantProduct] = useState<any>(null);
+
+  useEffect(() => {
+    if (isInstant && instantProductId) {
+      const match = INITIAL_PRODUCTS.find(p => p._id === instantProductId || p.name === instantProductId);
+      if (match) {
+        setInstantProduct(match);
+      } else {
+        fetch(`/api/products/${instantProductId}`)
+          .then(res => res.json())
+          .then(data => { if (data.product) setInstantProduct(data.product); })
+          .catch(() => {});
+      }
+    }
+  }, [isInstant, instantProductId]);
+
+  const activeCheckoutItems: CartItem[] = isInstant && instantProductId
+    ? [
+        {
+          product: {
+            _id: instantProductId,
+            name: instantProduct?.name || "Structural Steel Component",
+            price: instantPriceParam || instantProduct?.price || 150,
+            images: instantProduct?.images || ["/images/home/category_grid/warehouse.jpeg"],
+          },
+          quantity: instantQty,
+          size: instantSwatch,
+          color: "SASO Industrial Finish"
+        }
+      ]
+    : (cart?.items || []);
+
+  const handleCheckoutSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorBanner("");
-
-    if (!formData.firstName || !formData.email || !formData.address || !formData.city) {
-      setErrorBanner("Please fill out all required shipping fields.");
+    if (activeCheckoutItems.length === 0) {
+      setErrorBanner("No items selected for settlement.");
       return;
     }
-
-    if (paymentMethod === "card" && (!formData.cardNumber || !formData.expiryDate || !formData.cvv)) {
-      setErrorBanner("Please fill out all required card details.");
-      return;
-    }
-
-    setIsProcessing(true);
 
     try {
+      setIsProcessing(true);
+      setErrorBanner("");
+
       const shippingAddress = {
-        name: `${formData.firstName} ${formData.lastName}`.trim(),
-        email: formData.email,
-        phone: formData.phone,
+        name: `${formData.firstName} ${formData.lastName}`.trim() || session?.user?.name || "Customer",
+        email: formData.email || session?.user?.email || "customer@example.com",
+        phone: formData.phone || "0500000000",
         address: formData.address,
         city: formData.city,
         postalCode: formData.zipCode || "31952",
@@ -128,12 +161,10 @@ export default function CheckoutPage() {
         ? "Credit Card (Mada / Visa)" 
         : "Corporate Purchase Order Invoice";
 
-      // Formulate items for backend submission
-      const activeCartItems = cart?.items || [];
-      const orderItemsPayload = activeCartItems.map(item => ({
+      const orderItemsPayload = activeCheckoutItems.map(item => ({
         product: item.product?._id || item.product,
         quantity: item.quantity,
-        price: item.product?.price || 10,
+        price: item.product?.price || 150,
       }));
 
       const orderPayload = {
@@ -159,11 +190,9 @@ export default function CheckoutPage() {
       }
 
       const result = await response.json();
-
-      // Clear cart
-      clearCart();
-
-      // Redirect to purchase complete screen
+      if (!isInstant) {
+        clearCart();
+      }
       const createdOrderId = result.order?._id || result.order?.id || result.order;
       router.push(`/purchase-complete?orderId=${createdOrderId}`);
     } catch (err: any) {
@@ -174,36 +203,33 @@ export default function CheckoutPage() {
     }
   };
 
-  // Force redirect to login if unauthenticated
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login?callbackUrl=/checkout");
     }
   }, [status, router]);
 
-  // Calculate totals
-  const cartItemsList = cart?.items || [];
+  // Calculate totals in SAR
+  const cartItemsList = activeCheckoutItems;
   const subtotal = cartItemsList.reduce(
     (sum, item) => sum + (item.product?.price || 0) * item.quantity,
     0
   );
 
-  const shippingCost = shippingMethod === "express" ? 45 : (subtotal > 200 ? 0 : 15);
+  const shippingCost = shippingMethod === "express" ? 45 : (subtotal > 500 ? 0 : 25);
   const discountValue = subtotal * discountAmount;
-  const taxAmount = (subtotal - discountValue) * 0.1;
+  const taxAmount = (subtotal - discountValue) * 0.15; // 15% KSA VAT
   const netTotal = subtotal - discountValue + shippingCost + taxAmount;
 
   if (status === "loading" || loading) {
     return (
       <div className={styles.pageWrapper}>
-        <Navbar hasBorder={true} isLight={true} />
+        <Navbar />
         <main className={styles.checkoutSection}>
           <div className={styles.checkoutContainer}>
             <div className={styles.mainGrid}>
               <div className={styles.checkoutCard}>
-                <div className={styles.skeletonTitle}></div>
-                <div className={styles.skeletonInput}></div>
-                <div className={styles.skeletonInput}></div>
+                <p>Loading checkout...</p>
               </div>
             </div>
           </div>
@@ -216,14 +242,14 @@ export default function CheckoutPage() {
   if (status === "unauthenticated") {
     return (
       <div className={styles.pageWrapper}>
-        <Navbar hasBorder={true} isLight={true} />
+        <Navbar />
         <main className={styles.checkoutSection}>
           <div className={styles.checkoutContainer}>
             <div className={styles.checkoutCard} style={{ textAlign: "center", alignItems: "center", padding: "60px 24px" }}>
-              <Lock size={44} style={{ color: "#EA532B", marginBottom: "12px" }} />
+              <Lock size={40} style={{ color: "#0058a3", marginBottom: "12px" }} />
               <h2 className={styles.sectionTitle} style={{ fontSize: "22px", marginBottom: "8px" }}>Sign In Required for Checkout</h2>
-              <p className={styles.pageSubtitle} style={{ maxWidth: "460px", marginBottom: "20px" }}>
-                Please log in to your account or register to proceed with commercial order settlement and dispatch.
+              <p className={styles.pageSubtitle} style={{ maxWidth: "460px", marginBottom: "24px" }}>
+                Please log in to your account to complete your commercial order settlement.
               </p>
               <Link href="/login?callbackUrl=/checkout" className={styles.submitBtn} style={{ maxWidth: "260px", textDecoration: "none" }}>
                 Sign In to Proceed
@@ -238,14 +264,13 @@ export default function CheckoutPage() {
 
   return (
     <div className={styles.pageWrapper}>
-      {/* Light Navbar matching page theme */}
-      <Navbar hasBorder={true} isLight={true} showMarquee={true} />
+      <Navbar />
 
       <main className={styles.checkoutSection}>
         <div className={styles.checkoutContainer}>
           {/* Header Section */}
           <div className={styles.headerSection}>
-            <nav className={styles.breadcrumb}>
+            <nav className={styles.breadcrumb} aria-label="Breadcrumb">
               <Link href="/" className={styles.breadcrumbLink}>Home</Link>
               <ChevronRight size={14} />
               <Link href="/cart" className={styles.breadcrumbLink}>Cart</Link>
@@ -253,15 +278,15 @@ export default function CheckoutPage() {
               <span>Checkout</span>
             </nav>
 
-            <h1 className={styles.pageTitle}>Secure Commercial Checkout</h1>
+            <h1 className={styles.pageTitle}>Secure Checkout</h1>
             <p className={styles.pageSubtitle}>
-              Finalize your industrial procurement, select dispatch logistics, and complete secure payment settlement.
+              Finalize your shipping destination and payment settlement.
             </p>
           </div>
 
           {/* Form and Summary Grid */}
           <div className={styles.mainGrid}>
-            {/* Left Column: Form Details */}
+            {/* Left Column: Shipping & Payment Form */}
             <div className={styles.checkoutCard}>
               {errorBanner && (
                 <div className={styles.errorBanner} role="alert">
@@ -270,7 +295,7 @@ export default function CheckoutPage() {
                 </div>
               )}
 
-              <form onSubmit={handleSubmitOrder} className={styles.formGrid}>
+              <form onSubmit={handleCheckoutSubmit} className={styles.formGrid}>
                 {/* Step 1: Shipping Details */}
                 <div className={styles.sectionBlock}>
                   <div className={styles.sectionHeader}>
@@ -280,15 +305,12 @@ export default function CheckoutPage() {
 
                   <div className={styles.formRow}>
                     <div className={styles.fieldGroup}>
-                      <div className={styles.labelRow}>
-                        <span className={styles.labelText}>First Name *</span>
-                        <span className={styles.dashedConnector} />
-                      </div>
+                      <span className={styles.labelText}>First Name *</span>
                       <input
                         type="text"
                         name="firstName"
                         required
-                        placeholder="John"
+                        placeholder="First Name"
                         value={formData.firstName}
                         onChange={handleInputChange}
                         className={styles.inputField}
@@ -296,15 +318,12 @@ export default function CheckoutPage() {
                     </div>
 
                     <div className={styles.fieldGroup}>
-                      <div className={styles.labelRow}>
-                        <span className={styles.labelText}>Last Name *</span>
-                        <span className={styles.dashedConnector} />
-                      </div>
+                      <span className={styles.labelText}>Last Name *</span>
                       <input
                         type="text"
                         name="lastName"
                         required
-                        placeholder="Doe"
+                        placeholder="Last Name"
                         value={formData.lastName}
                         onChange={handleInputChange}
                         className={styles.inputField}
@@ -314,10 +333,7 @@ export default function CheckoutPage() {
 
                   <div className={styles.formRow}>
                     <div className={styles.fieldGroup}>
-                      <div className={styles.labelRow}>
-                        <span className={styles.labelText}>Work Email Address *</span>
-                        <span className={styles.dashedConnector} />
-                      </div>
+                      <span className={styles.labelText}>Email Address *</span>
                       <input
                         type="email"
                         name="email"
@@ -330,10 +346,7 @@ export default function CheckoutPage() {
                     </div>
 
                     <div className={styles.fieldGroup}>
-                      <div className={styles.labelRow}>
-                        <span className={styles.labelText}>Contact Phone</span>
-                        <span className={styles.dashedConnector} />
-                      </div>
+                      <span className={styles.labelText}>Phone Number</span>
                       <input
                         type="tel"
                         name="phone"
@@ -346,10 +359,7 @@ export default function CheckoutPage() {
                   </div>
 
                   <div className={styles.fieldGroup}>
-                    <div className={styles.labelRow}>
-                      <span className={styles.labelText}>Facility Address *</span>
-                      <span className={styles.dashedConnector} />
-                    </div>
+                    <span className={styles.labelText}>Facility / Street Address *</span>
                     <input
                       type="text"
                       name="address"
@@ -363,10 +373,7 @@ export default function CheckoutPage() {
 
                   <div className={styles.formRow}>
                     <div className={styles.fieldGroup}>
-                      <div className={styles.labelRow}>
-                        <span className={styles.labelText}>City / Region *</span>
-                        <span className={styles.dashedConnector} />
-                      </div>
+                      <span className={styles.labelText}>City / Region *</span>
                       <input
                         type="text"
                         name="city"
@@ -379,10 +386,7 @@ export default function CheckoutPage() {
                     </div>
 
                     <div className={styles.fieldGroup}>
-                      <div className={styles.labelRow}>
-                        <span className={styles.labelText}>Postal / ZIP Code</span>
-                        <span className={styles.dashedConnector} />
-                      </div>
+                      <span className={styles.labelText}>Postal Code</span>
                       <input
                         type="text"
                         name="zipCode"
@@ -395,11 +399,11 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
-                {/* Step 2: Shipping Options */}
+                {/* Step 2: Shipping Method */}
                 <div className={styles.sectionBlock}>
                   <div className={styles.sectionHeader}>
                     <span className={styles.sectionBadge}>2</span>
-                    <h2 className={styles.sectionTitle}>Logistics Dispatch Method</h2>
+                    <h2 className={styles.sectionTitle}>Logistics Dispatch</h2>
                   </div>
 
                   <div className={styles.shippingOptions}>
@@ -416,37 +420,14 @@ export default function CheckoutPage() {
                           className={styles.radioInput}
                         />
                         <div>
-                          <p className={styles.shippingTitle}>Standard Commercial Freight</p>
-                          <p className={styles.shippingSub}>Dispatched in 2-4 business days via regional fleet</p>
+                          <p className={styles.shippingTitle}>Standard Regional Transport</p>
+                          <p className={styles.shippingSub}>Dispatched in 2-3 business days</p>
                         </div>
                       </div>
                       <span className={styles.shippingPrice}>
-                        {subtotal > 200 ? "FREE" : "$15.00"}
+                        {subtotal > 500 ? "FREE" : "SAR 25.00"}
                       </span>
                     </label>
-
-                    {/* Express Priority Dispatch Option - Commented out for later use */}
-                    {/*
-                    <label 
-                      className={`${styles.shippingOption} ${shippingMethod === "express" ? styles.shippingOptionSelected : ""}`}
-                      onClick={() => setShippingMethod("express")}
-                    >
-                      <div className={styles.shippingInfo}>
-                        <input
-                          type="radio"
-                          name="shippingMethodOption"
-                          checked={shippingMethod === "express"}
-                          onChange={() => setShippingMethod("express")}
-                          className={styles.radioInput}
-                        />
-                        <div>
-                          <p className={styles.shippingTitle}>Express Priority Dispatch</p>
-                          <p className={styles.shippingSub}>Dedicated direct vehicle transport within 24 hours</p>
-                        </div>
-                      </div>
-                      <span className={styles.shippingPrice}>$45.00</span>
-                    </label>
-                    */}
                   </div>
                 </div>
 
@@ -454,7 +435,7 @@ export default function CheckoutPage() {
                 <div className={styles.sectionBlock}>
                   <div className={styles.sectionHeader}>
                     <span className={styles.sectionBadge}>3</span>
-                    <h2 className={styles.sectionTitle}>Payment &amp; Financial Settlement</h2>
+                    <h2 className={styles.sectionTitle}>Payment Method</h2>
                   </div>
 
                   <div className={styles.paymentTabs}>
@@ -463,7 +444,7 @@ export default function CheckoutPage() {
                       className={`${styles.paymentTab} ${paymentMethod === "card" ? styles.paymentTabActive : ""}`}
                       onClick={() => setPaymentMethod("card")}
                     >
-                      <CreditCard size={18} />
+                      <CreditCard size={16} />
                       Card / Mada Payment
                     </button>
                     <button
@@ -471,18 +452,15 @@ export default function CheckoutPage() {
                       className={`${styles.paymentTab} ${paymentMethod === "invoice" ? styles.paymentTabActive : ""}`}
                       onClick={() => setPaymentMethod("invoice")}
                     >
-                      <Truck size={18} />
-                      B2B Corporate Invoice
+                      <Truck size={16} />
+                      Corporate B2B Invoice
                     </button>
                   </div>
 
                   {paymentMethod === "card" ? (
                     <div className={styles.formGrid}>
                       <div className={styles.fieldGroup}>
-                        <div className={styles.labelRow}>
-                          <span className={styles.labelText}>Card Number *</span>
-                          <span className={styles.dashedConnector} />
-                        </div>
+                        <span className={styles.labelText}>Card Number *</span>
                         <input
                           type="text"
                           name="cardNumber"
@@ -496,10 +474,7 @@ export default function CheckoutPage() {
 
                       <div className={styles.formRow}>
                         <div className={styles.fieldGroup}>
-                          <div className={styles.labelRow}>
-                            <span className={styles.labelText}>Expiry Date *</span>
-                            <span className={styles.dashedConnector} />
-                          </div>
+                          <span className={styles.labelText}>Expiry Date *</span>
                           <input
                             type="text"
                             name="expiryDate"
@@ -512,10 +487,7 @@ export default function CheckoutPage() {
                         </div>
 
                         <div className={styles.fieldGroup}>
-                          <div className={styles.labelRow}>
-                            <span className={styles.labelText}>CVV / CVC *</span>
-                            <span className={styles.dashedConnector} />
-                          </div>
+                          <span className={styles.labelText}>CVV / CVC *</span>
                           <input
                             type="text"
                             name="cvv"
@@ -529,9 +501,9 @@ export default function CheckoutPage() {
                       </div>
                     </div>
                   ) : (
-                    <div className={styles.errorBanner} style={{ backgroundColor: "#FAF9F5", borderColor: "#EBE7DF", color: "#54514A" }}>
-                      <CheckCircle2 size={18} style={{ color: "#EA532B" }} />
-                      <span>Corporate Invoice terms selected. An electronic pro-forma invoice will be dispatched to your work email for NET-30 payment processing.</span>
+                    <div className={styles.errorBanner} style={{ backgroundColor: "#f8fafc", borderColor: "#e2e8f0", color: "#475569" }}>
+                      <CheckCircle2 size={18} style={{ color: "#16a34a" }} />
+                      <span>Corporate Invoice selected. A pro-forma invoice will be dispatched for NET-30 payment processing.</span>
                     </div>
                   )}
                 </div>
@@ -544,11 +516,11 @@ export default function CheckoutPage() {
                   {isProcessing ? (
                     <>
                       <Loader2 size={18} className="animate-spin" />
-                      Processing Commercial Order...
+                      Processing Order...
                     </>
                   ) : (
                     <>
-                      Confirm &amp; Complete Order (${netTotal.toFixed(2)})
+                      <span>Complete Order (SAR {netTotal.toFixed(2)})</span>
                       <ArrowRight size={18} />
                     </>
                   )}
@@ -565,36 +537,36 @@ export default function CheckoutPage() {
 
               <div className={styles.itemList}>
                 {cartItemsList.length === 0 ? (
-                  <p style={{ color: "#8C887E", fontSize: "14px", margin: "20px 0" }}>Your cart is empty.</p>
+                  <p style={{ color: "#64748b", fontSize: "14px", margin: "16px 0" }}>Your cart is empty.</p>
                 ) : (
                   cartItemsList.map((item, idx) => (
                     <div key={idx} className={styles.itemRow}>
                       <Image
-                        src={item.product?.images?.[0] || "/images/login_bg.jpeg"}
+                        src={item.product?.images?.[0] || "/images/home/category_grid/warehouse.jpeg"}
                         alt={item.product?.name || "Product"}
-                        width={64}
-                        height={64}
+                        width={56}
+                        height={56}
                         className={styles.itemThumb}
                         unoptimized
                       />
                       <div className={styles.itemDetails}>
                         <h3 className={styles.itemName}>{item.product?.name}</h3>
-                        <p className={styles.itemSpecs}>Spec: {item.size || "Standard"} • {item.color || "Base"}</p>
+                        <p className={styles.itemSpecs}>{item.size || "Standard Spec"}</p>
                         <p className={styles.itemQty}>Qty: {item.quantity}</p>
                       </div>
                       <div className={styles.itemPrice}>
-                        ${((item.product?.price || 0) * item.quantity).toFixed(2)}
+                        SAR {((item.product?.price || 0) * item.quantity).toFixed(2)}
                       </div>
                     </div>
                   ))
                 )}
               </div>
 
-              {/* Promo Code Form */}
+              {/* Promo Code Input */}
               <form onSubmit={handleApplyPromo} className={styles.promoBlock}>
                 <input
                   type="text"
-                  placeholder="Promo code (e.g. saudifabstore10)"
+                  placeholder="Promo code (e.g. FAB10)"
                   value={promoCode}
                   onChange={(e) => setPromoCode(e.target.value)}
                   className={styles.promoInput}
@@ -605,59 +577,59 @@ export default function CheckoutPage() {
               </form>
 
               {promoApplied && (
-                <p style={{ color: "#10B981", fontSize: "12.5px", fontWeight: "600", margin: 0 }}>
-                  ✓ Promo code applied ({discountAmount * 100}% Discount)
+                <p style={{ color: "#16a34a", fontSize: "12.5px", fontWeight: "600", margin: 0 }}>
+                  ✓ Promo code applied ({discountAmount * 100}% Off)
                 </p>
               )}
               {promoError && (
-                <p style={{ color: "#DC2626", fontSize: "12.5px", margin: 0 }}>
+                <p style={{ color: "#dc2626", fontSize: "12.5px", margin: 0 }}>
                   {promoError}
                 </p>
               )}
 
-              {/* Price Calculation Rows */}
+              {/* Price Breakdown */}
               <div className={styles.calculationRows}>
                 <div className={styles.calcRow}>
                   <span>Subtotal</span>
-                  <span className={styles.calcRowValue}>${subtotal.toFixed(2)}</span>
+                  <span className={styles.calcRowValue}>SAR {subtotal.toFixed(2)}</span>
                 </div>
 
                 {discountAmount > 0 && (
                   <div className={styles.calcRow}>
                     <span>Promo Discount</span>
-                    <span className={styles.calcRowValue} style={{ color: "#10B981" }}>
-                      -${discountValue.toFixed(2)}
+                    <span className={styles.calcRowValue} style={{ color: "#16a34a" }}>
+                      -SAR {discountValue.toFixed(2)}
                     </span>
                   </div>
                 )}
 
                 <div className={styles.calcRow}>
-                  <span>Logistics Shipping</span>
+                  <span>Shipping</span>
                   <span className={styles.calcRowValue}>
-                    {shippingCost === 0 ? "FREE" : `$${shippingCost.toFixed(2)}`}
+                    {shippingCost === 0 ? "FREE" : `SAR ${shippingCost.toFixed(2)}`}
                   </span>
                 </div>
 
                 <div className={styles.calcRow}>
-                  <span>Commercial VAT (10%)</span>
-                  <span className={styles.calcRowValue}>${taxAmount.toFixed(2)}</span>
+                  <span>VAT (15%)</span>
+                  <span className={styles.calcRowValue}>SAR {taxAmount.toFixed(2)}</span>
                 </div>
 
                 <div className={styles.totalRow}>
-                  <span className={styles.totalLabel}>Total Settlement</span>
-                  <span className={styles.totalValue}>${netTotal.toFixed(2)}</span>
+                  <span className={styles.totalLabel}>Total</span>
+                  <span className={styles.totalValue}>SAR {netTotal.toFixed(2)}</span>
                 </div>
               </div>
 
-              {/* Trust & Guarantee Badges */}
+              {/* Trust Badges */}
               <div className={styles.trustBadges}>
                 <div className={styles.trustBadgeItem}>
                   <ShieldCheck size={16} className={styles.trustIcon} />
-                  <span>256-bit SSL Encrypted Commercial Transaction</span>
+                  <span>256-bit SSL Encrypted Transaction</span>
                 </div>
                 <div className={styles.trustBadgeItem}>
                   <CheckCircle2 size={16} className={styles.trustIcon} />
-                  <span>ISO 9001 Quality Inspected &amp; Certified Dispatch</span>
+                  <span>SASO &amp; ISO Certified Inspection</span>
                 </div>
               </div>
             </div>
@@ -667,5 +639,13 @@ export default function CheckoutPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<div>Loading checkout...</div>}>
+      <CheckoutContent />
+    </Suspense>
   );
 }

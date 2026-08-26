@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -70,167 +70,140 @@ export default function AdminLoginPage() {
 
   return (
     <div className={styles.pageWrapper}>
-      {/* Reused Main Site Navigation Bar */}
-      <Navbar isLight={false} hasBorder={false} />
-
-      {/* Main Admin Login Section */}
-      <section className={styles.adminSection}>
-        {/* Background Image with Gradient Overlay */}
-        <div className={styles.heroBackground}>
-          <Image
-            src="/images/login_bg.jpeg"
-            alt="Saudi Fab Store Executive Admin Background"
-            fill
-            className={styles.bgImage}
-            sizes="100vw"
-            priority
-            unoptimized
-          />
-          <div className={styles.bgOverlay} />
+      <div className={styles.authContainer}>
+        {/* Logo Right Above Card */}
+        <div className={styles.logoRow}>
+          <Link href="/" aria-label="Saudi Fab Store Home">
+            <Image
+              src="/images/logo.png"
+              alt="Saudi Fab Store Logo"
+              width={140}
+              height={42}
+              className={styles.authLogo}
+              priority
+              unoptimized
+            />
+          </Link>
         </div>
 
-        <div className={styles.sectionContainer}>
-          <div className={styles.gridWrapper}>
-            {/* Glassmorphic Executive Admin Form Card */}
-            <div className={styles.formGlassCard}>
-              <div className={styles.cardHeader}>
-                <h1 className={styles.title}>Admin Sign In</h1>
-                <p className={styles.description}>
-                  Authenticate with your administrator account to access order management, client databases, and executive control systems.
-                </p>
-              </div>
+        {/* Admin Sign In Form Card */}
+        <div className={styles.formCard}>
+          <h1 className={styles.title}>Admin Sign in</h1>
 
-              {/* Error Alert Banner */}
-              {error && (
-                <div className={styles.errorBanner} role="alert">
-                  <AlertCircle size={16} className={styles.errorIcon} />
-                  <span>{error}</span>
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className={styles.formGrid}>
-                {/* Email Field Group */}
-                <div className={styles.fieldGroup}>
-                  <div className={styles.labelRow}>
-                    <span className={styles.labelText}>Admin Email Address</span>
-                    <span className={styles.dashedConnector} />
-                  </div>
-                  <div className={styles.inputWrapper}>
-                    <Mail className={styles.inputIcon} />
-                    <input
-                      type="email"
-                      required
-                      placeholder="admin@saudifabstore.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className={styles.inputField}
-                      disabled={isLoading}
-                    />
-                  </div>
-                </div>
-
-                {/* Password Field Group */}
-                <div className={styles.fieldGroup}>
-                  <div className={styles.labelRow}>
-                    <span className={styles.labelText}>Security Password</span>
-                    <span className={styles.dashedConnector} />
-                  </div>
-                  <div className={styles.inputWrapper}>
-                    <Lock className={styles.inputIcon} />
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      required
-                      placeholder="••••••••"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className={styles.inputField}
-                      disabled={isLoading}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className={styles.togglePasswordBtn}
-                      aria-label={showPassword ? "Hide password" : "Show password"}
-                      disabled={isLoading}
-                    >
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Form Options */}
-                <div className={styles.formOptions}>
-                  <label className={styles.rememberMe}>
-                    <input
-                      type="checkbox"
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
-                      className={styles.checkbox}
-                      disabled={isLoading}
-                    />
-                    <span className={styles.rememberText}>Keep session active</span>
-                  </label>
-
-                  <Link href="/contact" className={styles.forgotLink}>
-                    Reset Admin Credentials?
-                  </Link>
-                </div>
-
-                {/* Submit Action Button */}
-                <button type="submit" disabled={isLoading} className={styles.submitBtn}>
-                  {isLoading ? (
-                    <>
-                      <Loader2 size={18} className={styles.spinner} style={{ marginRight: "8px" }} />
-                      Authenticating Credentials...
-                    </>
-                  ) : (
-                    <>
-                      <span>Authorize &amp; Launch Dashboard</span>
-                      <ArrowRight size={18} style={{ marginLeft: "8px" }} />
-                    </>
-                  )}
-                </button>
-
-                {/* Divider */}
-                <div className={styles.divider}>
-                  <div className={styles.dividerLine} />
-                  <span className={styles.dividerText}>Administrative Access</span>
-                  <div className={styles.dividerLine} />
-                </div>
-
-                {/* Demo Credentials Callout */}
-                <div className={styles.demoCredentialsBox}>
-                  <div className={styles.demoHeader}>
-                    <KeyRound size={14} className={styles.keyIcon} />
-                    <span>Executive Demo Access</span>
-                  </div>
-                  <div className={styles.demoRow}>
-                    <span className={styles.demoLabel}>Admin Email:</span>
-                    <code className={styles.demoCode}>admin@saudifabstore.com</code>
-                  </div>
-                  <div className={styles.demoRow}>
-                    <span className={styles.demoLabel}>Password:</span>
-                    <code className={styles.demoCode}>admin123</code>
-                  </div>
-                </div>
-
-                {/* Footer Return Link */}
-                <div className={styles.footerActions}>
-                  <Link href="/" className={styles.storefrontLink}>
-                    <ArrowLeft size={14} />
-                    <span>Return to Storefront</span>
-                  </Link>
-                </div>
-              </form>
+          {/* Error Alert Banner */}
+          {error && (
+            <div className={styles.errorBanner} role="alert">
+              <AlertCircle size={15} />
+              <span>{error}</span>
             </div>
-          </div>
+          )}
+
+          <form onSubmit={handleSubmit} className={styles.formGrid}>
+            {/* Email Field Group */}
+            <div className={styles.fieldGroup}>
+              <label className={styles.labelText}>Admin email address</label>
+              <input
+                type="email"
+                required
+                placeholder="admin@saudifabstore.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={styles.inputField}
+                disabled={isLoading}
+              />
+            </div>
+
+            {/* Password Field Group */}
+            <div className={styles.fieldGroup}>
+              <div className={styles.labelRow}>
+                <label className={styles.labelText}>Password</label>
+                <Link href="/contact" className={styles.forgotLink}>
+                  Reset Credentials?
+                </Link>
+              </div>
+              <div style={{ position: "relative", width: "100%" }}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={styles.inputField}
+                  style={{ paddingRight: "38px" }}
+                  disabled={isLoading}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className={styles.togglePasswordBtn}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  disabled={isLoading}
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
+            </div>
+
+            {/* Submit Action Button */}
+            <button type="submit" disabled={isLoading} className={styles.submitBtn}>
+              {isLoading ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" style={{ marginRight: "6px" }} />
+                  Signing in...
+                </>
+              ) : (
+                <span>Sign in</span>
+              )}
+            </button>
+
+            {/* Demo Credentials Callout */}
+            <div className={styles.demoCredentialsBox}>
+              <div className={styles.demoHeader}>
+                <KeyRound size={13} />
+                <span>Executive Demo Access</span>
+              </div>
+              <div className={styles.demoRow}>
+                <span className={styles.demoLabel}>Admin Email:</span>
+                <code className={styles.demoCode}>admin@saudifabstore.com</code>
+              </div>
+              <div className={styles.demoRow}>
+                <span className={styles.demoLabel}>Password:</span>
+                <code className={styles.demoCode}>admin123</code>
+              </div>
+            </div>
+
+            {/* Footer Return Link */}
+            <div className={styles.footerActions}>
+              <Link href="/" className={styles.storefrontLink}>
+                <ArrowLeft size={13} />
+                <span>Return to Storefront</span>
+              </Link>
+            </div>
+          </form>
         </div>
 
-        {/* Hero-Style Brand Title on Bottom */}
-        <div className={styles.heroBrandBottom}>
-          <h2 className={styles.heroBrandText}>Operational Control</h2>
+        {/* Client Sign In Link Below Card */}
+        <div className={styles.createAccountWrapper}>
+          <div className={styles.divider}>
+            <span className={styles.dividerText}>Not an Admin?</span>
+          </div>
+          <Link href="/login" className={styles.createAccountBtn}>
+            Client Sign in
+          </Link>
         </div>
-      </section>
+
+        {/* Auth Footer Right Below Container */}
+        <footer className={styles.authFooter}>
+          <div className={styles.authFooterLinks}>
+            <Link href="/contact">Conditions of Use</Link>
+            <Link href="/contact">Privacy Notice</Link>
+            <Link href="/contact">Help Center</Link>
+          </div>
+          <p className={styles.authFooterCopy}>
+            &copy; 2026, Saudi Fab Store, Inc. or its affiliates
+          </p>
+        </footer>
+      </div>
     </div>
   );
 }

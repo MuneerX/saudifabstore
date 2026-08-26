@@ -7,7 +7,7 @@ import { randomUUID } from 'crypto';
 
 export const dynamic = 'force-dynamic';
 
-const UPLOADCARE_PUBLIC_KEY = process.env.UPLOADCARE_PUBLIC_KEY || '58e60a300a0570589035';
+const UPLOADCARE_PUBLIC_KEY = process.env.UPLOADCARE_PUBLIC_KEY || '4f5bb3abfd7da51634e7';
 
 export async function POST(request: NextRequest) {
   try {

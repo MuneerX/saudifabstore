@@ -1,0 +1,23 @@
+export const PRODUCT_CATEGORIES = [
+  "Forklift Attachments",
+  "Warehouse & Logistics",
+  "Safety Equipment",
+  "Hardware & Piping",
+  "Lifting Equipment",
+  "Safety & Chemical",
+  "Cable & Hose Bridges",
+  "Column & Crash Protection",
+  "Construction Trolleys",
+  "Conveyor",
+  "Plastic Crates",
+  "Floor Mats",
+  "Formwork Systems",
+  "Industrial Heating Jackets",
+  "Lithium-Ion Safety",
+  "Pallet Rack Protection",
+  "Pallet Trucks & Stackers",
+  "Safety & Storage Cabinets",
+  "Waste Containers",
+  "Workbenches",
+  "Steel Fabrication"
+];

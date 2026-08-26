@@ -1,48 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
-import User from '@/lib/models/User';
-import connectToDatabase from '@/lib/db/connect';
+import { registerNewUser } from '@/lib/userStore';
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, password } = await request.json();
+    const { name, email, company, referralSource, password } = await request.json();
 
-    try {
-      await connectToDatabase();
-
-      // Check if user already exists
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-        return NextResponse.json(
-          { error: 'User already exists with this email' },
-          { status: 400 }
-        );
-      }
-
-      // Hash password
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-      // Create user
-      const user = new User({
-        name,
-        email,
-        password: hashedPassword,
-      });
-
-      await user.save();
-
+    if (!name?.trim() || !email?.trim() || !password?.trim()) {
       return NextResponse.json(
-        { message: 'User registered successfully' },
-        { status: 201 }
-      );
-    } catch (dbErr) {
-      console.warn("DB register operation fallback:", dbErr);
-      return NextResponse.json(
-        { message: 'User registered successfully' },
-        { status: 201 }
+        { error: 'Name, email, and password are required.' },
+        { status: 400 }
       );
     }
+
+    const result = await registerNewUser({ name, email, company, referralSource, password });
+
+    if (!result.success) {
+      return NextResponse.json(
+        { error: result.error || 'Registration failed.' },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { message: 'User registered successfully', userId: result.user?.id },
+      { status: 201 }
+    );
   } catch (error) {
     console.error('Registration error:', error);
     return NextResponse.json(

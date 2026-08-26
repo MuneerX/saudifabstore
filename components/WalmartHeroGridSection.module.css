@@ -20,108 +20,182 @@
 }
 
 .leftTopCard {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  color: #ffffff;
   border-radius: 18px;
-  padding: 24px 24px;
   position: relative;
   height: 200px;
   overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.leftBottomCard {
+  border-radius: 18px;
+  position: relative;
+  flex: 1;
+  height: 364px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cardBgImg {
+  object-fit: cover !important;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.leftTopCard:hover .cardBgImg,
+.leftBottomCard:hover .cardBgImg,
+.leftTopCard:hover .cardBgImg,
+.leftBottomCard:hover .cardBgImg,
+.centerHeroCard:hover .cardBgImg,
+.centerBottomCardA:hover .cardBgImg,
+.centerBottomCardB:hover .cardBgImg,
+.rightCardTop:hover .cardBgImg,
+.rightCardMiddle:hover .cardBgImg,
+.rightCardBottom:hover .cardBgImg {
+  transform: scale(1.05);
+}
+
+.cabinetBgImg {
+  object-position: 85% 25% !important;
+}
+
+/* Individual Card Mask Overlays (Tightly focused left text gradient revealing main products) */
+.leftTopOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 249, 166, 0.75) 0%, rgba(254, 236, 60, 0.25) 30%, transparent 60%);
+  z-index: 1;
+}
+
+.leftBottomOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 249, 166, 0.75) 0%, rgba(254, 236, 60, 0.25) 30%, transparent 60%);
+  z-index: 1;
+}
+
+.centerHeroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 249, 166, 0.75) 0%, rgba(254, 236, 60, 0.25) 35%, transparent 65%);
+  z-index: 1;
+}
+
+.centerBottomAOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 249, 166, 0.75) 0%, rgba(254, 236, 60, 0.25) 30%, transparent 60%);
+  z-index: 1;
+}
+
+.centerBottomBOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 249, 166, 0.75) 0%, rgba(254, 236, 60, 0.25) 30%, transparent 60%);
+  z-index: 1;
+}
+
+.rightTopOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 249, 166, 0.75) 0%, rgba(254, 236, 60, 0.25) 30%, transparent 60%);
+  z-index: 1;
+}
+
+.rightMiddleOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 249, 166, 0.75) 0%, rgba(254, 236, 60, 0.25) 30%, transparent 60%);
+  z-index: 1;
+}
+
+.rightBottomOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 249, 166, 0.75) 0%, rgba(254, 236, 60, 0.25) 30%, transparent 60%);
+  z-index: 1;
+}
+
+/* Card Text Wrappers */
+.cardTextWrapper {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  padding: 24px 22px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  max-width: 65%;
 }
 
-.cardTitleLight {
+.leftBottomCard .cardTextWrapper {
+  max-width: 78%;
+}
+
+.cardTextWrapperTop {
+  position: relative;
+  z-index: 2;
+  padding: 24px 22px;
+  max-width: 65%;
+}
+
+/* Walmart Signature Typography */
+.walmartCardTitleDark {
+  font-size: 22px;
+  font-weight: 800;
+  color: #041e42;
+  line-height: 1.2;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.02em;
+}
+
+.walmartCardTitleLight {
   font-size: 22px;
   font-weight: 800;
   color: #ffffff;
-  margin: 0 0 8px 0;
   line-height: 1.2;
-  letter-spacing: -0.01em;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.02em;
 }
 
-.cardSubLinkLight {
+.walmartCardLinkDark {
   font-size: 13.5px;
-  font-weight: 600;
+  font-weight: 700;
+  color: #041e42;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.walmartCardLinkYellow {
+  font-size: 13.5px;
+  font-weight: 700;
   color: #FEEC3C;
   text-decoration: underline;
   cursor: pointer;
 }
 
-.leftTopImg {
-  position: absolute;
-  bottom: -12px;
-  right: -12px;
-  width: 125px;
-  height: 125px;
-  object-fit: contain;
-  opacity: 0.92;
-  transform: rotate(-5deg);
+.walmartPriceTag {
+  margin-top: auto;
 }
 
-.leftBottomCard {
-  background: #F4F1EA;
-  color: #111111;
-  border-radius: 18px;
-  padding: 26px 24px;
-  position: relative;
-  flex: 1;
-  height: 364px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-}
-
-.cardTitleDark {
-  font-size: 22px;
-  font-weight: 800;
-  color: #111111;
-  margin: 0 0 8px 0;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-}
-
-.cardSubLinkDark {
-  font-size: 13.5px;
-  font-weight: 700;
-  color: #0058a3;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.leftBottomImgContainer {
-  position: relative;
-  width: 100%;
-  height: 190px;
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.leftBottomImg {
-  object-fit: contain;
-  max-height: 180px;
-  width: auto;
-}
-
-.priceTagText {
-  font-size: 26px;
-  font-weight: 900;
-  color: #111111;
-  margin: 0;
-}
-
-.priceTagSub {
+.walmartPriceSubDark {
   font-size: 13px;
   font-weight: 700;
-  color: #666666;
+  color: #041e42;
+  display: block;
 }
 
+.walmartPriceValueDark {
+  font-size: 32px;
+  font-weight: 900;
+  color: #041e42;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
 
 /* CENTER COLUMN */
 .centerCol {
@@ -132,90 +206,78 @@
 }
 
 .centerHeroCard {
-  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-  color: #0f172a;
   border-radius: 20px;
-  padding: 34px 44px;
   position: relative;
   height: 275px;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 4px 18px rgba(14, 165, 233, 0.14);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.heroContentLeft {
-  max-width: 340px;
-  z-index: 5;
+.heroContentLeftWalmart {
+  position: relative;
+  z-index: 2;
+  padding: 34px 38px;
+  max-width: 55%;
 }
 
-.heroEyebrow {
-  display: inline-block;
+.heroEyebrowWalmart {
   font-size: 13px;
   font-weight: 800;
-  color: #0369a1;
+  color: #002d58;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   margin-bottom: 8px;
+  display: block;
 }
 
-.heroTitle {
-  font-size: 30px;
+.heroTitleWalmart {
+  font-size: 32px;
   font-weight: 900;
-  color: #0f172a;
+  color: #041e42;
   margin: 0 0 16px 0;
   line-height: 1.15;
   letter-spacing: -0.02em;
 }
 
-.heroShopPillBtn {
+.heroShopPillBtnWalmart {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: #0f172a;
-  color: #ffffff;
-  font-size: 14px;
+  background-color: #ffffff;
+  color: #041e42;
+  border: 1.5px solid #041e42;
+  font-size: 13px;
   font-weight: 700;
-  padding: 10px 24px;
+  padding: 8px 20px;
   border-radius: 9999px;
   text-decoration: none;
   transition: all 0.15s ease;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
 }
 
-.heroShopPillBtn:hover {
-  background-color: #000000;
-  transform: translateY(-1px);
+.heroShopPillBtnWalmart:hover {
+  background-color: #041e42;
+  color: #ffffff;
 }
 
 .heroBadgeBottom {
   position: absolute;
   bottom: 20px;
-  left: 20px;
+  right: 20px;
+  z-index: 5;
   background-color: #FEEC3C;
   color: #111111;
   font-weight: 900;
   font-size: 13px;
   padding: 7px 16px;
   border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
   display: flex;
   align-items: center;
   gap: 6px;
 }
-
-.heroRightImgContainer {
-  position: relative;
-  width: 250px;
-  height: 220px;
-  z-index: 4;
-}
-
-.heroRightImg {
-  object-fit: contain;
-}
-
 
 /* CENTER BOTTOM SPLIT ROW */
 .centerBottomRow {
@@ -226,54 +288,25 @@
   height: 289px;
 }
 
-.centerBottomCardA {
-  background: #f8fafc;
-  border-radius: 18px;
-  padding: 24px 26px;
-  position: relative;
-  height: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 1px solid #e2e8f0;
-}
-
+.centerBottomCardA,
 .centerBottomCardB {
-  background: #FEEC3C;
-  color: #111111;
   border-radius: 18px;
-  padding: 24px 26px;
   position: relative;
   height: 100%;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 4px 16px rgba(254, 236, 60, 0.25);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.flashDealsPill {
-  display: inline-block;
-  background: #111111;
-  color: #FEEC3C;
-  font-size: 13.5px;
+.flashDealsLogoWalmart {
+  font-size: 26px;
   font-weight: 900;
-  padding: 6px 14px;
-  border-radius: 8px;
-  align-self: flex-start;
-  margin-top: 8px;
+  color: #041e42;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin-top: auto;
 }
-
-.splitImgBox {
-  position: absolute;
-  bottom: -10px;
-  right: -10px;
-  width: 155px;
-  height: 155px;
-  object-fit: contain;
-}
-
 
 /* RIGHT COLUMN */
 .rightCol {
@@ -283,50 +316,33 @@
   height: 100%;
 }
 
-.rightCardTop {
-  background: #fef3c7;
-  color: #78350f;
-  border-radius: 18px;
-  padding: 22px;
-  height: 180px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
+.rightCardTop,
 .rightCardMiddle {
-  background: #dbeafe;
-  color: #1e3a8a;
   border-radius: 18px;
-  padding: 22px;
   height: 180px;
   position: relative;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .rightCardBottom {
-  background: #f1f5f9;
-  color: #0f172a;
   border-radius: 18px;
-  padding: 22px;
   flex: 1;
   height: 188px;
   position: relative;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .badgeCircleGreen {
   position: absolute;
   bottom: 18px;
-  left: 18px;
+  right: 18px;
+  z-index: 5;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -343,11 +359,12 @@
 
 .miniRightImg {
   position: absolute;
-  bottom: -6px;
-  right: -6px;
-  width: 120px;
-  height: 120px;
-  object-fit: contain;
+  bottom: 0;
+  right: 0;
+  width: 125px;
+  height: 125px;
+  object-fit: cover;
+  border-top-left-radius: 16px;
 }
 
 /* RESPONSIVE MEDIA QUERIES */

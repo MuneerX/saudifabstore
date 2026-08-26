@@ -19,42 +19,42 @@ const CATEGORIES: CategoryItem[] = [
     id: 'cat-forklifts',
     name: 'Forklift Attachments & Jibs',
     count: '24 Items',
-    image: '/uploads/3ea54b4f-1709-49b3-be9c-1b4302dc01e9.jpg',
+    image: '/images/home/category_grid/forklift.jpeg',
     href: '/products?category=Forklift+Attachments',
   },
   {
     id: 'cat-skips',
     name: 'Self-Dumping Skips & Hoppers',
     count: '18 Items',
-    image: '/uploads/1eecdedc-cd94-4183-ab5b-3010a00e0ef1.png',
+    image: '/images/home/category_grid/warehouse.jpeg',
     href: '/products?category=Warehouse+%26+Logistics',
   },
   {
     id: 'cat-lifting',
     name: 'Crane Material Baskets & Slings',
     count: '15 Items',
-    image: '/uploads/623d033a-0f03-412a-b56a-2285f722a810.png',
+    image: '/images/home/category_grid/industrial.jpeg',
     href: '/products?category=Lifting+Equipment',
   },
   {
     id: 'cat-spill',
     name: 'Secondary Oil Spill Containment',
     count: '12 Items',
-    image: '/uploads/49dc8447-7b24-4eaf-b051-7700b2145207.png',
+    image: '/images/home/category_grid/safety.jpeg',
     href: '/products?category=Safety+%26+Chemical',
   },
   {
     id: 'cat-safety',
     name: 'High-Vis Safety Bollards & Posts',
     count: '30 Items',
-    image: '/images/home/category_grid/safety_3.jpeg',
+    image: '/images/home/category_grid/safety.jpeg',
     href: '/products?category=Safety+Equipment',
   },
   {
     id: 'cat-piping',
     name: 'Heavy Rig Pipe Clamps & Hardware',
     count: '42 Items',
-    image: '/uploads/ebf4945d-a426-4772-bd50-f897ed90ac8b.png',
+    image: '/images/home/category_grid/hardware.jpeg',
     href: '/products?category=Hardware+%26+Piping',
   },
 ];
@@ -100,15 +100,13 @@ export function CategoryGrid() {
       <div ref={trackRef} className={styles.sliderTrack}>
         {CATEGORIES.map((cat) => (
           <Link key={cat.id} href={cat.href} className={styles.categoryCard}>
-            <div className={styles.imageBox}>
-              <Image 
-                src={cat.image} 
-                alt={cat.name} 
-                width={220} 
-                height={160} 
-                className={styles.catImage}
-              />
-            </div>
+            <Image 
+              src={cat.image} 
+              alt={cat.name} 
+              fill
+              sizes="240px"
+              className={styles.cardBgImage}
+            />
             <div className={styles.cardContent}>
               <h3 className={styles.catName}>{cat.name}</h3>
               <span className={styles.catCount}>{cat.count}</span>

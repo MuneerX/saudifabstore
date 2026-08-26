@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
@@ -38,7 +38,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
   useEffect(() => {
     // Fetch live products directly from database API
     fetch("/api/products?limit=100")
-      .then((res) => res.json())
+      .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data && data.products && data.products.length > 0) {
           const apiProds: ProductData[] = data.products.map((p: any) => ({
@@ -48,7 +48,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
             price: p.price || 0,
             category: p.category || "Industrial Product",
             brand: p.brand || "Saudi Fab Store",
-            images: p.images && p.images.length > 0 ? p.images : ["/images/home/category_grid/container_3.jpeg"],
+            images: p.images && p.images.length > 0 ? p.images : ["/images/home/category_grid/warehouse.jpeg"],
             stock: p.stock || 10,
             isFeatured: true,
             rating: p.rating || 5
@@ -169,7 +169,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                   >
                     <div className={styles.resultImgWrapper}>
                       <Image
-                        src={product.images[0] || "/images/home/category_grid/container_3.jpeg"}
+                        src={product.images[0] || "/images/home/category_grid/warehouse.jpeg"}
                         alt={product.name}
                         fill
                         className={styles.resultImg}
@@ -204,7 +204,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     >
                       <div className={styles.resultImgWrapper}>
                         <Image
-                          src={product.images[0] || "/images/home/category_grid/container_3.jpeg"}
+                          src={product.images[0] || "/images/home/category_grid/warehouse.jpeg"}
                           alt={product.name}
                           fill
                           className={styles.resultImg}

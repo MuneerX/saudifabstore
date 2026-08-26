@@ -45,7 +45,7 @@
   background-color: #ffffff;
   border: 1px solid #D1D5DB;
   color: #374151;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 13px;
   font-weight: 600;
   padding: 8px 18px;
@@ -64,24 +64,24 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background-color: #0453F8;
-  border: 1px solid #0453F8;
-  color: #ffffff;
-  font-family: 'Host Grotesk', sans-serif;
+  background-color: #FEEC3C;
+  border: 1px solid #E5D430;
+  color: #111111;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   padding: 8px 20px;
   border-radius: 6px;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(4, 83, 248, 0.25);
+  box-shadow: 0 2px 8px rgba(254, 236, 60, 0.25);
   transition: all 0.2s ease;
 }
 
 .headerSaveBtn:hover:not(:disabled) {
-  background-color: #0342C7;
-  border-color: #0342C7;
+  background-color: #E5D430;
+  border-color: #E5D430;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(4, 83, 248, 0.35);
+  box-shadow: 0 4px 12px rgba(254, 236, 60, 0.35);
 }
 
 .headerSaveBtn:disabled {
@@ -93,7 +93,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 13.5px;
   font-weight: 600;
   color: #111111;
@@ -135,7 +135,7 @@
   align-items: center;
   gap: 10px;
   padding: 12px 36.8px;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 14px;
   font-weight: 500;
 }
@@ -159,7 +159,7 @@
   justify-content: center;
   min-height: 60vh;
   gap: 16px;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 16px;
   color: #54514a;
 }
@@ -245,13 +245,13 @@
 }
 
 .overlayTitle {
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 15px;
   font-weight: 600;
 }
 
 .overlaySub {
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 12px;
   color: #A3A3A3;
 }
@@ -325,7 +325,7 @@
 }
 
 .galleryHelpText {
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 12px;
   color: #78746c;
 }
@@ -464,7 +464,7 @@
   background-color: #ffffff;
   border: 1px solid #E5E0D6;
   color: #111111;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 10px;
   font-weight: 600;
   padding: 4px 6px;
@@ -481,7 +481,7 @@
 }
 
 .specSubtext {
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 13px;
   color: #78746c;
   margin-top: 6px;
@@ -522,7 +522,7 @@
   opacity: 0;
   transition: opacity 0.2s ease;
   cursor: pointer;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 13.5px;
   font-weight: 600;
 }
@@ -547,7 +547,7 @@
   border: 1px solid #FCA5A5;
   border-radius: 4px;
   padding: 6px 12px;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -578,7 +578,7 @@
   border: none;
   outline: none;
   background: transparent;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 13px;
   color: #111111;
 }
@@ -592,7 +592,7 @@
   border: none;
   border-radius: 4px;
   padding: 6px 10px;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -637,7 +637,7 @@
   border: 1px solid #E5E0D6;
   border-radius: 4px;
   padding: 6px 12px;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 13px;
   font-weight: 600;
   color: #111111;
@@ -661,7 +661,7 @@
 }
 
 .productTitleInput {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 32px;
   font-weight: 600;
   color: #111111;
@@ -713,7 +713,7 @@
 }
 
 .promoHeading {
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 21px;
   font-weight: 600;
   color: #111111;
@@ -764,7 +764,7 @@
 }
 
 .currencyPrefix {
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 15px;
   font-weight: 600;
   color: #111111;
@@ -777,7 +777,7 @@
   border: none;
   outline: none;
   background: transparent;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 16px;
   font-weight: 600;
   color: #111111;
@@ -792,7 +792,7 @@
 }
 
 .promoBottomText {
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 13px;
   color: #54514a;
   margin: 0;
@@ -802,6 +802,32 @@
 .promoDottedLine {
   border-top: 1px dashed rgba(136, 130, 119, 0.35);
   margin: 2px 0;
+}
+
+.buyBoxSubSectionTitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 8px 0 4px 0;
+  border-top: 1px solid #EBE7DF;
+  padding-top: 12px;
+}
+
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.checkboxInput {
+  width: 16px;
+  height: 16px;
+  accent-color: #FEEC3C;
+  cursor: pointer;
 }
 
 /* Action Buttons Group */
@@ -814,7 +840,7 @@
 .saveChangesBtn {
   background-color: #0453F8;
   color: #ffffff;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 15px;
   font-weight: 600;
   padding: 14px 24px;
@@ -844,7 +870,7 @@
   width: 100%;
   background-color: #ffffff;
   color: #111111;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 15px;
   font-weight: 600;
   padding: 14px 20px;
@@ -874,7 +900,7 @@
 }
 
 .descriptionTextarea {
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 16px;
   line-height: 1.5;
   color: #222222;
@@ -915,7 +941,7 @@
 }
 
 .factText {
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 13.5px;
   font-weight: 500;
   color: #222222;
@@ -950,7 +976,7 @@
 .tabHeaderButton {
   background: transparent;
   border: none;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 19px;
   font-weight: 400;
   color: #78746c;
@@ -998,7 +1024,7 @@
 }
 
 .specsSectionTitle {
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 24px;
   font-weight: 600;
   color: #111111;
@@ -1029,7 +1055,7 @@
 
 .tableInput {
   width: 70%;
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 14px;
   font-weight: 500;
   color: #111111;
@@ -1057,7 +1083,7 @@
 }
 
 .detailsParagraph {
-  font-family: 'Host Grotesk', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 16px;
   line-height: 1.6;
   color: #4A463F;

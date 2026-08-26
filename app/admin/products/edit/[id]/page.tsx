@@ -22,18 +22,7 @@ import {
 import styles from "./page.module.css";
 import apiClient from "@/lib/apiClient";
 import { INITIAL_PRODUCTS } from "@/lib/data/initialProducts";
-
-const CATEGORY_OPTIONS = [
-  { value: "Steel Fabrication", label: "Steel Fabrication" },
-  { value: "Industrial Coatings", label: "Industrial Coatings" },
-  { value: "Smart Woodworks", label: "Smart Woodworks" },
-  { value: "Safety & Trading", label: "Safety & Trading" },
-  { value: "Forklift Attachments", label: "Forklift Attachments" },
-  { value: "Warehouse & Logistics", label: "Warehouse & Logistics" },
-  { value: "Safety Equipment", label: "Safety Equipment" },
-  { value: "Lifting Equipment", label: "Lifting Equipment" },
-  { value: "Hardware & Piping", label: "Hardware & Piping" },
-];
+import { PRODUCT_CATEGORIES } from "@/lib/data/categories";
 
 export default function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
@@ -106,6 +95,13 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   const [price, setPrice] = useState("");
   const [discountPrice, setDiscountPrice] = useState("");
   const [stock, setStock] = useState("20");
+  const [hasMultipleOptions, setHasMultipleOptions] = useState(false);
+  const [swatchSingleName, setSwatchSingleName] = useState("Single Standard");
+  const [swatchBulkName, setSwatchBulkName] = useState("5-Pack Contractors");
+  const [swatchBulkPrice, setSwatchBulkPrice] = useState("");
+  const [enableSubscription, setEnableSubscription] = useState(true);
+  const [subscriptionDiscountPercent, setSubscriptionDiscountPercent] = useState("10");
+  const [promoBadge, setPromoBadge] = useState("FACTORY DIRECT");
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [specImage, setSpecImage] = useState("");
   const [newImageUrl, setNewImageUrl] = useState("");
@@ -146,6 +142,14 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
           setStock(product.stock !== undefined ? product.stock.toString() : "20");
           setSpecImage(product.specImage || "");
 
+          setHasMultipleOptions(Boolean(product.hasMultipleOptions));
+          setSwatchSingleName(product.swatchSingleName || "Single Standard");
+          setSwatchBulkName(product.swatchBulkName || "5-Pack Contractors");
+          setSwatchBulkPrice(product.swatchBulkPrice !== undefined ? product.swatchBulkPrice.toString() : "");
+          setEnableSubscription(product.enableSubscription !== false);
+          setSubscriptionDiscountPercent(product.subscriptionDiscountPercent !== undefined ? product.subscriptionDiscountPercent.toString() : "10");
+          setPromoBadge(product.promoBadge || "FACTORY DIRECT");
+
           const fallbackSpec = INITIAL_PRODUCTS.find(
             (ip) => ip._id === product._id || ip.name?.toLowerCase() === (product.name || '').toLowerCase()
           );
@@ -162,7 +166,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
           } else if (product.image) {
             setUploadedImages([product.image]);
           } else {
-            setUploadedImages(["/images/home/category_grid/container_3.jpeg"]);
+            setUploadedImages(["/images/home/category_grid/warehouse.jpeg"]);
           }
         } else {
           setError("Product not found");
@@ -250,18 +254,6 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     });
   };
 
-  const setAsHoverImage = (index: number) => {
-    if (index === 1) return;
-    setUploadedImages((prev) => {
-      if (prev.length < 2) return prev;
-      const updated = [...prev];
-      const [selected] = updated.splice(index, 1);
-      const primary = updated[0];
-      const rest = updated.slice(1);
-      return [primary, selected, ...rest];
-    });
-  };
-
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -286,11 +278,32 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     }
   };
 
+  const handleClearSpecImage = () => {
+    if (specImage && (specImage.includes("ucarecdn.com") || specImage.startsWith("/uploads/"))) {
+      fetch("/api/upload", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fileUrl: specImage }),
+      }).catch((err) => console.error("Error purging specImage from Uploadcare:", err));
+      sessionDraftsRef.current = sessionDraftsRef.current.filter(url => url !== specImage);
+    }
+    setSpecImage("");
+  };
+
   const handleSpecImageUpload = async (file: File) => {
     if (!file) return;
     setUploadingImages(true);
     setError(null);
     try {
+      if (specImage && (specImage.includes("ucarecdn.com") || specImage.startsWith("/uploads/"))) {
+        fetch("/api/upload", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fileUrl: specImage }),
+        }).catch((err) => console.error("Error purging replaced specImage from Uploadcare:", err));
+        sessionDraftsRef.current = sessionDraftsRef.current.filter(url => url !== specImage);
+      }
+
       const formData = new FormData();
       formData.append("file", file);
       const response = await fetch("/api/upload", {
@@ -333,7 +346,14 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
         price: parseFloat(price) || 0,
         discountPrice: discountPrice ? parseFloat(discountPrice) : undefined,
         stock: parseInt(stock) || 0,
-        images: uploadedImages.length > 0 ? uploadedImages : ["/images/home/category_grid/container_3.jpeg"],
+        hasMultipleOptions,
+        swatchSingleName: swatchSingleName.trim() || 'Single Standard',
+        swatchBulkName: swatchBulkName.trim() || '5-Pack Contractors',
+        swatchBulkPrice: swatchBulkPrice ? parseFloat(swatchBulkPrice) : (parseFloat(price) || 0) * 4.2,
+        enableSubscription,
+        subscriptionDiscountPercent: subscriptionDiscountPercent ? parseFloat(subscriptionDiscountPercent) : 10,
+        promoBadge: promoBadge.trim() || 'FACTORY DIRECT',
+        images: uploadedImages.length > 0 ? uploadedImages : ["/images/home/category_grid/warehouse.jpeg"],
         specImage: specImage.trim(),
         material: material.trim(),
         dimensions: dimensions.trim(),
@@ -374,7 +394,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     );
   }
 
-  const mainImage = uploadedImages[0] || "/images/home/category_grid/container_3.jpeg";
+  const mainImage = uploadedImages[0] || "/images/home/category_grid/warehouse.jpeg";
 
   return (
     <form onSubmit={handleSubmit} className={styles.pageContainer}>
@@ -440,14 +460,14 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
             {/* Active Preview Frame Header */}
             <div className={styles.previewFrameHeader}>
               <span className={styles.previewFrameTitle}>
-                PREVIEW: {selectedImageIndex === 0 ? "COVER IMAGE (CARD VIEW)" : selectedImageIndex === 1 ? "HOVER IMAGE (CARD HOVER)" : `GALLERY IMAGE ${selectedImageIndex + 1}`}
+                PREVIEW: {selectedImageIndex === 0 ? "COVER IMAGE (PRIMARY)" : `GALLERY IMAGE ${selectedImageIndex + 1}`}
               </span>
-              <span className={`${styles.frameStatusDot} ${selectedImageIndex === 0 ? styles.dotCover : selectedImageIndex === 1 ? styles.dotHover : styles.dotGallery}`} />
+              <span className={`${styles.frameStatusDot} ${selectedImageIndex === 0 ? styles.dotCover : styles.dotGallery}`} />
             </div>
 
             <div className={styles.imageCard}>
               <Image
-                src={uploadedImages[selectedImageIndex] || uploadedImages[0] || "/images/home/category_grid/container_3.jpeg"}
+                src={uploadedImages[selectedImageIndex] || uploadedImages[0] || "/images/home/category_grid/warehouse.jpeg"}
                 alt={name || "Product Image"}
                 fill
                 priority
@@ -477,17 +497,16 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
               </div>
             </div>
 
-            {/* Horizontal Thumbnail Gallery with Cover & Hover Badges */}
+            {/* Horizontal Thumbnail Gallery with Cover Badges */}
             <div className={styles.galleryControls}>
               <div className={styles.galleryHeaderRow}>
                 <span className={styles.gallerySectionTitle}>PRODUCT MEDIA ({uploadedImages.length})</span>
-                <span className={styles.galleryHelpText}>Horizontal order determines Cover &amp; Hover state</span>
+                <span className={styles.galleryHelpText}>First image is the primary cover image</span>
               </div>
 
               <div className={styles.horizontalThumbnailRow}>
                 {uploadedImages.map((img, idx) => {
                   const isCover = idx === 0;
-                  const isHover = idx === 1;
                   const isSelected = idx === selectedImageIndex;
 
                   return (
@@ -499,9 +518,9 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                       <div className={styles.thumbImageContainer}>
                         <Image src={img} alt={`Media ${idx + 1}`} width={88} height={88} className={styles.thumbImg} />
                         
-                        <div className={`${styles.roleBadgeTag} ${isCover ? styles.coverBadge : isHover ? styles.hoverBadge : styles.galleryBadge}`}>
+                        <div className={`${styles.roleBadgeTag} ${isCover ? styles.coverBadge : styles.galleryBadge}`}>
                           <span className={styles.badgeDot} />
-                          <span>{isCover ? "COVER" : isHover ? "HOVER" : `IMG ${idx + 1}`}</span>
+                          <span>{isCover ? "COVER" : `IMG ${idx + 1}`}</span>
                         </div>
 
                         {uploadedImages.length > 1 && (
@@ -534,19 +553,6 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                             className={styles.actionPillBtn}
                           >
                             Set Cover
-                          </button>
-                        )}
-                        {!isHover && uploadedImages.length > 1 && (
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setAsHoverImage(idx);
-                              setSelectedImageIndex(1);
-                            }}
-                            className={styles.actionPillBtn}
-                          >
-                            Set Hover
                           </button>
                         )}
                       </div>
@@ -588,9 +594,9 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                 onChange={(e) => setCategory(e.target.value)}
                 className={styles.categoryDropdown}
               >
-                {CATEGORY_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
+                {PRODUCT_CATEGORIES.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
                   </option>
                 ))}
               </select>
@@ -612,28 +618,12 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
 
             {/* Redesigned Integrated Buy Box Editor (Matches Storefront Buy Box) */}
             <div className={styles.promoBuyBox}>
-              <div className={styles.promoTopRow}>
-                <div className={styles.promoLeft}>
-                  <span className={styles.promoGreenText}>FACTORY DIRECT</span>
-                  <h4 className={styles.promoHeading}>Direct Manufacturer Rate</h4>
-                </div>
-                <div className={styles.promoRight}>
-                  <Image
-                    src="/images/iso.svg"
-                    alt="ISO Certified Quality"
-                    width={52}
-                    height={52}
-                    className={styles.isoBadgeImage}
-                  />
-                </div>
-              </div>
-
-              {/* Price & Stock Input Matrix */}
+              {/* Price, Discount & Stock Input Matrix */}
               <div className={styles.buyBoxPriceMatrix}>
                 <div className={styles.fieldBlock}>
-                  <label htmlFor="product-price" className={styles.fieldLabel}>PRICE (€)</label>
+                  <label htmlFor="product-price" className={styles.fieldLabel}>REGULAR PRICE (SAR)</label>
                   <div className={styles.priceInputWrapper}>
-                    <span className={styles.currencyPrefix}>€</span>
+                    <span className={styles.currencyPrefix}>SAR</span>
                     <input
                       id="product-price"
                       type="number"
@@ -649,6 +639,23 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                 </div>
 
                 <div className={styles.fieldBlock}>
+                  <label htmlFor="edit-product-discount" className={styles.fieldLabel}>DISCOUNT PRICE (SAR, OPTIONAL)</label>
+                  <div className={styles.priceInputWrapper}>
+                    <span className={styles.currencyPrefix}>SAR</span>
+                    <input
+                      id="edit-product-discount"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={discountPrice}
+                      onChange={(e) => setDiscountPrice(e.target.value)}
+                      placeholder="e.g. 199.00"
+                      className={styles.priceInput}
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.fieldBlock}>
                   <label htmlFor="product-stock" className={styles.fieldLabel}>UNITS IN STOCK</label>
                   <input
                     id="product-stock"
@@ -656,9 +663,113 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                     min="0"
                     value={stock}
                     onChange={(e) => setStock(e.target.value)}
-                    placeholder="0"
+                    placeholder="20"
                     className={styles.stockInput}
                     required
+                  />
+                </div>
+              </div>
+
+              {/* PROMO BADGE FIELD */}
+              <div className={styles.fieldBlock}>
+                <label className={styles.fieldLabel}>PROMO BADGE CALLOUT TEXT</label>
+                <input
+                  type="text"
+                  value={promoBadge}
+                  onChange={(e) => setPromoBadge(e.target.value)}
+                  placeholder="e.g. FACTORY DIRECT / FLASH DEAL / CLEARANCE"
+                  className={styles.stockInput}
+                />
+              </div>
+
+              {/* PACK SIZE OPTIONS & BULK PRICING */}
+              <div className={styles.buyBoxSubSectionTitle}>Product Option Mode (Single vs Multiple Options)</div>
+              <div className={styles.buyBoxPriceMatrix} style={{ marginBottom: '16px' }}>
+                <div className={styles.fieldBlock} style={{ gridColumn: 'span 3' }}>
+                  <label className={styles.fieldLabel}>CARD &amp; STOREFRONT OPTION TYPE</label>
+                  <select
+                    value={hasMultipleOptions ? "multiple" : "single"}
+                    onChange={(e) => setHasMultipleOptions(e.target.value === "multiple")}
+                    className={styles.stockInput}
+                    style={{ background: '#ffffff', color: '#0f172a', fontWeight: 'bold' }}
+                  >
+                    <option value="single">Single Product (Direct "+ Add to Cart" Button on Store Cards)</option>
+                    <option value="multiple">Multiple Options Product (Variant Swatches &amp; "Options" Button on Store Cards)</option>
+                  </select>
+                </div>
+              </div>
+
+              {hasMultipleOptions && (
+                <>
+                  <div className={styles.buyBoxSubSectionTitle}>Pack Size Swatches &amp; Option Pricing</div>
+                  <div className={styles.buyBoxPriceMatrix}>
+                    <div className={styles.fieldBlock}>
+                      <label className={styles.fieldLabel}>OPTION 1 NAME (SINGLE PACK)</label>
+                      <input
+                        type="text"
+                        value={swatchSingleName}
+                        onChange={(e) => setSwatchSingleName(e.target.value)}
+                        placeholder="Single Standard"
+                        className={styles.stockInput}
+                      />
+                    </div>
+
+                    <div className={styles.fieldBlock}>
+                      <label className={styles.fieldLabel}>OPTION 2 NAME (BULK PACK)</label>
+                      <input
+                        type="text"
+                        value={swatchBulkName}
+                        onChange={(e) => setSwatchBulkName(e.target.value)}
+                        placeholder="5-Pack Contractors"
+                        className={styles.stockInput}
+                      />
+                    </div>
+
+                    <div className={styles.fieldBlock}>
+                      <label className={styles.fieldLabel}>BULK PACK PRICE (SAR)</label>
+                      <div className={styles.priceInputWrapper}>
+                        <span className={styles.currencyPrefix}>SAR</span>
+                        <input
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          value={swatchBulkPrice}
+                          onChange={(e) => setSwatchBulkPrice(e.target.value)}
+                          placeholder="Auto (4.2x price)"
+                          className={styles.priceInput}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* MONTHLY AUTO-RESTOCK SUBSCRIPTION OPTIONS */}
+              <div className={styles.buyBoxSubSectionTitle}>Monthly Auto-Restock Subscription</div>
+
+              <div className={styles.buyBoxPriceMatrix}>
+                <div className={styles.fieldBlock} style={{ justifyContent: 'center' }}>
+                  <label className={styles.checkboxWrapper}>
+                    <input
+                      type="checkbox"
+                      checked={enableSubscription}
+                      onChange={(e) => setEnableSubscription(e.target.checked)}
+                      className={styles.checkboxInput}
+                    />
+                    <span style={{ fontSize: '13px', fontWeight: '600', color: '#111111' }}>Enable Monthly Auto-Restock</span>
+                  </label>
+                </div>
+
+                <div className={styles.fieldBlock}>
+                  <label className={styles.fieldLabel}>SUBSCRIPTION DISCOUNT (% OFF)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="90"
+                    value={subscriptionDiscountPercent}
+                    onChange={(e) => setSubscriptionDiscountPercent(e.target.value)}
+                    placeholder="10"
+                    className={styles.stockInput}
                   />
                 </div>
               </div>
@@ -880,14 +991,20 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                   <div className={styles.specsRightCol}>
                     <div className={styles.specImageEditorBox}>
                       <div className={styles.specSchematicWrapper}>
-                        <Image
-                          src={specImage || uploadedImages[0] || "/images/home/about/steel-raw.jpg"}
-                          alt="Product Technical Schematic"
-                          width={500}
-                          height={280}
-                          unoptimized
-                          className={styles.schematicImage}
-                        />
+                        {specImage ? (
+                          <Image
+                            src={specImage}
+                            alt="Product Technical Schematic"
+                            width={500}
+                            height={280}
+                            unoptimized
+                            className={styles.schematicImage}
+                          />
+                        ) : (
+                          <div style={{ padding: '30px', textAlign: 'center', color: '#64748b', fontSize: '13px' }}>
+                            No Technical Diagram Uploaded (Optional)
+                          </div>
+                        )}
                         <div 
                           className={styles.specUploadOverlay}
                           onClick={() => document.getElementById("spec-image-file-edit")?.click()}
@@ -899,7 +1016,11 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                             id="spec-image-file-edit"
                             accept="image/*"
                             className={styles.hiddenFileInput}
-                            onChange={(e) => e.target.files?.[0] && handleSpecImageUpload(e.target.files[0])}
+                            onChange={(e) => {
+                              if (e.target.files && e.target.files[0]) {
+                                handleSpecImageUpload(e.target.files[0]);
+                              }
+                            }}
                           />
                         </div>
                       </div>
@@ -916,7 +1037,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                         {specImage && (
                           <button
                             type="button"
-                            onClick={() => setSpecImage("")}
+                            onClick={handleClearSpecImage}
                             className={styles.clearSpecBtn}
                           >
                             Clear Image

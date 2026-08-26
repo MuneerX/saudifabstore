@@ -43,8 +43,7 @@ export interface IOrder extends Document {
 
 const OrderItemSchema: Schema = new Schema({
   product: {
-    type: Schema.Types.ObjectId,
-    ref: 'Product',
+    type: Schema.Types.Mixed,
     required: true,
   },
   quantity: {
@@ -70,8 +69,7 @@ const ShippingAddressSchema: Schema = new Schema({
 const OrderSchema: Schema = new Schema(
   {
     user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
+      type: Schema.Types.Mixed,
       required: true,
     },
     orderItems: [OrderItemSchema],

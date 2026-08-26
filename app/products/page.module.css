@@ -845,15 +845,19 @@
 }
 
 .mainPriceRow {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 2px;
+  line-height: 1;
 }
 
 .currencyPrefix {
-  font-size: 14px;
-  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
   color: #111111;
+  position: relative;
+  top: 2px;
+  margin-right: 1px;
 }
 
 .bigPriceDigits {
@@ -861,6 +865,16 @@
   font-weight: 800;
   color: #111111;
   letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.priceSupCents {
+  font-size: 13px;
+  font-weight: 800;
+  color: #111111;
+  position: relative;
+  top: 2px;
+  margin-left: 1px;
   line-height: 1;
 }
 
@@ -903,7 +917,7 @@
 .cardActionButtonsRow {
   display: flex;
   align-items: center;
-  gap: 12px;
+  width: 100%;
   margin-top: 10px;
 }
 
@@ -915,18 +929,20 @@
   background-color: #0058a3;
   color: #ffffff;
   border: none;
-  border-radius: 9999px;
-  padding: 8px 22px;
+  border-radius: 8px;
+  padding: 9px 16px;
+  width: 100%;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 13.5px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 88, 163, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 88, 163, 0.2);
   transition: all 0.15s ease;
 }
 
 .addPillBtn:hover {
   background-color: #004f93;
-  box-shadow: 0 4px 12px rgba(0, 88, 163, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 88, 163, 0.3);
   transform: translateY(-1px);
 }
 
@@ -934,21 +950,23 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: #111111;
-  color: #ffffff;
-  border: none;
-  border-radius: 9999px;
-  padding: 8px 22px;
+  background-color: transparent;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 9px 16px;
+  width: 100%;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 13.5px;
   font-weight: 700;
   text-decoration: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   transition: all 0.15s ease;
 }
 
 .optionsPillBtn:hover {
-  background-color: #000000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  background-color: #f8fafc;
+  border-color: #0f172a;
+  color: #0f172a;
   transform: translateY(-1px);
 }
 

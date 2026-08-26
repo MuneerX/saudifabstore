@@ -1,43 +1,39 @@
-﻿/* Premium Purchase Complete Page Styles - Saudi Fab Store Design Tokens */
+/* Minimal, High-End Purchase Complete Page - Saudi Fab Store Brand */
 
 .pageWrapper {
   min-height: 100vh;
-  background-color: #FAF9F5;
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #ffffff;
   color: #111111;
+  font-family: var(--font-archivo), 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
   display: flex;
   flex-direction: column;
 }
 
 .successSection {
   width: 100%;
-  padding: 120px 0 100px 0;
-  position: relative;
   flex: 1;
 }
 
 .container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 24px;
   width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 120px 24px 100px;
 }
 
 .breadcrumb {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 13px;
-  color: #8C887E;
+  font-size: 13.5px;
+  color: #64748b;
   margin-bottom: 24px;
-  justify-content: center;
 }
 
 .breadcrumbLink {
-  color: #111111;
+  color: #0058a3;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .breadcrumbLink:hover {
@@ -46,95 +42,90 @@
 
 .card {
   background: #ffffff;
-  border: 1px solid #EBE7DF;
-  border-radius: 12px;
-  padding: 28px 24px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 20px;
+  gap: 24px;
+  max-width: 860px;
+  margin: 0 auto;
 }
 
 .iconWrapper {
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background-color: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  color: #10B981;
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #16a34a;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: -4px;
 }
 
 .headerBlock {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   align-items: center;
-  max-width: 620px;
+  max-width: 640px;
 }
 
 .title {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 500;
-  color: #111111;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f172a;
   margin: 0;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .subtitle {
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 15px;
   line-height: 1.5;
-  color: #6E6B64;
+  color: #64748b;
   margin: 0;
-  letter-spacing: -0.015em;
 }
 
-/* Order Details Grid */
+/* Order Details Grid Box */
 .detailsBox {
   width: 100%;
-  background-color: #FAFAF8;
-  border: 1px solid #EBE7DF;
-  border-radius: 10px;
-  padding: 18px 20px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   text-align: left;
 }
 
 .detailsHeader {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 18px;
-  font-weight: 600;
-  color: #111111;
+  font-weight: 700;
+  color: #0f172a;
   margin: 0;
-  letter-spacing: -0.02em;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #EBE7DF;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #f1f5f9;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .statusBadge {
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 12px;
-  font-weight: 600;
-  color: #10B981;
-  background-color: rgba(16, 185, 129, 0.1);
-  padding: 4px 10px;
-  border-radius: 20px;
-  border: 1px solid rgba(16, 185, 129, 0.25);
+  font-weight: 700;
+  color: #16a34a;
+  background-color: #f0fdf4;
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 1px solid #bbf7d0;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
 .detailsGrid {
@@ -152,23 +143,21 @@
 .detailRow {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .detailLabel {
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 12px;
   font-weight: 600;
-  color: #8C887E;
+  color: #64748b;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
 }
 
 .detailValue {
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 14.5px;
-  font-weight: 500;
-  color: #111111;
+  font-weight: 600;
+  color: #0f172a;
   word-break: break-all;
 }
 
@@ -178,24 +167,23 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
-  padding-top: 12px;
-  border-top: 1px solid #EBE7DF;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
 }
 
 .itemsSectionTitle {
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 13px;
-  font-weight: 600;
-  color: #222222;
+  font-weight: 700;
+  color: #0f172a;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   margin: 0;
 }
 
 .itemsList {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .itemRow {
@@ -203,9 +191,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 10px 12px;
-  background-color: #ffffff;
-  border: 1px solid #EBE7DF;
+  padding: 12px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
 }
 
@@ -216,57 +204,53 @@
 }
 
 .itemThumb {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 6px;
   object-fit: cover;
-  background-color: #FAFAF8;
-  border: 1px solid #EBE7DF;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
 }
 
 .itemName {
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #111111;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0f172a;
   margin: 0;
 }
 
 .itemQty {
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 12.5px;
-  color: #6E6B64;
+  color: #64748b;
   margin: 2px 0 0 0;
 }
 
 .itemPrice {
-  font-family: 'Host Grotesk', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #111111;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
 }
 
-/* Total Summary Bar */
 .totalSummaryBar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 14px;
-  border-top: 1px solid #EBE7DF;
+  border-top: 1px solid #e2e8f0;
 }
 
 .totalSummaryLabel {
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 15px;
-  font-weight: 600;
-  color: #111111;
+  font-weight: 700;
+  color: #0f172a;
 }
 
 .totalSummaryValue {
-  font-family: 'Host Grotesk', 'Plus Jakarta Sans', sans-serif;
   font-size: 22px;
-  font-weight: 600;
-  color: #EA532B;
+  font-weight: 800;
+  color: #0f172a;
 }
 
 /* Action Buttons */
@@ -279,11 +263,11 @@
 }
 
 .primaryBtn {
-  background-color: #EA532B;
-  color: #ffffff;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 14.5px;
-  font-weight: 600;
+  background-color: #FEEC3C;
+  color: #111111;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
   padding: 14px 28px;
   border-radius: 8px;
   border: none;
@@ -292,24 +276,23 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: all 0.2s ease;
+  transition: background-color 0.15s ease;
   flex: 1;
   min-width: 200px;
+  text-decoration: none;
 }
 
 .primaryBtn:hover {
-  background-color: #d04722;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(234, 83, 43, 0.25);
+  background-color: #ebd700;
 }
 
 .secondaryBtn {
   background-color: #ffffff;
-  color: #111111;
-  border: 1px solid #EBE7DF;
-  font-family: 'Host Grotesk', sans-serif;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 14.5px;
-  font-weight: 500;
+  font-weight: 600;
   padding: 14px 24px;
   border-radius: 8px;
   cursor: pointer;
@@ -317,21 +300,22 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   flex: 1;
   min-width: 200px;
+  text-decoration: none;
 }
 
 .secondaryBtn:hover {
-  background-color: #FAFAF8;
-  border-color: #111111;
+  background-color: #f8fafc;
+  border-color: #0f172a;
 }
 
 /* Support Helpdesk Box */
 .supportBox {
   width: 100%;
-  padding-top: 24px;
-  border-top: 1px solid #EBE7DF;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -339,9 +323,8 @@
 }
 
 .supportTitle {
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 13.5px;
-  color: #6E6B64;
+  color: #64748b;
   margin: 0;
 }
 
@@ -356,16 +339,13 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-family: 'Host Grotesk', sans-serif;
   font-size: 13px;
-  font-weight: 500;
-  color: #111111;
+  font-weight: 600;
+  color: #0058a3;
   text-decoration: none;
-  transition: opacity 0.15s ease;
 }
 
 .supportChannel:hover {
-  opacity: 0.8;
   text-decoration: underline;
 }
 
@@ -379,23 +359,23 @@
 }
 
 .errorIconWrapper {
-  width: 80px;
-  height: 80px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background-color: #FEF2F2;
-  border: 1px solid #FECACA;
-  color: #DC2626;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 @media (max-width: 640px) {
-  .successSection {
-    padding: 100px 0 60px 0;
+  .container {
+    padding: 100px 16px 60px;
   }
   .card {
-    padding: 32px 16px;
+    padding: 24px 16px;
   }
   .actionsGroup {
     flex-direction: column;

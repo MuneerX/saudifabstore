@@ -30,9 +30,9 @@ export function CartDrawer() {
   // Fetch recommendation products for "Maybe you would like" section
   useEffect(() => {
     fetch('/api/products?limit=5')
-      .then(res => res.json())
+      .then(res => (res.ok ? res.json() : null))
       .then(data => {
-        if (data && data.products) {
+        if (data && Array.isArray(data.products)) {
           setRecProducts(data.products);
         }
       })
@@ -127,7 +127,7 @@ export function CartDrawer() {
           ) : (
             items.map((item: any, idx: number) => {
               const productId = item.product?._id || item.product?.id || `item-${idx}`;
-              const imageSrc = item.product?.images?.[0] || "/images/home/category_grid/container_3.jpeg";
+              const imageSrc = item.product?.images?.[0] || "/images/home/category_grid/warehouse.jpeg";
               const price = typeof item.product?.price === "number" ? item.product.price : parseFloat(item.product?.price) || 0;
 
               return (
@@ -213,11 +213,11 @@ export function CartDrawer() {
               onMouseMove={handleMouseMove}
             >
               {(recProducts.length > 0 ? recProducts : [
-                { _id: "rec1", name: "Viva Heavy Attachment", price: 150, color: "Mossy Green", images: ["/images/home/category_grid/container_3.jpeg"] },
-                { _id: "rec2", name: "Safety Bollard Yellow Post", price: 190, color: "Yellow Safety", images: ["/images/home/category_grid/safety_3.jpeg"] },
-                { _id: "rec3", name: "Industrial Crane Hook Girder", price: 340, color: "Steel Blue", images: ["/images/home/category_grid/lifting_3.jpeg"] }
+                { _id: "rec1", name: "Viva Heavy Attachment", price: 150, color: "Mossy Green", images: ["/images/home/category_grid/warehouse.jpeg"] },
+                { _id: "rec2", name: "Safety Bollard Yellow Post", price: 190, color: "Yellow Safety", images: ["/images/home/category_grid/safety.jpeg"] },
+                { _id: "rec3", name: "Industrial Crane Hook Girder", price: 340, color: "Steel Blue", images: ["/images/home/category_grid/industrial.jpeg"] }
               ]).map((rec: any, i: number) => {
-                const recImage = rec.images?.[0] || "/images/home/category_grid/container_3.jpeg";
+                const recImage = rec.images?.[0] || "/images/home/category_grid/warehouse.jpeg";
                 return (
                   <div key={rec._id || i} className={styles.recCard}>
                     <div className={styles.recImgBox}>

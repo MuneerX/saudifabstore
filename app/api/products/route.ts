@@ -44,6 +44,20 @@ export async function GET(request: NextRequest) {
         .sort({ createdAt: -1 });
         
       total = await Product.countDocuments(filter);
+      
+      // Auto-seed MongoDB Atlas if collection is empty
+      if (total === 0 && !category && !brand && !minPrice && !maxPrice) {
+        console.log('MongoDB product collection empty, auto-seeding products into Atlas...');
+        for (const prodData of INITIAL_PRODUCTS) {
+          const { _id, ...rest } = prodData;
+          await Product.create(rest);
+        }
+        products = await Product.find(filter)
+          .limit(limit * 1)
+          .skip((page - 1) * limit)
+          .sort({ createdAt: -1 });
+        total = await Product.countDocuments(filter);
+      }
     } catch (dbErr) {
       console.warn("MongoDB connection unavailable, serving BR Products dataset fallback:", dbErr);
     }
@@ -71,11 +85,11 @@ export async function GET(request: NextRequest) {
       const fallbackProd = INITIAL_PRODUCTS.find(ip => ip._id === pObj._id || ip.name?.toLowerCase() === (pObj.name || '').toLowerCase());
       
       if (!pObj.images || pObj.images.length === 0) {
-        pObj.images = (fallbackProd && fallbackProd.images) ? fallbackProd.images : ["/images/home/category_grid/container_3.jpeg"];
+        pObj.images = (fallbackProd && fallbackProd.images) ? fallbackProd.images : ["/images/home/category_grid/warehouse.jpeg"];
       }
 
       if (!pObj.specImage) {
-        pObj.specImage = pObj.images[0] || "/images/home/services/steel2.jpeg";
+        pObj.specImage = "";
       }
 
       if (pObj.material === undefined || pObj.material === null) pObj.material = fallbackProd?.material || "";
@@ -84,6 +98,12 @@ export async function GET(request: NextRequest) {
       if (pObj.fabricationDetails === undefined || pObj.fabricationDetails === null) pObj.fabricationDetails = fallbackProd?.fabricationDetails || "";
       if (pObj.surfacePreparation === undefined || pObj.surfacePreparation === null) pObj.surfacePreparation = fallbackProd?.surfacePreparation || "";
       if (pObj.testingCertifications === undefined || pObj.testingCertifications === null) pObj.testingCertifications = fallbackProd?.testingCertifications || "";
+
+      if (!pObj.swatchSingleName) pObj.swatchSingleName = 'Single Standard';
+      if (!pObj.swatchBulkName) pObj.swatchBulkName = '5-Pack Contractors';
+      if (pObj.swatchBulkPrice === undefined) pObj.swatchBulkPrice = pObj.price * 4.2;
+      if (pObj.enableSubscription === undefined) pObj.enableSubscription = true;
+      if (pObj.subscriptionDiscountPercent === undefined) pObj.subscriptionDiscountPercent = 10;
 
       return pObj;
     });

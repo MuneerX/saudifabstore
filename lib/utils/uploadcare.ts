@@ -3,8 +3,8 @@
  * Automatic File Deletion, Purging & Orphan Cleanup from Uploadcare CDN
  */
 
-const UPLOADCARE_PUBLIC_KEY = process.env.UPLOADCARE_PUBLIC_KEY || '58e60a300a0570589035';
-const UPLOADCARE_SECRET_KEY = process.env.UPLOADCARE_SECRET_KEY || 'b6a9fe9ff99422f2cc01';
+const UPLOADCARE_PUBLIC_KEY = process.env.UPLOADCARE_PUBLIC_KEY || '4f5bb3abfd7da51634e7';
+const UPLOADCARE_SECRET_KEY = process.env.UPLOADCARE_SECRET_KEY || 'c29ff621f9401b70b504';
 
 /**
  * Extracts Uploadcare UUID from a CDN URL or raw UUID string.

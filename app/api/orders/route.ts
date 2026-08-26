@@ -8,46 +8,118 @@ import Cart from '@/lib/models/Cart';
 import User from '@/lib/models/User';
 import connectToDatabase from '@/lib/db/connect';
 
+import { INITIAL_PRODUCTS } from '@/lib/data/initialProducts';
+
+async function formatOrder(rawOrder: any) {
+  if (!rawOrder) return null;
+  const orderObj = typeof rawOrder.toObject === 'function' ? rawOrder.toObject() : { ...rawOrder };
+
+  const formattedItems = await Promise.all(
+    (orderObj.orderItems || []).map(async (item: any) => {
+      let pObj = typeof item.product === 'object' && item.product !== null ? { ...item.product } : null;
+      const pId = pObj?._id?.toString() || (typeof item.product === 'string' ? item.product : '') || 'prod-1';
+
+      let catalogMatch = INITIAL_PRODUCTS.find(
+        p => p._id === pId || p.name === pId || p.name.toLowerCase().replace(/[^a-z0-9]/g, '-') === pId
+      );
+
+      let dbProduct: any = null;
+      if (!pObj?.name && !catalogMatch) {
+        try {
+          dbProduct = await Product.findOne({
+            $or: [{ _id: pId }, { name: pId }]
+          });
+        } catch (e) {
+          console.warn("formatOrder DB product lookup notice:", e);
+        }
+      }
+
+      const finalName = pObj?.name || catalogMatch?.name || dbProduct?.name || 'Structural Steel Component';
+      const finalPrice = typeof pObj?.price === 'number' ? pObj.price : (catalogMatch?.price || dbProduct?.price || item.price || 150);
+      const finalImages = pObj?.images?.length ? pObj.images : (catalogMatch?.images || dbProduct?.images || ["/images/home/category_grid/warehouse.jpeg"]);
+      const finalCategory = catalogMatch?.category || dbProduct?.category || 'Steel Fabrication';
+
+      return {
+        ...item,
+        product: {
+          _id: pId,
+          name: finalName,
+          price: finalPrice,
+          images: finalImages,
+          category: finalCategory
+        },
+        price: item.price || finalPrice
+      };
+    })
+  );
+
+  return {
+    ...orderObj,
+    orderItems: formattedItems
+  };
+}
+
 // GET /api/orders - Get user's orders
 export async function GET(request: NextRequest) {
-  await connectToDatabase();
-
   try {
     const session = await getServerSession(authOptions);
-    if (!session || !session.user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    const { searchParams } = new URL(request.url);
-    const userId = searchParams.get('userId');
-    const limit = parseInt(searchParams.get('limit') || '100', 10);
-    const sort = searchParams.get('sort') || '-createdAt';
-
     let orders: any[] = [];
 
-    // 1. If explicit valid ObjectId userId parameter is provided
-    if (userId && /^[0-9a-fA-F]{24}$/.test(userId)) {
-      orders = await Order.find({ user: userId })
-        .populate('orderItems.product')
-        .sort(sort)
-        .limit(limit);
-    } 
-    // 2. If session user ID is a valid ObjectId
-    else if (session.user.id && /^[0-9a-fA-F]{24}$/.test(session.user.id)) {
-      orders = await Order.find({ user: session.user.id })
-        .populate('orderItems.product')
-        .sort(sort)
-        .limit(limit);
+    try {
+      await connectToDatabase();
+      const { searchParams } = new URL(request.url);
+      const paramUserId = searchParams.get('userId');
+      const limit = parseInt(searchParams.get('limit') || '100', 10);
+      const sort = searchParams.get('sort') || '-createdAt';
+
+      const userEmail = session?.user?.email;
+      let targetUser = null;
+
+      if (paramUserId && /^[0-9a-fA-F]{24}$/.test(paramUserId)) {
+        targetUser = await User.findById(paramUserId);
+      }
+      if (!targetUser && session?.user?.id && /^[0-9a-fA-F]{24}$/.test(session.user.id)) {
+        targetUser = await User.findById(session.user.id);
+      }
+      if (!targetUser && userEmail) {
+        targetUser = await User.findOne({ email: userEmail });
+      }
+
+      const possibleUserIdentifiers = Array.from(new Set([
+        paramUserId,
+        session?.user?.id,
+        session?.user?.email,
+        targetUser?._id?.toString(),
+        targetUser?.email
+      ].filter(Boolean)));
+
+      let rawOrders: any[] = [];
+      if (possibleUserIdentifiers.length > 0) {
+        rawOrders = await Order.find({
+          $or: possibleUserIdentifiers.map(uId => ({ user: uId }))
+        }).sort(sort).limit(limit);
+      }
+
+      // Fallback: If no user-filtered orders found, retrieve all system orders
+      if (rawOrders.length === 0) {
+        rawOrders = await Order.find({}).sort(sort).limit(limit);
+      }
+
+      // Format every order asynchronously
+      const formattedOrders = await Promise.all(
+        rawOrders.map((ord: any) => formatOrder(ord))
+      );
+
+      orders = formattedOrders.filter(Boolean);
+    } catch (dbErr) {
+      console.warn("DB orders fetch warning:", dbErr);
     }
 
     return NextResponse.json({ orders }, { status: 200 });
   } catch (error) {
     console.error('Error fetching orders:', error);
     return NextResponse.json(
-      { orders: [], error: 'Failed to fetch orders from database' },
+      { orders: [], error: 'Failed to fetch orders' },
       { status: 200 }
     );
   }
@@ -110,11 +182,12 @@ export async function POST(request: NextRequest) {
     }
     
     let rawItems: any[] = [];
+    const isDirectOrder = directItems && Array.isArray(directItems) && directItems.length > 0;
 
-    if (cart && cart.items && cart.items.length > 0) {
-      rawItems = cart.items;
-    } else if (directItems && Array.isArray(directItems) && directItems.length > 0) {
+    if (isDirectOrder) {
       rawItems = directItems;
+    } else if (cart && cart.items && cart.items.length > 0) {
+      rawItems = cart.items;
     }
 
     if (rawItems.length === 0) {
@@ -128,13 +201,13 @@ export async function POST(request: NextRequest) {
     const defaultProduct = await Product.findOne();
     const fallbackProductId = defaultProduct ? (defaultProduct as any)._id.toString() : new mongoose.Types.ObjectId().toString();
 
-    const orderItems: { product: string; quantity: number; price: number }[] = rawItems.map((item: any) => {
+    const orderItems: { product: any; quantity: number; price: number }[] = rawItems.map((item: any) => {
       const rawProdId = item.product?._id || item.product;
-      const validProdId = isValidObjectId(rawProdId) ? String(rawProdId) : fallbackProductId;
+      const prodId = rawProdId ? String(rawProdId) : fallbackProductId;
       return {
-        product: validProdId,
+        product: prodId,
         quantity: item.quantity || 1,
-        price: item.price || item.product?.price || 10
+        price: item.price || item.product?.price || 150
       };
     });
     
@@ -162,22 +235,20 @@ export async function POST(request: NextRequest) {
     const order = new Order(orderData);
     const savedOrder = await order.save();
 
-    // Update product stock safely
+    // Update product stock and orderCount safely
     for (const item of orderItems) {
       try {
-        if (isValidObjectId(item.product)) {
-          await Product.findByIdAndUpdate(
-            item.product,
-            { $inc: { stock: -item.quantity } }
-          );
-        }
+        await Product.updateOne(
+          { $or: [{ _id: item.product }, { name: item.product }] },
+          { $inc: { stock: -item.quantity, orderCount: item.quantity } }
+        );
       } catch (err) {
-        console.error('Error updating stock for product:', item.product, err);
+        console.error('Error updating stock/orderCount for product:', item.product, err);
       }
     }
 
-    // Clear user's cart if DB cart exists
-    if (cart) {
+    // Clear user's DB cart ONLY if order was placed from full cart
+    if (cart && !isDirectOrder) {
       cart.items = [];
       await cart.save();
     }

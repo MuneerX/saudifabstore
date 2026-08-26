@@ -10,15 +10,12 @@ export interface IWishlist extends Document {
 const WishlistSchema: Schema = new Schema(
   {
     user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
+      type: Schema.Types.Mixed,
       required: true,
-      unique: true,
     },
     products: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'Product',
+        type: Schema.Types.Mixed,
       },
     ],
   },
@@ -27,4 +24,9 @@ const WishlistSchema: Schema = new Schema(
   }
 );
 
-export default mongoose.models.Wishlist || mongoose.model<IWishlist>('Wishlist', WishlistSchema);
+// Clear model cache
+if (mongoose.models.Wishlist) {
+  delete mongoose.models.Wishlist;
+}
+
+export default mongoose.model<IWishlist>('Wishlist', WishlistSchema);

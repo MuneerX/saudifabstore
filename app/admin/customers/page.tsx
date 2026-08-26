@@ -244,6 +244,7 @@ export default function CustomersPage() {
                 <tr>
                   <th scope="col">Customer</th>
                   <th scope="col">Contact</th>
+                  <th scope="col">Traffic Source</th>
                   <th scope="col">Join Date</th>
                   <th scope="col">Orders</th>
                   <th scope="col">Total Spent</th>
@@ -265,9 +266,14 @@ export default function CustomersPage() {
                         <div>{customer.phone}</div>
                       </div>
                     </td>
+                    <td>
+                      <span className={styles.sourceTag}>
+                        {customer.referralSource || "Direct"}
+                      </span>
+                    </td>
                     <td>{customer.joinDate}</td>
                     <td>{customer.orders}</td>
-                    <td>₹{customer.totalSpent.toFixed(2)}</td>
+                    <td>SAR {customer.totalSpent.toFixed(2)}</td>
                     <td>
                       <span className={`${styles.status} ${styles[customer.status.toLowerCase()]}`}>
                         {customer.status}

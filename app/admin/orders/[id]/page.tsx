@@ -244,8 +244,8 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
                   <tr>
                     <td><strong>${item.product?.name || 'Product'}</strong></td>
                     <td class="text-right">${item.quantity}</td>
-                    <td class="text-right">$${(item.price || 0).toFixed(2)}</td>
-                    <td class="text-right">$${((item.price || 0) * item.quantity).toFixed(2)}</td>
+                    <td class="text-right">SAR ${(item.price || 0).toFixed(2)}</td>
+                    <td class="text-right">SAR ${((item.price || 0) * item.quantity).toFixed(2)}</td>
                   </tr>
                 `).join('') || ''}
               </tbody>
@@ -255,19 +255,19 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
               <div class="summary-section">
                 <div class="summary-row">
                   <span>Subtotal:</span>
-                  <span>$${(order.itemsPrice || 0).toFixed(2)}</span>
+                  <span>SAR ${(order.itemsPrice || 0).toFixed(2)}</span>
                 </div>
                 <div class="summary-row">
                   <span>Freight / Shipping:</span>
-                  <span>$${(order.shippingPrice || 0).toFixed(2)}</span>
+                  <span>SAR ${(order.shippingPrice || 0).toFixed(2)}</span>
                 </div>
                 <div class="summary-row">
-                  <span>VAT (10%):</span>
-                  <span>$${(order.taxPrice || 0).toFixed(2)}</span>
+                  <span>VAT (15%):</span>
+                  <span>SAR ${(order.taxPrice || 0).toFixed(2)}</span>
                 </div>
                 <div class="total-row">
                   <span>Total Amount:</span>
-                  <span>$${(order.totalPrice || 0).toFixed(2)}</span>
+                  <span>SAR ${(order.totalPrice || 0).toFixed(2)}</span>
                 </div>
               </div>
             </div>
@@ -670,11 +670,11 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
                       Quantity: {item.quantity}
                     </div>
                     <div className={styles.itemPrice}>
-                      ₹{item.price?.toFixed(2) || '0.00'} × {item.quantity}
+                      SAR {item.price?.toFixed(2) || '0.00'} × {item.quantity}
                     </div>
                   </div>
                   <div className={styles.itemTotal}>
-                    ₹{((item.price || 0) * item.quantity).toFixed(2)}
+                    SAR {((item.price || 0) * item.quantity).toFixed(2)}
                   </div>
                 </div>
               ))}
@@ -691,19 +691,19 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
             <div className={styles.summaryList}>
               <div className={styles.summaryItem}>
                 <span>Items Price</span>
-                <span>₹{order.itemsPrice?.toFixed(2) || '0.00'}</span>
+                <span>SAR {order.itemsPrice?.toFixed(2) || '0.00'}</span>
               </div>
               <div className={styles.summaryItem}>
                 <span>Shipping</span>
-                <span>₹{order.shippingPrice?.toFixed(2) || '0.00'}</span>
+                <span>SAR {order.shippingPrice?.toFixed(2) || '0.00'}</span>
               </div>
               <div className={styles.summaryItem}>
-                <span>Tax</span>
-                <span>₹{order.taxPrice?.toFixed(2) || '0.00'}</span>
+                <span>Tax (KSA VAT)</span>
+                <span>SAR {order.taxPrice?.toFixed(2) || '0.00'}</span>
               </div>
               <div className={`${styles.summaryItem} ${styles.total}`}>
                 <span>Total</span>
-                <span>₹{order.totalPrice?.toFixed(2) || '0.00'}</span>
+                <span>SAR {order.totalPrice?.toFixed(2) || '0.00'}</span>
               </div>
             </div>
           </CardContent>

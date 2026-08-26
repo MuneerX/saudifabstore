@@ -1,0 +1,317 @@
+/* Minimal, High-End Wishlist Page Styling - Saudi Fab Store Brand */
+
+.pageWrapper {
+  min-height: 100vh;
+  background-color: #ffffff;
+  color: #111111;
+  font-family: var(--font-archivo), 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.wishlistSection {
+  width: 100%;
+  flex: 1;
+}
+
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 120px 24px 100px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: #64748b;
+  margin-bottom: 24px;
+}
+
+.breadcrumbLink {
+  color: #0058a3;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.breadcrumbLink:hover {
+  text-decoration: underline;
+}
+
+/* Header */
+.headerBlock {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.headerTitleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title {
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.countBadge {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #0f172a;
+  background-color: #f1f5f9;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid #cbd5e1;
+}
+
+.subtitle {
+  font-size: 14.5px;
+  color: #64748b;
+  margin: 0;
+}
+
+.clearAllBtn {
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.clearAllBtn:hover {
+  border-color: #dc2626;
+  color: #dc2626;
+  background-color: #fef2f2;
+}
+
+/* Products Grid */
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 24px;
+}
+
+.productCard {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: border-color 0.15s ease;
+}
+
+.productCard:hover {
+  border-color: #cbd5e1;
+}
+
+.imgWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  background-color: #f8fafc;
+  border-bottom: 1px solid #f1f5f9;
+  overflow: hidden;
+}
+
+.productImg {
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.productCard:hover .productImg {
+  transform: scale(1.03);
+}
+
+.removeHeartBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e2e8f0;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  z-index: 2;
+}
+
+.removeHeartBtn:hover {
+  background-color: #fef2f2;
+  transform: scale(1.1);
+}
+
+.cardContent {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.categoryTag {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #0058a3;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.productName {
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.productNameLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.productNameLink:hover {
+  color: #0058a3;
+}
+
+.productPrice {
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-top: auto;
+}
+
+/* Saudi Fab Yellow Add to Cart Button */
+.addToCartBtn {
+  background-color: #FEEC3C;
+  color: #111111;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  width: 100%;
+}
+
+.addToCartBtn:hover {
+  background-color: #ebd700;
+}
+
+/* Empty State */
+.emptyCard {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 60px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.emptyIconWrapper {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.emptyTitle {
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+}
+
+.emptySub {
+  font-size: 14.5px;
+  color: #64748b;
+  margin: 0 0 24px 0;
+  max-width: 420px;
+  line-height: 1.5;
+}
+
+.browseBtn {
+  background-color: #FEEC3C;
+  color: #111111;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 28px;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.browseBtn:hover {
+  background-color: #ebd700;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 100px 16px 60px;
+  }
+  .headerBlock {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
