@@ -93,12 +93,13 @@ export function WalmartPopularCarouselSection({
           const badgeConfig = getDynamicBadge(product, styles, catalogStats);
 
           const hasMultipleOptions = Boolean(
-            (product as any).hasMultipleOptions || 
-            (product as any).variants?.length > 1 || 
-            (product as any).availableFinishes?.length > 1 || 
-            (product as any).sizes?.length > 1 ||
-            product.category === 'Forklift Attachments' ||
-            product.category === 'Structural Steel'
+            product.hasMultipleOptions !== undefined
+              ? product.hasMultipleOptions
+              : (
+                (product as any).variants?.length > 1 || 
+                (product as any).availableFinishes?.length > 1 || 
+                (product as any).sizes?.length > 1
+              )
           );
 
           // Full product title and category subtext
