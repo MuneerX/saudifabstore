@@ -276,15 +276,21 @@ export async function PUT(request: NextRequest) {
     }
     
     let product = null;
-    let oldProduct = null;
+    let oldProduct: any = null;
     const isMongoId = /^[0-9a-fA-F]{24}$/.test(productId);
     const queryFilter = isMongoId
       ? { $or: [{ _id: productId }, { _id: new mongoose.Types.ObjectId(productId) }] }
       : { _id: productId };
 
-    oldProduct = await Product.findOne(queryFilter);
-    if (!oldProduct && updateData.name) {
-      oldProduct = await Product.findOne({ name: updateData.name });
+    if (Product.collection) {
+      oldProduct = await Product.collection.findOne(queryFilter as any);
+      if (!oldProduct && updateData.name) {
+        oldProduct = await Product.collection.findOne({ name: updateData.name } as any);
+      }
+    }
+
+    if (!oldProduct) {
+      oldProduct = await Product.findOne(queryFilter);
     }
 
     if (!oldProduct) {
@@ -294,9 +300,42 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    Object.assign(oldProduct, updateData);
-    await oldProduct.save();
-    product = oldProduct;
+    const sanitizedUpdate = {
+      name: updateData.name,
+      description: updateData.description !== undefined ? updateData.description : oldProduct.description,
+      category: updateData.category || oldProduct.category,
+      price: typeof updateData.price === 'number' ? updateData.price : (parseFloat(updateData.price) || 0),
+      discountPrice: updateData.discountPrice ? parseFloat(updateData.discountPrice) : undefined,
+      stock: typeof updateData.stock === 'number' ? updateData.stock : (parseInt(updateData.stock) || 0),
+      hasMultipleOptions: Boolean(updateData.hasMultipleOptions),
+      swatchSingleName: updateData.swatchSingleName || 'Single Standard',
+      swatchBulkName: updateData.swatchBulkName || '5-Pack Contractors',
+      swatchBulkPrice: updateData.swatchBulkPrice !== undefined ? parseFloat(updateData.swatchBulkPrice) : 0,
+      enableSubscription: Boolean(updateData.enableSubscription),
+      subscriptionDiscountPercent: updateData.subscriptionDiscountPercent !== undefined ? parseFloat(updateData.subscriptionDiscountPercent) : 10,
+      promoBadge: updateData.promoBadge || 'FACTORY DIRECT',
+      images: Array.isArray(updateData.images) ? updateData.images : oldProduct.images,
+      specImage: updateData.specImage !== undefined ? updateData.specImage : oldProduct.specImage,
+      material: updateData.material !== undefined ? updateData.material : oldProduct.material,
+      dimensions: updateData.dimensions !== undefined ? updateData.dimensions : oldProduct.dimensions,
+      weight: updateData.weight !== undefined ? updateData.weight : oldProduct.weight,
+      fabricationDetails: updateData.fabricationDetails !== undefined ? updateData.fabricationDetails : oldProduct.fabricationDetails,
+      surfacePreparation: updateData.surfacePreparation !== undefined ? updateData.surfacePreparation : oldProduct.surfacePreparation,
+      testingCertifications: updateData.testingCertifications !== undefined ? updateData.testingCertifications : oldProduct.testingCertifications,
+      updatedAt: new Date(),
+    };
+
+    if (Product.collection) {
+      await Product.collection.updateOne(
+        { _id: oldProduct._id },
+        { $set: sanitizedUpdate }
+      );
+      product = await Product.collection.findOne({ _id: oldProduct._id });
+    } else {
+      Object.assign(oldProduct, sanitizedUpdate);
+      await oldProduct.save();
+      product = oldProduct;
+    }
 
     // Automatically purge replaced/removed images from Uploadcare CDN
     if (oldProduct) {
