@@ -137,17 +137,17 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
           setName(product.name || "");
           setDescription(product.description || "");
           setCategory(product.category || "Steel Fabrication");
-          setPrice(product.price !== undefined ? product.price.toString() : "0");
-          setDiscountPrice(product.discountPrice !== undefined ? product.discountPrice.toString() : "");
-          setStock(product.stock !== undefined ? product.stock.toString() : "20");
+          setPrice(product.price != null ? String(product.price) : "0");
+          setDiscountPrice(product.discountPrice != null ? String(product.discountPrice) : "");
+          setStock(product.stock != null ? String(product.stock) : "20");
           setSpecImage(product.specImage || "");
 
           setHasMultipleOptions(Boolean(product.hasMultipleOptions));
           setSwatchSingleName(product.swatchSingleName || "Single Standard");
           setSwatchBulkName(product.swatchBulkName || "5-Pack Contractors");
-          setSwatchBulkPrice(product.swatchBulkPrice !== undefined ? product.swatchBulkPrice.toString() : "");
+          setSwatchBulkPrice(product.swatchBulkPrice != null ? String(product.swatchBulkPrice) : "");
           setEnableSubscription(product.enableSubscription !== false);
-          setSubscriptionDiscountPercent(product.subscriptionDiscountPercent !== undefined ? product.subscriptionDiscountPercent.toString() : "10");
+          setSubscriptionDiscountPercent(product.subscriptionDiscountPercent != null ? String(product.subscriptionDiscountPercent) : "10");
           setPromoBadge(product.promoBadge || "FACTORY DIRECT");
 
           const fallbackSpec = INITIAL_PRODUCTS.find(
