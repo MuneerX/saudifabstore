@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -40,7 +40,7 @@ function Icon({ icon, size = 20, strokeWidth = 1.8, className = "" }: { icon: an
   return <HugeiconsIcon icon={iconData} size={size} strokeWidth={strokeWidth} className={className} />;
 }
 
-export function Navbar({}: NavbarProps) {
+function NavbarContent(props: NavbarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const urlSearchQuery = searchParams ? (searchParams.get("search") || searchParams.get("q") || "") : "";
@@ -329,5 +329,13 @@ export function Navbar({}: NavbarProps) {
         </div>
       )}
     </header>
+  );
+}
+
+export function Navbar(props: NavbarProps) {
+  return (
+    <Suspense fallback={<header className={styles.header} style={{ minHeight: "80px" }} />}>
+      <NavbarContent {...props} />
+    </Suspense>
   );
 }

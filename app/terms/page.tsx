@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import styles from './page.module.css';
 
-export default function TermsPage() {
+function TermsContent() {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
   
@@ -188,3 +188,11 @@ export default function TermsPage() {
 }
 
 const bulletListStyle = styles.bulletList;
+
+export default function TermsPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: "40px", textAlign: "center" }}>Loading Legal Policies...</div>}>
+      <TermsContent />
+    </Suspense>
+  );
+}

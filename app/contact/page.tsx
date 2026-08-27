@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
@@ -28,7 +28,7 @@ import {
 import { toast } from "sonner";
 import styles from "./page.module.css";
 
-export default function ContactPage() {
+function ContactContent() {
   const searchParams = useSearchParams();
   const [step, setStep] = useState<"survey" | "submitted">("survey");
   const [ticketId, setTicketId] = useState("");
@@ -750,5 +750,13 @@ export default function ContactPage() {
       {/* Distinct Contact Page Footer Component (Includes Direct Offices & Legal Bar) */}
       <Footer isContactPage={true} />
     </div>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: "40px", textAlign: "center" }}>Loading Customer Support...</div>}>
+      <ContactContent />
+    </Suspense>
   );
 }
