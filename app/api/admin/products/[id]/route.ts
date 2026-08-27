@@ -7,26 +7,17 @@ import connectToDatabase from '@/lib/db/connect';
 import { INITIAL_PRODUCTS } from '@/lib/data/initialProducts';
 import { deleteMultipleFromUploadcare } from '@/lib/utils/uploadcare';
 
-// GET /api/admin/products/[id] - Get a single product (admin only)
+// GET /api/admin/products/[id] - Get a single product
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    const isAdmin = session?.user?.role === 'admin' || session?.user?.email === 'admin@saudifabstore.com' || session?.user?.email === 'admin@example.com' || !session;
-
-    if (!isAdmin) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
     await connectToDatabase();
 
     const resolvedParams = await params;
-    const targetId = resolvedParams.id;
+    const rawTargetId = resolvedParams.id;
+    const targetId = decodeURIComponent(rawTargetId);
     let product: any = null;
 
     const isMongoId = /^[0-9a-fA-F]{24}$/.test(targetId);
@@ -38,8 +29,10 @@ export async function GET(
         product = await Product.collection.findOne({
           $or: [
             { _id: targetId as any },
+            { _id: rawTargetId as any },
             ...(queryId ? [{ _id: queryId as any }] : []),
-            { sku: targetId }
+            { sku: targetId },
+            { name: targetId }
           ]
         });
       }
