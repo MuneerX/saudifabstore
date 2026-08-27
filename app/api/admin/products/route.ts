@@ -267,7 +267,13 @@ export async function PUT(request: NextRequest) {
       );
     }
     
-    await connectToDatabase();
+    const conn = await connectToDatabase();
+    if (!conn) {
+      return NextResponse.json(
+        { error: 'MongoDB Atlas Connection Failed: Please ensure 0.0.0.0/0 is allowed in MongoDB Atlas Network Access.' },
+        { status: 503 }
+      );
+    }
     
     let product = null;
     let oldProduct = null;

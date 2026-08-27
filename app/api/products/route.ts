@@ -21,41 +21,29 @@ export async function GET(request: NextRequest) {
     let total = 0;
 
     try {
-      await connectToDatabase();
-      dbConnected = true;
+      const conn = await connectToDatabase();
+      if (conn) {
+        dbConnected = true;
 
-      // Build filter object
-      const filter: {
-        category?: string;
-        brand?: string;
-        price?: { $gte?: number; $lte?: number };
-      } = {};
-      if (category) filter.category = { $regex: category, $options: 'i' } as any;
-      if (brand) filter.brand = brand;
-      if (minPrice || maxPrice) {
-        filter.price = {};
-        if (minPrice) filter.price.$gte = parseFloat(minPrice);
-        if (maxPrice) filter.price.$lte = parseFloat(maxPrice);
-      }
-      
-      products = await Product.find(filter)
-        .limit(limit * 1)
-        .skip((page - 1) * limit)
-        .sort({ createdAt: -1 });
-        
-      total = await Product.countDocuments(filter);
-      
-      // Auto-seed MongoDB Atlas if collection is empty
-      if (total === 0 && !category && !brand && !minPrice && !maxPrice) {
-        console.log('MongoDB product collection empty, auto-seeding products into Atlas...');
-        for (const prodData of INITIAL_PRODUCTS) {
-          const { _id, ...rest } = prodData;
-          await Product.create(rest);
+        // Build filter object
+        const filter: {
+          category?: string;
+          brand?: string;
+          price?: { $gte?: number; $lte?: number };
+        } = {};
+        if (category) filter.category = { $regex: category, $options: 'i' } as any;
+        if (brand) filter.brand = brand;
+        if (minPrice || maxPrice) {
+          filter.price = {};
+          if (minPrice) filter.price.$gte = parseFloat(minPrice);
+          if (maxPrice) filter.price.$lte = parseFloat(maxPrice);
         }
+        
         products = await Product.find(filter)
           .limit(limit * 1)
           .skip((page - 1) * limit)
           .sort({ createdAt: -1 });
+          
         total = await Product.countDocuments(filter);
       }
     } catch (dbErr) {
