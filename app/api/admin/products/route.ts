@@ -278,32 +278,35 @@ export async function PUT(request: NextRequest) {
     let product = null;
     let oldProduct: any = null;
     const isMongoId = /^[0-9a-fA-F]{24}$/.test(productId);
-    const queryFilter = isMongoId
-      ? { $or: [{ _id: productId }, { _id: new mongoose.Types.ObjectId(productId) }] }
-      : { _id: productId };
+    const queryId = isMongoId ? new mongoose.Types.ObjectId(productId) : null;
+
+    const queryFilter = {
+      $or: [
+        { _id: productId as any },
+        ...(queryId ? [{ _id: queryId as any }] : []),
+        { sku: productId },
+        ...(updateData.name ? [{ name: updateData.name }] : [])
+      ]
+    };
 
     if (Product.collection) {
-      oldProduct = await Product.collection.findOne(queryFilter as any);
-      if (!oldProduct && updateData.name) {
-        oldProduct = await Product.collection.findOne({ name: updateData.name } as any);
-      }
+      oldProduct = await Product.collection.findOne(queryFilter);
     }
 
     if (!oldProduct) {
-      oldProduct = await Product.findOne(queryFilter);
+      try {
+        oldProduct = await Product.findOne(queryFilter);
+      } catch (e) {}
     }
 
-    if (!oldProduct) {
-      return NextResponse.json(
-        { error: 'Product not found' },
-        { status: 404 }
-      );
-    }
+    const initialFallback = INITIAL_PRODUCTS.find(ip => ip._id === productId || ip.name?.toLowerCase() === (updateData.name || '').toLowerCase());
+    const targetDocId = oldProduct?._id || productId;
 
     const sanitizedUpdate = {
-      name: updateData.name,
-      description: updateData.description !== undefined ? updateData.description : oldProduct.description,
-      category: updateData.category || oldProduct.category,
+      _id: targetDocId,
+      name: updateData.name || oldProduct?.name || initialFallback?.name || 'Untitled Product',
+      description: updateData.description !== undefined ? updateData.description : (oldProduct?.description || initialFallback?.description || ''),
+      category: updateData.category || oldProduct?.category || initialFallback?.category || 'Steel Fabrication',
       price: typeof updateData.price === 'number' ? updateData.price : (parseFloat(updateData.price) || 0),
       discountPrice: updateData.discountPrice ? parseFloat(updateData.discountPrice) : undefined,
       stock: typeof updateData.stock === 'number' ? updateData.stock : (parseInt(updateData.stock) || 0),
@@ -314,27 +317,32 @@ export async function PUT(request: NextRequest) {
       enableSubscription: Boolean(updateData.enableSubscription),
       subscriptionDiscountPercent: updateData.subscriptionDiscountPercent !== undefined ? parseFloat(updateData.subscriptionDiscountPercent) : 10,
       promoBadge: updateData.promoBadge || 'FACTORY DIRECT',
-      images: Array.isArray(updateData.images) ? updateData.images : oldProduct.images,
-      specImage: updateData.specImage !== undefined ? updateData.specImage : oldProduct.specImage,
-      material: updateData.material !== undefined ? updateData.material : oldProduct.material,
-      dimensions: updateData.dimensions !== undefined ? updateData.dimensions : oldProduct.dimensions,
-      weight: updateData.weight !== undefined ? updateData.weight : oldProduct.weight,
-      fabricationDetails: updateData.fabricationDetails !== undefined ? updateData.fabricationDetails : oldProduct.fabricationDetails,
-      surfacePreparation: updateData.surfacePreparation !== undefined ? updateData.surfacePreparation : oldProduct.surfacePreparation,
-      testingCertifications: updateData.testingCertifications !== undefined ? updateData.testingCertifications : oldProduct.testingCertifications,
+      images: Array.isArray(updateData.images) && updateData.images.length > 0 ? updateData.images : (oldProduct?.images || [initialFallback?.image || "/images/home/category_grid/warehouse.jpeg"]),
+      specImage: updateData.specImage !== undefined ? updateData.specImage : (oldProduct?.specImage || ''),
+      material: updateData.material !== undefined ? updateData.material : (oldProduct?.material || initialFallback?.material || ''),
+      dimensions: updateData.dimensions !== undefined ? updateData.dimensions : (oldProduct?.dimensions || initialFallback?.dimensions || ''),
+      weight: updateData.weight !== undefined ? updateData.weight : (oldProduct?.weight || initialFallback?.weight || ''),
+      fabricationDetails: updateData.fabricationDetails !== undefined ? updateData.fabricationDetails : (oldProduct?.fabricationDetails || initialFallback?.fabricationDetails || ''),
+      surfacePreparation: updateData.surfacePreparation !== undefined ? updateData.surfacePreparation : (oldProduct?.surfacePreparation || initialFallback?.surfacePreparation || ''),
+      testingCertifications: updateData.testingCertifications !== undefined ? updateData.testingCertifications : (oldProduct?.testingCertifications || initialFallback?.testingCertifications || ''),
       updatedAt: new Date(),
     };
 
     if (Product.collection) {
       await Product.collection.updateOne(
-        { _id: oldProduct._id },
-        { $set: sanitizedUpdate }
+        { _id: targetDocId },
+        { $set: sanitizedUpdate },
+        { upsert: true }
       );
-      product = await Product.collection.findOne({ _id: oldProduct._id });
+      product = await Product.collection.findOne({ _id: targetDocId });
     } else {
-      Object.assign(oldProduct, sanitizedUpdate);
-      await oldProduct.save();
-      product = oldProduct;
+      if (oldProduct) {
+        Object.assign(oldProduct, sanitizedUpdate);
+        await oldProduct.save();
+        product = oldProduct;
+      } else {
+        product = await Product.create(sanitizedUpdate);
+      }
     }
 
     // Automatically purge replaced/removed images from Uploadcare CDN
