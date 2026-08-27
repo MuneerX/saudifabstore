@@ -16,22 +16,33 @@ export async function GET(
 
     await connectToDatabase();
     const isMongoId = /^[0-9a-fA-F]{24}$/.test(id);
-    const queryId = isMongoId ? new mongoose.Types.ObjectId(id) : id;
+    const queryId = isMongoId ? new mongoose.Types.ObjectId(id) : null;
 
-    product = await Product.findOne({
-      $or: [
-        { _id: id },
-        { _id: queryId },
-        { sku: id },
-        { name: { $regex: new RegExp(`^${id.replace(/-/g, ' ')}$`, 'i') } }
-      ]
-    });
+    try {
+      if (Product.collection) {
+        product = await Product.collection.findOne({
+          $or: [
+            { _id: id as any },
+            ...(queryId ? [{ _id: queryId as any }] : []),
+            { sku: id }
+          ]
+        });
+      }
+    } catch (e) {
+      console.warn("Raw collection search error:", e);
+    }
+
+    if (!product) {
+      try {
+        product = await Product.findOne({ name: { $regex: new RegExp(`^${id.replace(/-/g, ' ')}$`, 'i') } });
+      } catch (e) {}
+    }
 
     // Fallback search in INITIAL_PRODUCTS
     if (!product) {
       const initial = INITIAL_PRODUCTS.find(p => p._id === id || p.name.toLowerCase().replace(/[^a-z0-9]/g, '-') === id);
       if (initial) {
-        product = await Product.findOne({ name: initial.name }) || initial;
+        product = initial;
       }
     }
     

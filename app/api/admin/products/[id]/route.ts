@@ -27,15 +27,34 @@ export async function GET(
 
     const resolvedParams = await params;
     const targetId = resolvedParams.id;
-    let product = null;
+    let product: any = null;
 
     const isMongoId = /^[0-9a-fA-F]{24}$/.test(targetId);
-    const queryFilter = isMongoId
-      ? { $or: [{ _id: targetId }, { _id: new mongoose.Types.ObjectId(targetId) }] }
-      : { _id: targetId };
+    const queryId = isMongoId ? new mongoose.Types.ObjectId(targetId) : null;
 
-    product = await Product.findOne(queryFilter);
+    // 1. Try finding in MongoDB collection using raw driver (bypasses CastError for string _ids like "prod-1")
+    try {
+      if (Product.collection) {
+        product = await Product.collection.findOne({
+          $or: [
+            { _id: targetId as any },
+            ...(queryId ? [{ _id: queryId as any }] : []),
+            { sku: targetId }
+          ]
+        });
+      }
+    } catch (e) {
+      console.warn("Raw collection search error:", e);
+    }
 
+    // 2. Try regex name match if not found by ID
+    if (!product) {
+      try {
+        product = await Product.findOne({ name: { $regex: new RegExp(`^${targetId.replace(/-/g, ' ')}$`, 'i') } });
+      } catch (e) {}
+    }
+
+    // 3. Fallback search in INITIAL_PRODUCTS
     if (!product) {
       const initial = INITIAL_PRODUCTS.find(p => p._id === targetId || p.name.toLowerCase().replace(/[^a-z0-9]/g, '-') === targetId);
       if (initial) {
