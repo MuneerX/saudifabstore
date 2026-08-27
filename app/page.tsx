@@ -15,10 +15,16 @@ import { useProducts } from "@/lib/hooks/useProducts";
 import { getHomePageRows } from "@/lib/utils/badgeHelper";
 
 export default function Home() {
-  const { products: liveProducts } = useProducts(true);
-  const rawProducts = liveProducts && liveProducts.length > 0 ? liveProducts : INITIAL_PRODUCTS;
+  const { products: liveProducts, loading } = useProducts(true);
+  const [isMounted, setIsMounted] = React.useState(false);
 
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const rawProducts = liveProducts && liveProducts.length > 0 ? liveProducts : INITIAL_PRODUCTS;
   const { newArrivals, popularBestsellers, trendingDeals } = getHomePageRows(rawProducts);
+  const isRowLoading = !isMounted || (loading && (!liveProducts || liveProducts.length === 0));
 
   return (
     <div className="flex flex-col min-h-screen bg-[#ffffff]">
@@ -34,6 +40,7 @@ export default function Home() {
             linkText="See all"
             linkHref="/products?sort=newest"
             products={newArrivals}
+            loading={isRowLoading}
           />
         </AmazonHero>
 
@@ -42,7 +49,7 @@ export default function Home() {
           
           {/* 4-Card Category Grid */}
           <div style={{ margin: '8px 0 24px 0' }}>
-            <AmazonCategoryGrid />
+            <AmazonCategoryGrid loading={isRowLoading} />
           </div>
 
           {/* Bestsellers Product Row */}
@@ -51,6 +58,7 @@ export default function Home() {
             linkText="Explore Bestsellers"
             linkHref="/products?sort=popular"
             products={popularBestsellers}
+            loading={isRowLoading}
           />
 
           {/* New 2x2 Dual Showcase Section */}
@@ -62,6 +70,7 @@ export default function Home() {
             linkText="See all"
             linkHref="/products"
             products={trendingDeals}
+            loading={isRowLoading}
           />
 
           {/* Custom Engineering & Request a Quote Banner */}

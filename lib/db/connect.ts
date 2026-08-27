@@ -17,10 +17,10 @@ if (!global.mongooseCache) {
 }
 
 async function connectToDatabase() {
-  const uri = process.env.MONGODB_URI;
+  const uri = process.env.MONGODB_URI || process.env.MONGODB_URL || process.env.DATABASE_URL || process.env.MONGO_URI;
 
   if (!uri) {
-    console.warn('MONGODB_URI environment variable is missing.');
+    console.warn('MONGODB_URI / DATABASE_URL environment variable is missing.');
     return null;
   }
 

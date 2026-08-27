@@ -11,11 +11,18 @@ import styles from "./page.module.css";
 import { ArrowRight, Plus, Minus } from "lucide-react";
 
 export default function CartPage() {
-  const { cart, updateCart, removeFromCart, addToCart } = useCartContext();
+  const { cart, loading: cartLoading, updateCart, removeFromCart, addToCart } = useCartContext();
   const [agreedToTerms, setAgreedToTerms] = useState(true);
   const [recProducts, setRecProducts] = useState<any[]>([]);
   const [legalModalOpen, setLegalModalOpen] = useState(false);
   const [legalModalTab, setLegalModalTab] = useState<LegalTab>("terms");
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const isLoading = !isMounted || cartLoading;
 
   const items = cart?.items || [];
   const itemCount = items.reduce((sum: number, item: any) => sum + (item.quantity || 0), 0);
@@ -40,6 +47,80 @@ export default function CartPage() {
     setLegalModalTab(tab);
     setLegalModalOpen(true);
   };
+
+  if (isLoading) {
+    return (
+      <div className={styles.pageWrapper}>
+        <Navbar />
+
+        <main className={styles.container}>
+          {/* Header Skeleton */}
+          <div className={styles.cartHeader}>
+            <div style={{ width: "220px", height: "32px" }} className={styles.skeletonShimmer} />
+            <div style={{ width: "140px", height: "18px" }} className={styles.skeletonShimmer} />
+          </div>
+
+          {/* 2-Column Grid Layout Skeleton */}
+          <div className={styles.cartGrid}>
+            {/* Left Items Column Skeleton */}
+            <div className={styles.mainContent}>
+              <div className={styles.itemsList}>
+                {[1, 2, 3].map((n) => (
+                  <div key={n} className={styles.cartItemRow}>
+                    <div className={styles.itemImgBox} style={{ backgroundColor: "#f8fafc" }}>
+                      <div style={{ width: "100%", height: "100%" }} className={styles.skeletonShimmer} />
+                    </div>
+
+                    <div className={styles.itemContent}>
+                      <div style={{ width: "70%", height: "20px", marginBottom: "6px" }} className={styles.skeletonShimmer} />
+                      <div style={{ width: "40%", height: "14px", marginBottom: "16px" }} className={styles.skeletonShimmer} />
+                      
+                      <div className={styles.itemControlsRow}>
+                        <div style={{ width: "90px", height: "32px", borderRadius: "6px" }} className={styles.skeletonShimmer} />
+                        <div style={{ width: "50px", height: "14px" }} className={styles.skeletonShimmer} />
+                      </div>
+                    </div>
+
+                    <div className={styles.itemPriceCol} style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "6px" }}>
+                      <div style={{ width: "80px", height: "22px" }} className={styles.skeletonShimmer} />
+                      <div style={{ width: "60px", height: "14px" }} className={styles.skeletonShimmer} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right Summary Sidebar Skeleton */}
+            <div className={styles.sidebar}>
+              <div className={styles.summaryCard}>
+                <div style={{ width: "130px", height: "20px", marginBottom: "20px" }} className={styles.skeletonShimmer} />
+                
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "20px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <div style={{ width: "70px", height: "14px" }} className={styles.skeletonShimmer} />
+                    <div style={{ width: "80px", height: "14px" }} className={styles.skeletonShimmer} />
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <div style={{ width: "90px", height: "14px" }} className={styles.skeletonShimmer} />
+                    <div style={{ width: "50px", height: "14px" }} className={styles.skeletonShimmer} />
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", justifyContent: "space-between", paddingTop: "16px", borderTop: "1px solid #e2e8f0", marginBottom: "24px" }}>
+                  <div style={{ width: "50px", height: "18px" }} className={styles.skeletonShimmer} />
+                  <div style={{ width: "100px", height: "24px" }} className={styles.skeletonShimmer} />
+                </div>
+
+                <div style={{ width: "100%", height: "48px", borderRadius: "8px" }} className={styles.skeletonShimmer} />
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.pageWrapper}>

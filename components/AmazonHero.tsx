@@ -152,8 +152,30 @@ export function AmazonHero({ children }: AmazonHeroProps) {
   );
 }
 
+interface AmazonCategoryGridProps {
+  loading?: boolean;
+}
+
 /* Standalone 4-Category Department Grid Component (All In One Place) */
-export function AmazonCategoryGrid() {
+export function AmazonCategoryGrid({ loading = false }: AmazonCategoryGridProps) {
+  if (loading) {
+    return (
+      <div className={styles.gridOverlayContainer}>
+        {[1, 2, 3, 4].map((n) => (
+          <div key={n} className={styles.walmartGridCard} style={{ display: 'flex', flexDirection: 'column', gap: '12px', minHeight: '300px' }}>
+            <div style={{ width: '60%', height: '20px' }} className={styles.skeletonShimmer} />
+            <div className={styles.subGrid2x2}>
+              {[1, 2, 3, 4].map((sub) => (
+                <div key={sub} style={{ height: '90px', borderRadius: '8px' }} className={styles.skeletonShimmer} />
+              ))}
+            </div>
+            <div style={{ width: '40%', height: '14px', marginTop: 'auto' }} className={styles.skeletonShimmer} />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   // Dynamically filter 4 items for each core store category
   const forkliftCategory = INITIAL_PRODUCTS.filter(
     (p) => p.category === 'Forklift Attachments' || p.name.includes('Forklift') || p.name.includes('Jib') || p.name.includes('Manbasket')

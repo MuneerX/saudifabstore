@@ -92,8 +92,16 @@ export function WalmartPopularCarouselSection({
           const isWishlisted = wishlist.includes(product._id);
           const badgeConfig = getDynamicBadge(product, styles, catalogStats);
 
-          // Extract clean uppercase brand / model name
-          const brandModelName = product.name.split(' ')[0] || 'SAUDI FAB';
+          const hasMultipleOptions = Boolean(
+            (product as any).hasMultipleOptions || 
+            (product as any).variants?.length > 1 || 
+            (product as any).availableFinishes?.length > 1 || 
+            (product as any).sizes?.length > 1 ||
+            product.category === 'Forklift Attachments' ||
+            product.category === 'Structural Steel'
+          );
+
+          // Full product title and category subtext
           const subDesc = product.description || `${product.name}, ${product.category || 'Industrial'}`;
           const reviewCount = Math.floor((product.price % 300) * 12 + 40);
 
@@ -124,10 +132,10 @@ export function WalmartPopularCarouselSection({
               {/* Card Body Area */}
               <div className={styles.cardBodyArea}>
                 
-                {/* Bold Model / Brand Name */}
+                {/* Full Product Title */}
                 <h3 className={styles.modelBrandName}>
                   <Link href={`/products/${product._id}`} className={styles.modelAnchor}>
-                    {brandModelName}
+                    {product.name}
                   </Link>
                 </h3>
 
@@ -149,7 +157,7 @@ export function WalmartPopularCarouselSection({
 
                 {/* Add / Options Button Row */}
                 <div className={styles.cardActionButtonsRow}>
-                  {idx % 2 === 0 ? (
+                  {!hasMultipleOptions ? (
                     <button
                       type="button"
                       className={styles.addPillBtn}

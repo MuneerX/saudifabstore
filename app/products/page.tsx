@@ -653,33 +653,19 @@ function ProductsPage() {
 
       <div className={styles.container}>
         
-        {/* TOP BREADCRUMBS TRAIL */}
-        <nav className={styles.breadcrumbBar} aria-label="Breadcrumb">
-          <ol className={styles.breadcrumbList}>
-            <li className={styles.breadcrumbItem}>
-              <Link href="/" className={styles.breadcrumbLink}>Home</Link>
-            </li>
-            <li className={styles.breadcrumbSeparator}>
-              <ChevronRight size={13} />
-            </li>
-            <li className={styles.breadcrumbItem}>
-              {selectedTypes.length > 0 ? (
-                <Link href="/products" onClick={() => setSelectedTypes([])} className={styles.breadcrumbLink}>Products</Link>
-              ) : (
-                <span className={styles.breadcrumbCurrent}>Products</span>
-              )}
-            </li>
-            {selectedTypes.length > 0 && (
-              <>
-                <li className={styles.breadcrumbSeparator}>
-                  <ChevronRight size={13} />
-                </li>
-                <li className={styles.breadcrumbItem}>
-                  <span className={styles.breadcrumbCurrent}>{selectedTypes.join(', ')}</span>
-                </li>
-              </>
-            )}
-          </ol>
+        {/* TOP BREADCRUMBS TRAIL (Matched with Product Details PDP Breadcrumbs) */}
+        <nav className={styles.breadcrumbNav} aria-label="Breadcrumb">
+          <Link href="/" className={styles.breadcrumbLink}>Home</Link>
+          <span>/</span>
+          {selectedTypes.length > 0 ? (
+            <>
+              <Link href="/products" onClick={() => setSelectedTypes([])} className={styles.breadcrumbLink}>Products</Link>
+              <span>/</span>
+              <span className={styles.breadcrumbCurrent}>{selectedTypes.join(', ')}</span>
+            </>
+          ) : (
+            <span className={styles.breadcrumbCurrent}>Products</span>
+          )}
         </nav>
         
         {/* OUR PRODUCT CATEGORIES SHOWCASE TILES */}

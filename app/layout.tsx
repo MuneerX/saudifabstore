@@ -55,26 +55,26 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Saudi Fab Store Co. LLC | Steel Fabrication & Industrial Equipment KSA",
-    template: "%s | Saudi Fab Store Co. LLC",
+    default: "Saudi Fab Store | Premium Industrial & Steel Fabrication Equipment KSA",
+    template: "%s | Saudi Fab Store",
   },
-  description: "Leading structural steel fabrication, industrial equipment, surface sandblasting, and SASO & ISO certified engineering solutions in Dammam and Eastern Province, Saudi Arabia.",
+  description: "Saudi Arabia's premier B2B platform for SASO-certified structural steel fabrication, material handling forklift gear, safety chemical storage, and heavy logistics systems.",
   keywords: [
     "Saudi Fab Store",
     "Saudi Fab",
-    "Steel Fabrication Saudi Arabia",
+    "Steel Fabrication KSA",
     "Industrial Equipment Dammam",
+    "Forklift Attachments Saudi Arabia",
     "SASO Certified Steel",
     "ISO 9001 Quality Control",
-    "Abrasive Sandblasting KSA",
-    "Material Handling Skips",
+    "Warehouse Logistics Skips",
   ],
   authors: [{ name: "Saudi Fab Store Co. LLC" }],
   icons: {
     icon: [
       { url: "/favicon/favicon.ico" },
-      { url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon/favicon-96x96.png", sizes: "96x96", type: "image/png" },
     ],
     shortcut: "/favicon/favicon.ico",
     apple: [
@@ -83,18 +83,18 @@ export const metadata: Metadata = {
     other: [
       {
         rel: "android-chrome-192x192",
-        url: "/favicon/android-chrome-192x192.png",
+        url: "/favicon/web-app-manifest-192x192.png",
       },
       {
         rel: "android-chrome-512x512",
-        url: "/favicon/android-chrome-512x512.png",
+        url: "/favicon/web-app-manifest-512x512.png",
       },
     ],
   },
   manifest: "/favicon/site.webmanifest",
   openGraph: {
-    title: "Saudi Fab Store Co. LLC | Steel Fabrication & Industrial Solutions",
-    description: "Leading structural steel fabrication, industrial equipment, and SASO & ISO certified solutions in KSA.",
+    title: "Saudi Fab Store | Premium Industrial & Steel Fabrication Equipment KSA",
+    description: "Saudi Arabia's premier B2B platform for SASO-certified structural steel fabrication, material handling forklift gear, and heavy logistics systems.",
     url: "https://saudifabstore.com",
     siteName: "Saudi Fab Store",
     images: [
@@ -102,7 +102,7 @@ export const metadata: Metadata = {
         url: "/images/logo.png",
         width: 800,
         height: 600,
-        alt: "Saudi Fab Store Co. LLC",
+        alt: "Saudi Fab Store",
       },
     ],
     locale: "en_US",

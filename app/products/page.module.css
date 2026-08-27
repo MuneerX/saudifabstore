@@ -14,48 +14,25 @@
   width: 100%;
 }
 
-/* BREADCRUMB STYLING */
-.breadcrumbBar {
-  margin-bottom: 36px;
-}
-
-.breadcrumbList {
+/* BREADCRUMB STYLING (Matched with Product Details PDP Breadcrumbs) */
+.breadcrumbNav {
   display: flex;
   align-items: center;
   gap: 8px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
   font-size: 13px;
-}
-
-.breadcrumbItem {
-  display: flex;
-  align-items: center;
+  color: #666666;
+  margin-bottom: 20px;
 }
 
 .breadcrumbLink {
-  color: #484848;
+  color: #0058a3;
   text-decoration: underline;
-  font-weight: 400;
-  font-size: 13px;
-  transition: color 0.15s ease;
-}
-
-.breadcrumbLink:hover {
-  color: #111111;
-}
-
-.breadcrumbSeparator {
-  color: #767676;
-  display: flex;
-  align-items: center;
+  cursor: pointer;
 }
 
 .breadcrumbCurrent {
-  color: #111111;
+  color: #2e2e2e;
   font-weight: 600;
-  font-size: 13px;
 }
 
 @media (max-width: 768px) {

@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ShieldCheck, Award } from 'lucide-react';
 import styles from './WalmartHeroGridSection.module.css';
 
 export function WalmartHeroGridSection() {
@@ -124,9 +125,24 @@ export function WalmartHeroGridSection() {
                   Shop now
                 </Link>
               </div>
+            </div>
 
-              <div className={styles.flashDealsLogoWalmart}>
-                Flash<br />Deals
+            {/* Left Aligned Circular Text Badge with Centered Icon */}
+            <div className={styles.leftStampBadge}>
+              <svg viewBox="0 0 100 100" className={styles.circularTextSvg}>
+                <path
+                  id="sasoCirclePath"
+                  d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0"
+                  fill="none"
+                />
+                <text className={styles.circularSvgText}>
+                  <textPath href="#sasoCirclePath" startOffset="0%">
+                    SASO CERTIFIED • SAUDI FAB •
+                  </textPath>
+                </text>
+              </svg>
+              <div className={styles.centerIconBox}>
+                <ShieldCheck size={36} strokeWidth={1.5} />
               </div>
             </div>
           </div>
@@ -148,11 +164,13 @@ export function WalmartHeroGridSection() {
             className={styles.cardBgImg}
           />
           <div className={styles.rightTopOverlay} />
-          <div className={styles.cardTextWrapperTop}>
-            <h3 className={styles.walmartCardTitleDark} style={{ fontSize: '18px' }}>Site Safety &amp; Crash Protection</h3>
-            <Link href="/products?category=Safety+Equipment" className={styles.walmartCardLinkDark}>
-              Shop now
-            </Link>
+          <div className={styles.cardTextWrapper}>
+            <div>
+              <h3 className={styles.walmartCardTitleDark}>Site Safety &amp; Crash Protection</h3>
+              <Link href="/products?category=Safety+Equipment" className={styles.walmartCardLinkDark}>
+                Shop now
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -166,17 +184,34 @@ export function WalmartHeroGridSection() {
             className={styles.cardBgImg}
           />
           <div className={styles.rightMiddleOverlay} />
-          <div className={styles.cardTextWrapperTop}>
-            <h3 className={styles.walmartCardTitleDark} style={{ fontSize: '18px' }}>
-              Euroboxes &amp; Plastic Crates
-            </h3>
-            <Link href="/products?category=Plastic+Crates" className={styles.walmartCardLinkDark}>
-              Shop now
-            </Link>
+          <div className={styles.cardTextWrapper}>
+            <div>
+              <h3 className={styles.walmartCardTitleDark}>
+                Euroboxes &amp; Plastic Crates
+              </h3>
+              <Link href="/products?category=Plastic+Crates" className={styles.walmartCardLinkDark}>
+                Shop now
+              </Link>
+            </div>
           </div>
-          <div className={styles.badgeCircleGreen}>
-            ISO 9001
-          </div>
+            {/* Left Aligned Scaled ISO 9001 Green Stamp Badge */}
+            <div className={styles.badgeCircleGreen}>
+              <svg viewBox="0 0 100 100" className={styles.circularTextSvg}>
+                <path
+                  id="isoCirclePath"
+                  d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0"
+                  fill="none"
+                />
+                <text className={styles.circularSvgText}>
+                  <textPath href="#isoCirclePath" startOffset="0%">
+                    ISO 9001 CERTIFIED • QUALITY •
+                  </textPath>
+                </text>
+              </svg>
+              <div className={styles.centerIconBox} style={{ fontSize: "16px", fontWeight: "900", letterSpacing: "0.04em" }}>
+                ISO
+              </div>
+            </div>
         </div>
 
         {/* Bottom Category Card: Industrial Workbenches */}
@@ -189,13 +224,15 @@ export function WalmartHeroGridSection() {
             className={styles.cardBgImg}
           />
           <div className={styles.rightBottomOverlay} />
-          <div className={styles.cardTextWrapperTop}>
-            <h3 className={styles.walmartCardTitleDark} style={{ fontSize: '18px' }}>
-              Industrial Workbenches &amp; Stations
-            </h3>
-            <Link href="/products?category=Workbenches" className={styles.walmartCardLinkDark}>
-              Shop now
-            </Link>
+          <div className={styles.cardTextWrapper}>
+            <div>
+              <h3 className={styles.walmartCardTitleDark}>
+                Industrial Workbenches &amp; Stations
+              </h3>
+              <Link href="/products?category=Workbenches" className={styles.walmartCardLinkDark}>
+                Shop now
+              </Link>
+            </div>
           </div>
         </div>
 

@@ -114,16 +114,161 @@ export default function ProductDetailsPage() {
     return (
       <div className={styles.pageContainer}>
         <Navbar isLight={true} hasBorder={true} />
-        <div style={{ maxWidth: "1520px", margin: "40px auto", padding: "0 20px" }}>
-          <div style={{ display: "flex", gap: "24px" }}>
-            <div style={{ width: "500px", height: "500px", backgroundColor: "#f1f5f9", borderRadius: "12px" }} />
-            <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "16px" }}>
-              <div style={{ width: "60%", height: "32px", backgroundColor: "#e2e8f0", borderRadius: "6px" }} />
-              <div style={{ width: "40%", height: "24px", backgroundColor: "#e2e8f0", borderRadius: "6px" }} />
-              <div style={{ width: "30%", height: "40px", backgroundColor: "#e2e8f0", borderRadius: "6px" }} />
+
+        <main className={styles.pdpMainWrapper}>
+          
+          {/* 1. Breadcrumb Skeleton */}
+          <nav className={styles.breadcrumbNav} style={{ marginBottom: "20px" }}>
+            <div style={{ width: "45px", height: "14px" }} className={styles.skeletonShimmer} />
+            <span>/</span>
+            <div style={{ width: "60px", height: "14px" }} className={styles.skeletonShimmer} />
+            <span>/</span>
+            <div style={{ width: "130px", height: "14px" }} className={styles.skeletonShimmer} />
+            <span>/</span>
+            <div style={{ width: "180px", height: "14px" }} className={styles.skeletonShimmer} />
+          </nav>
+
+          {/* 2. Walmart PDP Main Container Grid */}
+          <div className={styles.walmartPdpGrid}>
+            
+            {/* LEFT MAIN CONTENT CONTAINER (Stage + Details + Bottom Accordions) */}
+            <div className={styles.mainLeftContent}>
+              
+              {/* Top Split Row: Gallery (Left) + Middle Product Details Column */}
+              <div className={styles.topSplitRow}>
+                
+                {/* 1. LEFT GALLERY COLUMN SKELETON */}
+                <div className={styles.galleryCol}>
+                  {/* Vertical Thumbnail Bar */}
+                  <div className={styles.thumbnailList}>
+                    {[1, 2, 3, 4].map((n) => (
+                      <div key={n} style={{ width: "64px", height: "64px", borderRadius: "8px" }} className={styles.skeletonShimmer} />
+                    ))}
+                  </div>
+
+                  {/* Main Stage Image Box */}
+                  <div className={styles.mainStageBox} style={{ backgroundColor: "#f8fafc" }}>
+                    <div style={{ width: "100%", height: "100%" }} className={styles.skeletonShimmer} />
+                  </div>
+                </div>
+
+                {/* 2. MIDDLE COLUMN SKELETON */}
+                <div className={styles.detailsCol}>
+                  {/* Badges Row */}
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <div style={{ width: "110px", height: "22px", borderRadius: "4px" }} className={styles.skeletonShimmer} />
+                    <div style={{ width: "90px", height: "22px", borderRadius: "4px" }} className={styles.skeletonShimmer} />
+                  </div>
+
+                  {/* Brand Link */}
+                  <div style={{ width: "160px", height: "14px" }} className={styles.skeletonShimmer} />
+
+                  {/* Product Title */}
+                  <div style={{ width: "90%", height: "32px" }} className={styles.skeletonShimmer} />
+                  <div style={{ width: "65%", height: "32px" }} className={styles.skeletonShimmer} />
+
+                  {/* Price Header Block */}
+                  <div className={styles.priceHeaderBlock}>
+                    <div style={{ width: "140px", height: "14px", marginBottom: "8px" }} className={styles.skeletonShimmer} />
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                      <div style={{ width: "60px", height: "24px", borderRadius: "12px" }} className={styles.skeletonShimmer} />
+                      <div style={{ width: "140px", height: "36px" }} className={styles.skeletonShimmer} />
+                      <div style={{ width: "110px", height: "16px" }} className={styles.skeletonShimmer} />
+                    </div>
+                  </div>
+
+                  {/* Pack Size Swatches Skeleton */}
+                  <div className={styles.swatchSection}>
+                    <div style={{ width: "130px", height: "16px", marginBottom: "10px" }} className={styles.skeletonShimmer} />
+                    <div className={styles.swatchesGrid}>
+                      <div className={styles.swatchCard} style={{ height: "64px" }}>
+                        <div style={{ width: "70%", height: "16px" }} className={styles.skeletonShimmer} />
+                        <div style={{ width: "40%", height: "14px" }} className={styles.skeletonShimmer} />
+                      </div>
+                      <div className={styles.swatchCard} style={{ height: "64px" }}>
+                        <div style={{ width: "70%", height: "16px" }} className={styles.skeletonShimmer} />
+                        <div style={{ width: "40%", height: "14px" }} className={styles.skeletonShimmer} />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Product Details Paragraph Skeleton */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "12px" }}>
+                    <div style={{ width: "35%", height: "18px", marginBottom: "4px" }} className={styles.skeletonShimmer} />
+                    <div style={{ width: "100%", height: "14px" }} className={styles.skeletonShimmer} />
+                    <div style={{ width: "95%", height: "14px" }} className={styles.skeletonShimmer} />
+                    <div style={{ width: "80%", height: "14px" }} className={styles.skeletonShimmer} />
+                  </div>
+
+                  {/* Trust Grid Skeleton */}
+                  <div className={styles.middleTrustGrid}>
+                    {[1, 2, 3, 4].map((n) => (
+                      <div key={n} className={styles.middleTrustItem} style={{ border: "none", backgroundColor: "transparent" }}>
+                        <div style={{ width: "18px", height: "18px", borderRadius: "50%" }} className={styles.skeletonShimmer} />
+                        <div style={{ width: "120px", height: "13px" }} className={styles.skeletonShimmer} />
+                      </div>
+                    ))}
+                  </div>
+
+                </div>
+
+              </div>
+
+              {/* Bottom Policy & Accordions Section Skeleton */}
+              <div className={styles.aboutItemSection}>
+                <div style={{ width: "180px", height: "24px", marginBottom: "16px" }} className={styles.skeletonShimmer} />
+                <div className={styles.policyAccordionList}>
+                  {[1, 2, 3].map((n) => (
+                    <div key={n} className={styles.policyAccordionItem} style={{ padding: "16px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div style={{ width: "200px", height: "18px" }} className={styles.skeletonShimmer} />
+                        <div style={{ width: "16px", height: "16px", borderRadius: "50%" }} className={styles.skeletonShimmer} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
             </div>
+
+            {/* 3. RIGHT WALMART BUY BOX COLUMN SKELETON */}
+            <div className={styles.buyBoxCol}>
+              <div className={styles.buyBoxCard}>
+                {/* Price Header Block */}
+                <div className={styles.priceHeaderBlock}>
+                  <div style={{ width: "140px", height: "14px", marginBottom: "8px" }} className={styles.skeletonShimmer} />
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <div style={{ width: "50px", height: "22px", borderRadius: "12px" }} className={styles.skeletonShimmer} />
+                    <div style={{ width: "120px", height: "34px" }} className={styles.skeletonShimmer} />
+                  </div>
+                </div>
+
+                {/* Purchase Mode Toggle Skeleton */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px", margin: "16px 0" }}>
+                  <div style={{ height: "52px", borderRadius: "8px" }} className={styles.skeletonShimmer} />
+                  <div style={{ height: "52px", borderRadius: "8px" }} className={styles.skeletonShimmer} />
+                </div>
+
+                {/* Quantity Selector Skeleton */}
+                <div style={{ width: "100%", height: "40px", borderRadius: "8px", marginBottom: "16px" }} className={styles.skeletonShimmer} />
+
+                {/* Action Buttons Skeleton */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <div style={{ width: "100%", height: "48px", borderRadius: "24px" }} className={styles.skeletonShimmer} />
+                  <div style={{ width: "100%", height: "48px", borderRadius: "24px" }} className={styles.skeletonShimmer} />
+                </div>
+
+                {/* Security Guarantee Badges Skeleton */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "20px", paddingTop: "16px", borderTop: "1px solid #f1f5f9" }}>
+                  <div style={{ width: "100%", height: "16px" }} className={styles.skeletonShimmer} />
+                  <div style={{ width: "80%", height: "16px" }} className={styles.skeletonShimmer} />
+                </div>
+              </div>
+            </div>
+
           </div>
-        </div>
+        </main>
+
         <Footer />
       </div>
     );
@@ -930,12 +1075,42 @@ export default function ProductDetailsPage() {
 
         </main>
 
-      {/* Walmart "Popular items in this category" Carousel Section */}
-      <WalmartPopularCarouselSection
-        title="Popular items in this category"
-        subhead="Best selling items that customers love"
-        products={products && products.length > 0 ? products : INITIAL_PRODUCTS}
-      />
+      {/* "Frequently Bought Together & Recommended Gear" Intelligent Cross-Sell Carousel Section */}
+      {(() => {
+        const allAvailableProducts = products && products.length > 0 ? products : INITIAL_PRODUCTS;
+        const currentId = product?._id;
+        const currentCat = (product?.category || "").trim().toLowerCase();
+
+        // 1. Same category products (excluding current item)
+        const sameCategoryProducts = allAvailableProducts.filter(
+          (p: any) => p._id !== currentId && p.category && p.category.trim().toLowerCase() === currentCat
+        );
+
+        // 2. Intelligent ranking for other category products (excluding current item & same category)
+        const otherCategoryProducts = allAvailableProducts.filter(
+          (p: any) => p._id !== currentId && (!p.category || p.category.trim().toLowerCase() !== currentCat)
+        );
+
+        const sortedOtherProducts = [...otherCategoryProducts].sort((a: any, b: any) => {
+          const scoreA = (a.isFeatured ? 5 : 0) + (a.badge === 'BESTSELLER' ? 3 : 0);
+          const scoreB = (b.isFeatured ? 5 : 0) + (b.badge === 'BESTSELLER' ? 3 : 0);
+          return scoreB - scoreA;
+        });
+
+        // Take 3-4 top complementary products from other categories
+        const complementaryOtherProducts = sortedOtherProducts.slice(0, 4);
+
+        // 3. Combined List: Same Category products FIRST + 3-4 Complementary Products from OTHER categories
+        const carouselProducts = [...sameCategoryProducts, ...complementaryOtherProducts];
+
+        return (
+          <WalmartPopularCarouselSection
+            title="Frequently Bought Together & Recommended Gear"
+            subhead={`Same-category items & complementary industrial gear for your order`}
+            products={carouselProducts}
+          />
+        );
+      })()}
 
       {/* Navigating industrial categories on Saudi Fab Store & Terms & Conditions Section */}
       <AboutTermsFooterSection />

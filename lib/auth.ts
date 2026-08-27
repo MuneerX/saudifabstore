@@ -79,7 +79,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
-  secret: process.env.NEXTAUTH_SECRET
+  secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || "saudifabstore-production-nextauth-secret-key-2026-super-secret"
 };
 
 export default NextAuth(authOptions);
