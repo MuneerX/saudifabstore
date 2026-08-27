@@ -16,8 +16,10 @@ if (!global.mongooseCache) {
   global.mongooseCache = cached;
 }
 
+const DEFAULT_MONGODB_URI = 'mongodb+srv://armuneermalik_db_user:6w3LQtAGWnKSTR0m@cluster0.gwlzl8y.mongodb.net/saudifabstore?retryWrites=true&w=majority';
+
 async function connectToDatabase() {
-  const uri = process.env.MONGODB_URI || process.env.MONGODB_URL || process.env.DATABASE_URL || process.env.MONGO_URI;
+  const uri = process.env.MONGODB_URI || process.env.MONGODB_URL || process.env.DATABASE_URL || process.env.MONGO_URI || DEFAULT_MONGODB_URI;
 
   if (!uri) {
     console.warn('MONGODB_URI / DATABASE_URL environment variable is missing.');
