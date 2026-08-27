@@ -463,3 +463,32 @@
   font-size: 13.5px;
   padding: 24px;
 }
+
+/* RESPONSIVE MOBILE & TABLET STYLING FOR CARDS AND TABLES */
+@media (max-width: 1023px) {
+  .recentOrdersCard,
+  .popularProductsCard {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    box-sizing: border-box;
+    padding: 16px;
+    overflow: hidden;
+  }
+
+  .tableContainer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ordersTable {
+    min-width: 580px;
+  }
+
+  .productsTable {
+    min-width: 420px;
+  }
+}

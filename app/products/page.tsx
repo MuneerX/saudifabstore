@@ -269,13 +269,28 @@ function ProductsPage() {
   const topSellersCount = baseProductsList.filter((p: any) => p.badge === "BESTSELLER" || (p.rating || 0) >= 4.8).length;
   const priceOffersCount = baseProductsList.filter((p: any) => p.discountPrice || p.badge === "CLEARANCE").length;
 
+  const onlySubscription = searchParams.get('subscription') === 'true' || searchParams.get('b2b') === 'true';
+
   // Filter & Sort Logic
   const filteredProducts = baseProductsList.filter((product: any) => {
+    if (onlySubscription) {
+      const isSubscriptionAvailable = Boolean(
+        product.badge === 'BESTSELLER' || 
+        product.isFeatured || 
+        product.category === 'Warehouse & Logistics' || 
+        product.category === 'Safety Equipment' || 
+        product.category === 'Safety & Chemical' || 
+        (product as any).subscriptionAvailable
+      );
+      if (!isSubscriptionAvailable) return false;
+    }
     if (searchQuery) {
       const q = searchQuery.toLowerCase().trim();
       const matchName = product.name?.toLowerCase().includes(q);
       const matchCat = product.category?.toLowerCase().includes(q);
-      if (!matchName && !matchCat) return false;
+      const matchDesc = product.description?.toLowerCase().includes(q);
+      const matchMat = product.material?.toLowerCase().includes(q);
+      if (!matchName && !matchCat && !matchDesc && !matchMat) return false;
     }
     if (selectedTypes.length > 0) {
       const matchCat = selectedTypes.some(t => product.category.toLowerCase().includes(t.toLowerCase()));
@@ -767,7 +782,23 @@ function ProductsPage() {
                 sortedProducts.map((product, idx) => {
                   const badgeConfig = getDynamicBadge(product, styles, catalogStats);
 
-                  const hasMultipleOptions = Boolean((product as any).hasMultipleOptions);
+                  const hasMultipleOptions = Boolean(
+                    (product as any).hasMultipleOptions || 
+                    (product as any).variants?.length > 1 || 
+                    (product as any).availableFinishes?.length > 1 || 
+                    (product as any).sizes?.length > 1 ||
+                    product.category === 'Forklift Attachments' ||
+                    product.category === 'Structural Steel'
+                  );
+
+                  const isSubscriptionAvailable = Boolean(
+                    product.badge === 'BESTSELLER' || 
+                    product.isFeatured || 
+                    product.category === 'Warehouse & Logistics' || 
+                    product.category === 'Safety Equipment' || 
+                    product.category === 'Safety & Chemical' || 
+                    (product as any).subscriptionAvailable
+                  );
 
                   // Extract clean uppercase brand / model name
                   const brandModelName = product.name.split(' ')[0] || 'SAUDI FAB';
@@ -835,15 +866,15 @@ function ProductsPage() {
                           )}
                         </div>
 
-                        {/* Feature Bullets & Swatch Thumbnails */}
+                        {/* Feature Bullets & Dynamic Options / Subscription Badges */}
                         <div className={styles.featureBulletsList}>
                           <div className={styles.featureBulletItem}>
-                            <Check size={13} className={styles.checkIcon} />
-                            <span>Additional options available</span>
+                            <Check size={13} className={hasMultipleOptions ? styles.checkIcon : styles.grayCheckIcon} />
+                            <span>{hasMultipleOptions ? "Additional options available" : "Standard options available"}</span>
                           </div>
                           <div className={styles.featureBulletItem}>
-                            <Check size={13} className={styles.checkIcon} />
-                            <span>Heavy duty industrial load</span>
+                            <Check size={13} className={isSubscriptionAvailable ? styles.checkIcon : styles.grayCheckIcon} />
+                            <span>{isSubscriptionAvailable ? "Scheduled delivery available" : "Direct purchase available"}</span>
                           </div>
                         </div>
 

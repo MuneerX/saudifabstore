@@ -18,7 +18,8 @@
   width: 100%;
   max-width: 1240px;
   margin: 0 auto;
-  padding: 120px 24px 100px;
+  padding: 40px 24px 60px;
+  box-sizing: border-box;
 }
 
 .breadcrumb {
@@ -370,17 +371,43 @@
   justify-content: center;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .container {
-    padding: 100px 16px 60px;
+    padding: 24px 16px 40px;
+    width: 100%;
+    box-sizing: border-box;
   }
   .card {
-    padding: 24px 16px;
+    padding: 20px 16px;
+    gap: 20px;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 12px;
+    box-sizing: border-box;
+  }
+  .detailsBox {
+    padding: 16px;
+    gap: 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .title {
+    font-size: 22px;
+  }
+  .subtitle {
+    font-size: 13.5px;
   }
   .actionsGroup {
     flex-direction: column;
+    width: 100%;
   }
   .primaryBtn, .secondaryBtn {
     width: 100%;
+    min-width: 100%;
+    box-sizing: border-box;
+  }
+  .supportChannels {
+    flex-direction: column;
+    gap: 10px;
   }
 }

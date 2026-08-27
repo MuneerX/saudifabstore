@@ -39,8 +39,11 @@ async function formatOrder(rawOrder: any) {
       const finalImages = pObj?.images?.length ? pObj.images : (catalogMatch?.images || dbProduct?.images || ["/images/home/category_grid/warehouse.jpeg"]);
       const finalCategory = catalogMatch?.category || dbProduct?.category || 'Steel Fabrication';
 
+      const rawItemObj = typeof item?.toObject === 'function' ? item.toObject() : item;
       return {
-        ...item,
+        ...rawItemObj,
+        size: rawItemObj?.size || rawItemObj?.optionName || 'Standard Spec',
+        color: rawItemObj?.color || 'SASO Industrial Finish',
         product: {
           _id: pId,
           name: finalName,
@@ -48,7 +51,7 @@ async function formatOrder(rawOrder: any) {
           images: finalImages,
           category: finalCategory
         },
-        price: item.price || finalPrice
+        price: rawItemObj?.price || finalPrice
       };
     })
   );
@@ -201,13 +204,15 @@ export async function POST(request: NextRequest) {
     const defaultProduct = await Product.findOne();
     const fallbackProductId = defaultProduct ? (defaultProduct as any)._id.toString() : new mongoose.Types.ObjectId().toString();
 
-    const orderItems: { product: any; quantity: number; price: number }[] = rawItems.map((item: any) => {
+    const orderItems: { product: any; quantity: number; price: number; size?: string; color?: string }[] = rawItems.map((item: any) => {
       const rawProdId = item.product?._id || item.product;
       const prodId = rawProdId ? String(rawProdId) : fallbackProductId;
       return {
         product: prodId,
         quantity: item.quantity || 1,
-        price: item.price || item.product?.price || 150
+        price: item.price || item.product?.price || 150,
+        size: item.size || "Standard Spec",
+        color: item.color || "SASO Industrial Finish"
       };
     });
     

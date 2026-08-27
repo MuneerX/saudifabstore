@@ -35,15 +35,18 @@ async function formatOrder(rawOrder: any) {
       const finalPrice = typeof pObj?.price === 'number' ? pObj.price : (catalogMatch?.price || dbProduct?.price || item.price || 150);
       const finalImages = pObj?.images?.length ? pObj.images : (catalogMatch?.images || dbProduct?.images || ["/images/home/category_grid/warehouse.jpeg"]);
 
+      const rawItemObj = typeof item?.toObject === 'function' ? item.toObject() : item;
       return {
-        ...item,
+        ...rawItemObj,
+        size: rawItemObj?.size || rawItemObj?.optionName || 'Standard Spec',
+        color: rawItemObj?.color || 'SASO Industrial Finish',
         product: {
           _id: pId,
           name: finalName,
           price: finalPrice,
           images: finalImages
         },
-        price: item.price || finalPrice
+        price: rawItemObj?.price || finalPrice
       };
     })
   );

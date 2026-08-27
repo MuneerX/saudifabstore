@@ -242,7 +242,11 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
               <tbody>
                 ${order.orderItems?.map((item) => `
                   <tr>
-                    <td><strong>${item.product?.name || 'Product'}</strong></td>
+                    <td>
+                      <strong>${item.product?.name || 'Product'}</strong>
+                      ${(item as any).size || (item as any).optionName ? `<br/><span style="font-size: 11.5px; color: #64748b;">Option: ${(item as any).size || (item as any).optionName}</span>` : ''}
+                      ${(item as any).isSubscription ? `<br/><span style="font-size: 11px; color: #047857; font-weight: 700;">[Monthly Auto-Restock (-10% OFF)]</span>` : ''}
+                    </td>
                     <td class="text-right">${item.quantity}</td>
                     <td class="text-right">SAR ${(item.price || 0).toFixed(2)}</td>
                     <td class="text-right">SAR ${((item.price || 0) * item.quantity).toFixed(2)}</td>
@@ -655,29 +659,49 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
           </CardHeader>
           <CardContent className={styles.cardContent}>
             <div className={styles.itemsList}>
-              {order.orderItems?.map((item, index) => (
-                <div key={item.product?._id || index} className={styles.item}>
-                  <Image
-                    src={item.product?.images?.[0] || '/placeholder.png'}
-                    alt={item.product?.name || 'Product'}
-                    className={styles.itemImage}
-                    width={60}
-                    height={60}
-                  />
-                  <div className={styles.itemDetails}>
-                    <div className={styles.itemName}>{item.product?.name || 'Unknown Product'}</div>
-                    <div className={styles.itemAttributes}>
-                      Quantity: {item.quantity}
+              {order.orderItems?.map((item, index) => {
+                const rawOptionStr = (item as any).size || (item as any).optionName || 'Standard Spec';
+                const isSubscribed = rawOptionStr.toLowerCase().includes("auto-restock") || rawOptionStr.toLowerCase().includes("monthly") || (item as any).isSubscription;
+                const displayOption = rawOptionStr.replace(/\(Monthly Auto-Restock.*?\)/gi, '').trim() || 'Standard Spec';
+
+                return (
+                  <div key={item.product?._id || index} className={styles.item}>
+                    <Image
+                      src={item.product?.images?.[0] || '/placeholder.png'}
+                      alt={item.product?.name || 'Product'}
+                      className={styles.itemImage}
+                      width={60}
+                      height={60}
+                    />
+                    <div className={styles.itemDetails}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                        <div className={styles.itemName}>{item.product?.name || 'Unknown Product'}</div>
+                        {(item as any).promoBadge && (
+                          <span style={{ fontSize: '10px', fontWeight: 700, backgroundColor: '#FEEC3C', color: '#111111', padding: '2px 6px', borderRadius: '4px', textTransform: 'uppercase' }}>
+                            {(item as any).promoBadge}
+                          </span>
+                        )}
+                      </div>
+                      <div className={styles.itemAttributes}>
+                        <div>Qty: {item.quantity} &bull; Option: <strong style={{ color: '#0f172a' }}>{displayOption}</strong></div>
+                        {isSubscribed && (
+                          <div className={styles.subscriptionBadgeRow}>
+                            <span className={styles.subscriptionTag}>
+                              ↻ Monthly Auto-Restock (-10% OFF)
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      <div className={styles.itemPrice}>
+                        SAR {item.price?.toFixed(2) || '0.00'} × {item.quantity}
+                      </div>
                     </div>
-                    <div className={styles.itemPrice}>
-                      SAR {item.price?.toFixed(2) || '0.00'} × {item.quantity}
+                    <div className={styles.itemTotal}>
+                      SAR {((item.price || 0) * item.quantity).toFixed(2)}
                     </div>
                   </div>
-                  <div className={styles.itemTotal}>
-                    SAR {((item.price || 0) * item.quantity).toFixed(2)}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </CardContent>
         </Card>
@@ -763,10 +787,11 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
             <Button
               variant="default"
               className={styles.printInvoiceButton}
-              onClick={handlePrintInvoice}
+              disabled={true}
+              style={{ opacity: 0.5, cursor: "not-allowed", pointerEvents: "none" }}
             >
               <Printer className={styles.actionIcon} aria-hidden="true" />
-              Print Invoice
+              Print Invoice (Disabled)
             </Button>
           </CardFooter>
         </Card>

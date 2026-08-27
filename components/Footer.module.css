@@ -113,7 +113,7 @@
   max-width: 1520px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   gap: 20px;
 }
 
@@ -355,7 +355,7 @@
 .contactFooterOfficesSection {
   max-width: 1520px;
   margin: 0 auto;
-  padding: 32px 36px 24px 36px;
+  padding: 32px 20px 24px 20px;
 }
 
 .detailsHeaderBlock {
@@ -453,7 +453,7 @@
 .contactFooterContainer .bottomLegalContainer {
   max-width: 1520px;
   margin: 0 auto;
-  padding: 24px 36px 32px 36px;
+  padding: 24px 20px 32px 20px;
 }
 
 .contactFooterContainer .copyrightText,
@@ -474,6 +474,13 @@
 @media (max-width: 1200px) {
   .navLinksContainer {
     grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .unboxedDetailsRow {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
   }
 }
 
@@ -516,5 +523,37 @@
   .legalTopFlexRow {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .contactFooterOfficesSection {
+    padding: 32px 16px 40px 16px;
+  }
+
+  .detailsMainTitle {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+
+  .detailsSubText {
+    font-size: 13.5px;
+    line-height: 1.45;
+  }
+}
+
+@media (max-width: 640px) {
+  .unboxedDetailsRow {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .unboxedDetailItem {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 16px;
+  }
+
+  .contactFooterContainer .bottomLegalContainer {
+    padding: 16px 16px 24px 16px;
   }
 }

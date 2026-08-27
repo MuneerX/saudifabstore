@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Footer from "@/components/Footer";
 import { ShaderGradient } from "@/components/ShaderGradient";
@@ -28,12 +29,20 @@ import { toast } from "sonner";
 import styles from "./page.module.css";
 
 export default function ContactPage() {
+  const searchParams = useSearchParams();
   const [step, setStep] = useState<"survey" | "submitted">("survey");
   const [ticketId, setTicketId] = useState("");
   const [copied, setCopied] = useState(false);
 
   // Unified Survey State
   const [selectedTopic, setSelectedTopic] = useState("orders");
+
+  useEffect(() => {
+    const topicParam = searchParams.get("topic");
+    if (topicParam) {
+      setSelectedTopic(topicParam);
+    }
+  }, [searchParams]);
   const [subCategory, setSubCategory] = useState("");
   const [referenceNumber, setReferenceNumber] = useState("");
   const [fullName, setFullName] = useState("");
@@ -44,6 +53,8 @@ export default function ContactPage() {
 
   const topics = [
     { id: "orders", label: "Order Tracking & Dispatch", icon: DeliveryTruck01Icon },
+    { id: "report_issue", label: "Report Item or Seller Issue", icon: InformationSquareIcon },
+    { id: "account_reset", label: "Account & Password Reset", icon: Award04Icon },
     { id: "returns", label: "30-Day Site Return Claim", icon: DeliveryReturn02Icon },
     { id: "billing", label: "VAT Tax Invoice & CR", icon: ReceiptIcon },
     { id: "logistics", label: "Crane & Heavy Logistics", icon: Location01Icon },
@@ -57,6 +68,40 @@ export default function ContactPage() {
     title: string;
     items: { question: string; answer: string }[];
   }> = {
+    report_issue: {
+      title: "Item or Seller Issue Resolution",
+      items: [
+        {
+          question: "How do I report a non-compliant or defective item?",
+          answer: "Select 'Non-Compliant Material Delivered' or 'Transit Defect' in the category options below. Our quality engineering team will arrange 100% free site pickup and priority replacement."
+        },
+        {
+          question: "What if the delivered item does not match CAD specifications?",
+          answer: "Provide your PO or order number in the survey. Our Dammam workshop estimators review dimensional discrepancies and dispatch replacement flatbeds within 24 hours."
+        },
+        {
+          question: "How are seller disputes resolved?",
+          answer: "All items sold on Saudi Fab Store carry direct manufacturer warranties and SASO compliance certificates under strict SLA dispute resolution."
+        }
+      ]
+    },
+    account_reset: {
+      title: "Account & Password Recovery Help",
+      items: [
+        {
+          question: "How do I reset my account password?",
+          answer: "Enter your registered corporate email below. An instant password reset link or verification code will be sent directly to your inbox."
+        },
+        {
+          question: "What if I lost access to my corporate email address?",
+          answer: "Select 'Update Registered Corporate Email'. Our security desk will verify your Commercial Registration (CR) and restore access within 2 hours."
+        },
+        {
+          question: "How do I unlock a locked corporate admin account?",
+          answer: "Select 'Account Lockout Assistance'. Executive admin accounts can be unlocked immediately after security identity confirmation."
+        }
+      ]
+    },
     orders: {
       title: "Order Tracking & Dispatch Solutions",
       items: [
@@ -183,6 +228,18 @@ export default function ContactPage() {
   };
 
   const subCategoryOptions: Record<string, string[]> = {
+    report_issue: [
+      "Non-Compliant Material Delivered",
+      "Damaged Shipment / Transit Defect",
+      "Seller Performance / Delivery Delay",
+      "Incorrect Specification / Size Discrepancy"
+    ],
+    account_reset: [
+      "Forgot Password / Reset Security Code",
+      "Update Registered Corporate Email / Phone",
+      "Commercial Registration (CR) Verification",
+      "Account Lockout Assistance"
+    ],
     orders: [
       "Flatbed Truck Delayed On-Site",
       "Partial Material Delivered",
@@ -232,6 +289,16 @@ export default function ContactPage() {
   };
 
   const actionOptions: Record<string, string[]> = {
+    report_issue: [
+      "Immediate Technical Inspection Call Back",
+      "Dispatch Priority Replacement Order",
+      "File Formal Seller Dispute Ticket"
+    ],
+    account_reset: [
+      "Send Instant Password Reset Email",
+      "Call Security Desk for Identity Verification",
+      "Re-activate Corporate Admin Account"
+    ],
     orders: [
       "Immediate Dispatch Call Back (Under 15 Mins)",
       "Email Driver Live GPS Tracking Link",

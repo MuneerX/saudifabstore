@@ -159,14 +159,26 @@ export default function ProductDetailsPage() {
     setOpenAccordions((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const getSelectedOptionLabel = () => {
+    let label = selectedSwatch === "single"
+      ? (product.swatchSingleName || "Single Pack")
+      : (product.swatchBulkName || "Bulk 5-Pack");
+    
+    if (purchaseMode === "subscribe") {
+      label += " (Monthly Auto-Restock -10% OFF)";
+    }
+    return label;
+  };
+
   const handleAddToCart = () => {
-    addToCart(product._id, 1, selectedSwatch === "single" ? "Single Pack" : "Bulk 5-Pack", "SASO Industrial Finish");
+    const swatchLabel = getSelectedOptionLabel();
+    addToCart(product._id, 1, swatchLabel, "SASO Industrial Finish");
   };
 
   const handleInstantCheckout = () => {
     if (!product) return;
-    const swatch = selectedSwatch === "single" ? "Single Pack" : "Bulk 5-Pack";
-    router.push(`/checkout?instant=true&productId=${encodeURIComponent(product._id)}&qty=1&swatch=${encodeURIComponent(swatch)}&price=${currentPrice}`);
+    const swatchLabel = getSelectedOptionLabel();
+    router.push(`/checkout?instant=true&productId=${encodeURIComponent(product._id)}&qty=1&swatch=${encodeURIComponent(swatchLabel)}&price=${currentPrice}`);
   };
 
   const basePrice = selectedSwatch === "single" ? product.price : product.price * 4.2;
@@ -859,14 +871,15 @@ export default function ProductDetailsPage() {
                       <span className={styles.fulfillmentSub}>Arrives in 1-2 days</span>
                     </div>
 
-                    {/* Pickup */}
+                    {/* Pickup (Disabled) */}
                     <div
-                      className={`${styles.fulfillmentCard} ${fulfillmentMethod === "pickup" ? styles.selectedFulfillmentCard : ""}`}
-                      onClick={() => setFulfillmentMethod("pickup")}
+                      className={styles.fulfillmentCard}
+                      style={{ opacity: 0.5, cursor: "not-allowed", pointerEvents: "none", backgroundColor: "#f8fafc" }}
+                      title="Store Pickup currently unavailable"
                     >
-                      <HugeiconsIcon icon={Store01Icon} size={20} strokeWidth={2.2} color={fulfillmentMethod === "pickup" ? "#111111" : "#475569"} />
-                      <span className={styles.fulfillmentTitle}>Pickup</span>
-                      <span className={styles.fulfillmentSub}>Dammam Yard</span>
+                      <HugeiconsIcon icon={Store01Icon} size={20} strokeWidth={2.2} color="#94a3b8" />
+                      <span className={styles.fulfillmentTitle} style={{ color: "#94a3b8" }}>Pickup</span>
+                      <span className={styles.fulfillmentSub} style={{ color: "#94a3b8" }}>Unavailable</span>
                     </div>
 
                   </div>
@@ -888,7 +901,7 @@ export default function ProductDetailsPage() {
                     <div>
                       <span>Sold and shipped by <strong>Saudi Fab Store Direct</strong></span>
                       <br />
-                      <span className={styles.fulfillmentDetailLink}>Report an issue with seller or item</span>
+                      <Link href="/contact?topic=report_issue" className={styles.fulfillmentDetailLink}>Report an issue with seller or item</Link>
                     </div>
                   </div>
 
@@ -896,7 +909,7 @@ export default function ProductDetailsPage() {
                     <HugeiconsIcon icon={DeliveryReturn02Icon} size={16} strokeWidth={2.2} className={styles.fulfillmentDetailIcon} />
                     <div>
                       <span><strong>Free 30-day site returns</strong></span>
-                      <span className={styles.fulfillmentDetailLink}>Details</span>
+                      <Link href="/terms?tab=returns" className={styles.fulfillmentDetailLink}>Details</Link>
                     </div>
                   </div>
 
@@ -904,7 +917,7 @@ export default function ProductDetailsPage() {
                     <HugeiconsIcon icon={CheckmarkSquare01Icon} size={16} strokeWidth={2.2} className={styles.fulfillmentDetailIcon} />
                     <div>
                       <span>This item is <strong>B2B VAT Invoice &amp; MTR Certificate eligible</strong></span>
-                      <span className={styles.fulfillmentDetailLink}>Learn more</span>
+                      <Link href="/terms?tab=purchasing" className={styles.fulfillmentDetailLink}>Learn more</Link>
                     </div>
                   </div>
                 </div>

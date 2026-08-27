@@ -47,13 +47,13 @@
 
 .mobileToggle {
   position: fixed;
-  top: 1.5rem;
-  left: 1.5rem;
-  z-index: 50;
-  padding: 0.75rem;
+  top: 1rem;
+  left: 1rem;
+  z-index: 120;
+  padding: 0.65rem;
   border-radius: 0.5rem;
   background-color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   border: 1px solid #EBE7DF;
   transition: all 0.2s;
 }
@@ -580,18 +580,18 @@
 .mobileLogo {
   width: 2.25rem;
   height: 2.25rem;
-  background-color: #2563eb;
+  background-color: #FEEC3C;
   border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .mobileLogoText {
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 0.875rem;
+  color: #111111;
+  font-weight: 800;
+  font-size: 0.95rem;
 }
 
 .mobileBrand {
@@ -670,8 +670,10 @@
 }
 
 .mobileActive {
-  background-color: #eff6ff;
-  color: #1d4ed8;
+  background-color: #FEEC3C;
+  color: #111111;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(254, 236, 60, 0.3);
 }
 
 .mobileNavIconWrapper {
@@ -688,7 +690,7 @@
 }
 
 .mobileActive .mobileNavIcon {
-  color: #2563eb;
+  color: #111111;
 }
 
 .mobileNavButton:not(.mobileActive) .mobileNavIcon {
@@ -705,16 +707,16 @@
 }
 
 .mobileActive .mobileNavText {
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .mobileBadge {
   padding: 0.125rem 0.375rem;
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 700;
   border-radius: 9999px;
-  background-color: #dbeafe;
-  color: #1d4ed8;
+  background-color: #111111;
+  color: #FEEC3C;
 }
 
 .mobileNavFooter {

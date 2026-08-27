@@ -7,6 +7,7 @@ import { AmazonHero, AmazonCategoryGrid } from "@/components/AmazonHero";
 import { AmazonProductRow } from "@/components/AmazonProductRow";
 import { WalmartDualShowcaseSection } from "@/components/WalmartDualShowcaseSection";
 import { WalmartHeroGridSection } from "@/components/WalmartHeroGridSection";
+import { CustomEngineeringBanner } from "@/components/CustomEngineeringBanner";
 import { AboutTermsFooterSection } from "@/components/AboutTermsFooterSection";
 import Footer from "@/components/Footer";
 import { INITIAL_PRODUCTS } from "@/lib/data/initialProducts";
@@ -62,6 +63,9 @@ export default function Home() {
             linkHref="/products"
             products={trendingDeals}
           />
+
+          {/* Custom Engineering & Request a Quote Banner */}
+          <CustomEngineeringBanner />
         </div>
 
         {/* Bottom About & Terms Section */}

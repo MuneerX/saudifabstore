@@ -1,0 +1,98 @@
+.bannerSectionWrapper {
+  width: 100%;
+  margin: 24px 0 36px 0;
+}
+
+.showcaseBannerCard {
+  position: relative;
+  width: 100%;
+  min-height: 280px;
+  border-radius: 18px;
+  overflow: hidden;
+  padding: 36px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.bgImage {
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+}
+
+.bannerContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-start;
+}
+
+.bannerContent > div {
+  max-width: 620px;
+}
+
+.bannerMainTitle {
+  font-size: 34px;
+  font-weight: 800;
+  color: #002d58;
+  line-height: 1.15;
+  margin: 0 0 20px 0;
+  letter-spacing: -0.02em;
+}
+
+.shopNowWhiteBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  color: #002d58;
+  border: 1.5px solid #002d58;
+  border-radius: 8px;
+  padding: 10px 26px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.15s ease;
+  align-self: flex-start;
+}
+
+.shopNowWhiteBtn:hover {
+  background-color: #002d58;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 1024px) {
+  .showcaseBannerCard {
+    padding: 32px 28px;
+    min-height: 240px;
+  }
+
+  .bannerMainTitle {
+    font-size: 26px;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .showcaseBannerCard {
+    padding: 24px 20px;
+    min-height: 200px;
+    border-radius: 14px;
+  }
+
+  .bannerMainTitle {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .shopNowWhiteBtn {
+    padding: 8px 20px;
+    font-size: 13px;
+  }
+}

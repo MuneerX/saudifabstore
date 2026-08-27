@@ -75,10 +75,10 @@ export default function AdminLoginPage() {
         <div className={styles.logoRow}>
           <Link href="/" aria-label="Saudi Fab Store Home">
             <Image
-              src="/images/logo.png"
+              src="/images/logo4_2.png"
               alt="Saudi Fab Store Logo"
-              width={140}
-              height={42}
+              width={145}
+              height={36}
               className={styles.authLogo}
               priority
               unoptimized
@@ -195,8 +195,8 @@ export default function AdminLoginPage() {
         {/* Auth Footer Right Below Container */}
         <footer className={styles.authFooter}>
           <div className={styles.authFooterLinks}>
-            <Link href="/contact">Conditions of Use</Link>
-            <Link href="/contact">Privacy Notice</Link>
+            <Link href="/terms?tab=conditions">Conditions of Use</Link>
+            <Link href="/terms?tab=privacy">Privacy Notice</Link>
             <Link href="/contact">Help Center</Link>
           </div>
           <p className={styles.authFooterCopy}>

@@ -773,10 +773,6 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                   />
                 </div>
               </div>
-
-              <span className={styles.promoBottomText}>
-                Direct factory dispatch &amp; certified mill testing included
-              </span>
             </div>
 
             {/* Editable Description Block */}
@@ -790,29 +786,6 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                 rows={4}
                 className={styles.descriptionTextarea}
               />
-            </div>
-
-            {/* Precision Industrial Specification Rail */}
-            <div className={styles.industrialFactStrip}>
-              <div className={styles.factItem}>
-                <Factory size={15} strokeWidth={1.8} className={styles.factIcon} />
-                <span className={styles.factText}>Dammam Fabrication</span>
-              </div>
-              <div className={styles.factDivider} />
-              <div className={styles.factItem}>
-                <ShieldCheck size={15} strokeWidth={1.8} className={styles.factIcon} />
-                <span className={styles.factText}>1-Year Warranty</span>
-              </div>
-              <div className={styles.factDivider} />
-              <div className={styles.factItem}>
-                <BadgeCheck size={15} strokeWidth={1.8} className={styles.factIcon} />
-                <span className={styles.factText}>ISO 9001:2015</span>
-              </div>
-              <div className={styles.factDivider} />
-              <div className={styles.factItem}>
-                <Star size={15} strokeWidth={1.8} className={styles.factIcon} />
-                <span className={styles.factText}>4.9/5.0 Client Rating</span>
-              </div>
             </div>
 
           </div>

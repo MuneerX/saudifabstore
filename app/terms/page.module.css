@@ -1,0 +1,199 @@
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+.mainContainer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 20px 60px 20px;
+  width: 100%;
+}
+
+.breadcrumbRow {
+  font-size: 13px;
+  color: #565959;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breadcrumbLink {
+  color: #007185;
+  text-decoration: none;
+}
+
+.breadcrumbLink:hover {
+  color: #c7511f;
+  text-decoration: underline;
+}
+
+.mainTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f1111;
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+.lastUpdated {
+  font-size: 12px;
+  color: #565959;
+  margin: 0 0 24px 0;
+}
+
+/* Amazon Simple Left Sidebar + Main Content Grid */
+.layoutGrid {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.sidebarNav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-right: 1px solid #eaeded;
+  padding-right: 16px;
+}
+
+.sidebarHeader {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f1111;
+  margin-bottom: 8px;
+  padding-left: 8px;
+}
+
+.navItemBtn {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #007185;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.1s ease;
+  font-family: inherit;
+}
+
+.navItemBtn:hover {
+  color: #c7511f;
+  background-color: #f7fafa;
+  text-decoration: underline;
+}
+
+.navItemActive {
+  font-weight: 700;
+  color: #0f1111;
+  background-color: #f0f2f2;
+}
+
+.navItemActive:hover {
+  text-decoration: none;
+  color: #0f1111;
+}
+
+.contentBox {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  color: #0f1111;
+  line-height: 1.6;
+}
+
+.sectionHeading {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f1111;
+  margin: 0 0 10px 0;
+  border-bottom: 1px solid #eaeded;
+  padding-bottom: 8px;
+}
+
+.paragraph {
+  font-size: 14px;
+  color: #333333;
+  margin: 0 0 12px 0;
+  line-height: 1.6;
+}
+
+.bulletList {
+  margin: 8px 0 16px 20px;
+  padding: 0;
+}
+
+.bulletItem {
+  font-size: 13.5px;
+  color: #333333;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.supportNoticeBox {
+  margin-top: 24px;
+  padding: 16px 20px;
+  background-color: #f7fafa;
+  border: 1px solid #d5d9d9;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.noticeText {
+  font-size: 13.5px;
+  color: #0f1111;
+  margin: 0;
+}
+
+.contactLinkBtn {
+  display: inline-block;
+  background-color: #ffd814;
+  border: 1px solid #fcd200;
+  border-radius: 20px;
+  color: #0f1111;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 16px;
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(213, 217, 217, 0.5);
+  white-space: nowrap;
+}
+
+.contactLinkBtn:hover {
+  background-color: #f7ca00;
+  border-color: #f2c200;
+}
+
+@media (max-width: 768px) {
+  .layoutGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .sidebarHeader {
+    display: none;
+  }
+
+  .sidebarNav {
+    border-right: none;
+    border-bottom: 1px solid #eaeded;
+    padding-right: 0;
+    padding-bottom: 16px;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+
+  .supportNoticeBox {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

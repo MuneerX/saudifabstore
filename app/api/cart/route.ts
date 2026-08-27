@@ -185,7 +185,7 @@ export async function POST(request: NextRequest) {
       }
 
       const existingItemIndex = cart.items.findIndex(
-        (item: any) => item.product && (item.product._id?.toString() || item.product.toString()) === productDetails._id
+        (item: any) => item.product && (item.product._id?.toString() || item.product.toString()) === productDetails._id && item.size === itemSize
       );
 
       if (existingItemIndex > -1) {
@@ -210,7 +210,7 @@ export async function POST(request: NextRequest) {
     // 3. Fallback runtime memory cart
     let memCart = memoryCarts.get(userId) || { user: userId, items: [] };
     const existingIndex = memCart.items.findIndex(
-      (item: any) => (item.product?._id || item.product) === productDetails._id
+      (item: any) => (item.product?._id || item.product) === productDetails._id && item.size === itemSize
     );
 
     if (existingIndex > -1) {

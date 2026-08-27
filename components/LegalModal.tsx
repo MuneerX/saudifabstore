@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState, useId } from "react";
 import { createPortal } from "react-dom";
@@ -412,7 +412,7 @@ export function LegalModal({ isOpen, onClose, defaultTab = "privacy" }: Props) {
                 CR No: 2050123456 • SASO Certificate No: SASO-2026-BK889 • SABER Registered Partner
               </p>
               <a
-                href="/about"
+                href="/products"
                 className={styles.verifyLink}
                 target="_blank"
                 rel="noreferrer"

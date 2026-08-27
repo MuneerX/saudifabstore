@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link'; // Added Link import
 import { useSession, signOut } from 'next-auth/react';
@@ -256,19 +256,6 @@ export function Sidebar({ className = "", children }: SidebarProps) {
             )}
           </button>
         </div>
-
-        {!isCollapsed && (
-          <div className={styles.searchContainer}>
-            <div className={styles.searchInputWrapper}>
-              <Search className={styles.searchIcon} />
-              <input
-                type="text"
-                placeholder="Search..."
-                className={styles.searchInput}
-              />
-            </div>
-          </div>
-        )}
 
         <nav className={styles.nav}>
           <ul className={styles.navList}>

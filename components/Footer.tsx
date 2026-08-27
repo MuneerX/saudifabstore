@@ -152,21 +152,6 @@ export function Footer({ noGradient, isContactPage }: FooterProps = {}) {
 
               {/* Column 2 */}
               <div className={styles.navColumn}>
-                <h4 className={styles.columnTitle}>Services</h4>
-                <ul className={styles.columnList}>
-                  <li><Link href="/services/steel-fabrication">Steel Fabrication</Link></li>
-                  <li><Link href="/services/blasting-sandblasting">SA 2.5 Sandblasting</Link></li>
-                  <li><Link href="/services/industrial-painting-coatings">Industrial Coating</Link></li>
-                  <li><Link href="/services/protorc-torquing-bolting">Hydraulic Torquing</Link></li>
-                  <li><Link href="/services/steel-fabrication">CNC Laser Cutting</Link></li>
-                  <li><Link href="/services/steel-fabrication">Sheet Metal Bending</Link></li>
-                  <li><Link href="/services/forklift-repair">Workshop Repair</Link></li>
-                  <li><Link href="/services/smart-woodworks">Crating &amp; Pallets</Link></li>
-                </ul>
-              </div>
-
-              {/* Column 3 */}
-              <div className={styles.navColumn}>
                 <h4 className={styles.columnTitle}>Warehouse</h4>
                 <ul className={styles.columnList}>
                   <li><Link href="/products?category=Warehouse+%26+Logistics">Self-Dumping Skips</Link></li>
@@ -180,21 +165,21 @@ export function Footer({ noGradient, isContactPage }: FooterProps = {}) {
                 </ul>
               </div>
 
-              {/* Column 4 */}
+              {/* Column 3 */}
               <div className={styles.navColumn}>
                 <h4 className={styles.columnTitle}>SASO Safety</h4>
                 <ul className={styles.columnList}>
-                  <li><Link href="/services/general-safety-trading">SASO Safety Helmets</Link></li>
-                  <li><Link href="/services/general-safety-trading">Safety Harnesses</Link></li>
-                  <li><Link href="/services/general-safety-trading">Protective Eyewear</Link></li>
-                  <li><Link href="/services/general-safety-trading">High-Vis Vests</Link></li>
-                  <li><Link href="/services/general-safety-trading">Welding Shields</Link></li>
-                  <li><Link href="/services/general-safety-trading">Steel-Toe Boots</Link></li>
-                  <li><Link href="/services/general-safety-trading">Mask Filters</Link></li>
+                  <li><Link href="/products?category=Safety+Equipment">SASO Safety Helmets</Link></li>
+                  <li><Link href="/products?category=Safety+Equipment">Safety Harnesses</Link></li>
+                  <li><Link href="/products?category=Safety+Equipment">Protective Eyewear</Link></li>
+                  <li><Link href="/products?category=Safety+Equipment">High-Vis Vests</Link></li>
+                  <li><Link href="/products?category=Safety+Equipment">Welding Shields</Link></li>
+                  <li><Link href="/products?category=Safety+Equipment">Steel-Toe Boots</Link></li>
+                  <li><Link href="/products?category=Safety+Equipment">Mask Filters</Link></li>
                 </ul>
               </div>
 
-              {/* Column 5 */}
+              {/* Column 4 */}
               <div className={styles.navColumn}>
                 <h4 className={styles.columnTitle}>Certifications</h4>
                 <ul className={styles.columnList}>
@@ -208,12 +193,12 @@ export function Footer({ noGradient, isContactPage }: FooterProps = {}) {
                 </ul>
               </div>
 
-              {/* Column 6 */}
+              {/* Column 5 */}
               <div className={styles.navColumn}>
                 <h4 className={styles.columnTitle}>Top Brands</h4>
                 <ul className={styles.columnList}>
                   <li><Link href="/products">Saudi Fab Store</Link></li>
-                  <li><Link href="/services/protorc-torquing-bolting">ProTorc Torquing</Link></li>
+                  <li><Link href="/products">ProTorc Torquing</Link></li>
                   <li><Link href="/products">DeWalt Heavy Duty</Link></li>
                   <li><Link href="/products">Makita Industrial</Link></li>
                   <li><Link href="/products">Lincoln Electric</Link></li>
@@ -222,26 +207,26 @@ export function Footer({ noGradient, isContactPage }: FooterProps = {}) {
                 </ul>
               </div>
 
-              {/* Column 7 */}
+              {/* Column 6 */}
               <div className={styles.navColumn}>
                 <h4 className={styles.columnTitle}>Discover Now</h4>
                 <ul className={styles.columnList}>
-                  <li><Link href="/about">Saudi Fab Portal</Link></li>
+                  <li><Link href="/products">Saudi Fab Portal</Link></li>
                   <li><Link href="/contact">Steel Calculator</Link></li>
                   <li><Link href="/contact">Custom Quote Tool</Link></li>
-                  <li><Link href="/portfolio">Catalog 2026</Link></li>
+                  <li><Link href="/products">Catalog 2026</Link></li>
                   <li><Link href="/products">Wholesale Rates</Link></li>
                   <li><Link href="/contact">B2B Credit Line</Link></li>
-                  <li><Link href="/services/steel-fabrication">Express Delivery</Link></li>
+                  <li><Link href="/products">Express Delivery</Link></li>
                 </ul>
               </div>
 
-              {/* Column 8 */}
+              {/* Column 7 */}
               <div className={styles.navColumn}>
                 <h4 className={styles.columnTitle}>Popular</h4>
                 <ul className={styles.columnList}>
                   <li><Link href="/products">ASTM Steel Plates</Link></li>
-                  <li><Link href="/services/blasting-sandblasting">SA 2.5 Sandblast</Link></li>
+                  <li><Link href="/products">SA 2.5 Sandblast</Link></li>
                   <li><Link href="/products">Self-Dumping Skips</Link></li>
                   <li><Link href="/products">SWL Shackles</Link></li>
                   <li><Link href="/products">Heavy Flanges</Link></li>
@@ -249,7 +234,7 @@ export function Footer({ noGradient, isContactPage }: FooterProps = {}) {
                 </ul>
               </div>
 
-              {/* Column 9 */}
+              {/* Column 8 */}
               <div className={styles.navColumn}>
                 <h4 className={styles.columnTitle}>GCC Regions</h4>
                 <ul className={styles.columnList}>
@@ -337,12 +322,12 @@ export function Footer({ noGradient, isContactPage }: FooterProps = {}) {
 
             {/* Policy Footer Links */}
             <div className={styles.policyLinksRow}>
-              <Link href="/about">Careers</Link>
+              <Link href="/contact">Careers</Link>
               <button type="button" onClick={() => openLegalModal('privacy')} className={styles.policyBtn}>Warranty Policy</button>
               <Link href="/signup">Sell with us</Link>
-              <button type="button" onClick={() => openLegalModal('terms')} className={styles.policyBtn}>Terms of Use</button>
-              <button type="button" onClick={() => openLegalModal('terms')} className={styles.policyBtn}>Terms of Sale</button>
-              <button type="button" onClick={() => openLegalModal('privacy')} className={styles.policyBtn}>Privacy Policy</button>
+              <Link href="/terms?tab=conditions">Terms of Use</Link>
+              <Link href="/terms?tab=purchasing">Terms of Sale</Link>
+              <Link href="/terms?tab=privacy">Privacy Policy</Link>
             </div>
           </div>
 

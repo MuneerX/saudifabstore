@@ -41,20 +41,31 @@ export interface IOrder extends Document {
   updatedAt: Date;
 }
 
-const OrderItemSchema: Schema = new Schema({
-  product: {
-    type: Schema.Types.Mixed,
-    required: true,
+const OrderItemSchema: Schema = new Schema(
+  {
+    product: {
+      type: Schema.Types.Mixed,
+      required: true,
+    },
+    quantity: {
+      type: Number,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    size: {
+      type: String,
+      default: 'Standard Spec',
+    },
+    color: {
+      type: String,
+      default: 'SASO Industrial Finish',
+    },
   },
-  quantity: {
-    type: Number,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-});
+  { strict: false }
+);
 
 const ShippingAddressSchema: Schema = new Schema({
   name: { type: String },
@@ -132,6 +143,7 @@ const OrderSchema: Schema = new Schema(
   },
   {
     timestamps: true,
+    strict: false,
   }
 );
 

@@ -165,6 +165,8 @@ function CheckoutContent() {
         product: item.product?._id || item.product,
         quantity: item.quantity,
         price: item.product?.price || 150,
+        size: item.size || "Standard Spec",
+        color: item.color || "SASO Industrial Finish",
       }));
 
       const orderPayload = {
@@ -472,7 +474,7 @@ function CheckoutContent() {
                         />
                       </div>
 
-                      <div className={styles.formRow}>
+                      <div className={styles.formRow2Col}>
                         <div className={styles.fieldGroup}>
                           <span className={styles.labelText}>Expiry Date *</span>
                           <input
@@ -539,26 +541,39 @@ function CheckoutContent() {
                 {cartItemsList.length === 0 ? (
                   <p style={{ color: "#64748b", fontSize: "14px", margin: "16px 0" }}>Your cart is empty.</p>
                 ) : (
-                  cartItemsList.map((item, idx) => (
-                    <div key={idx} className={styles.itemRow}>
-                      <Image
-                        src={item.product?.images?.[0] || "/images/home/category_grid/warehouse.jpeg"}
-                        alt={item.product?.name || "Product"}
-                        width={56}
-                        height={56}
-                        className={styles.itemThumb}
-                        unoptimized
-                      />
-                      <div className={styles.itemDetails}>
-                        <h3 className={styles.itemName}>{item.product?.name}</h3>
-                        <p className={styles.itemSpecs}>{item.size || "Standard Spec"}</p>
-                        <p className={styles.itemQty}>Qty: {item.quantity}</p>
+                  cartItemsList.map((item, idx) => {
+                    const rawOptionStr = item.size || "Standard Spec";
+                    const isSubscribed = rawOptionStr.toLowerCase().includes("auto-restock") || rawOptionStr.toLowerCase().includes("monthly");
+                    const displayOption = rawOptionStr.replace(/\(Monthly Auto-Restock.*?\)/gi, '').trim() || "Standard Spec";
+
+                    return (
+                      <div key={idx} className={styles.itemRow}>
+                        <Image
+                          src={item.product?.images?.[0] || "/images/home/category_grid/warehouse.jpeg"}
+                          alt={item.product?.name || "Product"}
+                          width={56}
+                          height={56}
+                          className={styles.itemThumb}
+                          unoptimized
+                        />
+                        <div className={styles.itemDetails}>
+                          <h3 className={styles.itemName}>{item.product?.name}</h3>
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap", margin: "2px 0" }}>
+                            <span className={styles.itemSpecs}>{displayOption}</span>
+                            {isSubscribed && (
+                              <span style={{ fontSize: "10.5px", fontWeight: 700, backgroundColor: "#ecfdf5", color: "#047857", padding: "1px 6px", borderRadius: "10px", border: "1px solid #a7f3d0" }}>
+                                ↻ Monthly Restock
+                              </span>
+                            )}
+                          </div>
+                          <p className={styles.itemQty}>Qty: {item.quantity}</p>
+                        </div>
+                        <div className={styles.itemPrice}>
+                          SAR {((item.product?.price || 0) * item.quantity).toFixed(2)}
+                        </div>
                       </div>
-                      <div className={styles.itemPrice}>
-                        SAR {((item.product?.price || 0) * item.quantity).toFixed(2)}
-                      </div>
-                    </div>
-                  ))
+                    );
+                  })
                 )}
               </div>
 
@@ -628,7 +643,7 @@ function CheckoutContent() {
                   <span>256-bit SSL Encrypted Transaction</span>
                 </div>
                 <div className={styles.trustBadgeItem}>
-                  <CheckCircle2 size={16} className={styles.trustIcon} />
+                  <ShieldCheck size={16} className={styles.trustIcon} />
                   <span>SASO &amp; ISO Certified Inspection</span>
                 </div>
               </div>

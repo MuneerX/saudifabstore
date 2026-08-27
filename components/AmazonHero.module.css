@@ -28,10 +28,11 @@
     180deg,
     transparent 0%,
     transparent 65%,
-    rgba(255, 255, 255, 0.6) 85%,
+    rgba(255, 255, 255, 0.7) 88%,
     #ffffff 100%
   );
   pointer-events: none;
+  z-index: 2;
 }
 
 /* Centered Inner Container for Sky-Blue Banner Slider */

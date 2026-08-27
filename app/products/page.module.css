@@ -1197,7 +1197,13 @@
 }
 
 .checkIcon {
-  color: #111111;
+  color: #16a34a;
+  flex-shrink: 0;
+}
+
+.grayCheckIcon {
+  color: #94a3b8;
+  flex-shrink: 0;
 }
 
 .swatchPreviewRow {

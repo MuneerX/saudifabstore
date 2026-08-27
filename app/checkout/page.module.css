@@ -7,18 +7,21 @@
   font-family: var(--font-archivo), 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 .checkoutSection {
   width: 100%;
   position: relative;
+  box-sizing: border-box;
 }
 
 .checkoutContainer {
   width: 100%;
   max-width: 1240px;
   margin: 0 auto;
-  padding: 120px 24px 100px;
+  padding: 40px 24px 60px;
+  box-sizing: border-box;
 }
 
 .headerSection {
@@ -28,6 +31,7 @@
   gap: 8px;
   padding-bottom: 20px;
   border-bottom: 1px solid #e2e8f0;
+  box-sizing: border-box;
 }
 
 .breadcrumb {
@@ -71,6 +75,8 @@
   grid-template-columns: 1fr;
   gap: 40px;
   align-items: start;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media (min-width: 960px) {
@@ -89,6 +95,8 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .sectionBlock {
@@ -310,7 +318,10 @@
   flex-direction: column;
   gap: 18px;
   position: sticky;
-  top: 100px;
+  top: 124px;
+  z-index: 10;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .summaryTitle {
@@ -506,8 +517,209 @@
   gap: 10px;
 }
 
+.formRow2Col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 @media (max-width: 768px) {
   .checkoutContainer {
-    padding: 100px 16px 60px;
+    padding: 20px 16px 40px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .headerSection {
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    gap: 4px;
+  }
+
+  .pageTitle {
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  .pageSubtitle {
+    font-size: 13px;
+  }
+
+  .mainGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .checkoutCard {
+    order: 1;
+    padding: 18px 16px;
+    gap: 20px;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 12px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+  }
+
+  .sectionBlock {
+    gap: 14px;
+  }
+
+  .sectionHeader {
+    padding-bottom: 10px;
+    gap: 10px;
+  }
+
+  .sectionBadge {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+
+  .sectionTitle {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .formGrid {
+    gap: 14px;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .formRow2Col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .fieldGroup {
+    gap: 4px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .labelText {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #475569;
+  }
+
+  .inputField {
+    font-size: 14.5px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .paymentTabs {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .paymentTab {
+    padding: 11px 12px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .shippingOption {
+    padding: 12px 14px;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .shippingTitle {
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+
+  .shippingSub {
+    font-size: 12px;
+  }
+
+  .orderSummaryCard {
+    order: -1;
+    padding: 18px 16px;
+    position: static;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 12px;
+    box-sizing: border-box;
+    background-color: #fafafa;
+  }
+
+  .summaryTitle {
+    font-size: 16px;
+    padding-bottom: 10px;
+  }
+
+  .itemRow {
+    gap: 12px;
+  }
+
+  .itemThumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+  }
+
+  .itemName {
+    font-size: 13px;
+  }
+
+  .itemPrice {
+    font-size: 13.5px;
+  }
+
+  .promoBlock {
+    gap: 8px;
+  }
+
+  .promoInput {
+    height: 36px;
+    font-size: 12.5px;
+  }
+
+  .promoBtn {
+    height: 36px;
+    padding: 0 14px;
+    font-size: 12.5px;
+  }
+
+  .totalLabel {
+    font-size: 15px;
+  }
+
+  .totalValue {
+    font-size: 20px;
+  }
+
+  .submitBtn {
+    padding: 14px 20px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
   }
 }

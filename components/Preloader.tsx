@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
@@ -224,7 +224,7 @@ export function Preloader() {
           style={{ opacity: 0, transform: "scale(0.85) translateY(18px)" }}
         >
           <Image
-            src="/images/logo.png"
+            src="/images/logo4_2.png"
             alt="Saudi Fab Store Official Logo"
             width={400}
             height={100}

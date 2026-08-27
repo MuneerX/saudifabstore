@@ -509,7 +509,7 @@
   font-size: 16px;
   font-weight: 800;
   border: none;
-  border-radius: 9999px;
+  border-radius: 8px;
   padding: 16px 36px;
   cursor: pointer;
   width: 100%;
@@ -545,70 +545,52 @@
   padding-top: 6px;
 }
 
-/* SLA Guarantee Card Box */
+/* SLA Guarantee Card Box - Simple & Clean */
 .slaCardBox {
   display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  background-color: #ffffff;
+  align-items: center;
+  gap: 14px;
+  background-color: #f8fafc;
   border: 1px solid #e2e8f0;
-  border-radius: 18px;
-  padding: 22px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-  position: relative;
-  overflow: hidden;
-}
-
-.slaCardBox::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background-color: #FEEC3C;
+  border-radius: 12px;
+  padding: 16px 20px;
 }
 
 .slaIconCircle {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
   background-color: #FEEC3C;
   color: #0f172a;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(254, 236, 60, 0.4);
 }
 
 .slaTextContent {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
 .slaTagBadge {
-  font-size: 10.5px;
-  font-weight: 800;
-  color: #0058a3;
-  letter-spacing: 0.05em;
+  display: none;
 }
 
 .slaCardTitle {
-  font-size: 22px;
+  font-size: 15px;
   font-weight: 800;
   color: #0f172a;
   margin: 0;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .slaCardDesc {
   font-size: 12.5px;
   color: #64748b;
-  line-height: 1.45;
-  margin: 2px 0 0 0;
+  line-height: 1.4;
+  margin: 0;
 }
 
 /* Unboxed Dynamic Category Guidance & FAQ Solutions */
@@ -985,29 +967,123 @@
   line-height: 1.4;
 }
 
-/* RESPONSIVE MEDIA QUERIES */
+/* RESPONSIVE MEDIA QUERIES FOR CONTACT PAGE */
 @media (max-width: 1024px) {
+  .headerContainer {
+    padding: 18px 24px;
+    gap: 20px;
+  }
+
+  .topCardsGrid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
   .twoColumnSupportGrid {
     grid-template-columns: 1fr;
   }
-  .topicCardsGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+
   .unboxedDetailsRow {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
+@media (max-width: 768px) {
+  .transparentHeader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background: transparent;
+    border-bottom: none;
+  }
+
+  .headerContainer {
+    padding: 16px 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .helpBadgeLabel {
+    display: none;
+  }
+
+  .headerDivider {
+    display: none;
+  }
+
+  .contactNavLinks {
+    gap: 16px;
+  }
+
+  .navLinkItem span,
+  .navLinkBtn span {
+    font-size: 12.5px;
+  }
+
+  .heroSection {
+    padding: 90px 16px 36px 16px;
+  }
+
+  .heroMainTitle {
+    font-size: 24px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .heroSubTitle {
+    font-size: 13.5px;
+    line-height: 1.45;
+    margin-bottom: 24px;
+  }
+
+  .topCardsGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .quickChannelCard,
+  .quickChannelCardBtn {
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .unifiedSurveySection {
+    padding: 32px 16px 50px 16px;
+  }
+
+  .surveyMainTitle {
+    font-size: 22px;
+  }
+}
+
 @media (max-width: 640px) {
+  .headerRightActions {
+    margin-left: auto;
+  }
+
+  .backToStoreBtn {
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+
+  .contactNavLinks {
+    display: none;
+  }
+
   .topicCardsGrid {
     grid-template-columns: 1fr;
   }
+
   .subCategoryGrid {
     grid-template-columns: 1fr;
   }
+
   .formRow {
     grid-template-columns: 1fr;
   }
+
   .unboxedDetailsRow {
     grid-template-columns: 1fr;
   }

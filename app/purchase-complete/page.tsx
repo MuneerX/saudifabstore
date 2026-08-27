@@ -210,6 +210,10 @@ function PurchaseCompleteContent() {
                       const itemImg = item.product?.images?.[0] || "/images/home/category_grid/warehouse.jpeg";
                       const itemPriceVal = item.price || item.product?.price || 150;
 
+                      const rawOptionStr = item.size || (item as any).optionName || "Single Standard";
+                      const isSubscribed = rawOptionStr.toLowerCase().includes("auto-restock") || rawOptionStr.toLowerCase().includes("monthly") || (item as any).isSubscription;
+                      const displayOption = rawOptionStr.replace(/\(Monthly Auto-Restock.*?\)/gi, '').trim() || "Single Standard";
+
                       return (
                         <div key={idx} className={styles.itemRow}>
                           <div className={styles.itemLeft}>
@@ -222,8 +226,24 @@ function PurchaseCompleteContent() {
                               unoptimized
                             />
                             <div>
-                              <p className={styles.itemName}>{itemName}</p>
-                              <p className={styles.itemQty}>Qty: {item.quantity || 1} &bull; Spec: {item.size || "Standard Spec"}</p>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                                <p className={styles.itemName}>{itemName}</p>
+                                {(item as any).promoBadge && (
+                                  <span style={{ fontSize: '10px', fontWeight: 700, backgroundColor: '#FEEC3C', color: '#111111', padding: '2px 6px', borderRadius: '4px', letterSpacing: '0.04em' }}>
+                                    {(item as any).promoBadge}
+                                  </span>
+                                )}
+                              </div>
+                              <p className={styles.itemQty}>
+                                Qty: {item.quantity || 1} &bull; Option: <strong style={{ color: "#0f172a" }}>{displayOption}</strong>
+                              </p>
+                              {isSubscribed && (
+                                <div style={{ marginTop: "4px" }}>
+                                  <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", backgroundColor: "#ecfdf5", color: "#047857", padding: "2px 8px", borderRadius: "12px", border: "1px solid #a7f3d0", fontWeight: 700, fontSize: "11px" }}>
+                                    ↻ Monthly Auto-Restock (-10% OFF)
+                                  </span>
+                                </div>
+                              )}
                             </div>
                           </div>
                           <span className={styles.itemPrice}>

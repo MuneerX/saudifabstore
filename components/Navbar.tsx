@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { 
@@ -26,7 +26,6 @@ import {
 } from "@hugeicons/core-free-icons";
 import styles from "./Navbar.module.css";
 import { useCartContext } from "./CartContext";
-import { SearchModal } from "./SearchModal";
 
 interface NavbarProps {
   hasBorder?: boolean;
@@ -43,11 +42,18 @@ function Icon({ icon, size = 20, strokeWidth = 1.8, className = "" }: { icon: an
 
 export function Navbar({}: NavbarProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const urlSearchQuery = searchParams ? (searchParams.get("search") || searchParams.get("q") || "") : "";
+
   const { data: session } = useSession();
-  const { cart, openCart } = useCartContext();
+  const { cart } = useCartContext();
   
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(urlSearchQuery);
+
+  useEffect(() => {
+    setSearchQuery(urlSearchQuery);
+  }, [urlSearchQuery]);
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLocationDropdownOpen, setIsLocationDropdownOpen] = useState(false);
   const [isDepartmentsOpen, setIsDepartmentsOpen] = useState(false);
@@ -87,7 +93,7 @@ export function Navbar({}: NavbarProps) {
     if (searchQuery.trim()) {
       router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
     } else {
-      setIsSearchModalOpen(true);
+      router.push('/products');
     }
   };
 
@@ -112,8 +118,8 @@ export function Navbar({}: NavbarProps) {
             <Image
               src="/images/logo.png"
               alt="Saudi Fab Store Logo"
-              width={140}
-              height={34}
+              width={145}
+              height={36}
               className={styles.brandLogoImg}
               priority
             />
@@ -134,13 +140,11 @@ export function Navbar({}: NavbarProps) {
             <div className={styles.deliverTextGroup}>
               <div className={styles.deliverTitleRow}>
                 <span className={styles.deliverTitle}>
-                  {fulfillmentType === "delivery" ? "Pickup or delivery?" : "In-store pickup"}
+                  Direct site delivery
                 </span>
                 <Icon icon={ArrowDown01Icon} size={14} className={styles.pillChevron} />
               </div>
-              <span className={styles.deliverSubtext}>
-                {currentPostalCode} • Main Hub
-              </span>
+              <span className={styles.deliverSub}>{currentPostalCode}</span>
             </div>
           </button>
 
@@ -157,7 +161,7 @@ export function Navbar({}: NavbarProps) {
               <div className={styles.fulfillmentOptionsGrid}>
                 <button 
                   type="button"
-                  className={`${styles.optionCard} ${fulfillmentType === "delivery" ? styles.optionActive : ""}`}
+                  className={`${styles.optionCard} ${styles.optionActive}`}
                   onClick={() => setFulfillmentType("delivery")}
                 >
                   <Icon icon={DeliveryTruck01Icon} size={24} className={styles.optionIcon} />
@@ -167,12 +171,13 @@ export function Navbar({}: NavbarProps) {
 
                 <button 
                   type="button"
-                  className={`${styles.optionCard} ${fulfillmentType === "pickup" ? styles.optionActive : ""}`}
-                  onClick={() => setFulfillmentType("pickup")}
+                  className={styles.optionCard}
+                  disabled={true}
+                  style={{ opacity: 0.4, cursor: "not-allowed", pointerEvents: "none", backgroundColor: "#f8fafc" }}
                 >
-                  <Icon icon={Store01Icon} size={24} className={styles.optionIcon} />
-                  <span className={styles.optionLabel}>Store Pickup</span>
-                  <span className={styles.optionSub}>Dammam Hub Depot</span>
+                  <Icon icon={Store01Icon} size={24} className={styles.optionIcon} style={{ color: "#94a3b8" }} />
+                  <span className={styles.optionLabel} style={{ color: "#94a3b8" }}>Store Pickup</span>
+                  <span className={styles.optionSub} style={{ color: "#94a3b8" }}>Unavailable</span>
                 </button>
               </div>
 
@@ -200,11 +205,11 @@ export function Navbar({}: NavbarProps) {
           )}
         </div>
 
-        {/* Full-Width Walmart Pill Search Bar */}
+        {/* Generic Amazon-Style Search Bar */}
         <form onSubmit={handleSearchSubmit} className={styles.pillSearchBarForm}>
           <input
             type="text"
-            placeholder="Search everything at Saudi Fab Store online and in store"
+            placeholder="Search products, steel fabrications, forklift attachments, safety gear..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className={styles.pillSearchInput}
@@ -265,21 +270,23 @@ export function Navbar({}: NavbarProps) {
             <span>Shop All</span>
           </Link>
 
+          {/* Request a Quote Button */}
+          <Link href="/contact" className={styles.whitePillBtn}>
+            <Icon icon={Call02Icon} size={16} />
+            <span>Request a Quote</span>
+          </Link>
+
           {/* Divider Line */}
           <div className={styles.subBarDivider}></div>
 
           {/* Scrollable Quick Category Chip Pills Track */}
           <div className={styles.categoryChipsTrack}>
-            <Link href="/products?sort=popular" className={styles.chipPill}>Rollbacks &amp; Deals</Link>
             <Link href="/products?category=Forklift+Attachments" className={styles.chipPill}>Forklift Accessories</Link>
             <Link href="/products?category=Warehouse+%26+Logistics" className={styles.chipPill}>Warehouse Equipment</Link>
             <Link href="/products?category=Safety+Equipment" className={styles.chipPill}>Safety &amp; PPE</Link>
             <Link href="/products?badge=BESTSELLER" className={styles.chipPill}>Lifting &amp; Cranes</Link>
             <Link href="/products?sort=newest" className={styles.chipPill}>New Arrivals</Link>
-            <Link href="/contact" className={styles.chipPillHighlight}>
-              <span>Saudi Fab+</span>
-            </Link>
-            <Link href="/contact" className={styles.chipPill}>B2B Wholesale</Link>
+            <Link href="/products?subscription=true" className={styles.chipPill}>B2B Wholesale</Link>
             <Link href="/contact" className={styles.chipPill}>
               <Icon icon={Call02Icon} size={13} />
               <span>Customer Service</span>
@@ -321,9 +328,6 @@ export function Navbar({}: NavbarProps) {
           </div>
         </div>
       )}
-
-      <SearchModal isOpen={isSearchModalOpen} onClose={() => setIsSearchModalOpen(false)} />
     </header>
   );
 }
-
