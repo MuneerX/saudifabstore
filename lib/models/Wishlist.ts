@@ -24,9 +24,8 @@ const WishlistSchema: Schema = new Schema(
   }
 );
 
-// Clear model cache
-if (mongoose.models.Wishlist) {
-  delete mongoose.models.Wishlist;
-}
+const Wishlist = (mongoose.models && mongoose.models.Wishlist)
+  ? (mongoose.models.Wishlist as mongoose.Model<IWishlist>)
+  : mongoose.model<IWishlist>('Wishlist', WishlistSchema);
 
-export default mongoose.model<IWishlist>('Wishlist', WishlistSchema);
+export default Wishlist;

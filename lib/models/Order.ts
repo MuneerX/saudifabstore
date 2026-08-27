@@ -147,11 +147,8 @@ const OrderSchema: Schema = new Schema(
   }
 );
 
-// Force model recompilation by deleting existing model
-if (mongoose.models.Order) {
-  delete mongoose.models.Order;
-}
+const Order = (mongoose.models && mongoose.models.Order)
+  ? (mongoose.models.Order as mongoose.Model<IOrder>)
+  : mongoose.model<IOrder>('Order', OrderSchema);
 
-// Clear mongoose cache (removed to avoid TypeScript readonly error)
-
-export default mongoose.model<IOrder>('Order', OrderSchema);
+export default Order;

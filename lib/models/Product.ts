@@ -184,10 +184,8 @@ ProductSchema.pre('validate', function(next) {
   next();
 });
 
-if (mongoose.models && mongoose.models.Product) {
-  delete mongoose.models.Product;
-}
-
-const Product = mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);
+const Product = (mongoose.models && mongoose.models.Product)
+  ? (mongoose.models.Product as mongoose.Model<IProduct>)
+  : mongoose.model<IProduct>('Product', ProductSchema);
 
 export default Product;
