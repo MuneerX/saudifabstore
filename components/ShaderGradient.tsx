@@ -24,7 +24,7 @@ export function ShaderGradient() {
         swirl={0.14}
         grainMixer={0}
         grainOverlay={0}
-        speed={0.7}
+        speed={0}
         style={{
           width: '100%',
           height: '100%',

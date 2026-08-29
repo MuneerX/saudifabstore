@@ -499,10 +499,51 @@
   .container {
     padding: 32px 20px 36px;
   }
+
+  .cartGrid {
+    grid-template-columns: 1fr 300px;
+    gap: 32px;
+  }
 }
 
 @media (max-width: 768px) {
   .container {
     padding: 24px 16px 28px;
+  }
+
+  .cartHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+  }
+
+  .summaryPanel {
+    position: static;
+  }
+}
+
+@media (max-width: 580px) {
+  .cartItemRow {
+    grid-template-columns: 72px 1fr;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .itemImgBox {
+    width: 72px;
+    height: 72px;
+  }
+
+  .itemPrice {
+    font-size: 15px;
+    text-align: left;
+    margin-top: 4px;
+  }
+
+  .itemControlsRow {
+    flex-wrap: wrap;
+    gap: 12px;
   }
 }
