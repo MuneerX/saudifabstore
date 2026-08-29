@@ -21,18 +21,18 @@ export const useCartNotifications = () => {
     toast.custom(
       (t) => (
         <div className={styles.toastCard}>
-          <div className={styles.toastBody}>
-            {/* Close Button (Shifted to Left) */}
-            <button
-              onClick={() => toast.dismiss(t)}
-              className={styles.closeBtn}
-              aria-label="Close notification"
-              type="button"
-            >
-              <X size={14} />
-            </button>
+          {/* Top Right Close Button */}
+          <button
+            onClick={() => toast.dismiss(t)}
+            className={styles.closeBtn}
+            aria-label="Close notification"
+            type="button"
+          >
+            <X size={13} />
+          </button>
 
-            {/* Product Thumbnail Wrapper with Check badge floating outside clipped img box */}
+          <div className={styles.toastBody}>
+            {/* Product Thumbnail Wrapper */}
             <div className={styles.imgWrapper}>
               <div className={styles.imgBox}>
                 {productImage ? (
@@ -65,19 +65,22 @@ export const useCartNotifications = () => {
                 {productName}
               </h4>
 
+              {/* Dedicated Option / Subscription Pill Badge if present */}
+              {size && size !== 'One Size' && size !== 'Standard Spec' && (
+                <div className={styles.optionPillRow}>
+                  <span className={styles.optionPill} title={size}>
+                    {size}
+                  </span>
+                </div>
+              )}
+
               <div className={styles.detailsRow}>
                 <span>Qty: <strong className={styles.qtyValue}>{quantity}</strong></span>
-                {size && size !== 'One Size' && size !== 'Standard Spec' && (
-                  <>
-                    <span className={styles.dotDivider}>•</span>
-                    <span>{size}</span>
-                  </>
-                )}
                 {productPrice !== null && (
                   <>
                     <span className={styles.dotDivider}>•</span>
                     <span className={styles.priceTag}>
-                      €{typeof productPrice === 'number' ? productPrice.toFixed(0) : productPrice}
+                      SAR {typeof productPrice === 'number' ? productPrice.toFixed(2) : productPrice}
                     </span>
                   </>
                 )}
@@ -86,7 +89,7 @@ export const useCartNotifications = () => {
           </div>
         </div>
       ),
-      { duration: 4000 }
+      { duration: 4500 }
     );
   }, []);
 
