@@ -247,14 +247,26 @@ const Profile = () => {
           </div>
         </div>
 
-        <button 
-          type="button"
-          className={styles.signOutBtn}
-          onClick={() => signOut({ callbackUrl: "/login" })}
-        >
-          <LogOut size={15} />
-          Sign Out
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {(session?.user?.role === 'admin' || session?.user?.email === 'admin@saudifabstore.com' || session?.user?.email === 'admin@example.com') && (
+            <Link
+              href="/admin"
+              className={styles.signOutBtn}
+              style={{ backgroundColor: '#0f172a', color: '#ffffff', border: 'none', textDecoration: 'none' }}
+            >
+              <ShieldCheck size={15} />
+              Admin Dashboard
+            </Link>
+          )}
+          <button 
+            type="button"
+            className={styles.signOutBtn}
+            onClick={() => signOut({ callbackUrl: "/login" })}
+          >
+            <LogOut size={15} />
+            Sign Out
+          </button>
+        </div>
       </div>
 
       {/* Navigation Tabs */}
@@ -429,15 +441,15 @@ const Profile = () => {
                   </div>
 
                   <div className={styles.formGroup}>
-                    <label className={styles.label}>Email Address</label>
+                    <label className={styles.label}>Email Address / Mobile Number</label>
                     <div className={styles.inputWrapper}>
                       <Mail size={18} className={styles.inputIcon} />
                       <input
-                        type="email"
+                        type="text"
                         value={userData.email}
                         onChange={(e) => setUserData(prev => ({ ...prev, email: e.target.value }))}
                         className={styles.input}
-                        placeholder="client@company.com"
+                        placeholder="client@company.com or 05XXXXXXXX"
                         required
                       />
                     </div>

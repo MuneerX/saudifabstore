@@ -114,9 +114,9 @@ export default function SignupPage() {
             <div className={styles.fieldGroup}>
               <label className={styles.labelText}>Mobile number or email</label>
               <input
-                type="email"
+                type="text"
                 required
-                placeholder="name@company.com"
+                placeholder="name@company.com or 05XXXXXXXX"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className={styles.inputField}

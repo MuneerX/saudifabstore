@@ -93,7 +93,8 @@ export async function GET(request: NextRequest) {
         session?.user?.id,
         session?.user?.email,
         targetUser?._id?.toString(),
-        targetUser?.email
+        targetUser?.email,
+        targetUser?.phone
       ].filter(Boolean)));
 
       let rawOrders: any[] = [];
@@ -101,11 +102,6 @@ export async function GET(request: NextRequest) {
         rawOrders = await Order.find({
           $or: possibleUserIdentifiers.map(uId => ({ user: uId }))
         }).sort(sort).limit(limit);
-      }
-
-      // Fallback: If no user-filtered orders found, retrieve all system orders
-      if (rawOrders.length === 0) {
-        rawOrders = await Order.find({}).sort(sort).limit(limit);
       }
 
       // Format every order asynchronously

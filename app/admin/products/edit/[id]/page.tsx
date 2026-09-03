@@ -92,6 +92,18 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("Steel Fabrication");
+  const [categoryOptions, setCategoryOptions] = useState<string[]>(PRODUCT_CATEGORIES);
+
+  useEffect(() => {
+    fetch("/api/admin/categories")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && Array.isArray(data.categories)) {
+          setCategoryOptions(data.categories);
+        }
+      })
+      .catch(() => {});
+  }, []);
   const [price, setPrice] = useState("");
   const [discountPrice, setDiscountPrice] = useState("");
   const [stock, setStock] = useState("20");
@@ -594,7 +606,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                 onChange={(e) => setCategory(e.target.value)}
                 className={styles.categoryDropdown}
               >
-                {PRODUCT_CATEGORIES.map((cat) => (
+                {categoryOptions.map((cat) => (
                   <option key={cat} value={cat}>
                     {cat}
                   </option>

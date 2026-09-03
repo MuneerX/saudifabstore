@@ -268,7 +268,7 @@ export default function CartPage() {
 
               <div className={styles.summaryRows}>
                 <div className={styles.summaryRow}>
-                  <span>Subtotal ({itemCount} items)</span>
+                  <span>Subtotal ({itemCount} items, Excl. VAT)</span>
                   <span className={styles.summaryVal}>SAR {subtotal.toFixed(2)}</span>
                 </div>
 
@@ -284,8 +284,8 @@ export default function CartPage() {
               </div>
 
               <div className={styles.totalRow}>
-                <span className={styles.totalLabel}>Total</span>
-                <span className={styles.totalAmount}>SAR {subtotal.toFixed(2)}</span>
+                <span className={styles.totalLabel}>Total (Incl. VAT)</span>
+                <span className={styles.totalAmount}>SAR {(subtotal * 1.15).toFixed(2)}</span>
               </div>
 
               <div className={styles.termsRow}>

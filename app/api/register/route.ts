@@ -3,16 +3,17 @@ import { registerNewUser } from '@/lib/userStore';
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, company, referralSource, password } = await request.json();
+    const { name, email, phone, emailOrPhone, company, referralSource, password } = await request.json();
+    const identifier = (emailOrPhone || email || phone || '').trim();
 
-    if (!name?.trim() || !email?.trim() || !password?.trim()) {
+    if (!name?.trim() || !identifier || !password?.trim()) {
       return NextResponse.json(
-        { error: 'Name, email, and password are required.' },
+        { error: 'Name, mobile number/email, and password are required.' },
         { status: 400 }
       );
     }
 
-    const result = await registerNewUser({ name, email, company, referralSource, password });
+    const result = await registerNewUser({ name, emailOrPhone: identifier, company, referralSource, password });
 
     if (!result.success) {
       return NextResponse.json(

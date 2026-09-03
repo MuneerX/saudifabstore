@@ -143,6 +143,11 @@ function CheckoutContent() {
       return;
     }
 
+    if (!formData.phone.trim()) {
+      setErrorBanner("Mobile Phone Number is required for dispatch and delivery notifications.");
+      return;
+    }
+
     try {
       setIsProcessing(true);
       setErrorBanner("");
@@ -150,7 +155,7 @@ function CheckoutContent() {
       const shippingAddress = {
         name: `${formData.firstName} ${formData.lastName}`.trim() || session?.user?.name || "Customer",
         email: formData.email || session?.user?.email || "customer@example.com",
-        phone: formData.phone || "0500000000",
+        phone: formData.phone.trim(),
         address: formData.address,
         city: formData.city,
         postalCode: formData.zipCode || "31952",
@@ -348,10 +353,11 @@ function CheckoutContent() {
                     </div>
 
                     <div className={styles.fieldGroup}>
-                      <span className={styles.labelText}>Phone Number</span>
+                      <span className={styles.labelText}>Mobile Phone Number *</span>
                       <input
                         type="tel"
                         name="phone"
+                        required
                         placeholder="+966 5X XXX XXXX"
                         value={formData.phone}
                         onChange={handleInputChange}
@@ -605,7 +611,7 @@ function CheckoutContent() {
               {/* Price Breakdown */}
               <div className={styles.calculationRows}>
                 <div className={styles.calcRow}>
-                  <span>Subtotal</span>
+                  <span>Subtotal (Excl. VAT)</span>
                   <span className={styles.calcRowValue}>SAR {subtotal.toFixed(2)}</span>
                 </div>
 
@@ -631,7 +637,7 @@ function CheckoutContent() {
                 </div>
 
                 <div className={styles.totalRow}>
-                  <span className={styles.totalLabel}>Total</span>
+                  <span className={styles.totalLabel}>Total (Incl. VAT)</span>
                   <span className={styles.totalValue}>SAR {netTotal.toFixed(2)}</span>
                 </div>
               </div>

@@ -100,8 +100,8 @@ const SignUp2 = () => {
               <Mail width={20} height={20} />
             </span>
             <input
-              placeholder="Email"
-              type="email"
+              placeholder="Email or Mobile Phone Number"
+              type="text"
               value={email}
               className={styles.input}
               onChange={(e) => setEmail(e.target.value)}

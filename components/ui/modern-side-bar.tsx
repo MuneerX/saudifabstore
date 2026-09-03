@@ -13,7 +13,8 @@ import {
   Search,
   Package,
   ShoppingCart,
-  Users
+  Users,
+  FolderTree
 } from 'lucide-react';
 import styles from './modern-side-bar.module.css';
 
@@ -34,6 +35,7 @@ interface SidebarProps {
 const navigationItems: NavigationItem[] = [
   { id: "dashboard", name: "Dashboard", icon: BarChart3, href: "/admin" },
   { id: "products", name: "Products", icon: Package, href: "/admin/products" },
+  { id: "categories", name: "Categories", icon: FolderTree, href: "/admin/categories" },
   { id: "orders", name: "Orders", icon: ShoppingCart, href: "/admin/orders" },
   { id: "customers", name: "Customers", icon: Users, href: "/admin/customers" },
 ];
@@ -134,6 +136,8 @@ export function Sidebar({ className = "", children }: SidebarProps) {
       setActiveItem(activeNav.id);
     } else if (currentPath.startsWith('/admin/products')) {
       setActiveItem('products');
+    } else if (currentPath.startsWith('/admin/categories')) {
+      setActiveItem('categories');
     } else if (currentPath.startsWith('/admin/orders')) {
       setActiveItem('orders');
     } else if (currentPath.startsWith('/admin/customers')) {

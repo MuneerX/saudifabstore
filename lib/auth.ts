@@ -16,17 +16,17 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Missing credentials');
         }
 
-        const normalizedEmail = credentials.email.toLowerCase().trim();
+        const normalizedInput = credentials.email.toLowerCase().trim();
 
-        // 1. Look up user in Database & Runtime User Registry
-        const user = await findUserByEmail(normalizedEmail);
+        // 1. Look up user in Database & Runtime User Registry by email or phone
+        const user = await findUserByEmail(normalizedInput);
         if (user) {
           const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
           if (isPasswordValid) {
             return {
               id: user.id,
               name: user.name,
-              email: user.email,
+              email: user.email || user.phone || normalizedInput,
               role: user.role,
             };
           }
