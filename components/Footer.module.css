@@ -199,7 +199,7 @@
   font-weight: 800;
   color: #0058a3;
   letter-spacing: 0.04em;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   display: block;
 }
 
@@ -207,13 +207,15 @@
 .connectWithUsBlock {
   display: flex;
   flex-direction: column;
+  gap: 12px;
 }
 
 .appStoreBadgesGroup {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
+  margin-top: 4px;
 }
 
 .appBadgePill {
@@ -228,6 +230,8 @@
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
+  margin-right: 4px;
+  margin-bottom: 4px;
   transition: transform 0.15s ease, background-color 0.15s ease;
 }
 
@@ -240,7 +244,8 @@
 .yellowSocialGroup {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
+  margin-top: 4px;
 }
 
 .yellowSocialCircle {
@@ -251,10 +256,11 @@
   color: #0f172a;
   font-size: 15px;
   font-weight: 900;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  margin-right: 4px;
   transition: transform 0.15s ease, background-color 0.15s ease;
   box-shadow: 0 2px 6px rgba(254, 236, 60, 0.4);
 }
