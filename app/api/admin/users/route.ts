@@ -32,7 +32,8 @@ export async function GET(request: NextRequest) {
       users = (rawUsers || []).map((u: any) => ({
         _id: u._id.toString(),
         name: u.name,
-        email: u.email,
+        email: u.email || '',
+        phone: u.phone || '',
         company: u.company || '',
         referralSource: u.referralSource || 'Direct',
         role: u.role || 'user',
@@ -45,13 +46,14 @@ export async function GET(request: NextRequest) {
 
     // Include in-memory registered users if any exist
     if (global.inMemoryUserRegistry && global.inMemoryUserRegistry.size > 0) {
-      const existingEmails = new Set((users || []).map((u: any) => u.email?.toLowerCase()));
+      const existingIds = new Set((users || []).map((u: any) => u._id));
       const memUsers = Array.from(global.inMemoryUserRegistry.values())
-        .filter(u => u.email && !existingEmails.has(u.email.toLowerCase()))
+        .filter(u => !existingIds.has(u.id))
         .map(u => ({
           _id: u.id,
           name: u.name,
-          email: u.email,
+          email: u.email || '',
+          phone: u.phone || '',
           company: u.company || '',
           referralSource: u.referralSource || 'Direct',
           role: u.role || 'user',

@@ -119,34 +119,32 @@ export async function registerNewUser(userData: {
     createdAt: new Date(),
   };
 
-  // Record in memory store immediately to guarantee instant login capability
-  memoryStore.set(rawInput.toLowerCase(), newUser);
-  if (normalizedEmail) memoryStore.set(normalizedEmail, newUser);
-  if (normalizedPhone) memoryStore.set(normalizedPhone, newUser);
-
-  // Attempt to save to MongoDB Atlas database
+  // Save directly to MongoDB Atlas database
   try {
     const conn = await connectToDatabase();
     if (conn) {
-      const dbUser = new User({
+      const dbUserData: any = {
         name: newUser.name,
-        email: newUser.email,
-        phone: newUser.phone,
         password: newUser.password,
         company: newUser.company,
         referralSource: newUser.referralSource,
         role: newUser.role,
-      });
+      };
+      if (normalizedEmail) dbUserData.email = normalizedEmail;
+      if (normalizedPhone) dbUserData.phone = normalizedPhone;
+
+      const dbUser = new User(dbUserData);
       const saved = await dbUser.save();
       newUser.id = saved._id.toString();
-      // Update memory store with actual MongoDB _id
-      memoryStore.set(rawInput.toLowerCase(), newUser);
-      if (normalizedEmail) memoryStore.set(normalizedEmail, newUser);
-      if (normalizedPhone) memoryStore.set(normalizedPhone, newUser);
     }
   } catch (err) {
-    console.warn('[UserStore] MongoDB save warning, registered in memory store:', (err as Error).message);
+    console.error('[UserStore] MongoDB user save error:', (err as Error).message);
   }
+
+  // Sync into memory store for fast local lookup
+  memoryStore.set(rawInput.toLowerCase(), newUser);
+  if (normalizedEmail) memoryStore.set(normalizedEmail, newUser);
+  if (normalizedPhone) memoryStore.set(normalizedPhone, newUser);
 
   return { success: true, user: newUser };
 }

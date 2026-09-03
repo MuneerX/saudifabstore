@@ -258,12 +258,14 @@ export default function CustomersPage() {
                     <td>
                       <div className={styles.customerInfo}>
                         <div className={styles.customerName}>{customer.name}</div>
-                        <div className={styles.customerEmail}>{customer.email}</div>
+                        <div className={styles.customerEmail}>
+                          {customer.email && customer.email !== 'No email' ? customer.email : (customer.phone && customer.phone !== 'No phone' ? customer.phone : 'No contact email')}
+                        </div>
                       </div>
                     </td>
                     <td>
                       <div className={styles.contactInfo}>
-                        <div>{customer.phone}</div>
+                        <div>{customer.phone && customer.phone !== 'No phone' ? customer.phone : (customer.email && customer.email !== 'No email' ? customer.email : 'N/A')}</div>
                       </div>
                     </td>
                     <td>
