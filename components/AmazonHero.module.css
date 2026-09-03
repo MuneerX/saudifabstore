@@ -142,6 +142,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
   position: relative;
   z-index: 2;
 }
@@ -151,6 +153,7 @@
   font-weight: 800;
   color: #002d58;
   margin-bottom: 8px;
+  display: block;
   letter-spacing: -0.01em;
 }
 
@@ -160,6 +163,7 @@
   color: #002d58;
   line-height: 1.15;
   margin: 0 0 10px 0;
+  display: block;
   letter-spacing: -0.02em;
   max-width: 580px;
   display: -webkit-box;
@@ -173,6 +177,7 @@
   color: #004f9a;
   line-height: 1.35;
   margin-bottom: 16px;
+  display: block;
   max-width: 500px;
   font-weight: 500;
   display: -webkit-box;
@@ -193,6 +198,7 @@
   font-size: 13px;
   font-weight: 700;
   text-decoration: none;
+  margin-top: 8px;
   transition: all 0.15s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
 }
@@ -330,6 +336,7 @@
   padding: 16px;
   display: flex;
   flex-direction: column;
+  gap: 12px;
   border: 1px solid #e2e8f0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
@@ -339,6 +346,7 @@
   font-weight: 800;
   color: #0f172a;
   margin: 0 0 12px 0;
+  display: block;
   line-height: 1.25;
 }
 
